@@ -12,6 +12,8 @@ class Rasterizer {
 public:
 	Rasterizer(const int width, const int height);
 
+	int cnt = 0;
+
 	// draw triangle on window space by scan-line algorithm
 	void DrawTriangle(const TrianglePrimitive &triangle, std::vector<Fragment> *fragment_buffer);
 private:

@@ -84,6 +84,7 @@ void Rasterizer::DrawScanLine(const float x1, const float x2, const float y) {
 
 void Rasterizer::GenerateFragment(const float x, const float y) {
 	if (x <= 0 || x >= width_ || y < 0 || y >= height_) return;
+	cnt++;
 
     // interpolation process
     vec2 pos0(triangle_.vertex[0].window_position.x, triangle_.vertex[0].window_position.y);
