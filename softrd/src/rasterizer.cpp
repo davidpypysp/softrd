@@ -83,8 +83,8 @@ void Rasterizer::DrawScanLine(const float x1, const float x2, const float y) {
 }
 
 void Rasterizer::GenerateFragment(const float x, const float y) {
-	if (x <= 0 || x >= width_ || y < 0 || y >= height_) return;
-	cnt++;
+    if (x <= 0 || x >= width_ || y < 0 || y >= height_) return;
+    cnt++;
 
     // interpolation process
     vec2 pos0(triangle_.vertex[0].window_position.x, triangle_.vertex[0].window_position.y);
@@ -101,6 +101,7 @@ void Rasterizer::GenerateFragment(const float x, const float y) {
 }
 
 vec3 GetBarycentricCoordinates(const vec2 &a, const vec2 &b, const vec2 &c, const vec2 &p) {
+	/*
     mat3 m_abc = {
         1, a.x, a.y,
         1, b.x, b.y,
@@ -125,11 +126,14 @@ vec3 GetBarycentricCoordinates(const vec2 &a, const vec2 &b, const vec2 &c, cons
     float det_pbc = m_pbc.det();
     float det_pca = m_pca.det();
     float det_pab = m_pab.det();
+	*/
 
-    float ka = det_pbc / det_abc;
-    float kb = det_pca / det_abc;
-    float kc = det_pab / det_abc;
-    return vec3(ka, kb, kc);
+	float det_abc = b.x * c.y + a.x * b.y + a.y * c.x - b.x * a.y - c.x * b.y - c.y * a.x;
+	float det_pbc = b.x * c.y + p.x * b.y + p.y * c.x - b.x * p.y - c.x * b.y - c.y * p.x;
+	float det_pca = c.x * a.y + p.x * c.y + p.y * a.x - c.x * p.y - a.x * c.y - a.y * p.x;
+	float det_pab = a.x * b.y + p.x * a.y + p.y * b.x - a.x * p.y - b.x * a.y - b.y * p.x;
+
+    return vec3(det_pbc / det_abc, det_pca / det_abc, det_pab / det_abc);
 }
 
 template<typename T> T TriangleInterpolation(const T &a, const T &b, const T &c, const vec3 &k) { // T could be float, vec3, vec4, mat3, mat4 ...

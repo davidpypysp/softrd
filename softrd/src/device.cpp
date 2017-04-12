@@ -1,5 +1,6 @@
 #include "device.h"
 #include <iostream>
+#include <string>
 
 
 
@@ -18,7 +19,7 @@ int Device::Setup() {
 		return 1;
 	}
 
-	window_ = SDL_CreateWindow("Hello World!", x_pos_, y_pos_, width_, height_, SDL_WINDOW_SHOWN);
+	window_ = SDL_CreateWindow("Softrd", x_pos_, y_pos_, width_, height_, SDL_WINDOW_SHOWN);
 	if (window_ == nullptr) {
 		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
 		return 1;
@@ -36,26 +37,43 @@ int Device::Setup() {
 		SDL_Quit();
 		return 1;
 	}
+
+	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width_, height_);
+
 }
 
-void Device::Draw(vec4 *frame_buffer) {
+void Device::Draw(unsigned char *frame_buffer) {
 	// First clear the renderer
 	SDL_RenderClear(renderer_);
 
 	// Draw every pixel in the Window
-	int index = 0;
-	for (int y = 0; y < height_; y++) {
-		for (int x = 0; x < width_; x++) {
-			vec4& color = frame_buffer[index++];
-			SDL_SetRenderDrawColor(renderer_, color.x * 255, color.y * 255, color.z * 255, color.w * 255);
-			SDL_RenderDrawPoint(renderer_, x, y);
-		}
-	}
+	SDL_UpdateTexture(texture_, NULL, frame_buffer, width_ * 4);
+	SDL_RenderCopy(renderer_, texture_, NULL, NULL);
 
 	// Update the screen
 	SDL_RenderPresent(renderer_);
 
-	SDL_Delay(1000);
+}
+
+void Device::HandleEvents() {
+	while (SDL_PollEvent(&sdl_event_) != 0) {
+		if (sdl_event_.type == SDL_QUIT) { // user request quest
+			quit_ = true;
+		}
+		else if (sdl_event_.type == SDL_KEYDOWN) {
+			keys_[sdl_event_.key.keysym.scancode] = true;
+			//printf("Key Down: %d\n", sdl_event_.key.keysym.scancode);
+		}
+		else if (sdl_event_.type == SDL_KEYUP) {
+			keys_[sdl_event_.key.keysym.scancode] = false;
+			//printf("Key Up: %d\n", sdl_event_.key.keysym.scancode);
+
+		}
+		else if (sdl_event_.type == SDL_MOUSEMOTION) {
+
+		}
+	}
+
 }
 
 Device::~Device() {
@@ -63,6 +81,27 @@ Device::~Device() {
 	SDL_DestroyWindow(window_);
 	SDL_Quit();
 }
+
+bool Device::PressKeyUp() {
+	return keys_[SDL_SCANCODE_UP];
+}
+
+bool Device::PressKeyDown() { 
+	return keys_[SDL_SCANCODE_DOWN]; 
+}
+
+bool Device::PressKeyLeft() {
+	return keys_[SDL_SCANCODE_LEFT]; 
+}
+
+bool Device::PressKeyRight() {
+	return keys_[SDL_SCANCODE_RIGHT]; 
+}
+
+
+
+
+
 
 
 } // namespace softrd

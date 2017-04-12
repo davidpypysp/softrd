@@ -8,11 +8,8 @@ VertexShader::VertexShader() {}
 // input vertex and output after certain transformation
 VertexShaderOut VertexShader::Run(const Vertex &in) {
 	VertexShaderOut out;
-	vec4 model_pos = model_ * vec4(in.position, 1.0);
-	vec4 c2 = view_ * model_pos;
-	vec4 cam_pos = view_ * (model_ * vec4(in.position, 1.0));
-	mat4 m3 = view_ * model_;
-	vec4 c3 = (view_ * model_) * vec4(in.position, 1.0);
+	vec4 world_position = model_ * vec4(in.position, 1.0);
+	out.world_position = vec3(world_position.x, world_position.y, world_position.z);
 	out.clipping_position = transform_ * vec4(in.position, 1.0);
 
 	mat4 rotation = model_;

@@ -44,7 +44,7 @@ private:
 	int *element_buffer_;
 	VertexOut *vertex_out_buffer_;
 	std::vector<Fragment> *fragment_buffer_;
-	vec4 *frame_buffer_;
+	unsigned char *frame_buffer_;
 	float *depth_buffer_;
 
 

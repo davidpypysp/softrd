@@ -22,11 +22,11 @@ struct Camera {
 		this->aspect = aspect;
 		near = 1.0f;
 		far = 500.0f;
-		UpdateMatrix();
+		SetViewMatrix();
+		SetProjectionMatrix();
 	}
 
-	void UpdateMatrix() {
-		//view matrix setting
+	void SetViewMatrix() {
 		vec3 row_z = (look_at - position).normalize();
 		vec3 row_y = (up - row_z * (up * row_z)).normalize();
 		vec3 row_x = row_y % row_z;
@@ -36,8 +36,9 @@ struct Camera {
 			row_z.x, row_z.y, row_z.z, -(row_z * position),
 			0.0,     0.0,     0.0,     1.0
 		};
+	}
 
-		//projection matrix setting
+	void SetProjectionMatrix() {
 		projection.identify();
 		float cot_theta = 1.0 / tanf(DegreeToRadian(fov / 2.0));
 		projection[0][0] = cot_theta / aspect;
@@ -45,9 +46,14 @@ struct Camera {
 		projection[2][2] = (far + near) / (near - far);
 		projection[2][3] = (2.0 * far * near) / (near - far);
 		projection[3][2] = -1.0;
-
-
 	}
+
+	void Move(const vec3 &move) {
+		position = position + move;
+		look_at = look_at + move;
+		SetViewMatrix();
+	}
+
 
 };
 

@@ -15,15 +15,29 @@ class Device {
 public:
 	Device(const int x_pos, const int y_pos, const int width, const int height);
 	int Setup();
-	void Draw(vec4 *frame_buffer);
+	void Draw(unsigned char *frame_buffer);
+	void HandleEvents();
 	~Device();
+
+	bool quit() { return quit_; }
+
+	bool PressKeyUp();
+	bool PressKeyDown();
+	bool PressKeyLeft();
+	bool PressKeyRight();
 
 
 private:
+
+
 	int width_, height_;
 	int x_pos_, y_pos_;
 	SDL_Window *window_;
 	SDL_Renderer *renderer_;
+	SDL_Event sdl_event_;
+	SDL_Texture *texture_;
+	bool keys_[512];
+	bool quit_ = false;
 };
 
 } // namespace softrd
