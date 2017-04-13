@@ -4,47 +4,65 @@ namespace softrd {
 Rasterizer::Rasterizer(const int width, const int height) : width_(width), height_(height) {
 }
 
-void Rasterizer::DrawTriangle(const TrianglePrimitive &triangle, std::vector<Fragment> *fragment_buffer) { // scan line algorithm
-    triangle_ = triangle;
+void Rasterizer::DrawTriangle(const TrianglePrimitive &triangle, std::vector<Fragment> *fragment_buffer, DrawTriangleMode mode) { // scan line algorithm
     fragment_buffer->clear();
     fragment_buffer_ = fragment_buffer;
 
-    // sorted 3 vertices
-    int min_index = 0, max_index = 0;
-    for (int i = 1; i < 3; i++) { // find the index of max-y's position and min-y's position
-        if ( (triangle.vertex[i].window_position.y < triangle.vertex[min_index].window_position.y) ||
-             (triangle.vertex[i].window_position.y == triangle.vertex[min_index].window_position.y && triangle.vertex[i].window_position.x < triangle.vertex[min_index].window_position.x))
-            min_index = i;
-        if (triangle.vertex[i].window_position.y > triangle.vertex[max_index].window_position.y ||
-            (triangle.vertex[i].window_position.y == triangle.vertex[max_index].window_position.y && triangle.vertex[i].window_position.x > triangle.vertex[max_index].window_position.x))
-            max_index = i;
-    }
+	if (mode == TRIANGLE_FILL) {
+		DrawTriangleScanLine(triangle);
+	}
+	else if (mode == TRIANGLE_LINE) {
+		vec2 position0(triangle.vertex[0].window_position.x, triangle.vertex[0].window_position.y);
+		vec2 position1(triangle.vertex[1].window_position.x, triangle.vertex[1].window_position.y);
+		vec2 position2(triangle.vertex[2].window_position.x, triangle.vertex[2].window_position.y);
+		DrawLine(position0, position1);
+		DrawLine(position1, position2);
+		DrawLine(position2, position0);
+	}
 
-    const vec3 &bottom_position = triangle.vertex[min_index].window_position;
-    const vec3 &middle_position = triangle.vertex[3 - max_index - min_index].window_position;
-    const vec3 &top_position = triangle.vertex[max_index].window_position;
 
-    if (bottom_position.y == top_position.y) { // 3 positions in same line
-        if (top_position.y == floorf(top_position.y)) DrawScanLine(bottom_position.x, top_position.x, top_position.y);
-    }
-    else if (bottom_position.y == middle_position.y) { // it is flat bottom triangle
-        DrawFlatBottomTriangle(bottom_position, middle_position, top_position);
-    }
-    else if (middle_position.y == top_position.y) { // it is flat top triangle
-        DrawFlatTopTriangle(bottom_position, middle_position, top_position, true);
-    }
-    else { // seperate into flat bottom triangle and flat top triangle
-        float middle_x2 = top_position.x - (top_position.y - middle_position.y) * (top_position.x - bottom_position.x) / (top_position.y - bottom_position.y);
-        vec3 middle_position2(middle_x2, middle_position.y, 0.0); // z value doesn't matter for now
-        if (middle_position.x < middle_position2.x) {
-            DrawFlatBottomTriangle(middle_position, middle_position2, top_position);
-            DrawFlatTopTriangle(bottom_position, middle_position, middle_position2, false);
-        }
-        else {
-            DrawFlatBottomTriangle(middle_position2, middle_position, top_position);
-            DrawFlatTopTriangle(bottom_position, middle_position2, middle_position, false);
-        }
-    }
+}
+
+void Rasterizer::DrawTriangleScanLine(const TrianglePrimitive &triangle) {
+	triangle_ = triangle;
+
+	// sorted 3 vertices
+	int min_index = 0, max_index = 0;
+	for (int i = 1; i < 3; i++) { // find the index of max-y's position and min-y's position
+		if ((triangle.vertex[i].window_position.y < triangle.vertex[min_index].window_position.y) ||
+			(triangle.vertex[i].window_position.y == triangle.vertex[min_index].window_position.y && triangle.vertex[i].window_position.x < triangle.vertex[min_index].window_position.x))
+			min_index = i;
+		if (triangle.vertex[i].window_position.y > triangle.vertex[max_index].window_position.y ||
+			(triangle.vertex[i].window_position.y == triangle.vertex[max_index].window_position.y && triangle.vertex[i].window_position.x > triangle.vertex[max_index].window_position.x))
+			max_index = i;
+	}
+
+	const vec3 &bottom_position = triangle.vertex[min_index].window_position;
+	const vec3 &middle_position = triangle.vertex[3 - max_index - min_index].window_position;
+	const vec3 &top_position = triangle.vertex[max_index].window_position;
+
+	if (bottom_position.y == top_position.y) { // 3 positions in same line
+		if (top_position.y == floorf(top_position.y)) DrawScanLine(bottom_position.x, top_position.x, top_position.y);
+	}
+	else if (bottom_position.y == middle_position.y) { // it is flat bottom triangle
+		DrawFlatBottomTriangle(bottom_position, middle_position, top_position);
+	}
+	else if (middle_position.y == top_position.y) { // it is flat top triangle
+		DrawFlatTopTriangle(bottom_position, middle_position, top_position, true);
+	}
+	else { // seperate into flat bottom triangle and flat top triangle
+		float middle_x2 = top_position.x - (top_position.y - middle_position.y) * (top_position.x - bottom_position.x) / (top_position.y - bottom_position.y);
+		vec3 middle_position2(middle_x2, middle_position.y, 0.0); // z value doesn't matter for now
+		if (middle_position.x < middle_position2.x) {
+			DrawFlatBottomTriangle(middle_position, middle_position2, top_position);
+			DrawFlatTopTriangle(bottom_position, middle_position, middle_position2, false);
+		}
+		else {
+			DrawFlatBottomTriangle(middle_position2, middle_position, top_position);
+			DrawFlatTopTriangle(bottom_position, middle_position2, middle_position, false);
+		}
+	}
+
 }
 
 void Rasterizer::DrawFlatBottomTriangle(const vec3 &bottom_position1, const vec3 &bottom_position2, const vec3 &top_position) {
@@ -83,8 +101,7 @@ void Rasterizer::DrawScanLine(const float x1, const float x2, const float y) {
 }
 
 void Rasterizer::GenerateFragment(const float x, const float y) {
-    if (x <= 0 || x >= width_ || y < 0 || y >= height_) return;
-    cnt++;
+    if (x < 0 || x >= width_ || y < 0 || y >= height_) return;
 
     // interpolation process
     vec2 pos0(triangle_.vertex[0].window_position.x, triangle_.vertex[0].window_position.y);
@@ -98,6 +115,44 @@ void Rasterizer::GenerateFragment(const float x, const float y) {
     fragment_buffer_->push_back(fragment);
 
 
+}
+
+void Rasterizer::DrawLine(const vec2 &position1, const vec2 &position2) {
+	int x1 = roundf(position1.x), y1 = roundf(position1.y);
+	int x2 = roundf(position2.x), y2 = roundf(position2.y);
+	bool steep = abs(y1 - y2) > abs(x1 - x2);
+	if (steep) {
+		Swap(x1, y1);
+		Swap(x2, y2);
+	}
+	if (x1 > x2) {
+		Swap(x1, x2);
+		Swap(y1, y2);
+	}
+	int dx = x2 - x1;
+	int dy = abs(y2 - y1);
+	int error = -dx;
+	int delta_error = 2 * dy, reset_error = 2 * dx;
+	int y = y1;
+	int y_step = y1 < y2 ? 1 : -1;
+	for (int x = x1; x <= x2; x++) {
+		vec2 position(x, y);
+		if (steep) {
+			position.x = y;
+			position.y = x;
+		}
+		if (position.x >= 0 && position.x < width_ && position.y >= 0 && position.y < height_) {
+			Fragment fragment;
+			fragment.window_position = vec3(position.x, position.y, 0);
+			fragment_buffer_->push_back(fragment);
+		}
+
+		error += delta_error;
+		if (error > 0) {
+			y += y_step;
+			error -= reset_error;
+		}
+	}
 }
 
 vec3 GetBarycentricCoordinates(const vec2 &a, const vec2 &b, const vec2 &c, const vec2 &p) {
