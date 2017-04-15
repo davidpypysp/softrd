@@ -36,9 +36,6 @@
     <ClCompile Include="src\fragment_shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vertex_post_processing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\primitive_assembly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,9 +57,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\rasterizer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vertex_post_processing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\primitive_assembly.h">

@@ -5,7 +5,6 @@
 
 #include "camera.h"
 #include "vertex_shader.h"
-#include "vertex_post_processing.h"
 #include "rasterizer.h"
 #include "fragment_shader.h"
 #include "per_sample_processing.h"
@@ -32,7 +31,6 @@ private:
 	
 	// pipeline stages
 	VertexShader vertex_shader_;
-	VertexPostProcessor vertex_post_processor_;
 	PrimitiveAssembler primitve_assembler_;
 	Rasterizer rasterizer_;
 	FragmentShader fragment_shader_;

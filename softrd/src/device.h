@@ -25,6 +25,11 @@ public:
 	bool PressKeyDown();
 	bool PressKeyLeft();
 	bool PressKeyRight();
+	bool PressKeyW();
+	bool PressKeyS();
+	bool PressKeyA();
+	bool PressKeyD();
+
 
 
 private:

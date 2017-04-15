@@ -6,8 +6,7 @@
 
 int main()
 {
-
-	softrd::Renderer renderer(1280, 720);
+	softrd::Renderer renderer(640, 480);
 	renderer.Run();
 	return 0;
 }

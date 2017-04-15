@@ -98,6 +98,22 @@ bool Device::PressKeyRight() {
 	return keys_[SDL_SCANCODE_RIGHT]; 
 }
 
+bool Device::PressKeyW() {
+	return keys_[SDL_SCANCODE_W];
+}
+
+bool Device::PressKeyS() {
+	return keys_[SDL_SCANCODE_S];
+}
+
+bool Device::PressKeyA() {
+	return keys_[SDL_SCANCODE_A];
+}
+
+bool Device::PressKeyD() {
+	return keys_[SDL_SCANCODE_D];
+}
+
 
 
 

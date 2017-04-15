@@ -6,8 +6,12 @@ namespace softrd {
 
 struct Camera {
 	vec3 position;
-	vec3 look_at;
+	vec3 direction;
 	vec3 up;
+	vec3 right;
+	vec3 world_up;
+	float pitch;
+	float yaw;
 	float fov; //degree in y direction
 	float aspect;
 	float near, far;
@@ -16,8 +20,13 @@ struct Camera {
 
 	Camera(const float aspect) {
 		position = vec3(0.0, 0.0, 2.0);
-		look_at = vec3(0.0, 0.0, -1.0);
+		direction = vec3(0.0, 0.0, 1.0);
 		up = vec3(0.0, 1.0, 0.0);
+		right = vec3(1.0, 0.0, 0.0);
+		world_up = vec3(0.0, 1.0, 0.0);
+		pitch = 0.0;
+		yaw = 90.0;
+
 		fov = 120.0; 
 		this->aspect = aspect;
 		near = 1.0f;
@@ -27,20 +36,18 @@ struct Camera {
 	}
 
 	void SetViewMatrix() {
-		vec3 row_z = (look_at - position).normalize();
-		vec3 row_y = (up - row_z * (up * row_z)).normalize();
-		vec3 row_x = row_y % row_z;
+		vec3 right = up % direction;
 		view = {
-			row_x.x, row_x.y, row_x.z, -(row_x * position),
-			row_y.x, row_y.y, row_y.z, -(row_y * position),
-			row_z.x, row_z.y, row_z.z, -(row_z * position),
+			right.x, right.y, right.z, -(right * position),
+			up.x, up.y, up.z, -(up * position),
+			direction.x, direction.y, direction.z, -(direction * position),
 			0.0,     0.0,     0.0,     1.0
 		};
 	}
 
 	void SetProjectionMatrix() {
 		projection.identify();
-		float cot_theta = 1.0 / tanf(DegreeToRadian(fov / 2.0));
+		float cot_theta = 1.0 / tanf(Radians(fov / 2.0));
 		projection[0][0] = cot_theta / aspect;
 		projection[1][1] = cot_theta;
 		projection[2][2] = (far + near) / (near - far);
@@ -50,7 +57,25 @@ struct Camera {
 
 	void Move(const vec3 &move) {
 		position = position + move;
-		look_at = look_at + move;
+		printf("position: %f, %f, %f\n", position.x, position.y, position.z);
+		SetViewMatrix();
+	}
+
+	void Rotate(const vec3 &rotate) { // x: pitch, y: yaw, z: roll(not use)
+		pitch += rotate.x;
+		yaw += rotate.y;
+		if (pitch > 89.0) pitch = 89.0;
+		else if (pitch < -89.0) pitch = -89.0;
+		//if (yaw > 89.0) yaw = 89.0;
+		//else if (yaw < -89.0) yaw = -89.0;
+
+
+		direction.x = cos(Radians(pitch)) * cos(Radians(yaw));
+		direction.y = sin(Radians(pitch));
+		direction.z = cos(Radians(pitch)) * sin(Radians(yaw));
+		direction.normalize();
+		right = (world_up % direction).normalize();
+		up = direction % right;
 		SetViewMatrix();
 	}
 

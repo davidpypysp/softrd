@@ -8,8 +8,8 @@
 namespace softrd {
 
 // contain clipping space position
-struct VertexShaderOut {
-	vec4 clipping_position;
+struct VertexOut {
+	vec4 position; // clipping space position
 	vec3 world_position;
 	vec3 world_normal;
 	vec2 uv;
@@ -24,7 +24,7 @@ public:
 	mat4 transform_;
 
 	VertexShader();
-	VertexShaderOut Run(const Vertex &in);
+	VertexOut Run(const Vertex &in);
 };
 
 

@@ -12,9 +12,9 @@ void Rasterizer::DrawTriangle(const TrianglePrimitive &triangle, std::vector<Fra
 		DrawTriangleScanLine(triangle);
 	}
 	else if (mode == TRIANGLE_LINE) {
-		vec2 position0(triangle.vertex[0].window_position.x, triangle.vertex[0].window_position.y);
-		vec2 position1(triangle.vertex[1].window_position.x, triangle.vertex[1].window_position.y);
-		vec2 position2(triangle.vertex[2].window_position.x, triangle.vertex[2].window_position.y);
+		vec2 position0(triangle.vertex[0].position.x, triangle.vertex[0].position.y);
+		vec2 position1(triangle.vertex[1].position.x, triangle.vertex[1].position.y);
+		vec2 position2(triangle.vertex[2].position.x, triangle.vertex[2].position.y);
 		DrawLine(position0, position1);
 		DrawLine(position1, position2);
 		DrawLine(position2, position0);
@@ -29,17 +29,17 @@ void Rasterizer::DrawTriangleScanLine(const TrianglePrimitive &triangle) {
 	// sorted 3 vertices
 	int min_index = 0, max_index = 0;
 	for (int i = 1; i < 3; i++) { // find the index of max-y's position and min-y's position
-		if ((triangle.vertex[i].window_position.y < triangle.vertex[min_index].window_position.y) ||
-			(triangle.vertex[i].window_position.y == triangle.vertex[min_index].window_position.y && triangle.vertex[i].window_position.x < triangle.vertex[min_index].window_position.x))
+		if ((triangle.vertex[i].position.y < triangle.vertex[min_index].position.y) ||
+			(triangle.vertex[i].position.y == triangle.vertex[min_index].position.y && triangle.vertex[i].position.x < triangle.vertex[min_index].position.x))
 			min_index = i;
-		if (triangle.vertex[i].window_position.y > triangle.vertex[max_index].window_position.y ||
-			(triangle.vertex[i].window_position.y == triangle.vertex[max_index].window_position.y && triangle.vertex[i].window_position.x > triangle.vertex[max_index].window_position.x))
+		if (triangle.vertex[i].position.y > triangle.vertex[max_index].position.y ||
+			(triangle.vertex[i].position.y == triangle.vertex[max_index].position.y && triangle.vertex[i].position.x > triangle.vertex[max_index].position.x))
 			max_index = i;
 	}
 
-	const vec3 &bottom_position = triangle.vertex[min_index].window_position;
-	const vec3 &middle_position = triangle.vertex[3 - max_index - min_index].window_position;
-	const vec3 &top_position = triangle.vertex[max_index].window_position;
+	vec3 bottom_position(triangle.vertex[min_index].position.x, triangle.vertex[min_index].position.y, triangle.vertex[min_index].position.z);
+	vec3 middle_position(triangle.vertex[3 - max_index - min_index].position.x, triangle.vertex[3 - max_index - min_index].position.y, triangle.vertex[3 - max_index - min_index].position.z);
+	vec3 top_position(triangle.vertex[max_index].position.x, triangle.vertex[max_index].position.y, triangle.vertex[max_index].position.z);
 
 	if (bottom_position.y == top_position.y) { // 3 positions in same line
 		if (top_position.y == floorf(top_position.y)) DrawScanLine(bottom_position.x, top_position.x, top_position.y);
@@ -104,11 +104,11 @@ void Rasterizer::GenerateFragment(const float x, const float y) {
     if (x < 0 || x >= width_ || y < 0 || y >= height_) return;
 
     // interpolation process
-    vec2 pos0(triangle_.vertex[0].window_position.x, triangle_.vertex[0].window_position.y);
-    vec2 pos1(triangle_.vertex[1].window_position.x, triangle_.vertex[1].window_position.y);
-    vec2 pos2(triangle_.vertex[2].window_position.x, triangle_.vertex[2].window_position.y);
+    vec2 pos0(triangle_.vertex[0].position.x, triangle_.vertex[0].position.y);
+    vec2 pos1(triangle_.vertex[1].position.x, triangle_.vertex[1].position.y);
+    vec2 pos2(triangle_.vertex[2].position.x, triangle_.vertex[2].position.y);
     vec3 k = GetBarycentricCoordinates(pos0, pos1, pos2, vec2(x, y));
-    float z = TriangleInterpolation(triangle_.vertex[0].window_position.z, triangle_.vertex[1].window_position.z, triangle_.vertex[2].window_position.z, k);
+    float z = TriangleInterpolation(triangle_.vertex[0].position.z, triangle_.vertex[1].position.z, triangle_.vertex[2].position.z, k);
 
     Fragment fragment;
     fragment.window_position = vec3(x, y, z);

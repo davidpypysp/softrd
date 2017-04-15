@@ -6,11 +6,12 @@ VertexShader::VertexShader() {}
 
 
 // input vertex and output after certain transformation
-VertexShaderOut VertexShader::Run(const Vertex &in) {
-	VertexShaderOut out;
+VertexOut VertexShader::Run(const Vertex &in) {
+	VertexOut out;
 	vec4 world_position = model_ * vec4(in.position, 1.0);
+	vec4 eye_position = view_ * world_position;
 	out.world_position = vec3(world_position.x, world_position.y, world_position.z);
-	out.clipping_position = transform_ * vec4(in.position, 1.0);
+	out.position = transform_ * vec4(in.position, 1.0);
 
 	mat4 rotation = model_;
 	rotation[0][3] = rotation[1][3] = rotation[2][3] = 0.0; // skip traslation matrix
