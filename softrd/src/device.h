@@ -19,7 +19,7 @@ public:
 	void HandleEvents();
 	~Device();
 
-	bool quit() { return quit_; }
+	bool Quit();
 
 	bool PressKeyUp();
 	bool PressKeyDown();

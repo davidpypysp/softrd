@@ -82,6 +82,11 @@ Device::~Device() {
 	SDL_Quit();
 }
 
+bool Device::Quit()
+{
+	return keys_[SDL_SCANCODE_ESCAPE];
+}
+
 bool Device::PressKeyUp() {
 	return keys_[SDL_SCANCODE_UP];
 }
@@ -113,6 +118,7 @@ bool Device::PressKeyA() {
 bool Device::PressKeyD() {
 	return keys_[SDL_SCANCODE_D];
 }
+
 
 
 

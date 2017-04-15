@@ -20,7 +20,9 @@ public:
 	Renderer(const int width, const int height);
 	void Run();
 	void Draw(); // draw one frame
+	void Clear();
 	~Renderer();
+
 
 
 private:

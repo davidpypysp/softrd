@@ -12,11 +12,11 @@ std::vector<TrianglePrimitive> PrimitiveAssembler::AssembleTriangle(const Vertex
 	triangle.vertex[0] = v1;
 	triangle.vertex[1] = v2;
 	triangle.vertex[2] = v3;
-	/*
+	
 	for (int i = 0; i < 3; i++) {
 		if (Clip(triangle.vertex[i].position)) return triangles;
 	}
-	*/
+	
 	for (int i = 0; i < 3; i++) {
 		PerspectiveDivide(triangle.vertex[i].position);
 		ViewportTransform(triangle.vertex[i].position, width_, height_);

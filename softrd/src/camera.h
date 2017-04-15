@@ -27,16 +27,15 @@ struct Camera {
 		pitch = 0.0;
 		yaw = 90.0;
 
-		fov = 120.0; 
+		fov = 90.0; 
 		this->aspect = aspect;
-		near = 1.0f;
+		near = 0.2f;
 		far = 500.0f;
 		SetViewMatrix();
 		SetProjectionMatrix();
 	}
 
 	void SetViewMatrix() {
-		vec3 right = up % direction;
 		view = {
 			right.x, right.y, right.z, -(right * position),
 			up.x, up.y, up.z, -(up * position),
@@ -46,7 +45,6 @@ struct Camera {
 	}
 
 	void SetProjectionMatrix() {
-		projection.identify();
 		float cot_theta = 1.0 / tanf(Radians(fov / 2.0));
 		projection[0][0] = cot_theta / aspect;
 		projection[1][1] = cot_theta;

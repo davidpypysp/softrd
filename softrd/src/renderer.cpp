@@ -24,7 +24,7 @@ device_(100, 100, width, height) {
 void Renderer::Run() {
     Camera camera((float)width_ / (float)height_);
 
-    while (device_.quit() == false) {
+    while (device_.Quit() == false) {
         device_.HandleEvents();
 
 
@@ -37,8 +37,8 @@ void Renderer::Run() {
 		camera.Move(move);
 
 		vec3 rotate;
-		if (device_.PressKeyUp()) rotate.x += 0.5;
-		if (device_.PressKeyDown()) rotate.x -= 0.5;
+		if (device_.PressKeyUp()) rotate.x -= 0.5;
+		if (device_.PressKeyDown()) rotate.x += 0.5;
 		if (device_.PressKeyLeft()) rotate.y -= 0.5;
 		if (device_.PressKeyRight()) rotate.y += 0.5;
 		camera.Rotate(rotate);
@@ -100,14 +100,22 @@ void Renderer::Run() {
 
     }
 
-
-
+	Clear();
 
 }
 
 void Renderer::Draw() {
 
 
+}
+
+void Renderer::Clear() {
+	delete[] vertex_buffer_;
+	delete[] element_buffer_;
+	delete[] vertex_out_buffer_;
+	delete fragment_buffer_;
+	delete frame_buffer_;
+	delete[] depth_buffer_;
 }
 
 Renderer::~Renderer() {

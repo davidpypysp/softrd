@@ -12,6 +12,6 @@ struct Vertex {
 	vec2 uv;
 };
 
-}
+} // namespace softrd
 
 #endif // SOFTRD_VERTEX_H_
