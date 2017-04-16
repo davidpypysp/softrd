@@ -19,7 +19,7 @@ struct Camera {
 	mat4 projection;
 
 	Camera(const float aspect) {
-		position = vec3(0.0, 0.0, 2.0);
+		position = vec3(0.0, 0.5, 2.0);
 		direction = vec3(0.0, 0.0, 1.0);
 		up = vec3(0.0, 1.0, 0.0);
 		right = vec3(1.0, 0.0, 0.0);
@@ -53,9 +53,11 @@ struct Camera {
 		projection[3][2] = -1.0;
 	}
 
-	void Move(const vec3 &move) {
-		position = position + move;
-		printf("position: %f, %f, %f\n", position.x, position.y, position.z);
+	void Move(const vec3 &move) { // move: step
+		position = position + right * move.x;
+		position = position + up * move.y;
+		position = position + direction * move.z;
+		//printf("position: %f, %f, %f\n", position.x, position.y, position.z);
 		SetViewMatrix();
 	}
 

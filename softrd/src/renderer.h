@@ -40,8 +40,8 @@ private:
 	Device device_;
 
 	// all buffers
-	Vertex *vertex_buffer_;
-	int *element_buffer_;
+	std::vector<Vertex> vertex_buffer_;
+	std::vector<Uint32> element_buffer_;
 	VertexOut *vertex_out_buffer_;
 	std::vector<Fragment> *fragment_buffer_;
 	unsigned char *frame_buffer_;

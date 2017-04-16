@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "model.h"
 
 namespace softrd {
 
@@ -11,9 +12,7 @@ primitve_assembler_(width_, height_),
 rasterizer_(width, height),
 per_sample_proccessor_(),
 device_(100, 100, width, height) {
-    vertex_buffer_ = new Vertex[1000];
-    element_buffer_ = new int[1000];
-    vertex_out_buffer_ = new VertexOut[1000];
+	vertex_out_buffer_ = nullptr;
     fragment_buffer_ = new std::vector<Fragment>();
     frame_buffer_ = new unsigned char[width * height * 4];
     depth_buffer_ = new float[width * height];
@@ -23,42 +22,38 @@ device_(100, 100, width, height) {
 
 void Renderer::Run() {
     Camera camera((float)width_ / (float)height_);
+	//Model teapot("resource/wt_teapot.obj");
+	Model teapot("resource/cruiser/cruiser.obj");
+	//Model teapot("resource/nanosuit/nanosuit.obj");
+	for (Mesh &mesh : teapot.meshes_) {
+		for (Vertex &vertex : mesh.vertices_) vertex_buffer_.push_back(vertex);
+		for (Uint32 index : mesh.indices_) element_buffer_.push_back(index);
+	}
+	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
 
-    while (device_.Quit() == false) {
+    while (device_.Quit() == false) { // renderer main loop
         device_.HandleEvents();
 
 
 		// input handling
+		float move_step = 0.05;
         vec3 move;
-        if (device_.PressKeyW()) move.z -= 0.05;
-        if (device_.PressKeyS()) move.z += 0.05;
-        if (device_.PressKeyA()) move.x -= 0.05;
-        if (device_.PressKeyD()) move.x += 0.05;
+        if (device_.PressKeyW()) move.z -= move_step;
+        if (device_.PressKeyS()) move.z += move_step;
+        if (device_.PressKeyA()) move.x -= move_step;
+        if (device_.PressKeyD()) move.x += move_step;
 		camera.Move(move);
 
+		float degree = 1.5;
 		vec3 rotate;
-		if (device_.PressKeyUp()) rotate.x -= 0.5;
-		if (device_.PressKeyDown()) rotate.x += 0.5;
-		if (device_.PressKeyLeft()) rotate.y -= 0.5;
-		if (device_.PressKeyRight()) rotate.y += 0.5;
+		if (device_.PressKeyUp()) rotate.x -= degree;
+		if (device_.PressKeyDown()) rotate.x += degree;
+		if (device_.PressKeyLeft()) rotate.y -= degree;
+		if (device_.PressKeyRight()) rotate.y += degree;
 		camera.Rotate(rotate);
 
 
 
-        // set vertex buffer
-        int vertex_num = 3;
-        Vertex v1, v2, v3;
-        v1.position = vec3(0, 0, 0);
-        v2.position = vec3(2, 0, 0);
-        v3.position = vec3(1, 1, 0);
-        vertex_buffer_[0] = v1;
-        vertex_buffer_[1] = v2;
-        vertex_buffer_[2] = v3;
-        // set element buffer
-        for (int i = 0; i < vertex_num; i++)
-            element_buffer_[i] = i;
-
-        // set vertex shader
         mat4 model;
         model.identify();
         vertex_shader_.model_ = model;
@@ -66,15 +61,15 @@ void Renderer::Run() {
 		vertex_shader_.projection_ = camera.projection;
         vertex_shader_.transform_ = camera.projection * camera.view * model;
 
-        for (int i = 0; i < vertex_num; i++) {
+        for (int i = 0; i < vertex_buffer_.size(); i++) {
             //vertex shader stage
             vertex_out_buffer_[i] = vertex_shader_.Run(vertex_buffer_[i]);
         }
 
-        for (int triangle_index = 0; triangle_index < vertex_num / 3; ++triangle_index) {
-            VertexOut &vo1 = vertex_out_buffer_[triangle_index * 3];
-            VertexOut &vo2 = vertex_out_buffer_[triangle_index * 3 + 1];
-            VertexOut &vo3 = vertex_out_buffer_[triangle_index * 3 + 2];
+        for (int triangle_index = 0; triangle_index < element_buffer_.size() / 3; ++triangle_index) {
+            VertexOut &vo1 = vertex_out_buffer_[element_buffer_[triangle_index * 3]];
+            VertexOut &vo2 = vertex_out_buffer_[element_buffer_[triangle_index * 3 + 1]];
+            VertexOut &vo3 = vertex_out_buffer_[element_buffer_[triangle_index * 3 + 2]];
             std::vector<TrianglePrimitive> triangles = primitve_assembler_.AssembleTriangle(vo1, vo2, vo3);
 
 			for (TrianglePrimitive triangle : triangles) {
@@ -110,8 +105,6 @@ void Renderer::Draw() {
 }
 
 void Renderer::Clear() {
-	delete[] vertex_buffer_;
-	delete[] element_buffer_;
 	delete[] vertex_out_buffer_;
 	delete fragment_buffer_;
 	delete frame_buffer_;

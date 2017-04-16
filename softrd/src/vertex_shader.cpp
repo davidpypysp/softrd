@@ -9,8 +9,6 @@ VertexShader::VertexShader() {}
 VertexOut VertexShader::Run(const Vertex &in) {
 	VertexOut out;
 	vec4 world_position = model_ * vec4(in.position, 1.0);
-	vec4 eye_position = view_ * world_position;
-	vec4 clip_position = projection_ * eye_position;
 	out.world_position = vec3(world_position.x, world_position.y, world_position.z);
 	out.position = transform_ * vec4(in.position, 1.0);
 

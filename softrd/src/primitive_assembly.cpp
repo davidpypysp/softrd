@@ -13,6 +13,8 @@ std::vector<TrianglePrimitive> PrimitiveAssembler::AssembleTriangle(const Vertex
 	triangle.vertex[1] = v2;
 	triangle.vertex[2] = v3;
 	
+
+	// clipping
 	for (int i = 0; i < 3; i++) {
 		if (Clip(triangle.vertex[i].position)) return triangles;
 	}

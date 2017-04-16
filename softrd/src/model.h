@@ -16,6 +16,8 @@ public:
 	Model(const std::string &path);
 	void Draw();
 
+	std::vector<Mesh> meshes_;
+
 private:
 
 	void LoadModel(const std::string &path);
@@ -23,7 +25,6 @@ private:
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 
 
-	std::vector<Mesh> meshes_;
 	std::string directory_;
 
 };
