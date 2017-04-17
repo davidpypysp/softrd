@@ -19,7 +19,7 @@ struct Camera {
 	mat4 projection;
 
 	Camera(const float aspect) {
-		position = vec3(0.0, 0.5, 2.0);
+		position = vec3(0.0, 0.0, 2.0);
 		direction = vec3(0.0, 0.0, 1.0);
 		up = vec3(0.0, 1.0, 0.0);
 		right = vec3(1.0, 0.0, 0.0);
@@ -27,7 +27,7 @@ struct Camera {
 		pitch = 0.0;
 		yaw = 90.0;
 
-		fov = 90.0; 
+		fov = 45.0; 
 		this->aspect = aspect;
 		near = 0.2f;
 		far = 500.0f;
@@ -45,7 +45,7 @@ struct Camera {
 	}
 
 	void SetProjectionMatrix() {
-		float cot_theta = 1.0 / tanf(Radians(fov / 2.0));
+		float cot_theta = 1.0 / tan(Radians(fov * 0.5));
 		projection[0][0] = cot_theta / aspect;
 		projection[1][1] = cot_theta;
 		projection[2][2] = (far + near) / (near - far);
@@ -75,8 +75,15 @@ struct Camera {
 		direction.z = cos(Radians(pitch)) * sin(Radians(yaw));
 		direction.normalize();
 		right = (world_up % direction).normalize();
-		up = direction % right;
+		up = (direction % right).normalize();
 		SetViewMatrix();
+	}
+
+	void Zoom(const float degree) {
+		fov += degree;
+		if (fov > 160.0) fov = 160.0;
+		if (fov < 10.0) fov = 10.0;
+		SetProjectionMatrix();
 	}
 
 

@@ -42,8 +42,8 @@ bool PrimitiveAssembler::PerspectiveDivide(vec4 &position) {
 }
 
 void PrimitiveAssembler::ViewportTransform(vec4 &position, int width, int height) {
-	position.x = (width / 2.0) * (position.x + 1.0);
-	position.y = (height / 2.0) * (-position.y + 1.0);
+	position.x = (width * 0.5) * (position.x + 1.0);
+	position.y = (height * 0.5) * (-position.y + 1.0);
 	position.z = 0.5 * (position.z + 1.0);
 }
 

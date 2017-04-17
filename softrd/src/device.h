@@ -29,6 +29,9 @@ public:
 	bool PressKeyS();
 	bool PressKeyA();
 	bool PressKeyD();
+	bool PressKeyQ();
+	bool PressKeyE();
+
 
 
 

@@ -22,13 +22,32 @@ device_(100, 100, width, height) {
 
 void Renderer::Run() {
     Camera camera((float)width_ / (float)height_);
-	//Model teapot("resource/wt_teapot.obj");
-	Model teapot("resource/cruiser/cruiser.obj");
+
+#define TEAPOT 1
+
+#if TEAPOT
+	Model teapot("resource/wt_teapot.obj");
+	//Model teapot("resource/f-16/f-16.obj");
 	//Model teapot("resource/nanosuit/nanosuit.obj");
 	for (Mesh &mesh : teapot.meshes_) {
 		for (Vertex &vertex : mesh.vertices_) vertex_buffer_.push_back(vertex);
 		for (Uint32 index : mesh.indices_) element_buffer_.push_back(index);
 	}
+#endif
+
+#if !TEAPOT
+	Vertex v1, v2, v3;
+	v1.position = vec3(0, 0, 0);
+	v2.position = vec3(0, 1, 0);
+	v3.position = vec3(0.2, 0, -2);
+	vertex_buffer_.push_back(v1);
+	vertex_buffer_.push_back(v2);
+	vertex_buffer_.push_back(v3);
+	element_buffer_.push_back(0);
+	element_buffer_.push_back(1);
+	element_buffer_.push_back(2);
+#endif
+
 	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
 
     while (device_.Quit() == false) { // renderer main loop
@@ -51,6 +70,10 @@ void Renderer::Run() {
 		if (device_.PressKeyLeft()) rotate.y -= degree;
 		if (device_.PressKeyRight()) rotate.y += degree;
 		camera.Rotate(rotate);
+
+
+		if (device_.PressKeyQ()) camera.Zoom(-degree);
+		if (device_.PressKeyE()) camera.Zoom(degree);
 
 
 
