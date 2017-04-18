@@ -14,11 +14,7 @@ struct FragmentShaderOut {
 class FragmentShader {
 public:
 	FragmentShader();
-	void Run();
-
-	Fragment in_;
-	FragmentShaderOut out_;
-
+	void Run(const Fragment &in, FragmentShaderOut *out);
 };
 
 } // namespace softrd

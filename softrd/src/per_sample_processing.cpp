@@ -2,11 +2,22 @@
 
 namespace softrd {
 
-PerSampleProcessor::PerSampleProcessor() {
+PerSampleProcessor::PerSampleProcessor(const int width, const int height) : width_(width), height_(height){
 }
 
-bool PerSampleProcessor::Run() {
+void PerSampleProcessor::Setup(float *depth_buffer) {
+	depth_buffer_ = depth_buffer;
+}
+
+bool PerSampleProcessor::Run(const FragmentShaderOut &in) {
+	if (!DepthTest(in.window_position)) return false;
 	return true;
+}
+
+bool PerSampleProcessor::DepthTest(const vec3 &position)
+{
+	int index = (int)position.y * width_ + (int)position.x;
+	return position.z < depth_buffer_[index];
 }
 
 } // namespace softrd

@@ -7,14 +7,15 @@ namespace softrd {
 
 class PerSampleProcessor {
 public:
-	PerSampleProcessor();
+	PerSampleProcessor(const int width, const int height);
+	void Setup(float *depth_buffer);
+	bool Run(const FragmentShaderOut &in);
 
-	bool Run();
-
-	FragmentShaderOut in_;
 private:
 
-	bool DepthTest();
+	bool DepthTest(const vec3 &position);
+	int width_, height_;
+	float *depth_buffer_;
 
 };
 

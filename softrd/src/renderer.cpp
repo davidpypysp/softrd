@@ -7,16 +7,17 @@ namespace softrd {
 Renderer::Renderer(const int width, const int height) : 
 width_(width), 
 height_(height),
+screen_size_(width * height),
 vertex_shader_(),
-primitve_assembler_(width_, height_),
+primitve_assembler_(width, height),
 rasterizer_(width, height),
-per_sample_proccessor_(),
+per_sample_proccessor_(width, height),
 device_(100, 100, width, height) {
 	vertex_out_buffer_ = nullptr;
     fragment_buffer_ = new std::vector<Fragment>();
-    frame_buffer_ = new unsigned char[width * height * 4];
-    depth_buffer_ = new float[width * height];
-
+    frame_buffer_ = new unsigned char[screen_size_ * 4];
+    depth_buffer_ = new float[screen_size_];
+	per_sample_proccessor_.Setup(depth_buffer_);
     device_.Setup();
 }
 
@@ -51,6 +52,9 @@ void Renderer::Run() {
 	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
 
     while (device_.Quit() == false) { // renderer main loop
+		memset(frame_buffer_, 0, sizeof(unsigned char) * screen_size_ * 4);
+		std::fill(depth_buffer_, depth_buffer_ + screen_size_, 1.0);
+
         device_.HandleEvents();
 
 
@@ -98,13 +102,13 @@ void Renderer::Run() {
 			for (TrianglePrimitive triangle : triangles) {
 				rasterizer_.DrawTriangle(triangle, fragment_buffer_, Rasterizer::TRIANGLE_LINE);
 
+				FragmentShaderOut fragment_shader_out;
 				for (Fragment fragment : *fragment_buffer_) {
-					fragment_shader_.in_ = fragment;
-					fragment_shader_.Run();
-					per_sample_proccessor_.in_ = fragment_shader_.out_;
-					if (per_sample_proccessor_.Run() == true) {
+					fragment_shader_.Run(fragment, &fragment_shader_out);
+					if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
 						// test fragment success, pass into framebuffer;
-						SetPixel(fragment_shader_.out_.window_position.x, fragment_shader_.out_.window_position.y, fragment_shader_.out_.color);
+						SetPixel(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.color);
+						SetDepth(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.window_position.z);
 					}
 				}
 			}
@@ -114,7 +118,6 @@ void Renderer::Run() {
 
 
         device_.Draw(frame_buffer_);
-        memset(frame_buffer_, 0, sizeof(unsigned char) * width_ * height_ * 4);
 
     }
 
@@ -145,6 +148,10 @@ void Renderer::SetPixel(const int x, const int y, const vec4 &color) {
         frame_buffer_[offset+2] = color.y * 255; // r
         frame_buffer_[offset+3] = 255; // a 
     }
+}
+
+void Renderer::SetDepth(const int x, const int y, const float z) {
+	depth_buffer_[y * width_ + x] = z;
 }
 
 } // namespace softrd

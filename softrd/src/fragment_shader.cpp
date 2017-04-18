@@ -5,9 +5,9 @@ namespace softrd {
 FragmentShader::FragmentShader() {
 }
 
-void FragmentShader::Run() {
-	out_.window_position = in_.window_position;
-	out_.color = vec4(1.0, 1.0, 0.0, 1.0);
+void FragmentShader::Run(const Fragment &in, FragmentShaderOut *out) {
+	out->window_position = in.window_position;
+	out->color = vec4(1.0, 1.0, 0.0, 1.0);
 }
 
 } // namespace softrd

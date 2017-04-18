@@ -28,8 +28,9 @@ public:
 private:
 
 	void SetPixel(const int x, const int y, const vec4 &color);
+	void SetDepth(const int x, const int y, const float z);
 
-	int width_, height_;
+	int width_, height_, screen_size_;
 	
 	// pipeline stages
 	VertexShader vertex_shader_;
