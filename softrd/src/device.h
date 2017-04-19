@@ -4,7 +4,9 @@
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 
+#include <string>
 #include "math/vector.h"
+
 
 
 
@@ -16,7 +18,10 @@ public:
 	Device(const int x_pos, const int y_pos, const int width, const int height);
 	int Setup();
 	void Draw(unsigned char *frame_buffer);
+	void DrawText(const std::string &str);
 	void HandleEvents();
+	void RenderClear();
+	void RenderPresent();
 	~Device();
 
 	bool Quit();

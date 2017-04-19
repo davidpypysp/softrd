@@ -3,11 +3,20 @@
 #include "../src/renderer.h"
 
 #include "../src/model.h"
+#include "../src/device.h"
 
+using namespace softrd;
 
 int main()
 {
 	softrd::Renderer renderer(800, 600);
 	renderer.Run();
+	/*
+	Device dev(100, 100, 800, 600);
+	dev.Setup();
+	while (true) {
+		dev.DrawText("test");
+	}
+	*/
 	return 0;
 }

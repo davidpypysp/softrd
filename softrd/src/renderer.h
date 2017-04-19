@@ -2,6 +2,8 @@
 #define SOFTRD_RENDERER_H_
 
 #include <vector>
+#include <chrono>
+
 
 #include "camera.h"
 #include "vertex_shader.h"
@@ -10,6 +12,7 @@
 #include "per_sample_processing.h"
 #include "device.h"
 
+using namespace std::chrono;
 
 namespace softrd {
 
@@ -31,6 +34,10 @@ private:
 	void SetDepth(const int x, const int y, const float z);
 
 	int width_, height_, screen_size_;
+
+	// frame setting
+	time_point<steady_clock> last_time_;
+	double delta_time_;
 	
 	// pipeline stages
 	VertexShader vertex_shader_;

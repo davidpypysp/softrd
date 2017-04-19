@@ -1,6 +1,8 @@
 #include "renderer.h"
 #include "model.h"
 
+
+
 namespace softrd {
 
 
@@ -19,6 +21,7 @@ device_(100, 100, width, height) {
     depth_buffer_ = new float[screen_size_];
 	per_sample_proccessor_.Setup(depth_buffer_);
     device_.Setup();
+	last_time_ = steady_clock::now();
 }
 
 void Renderer::Run() {
@@ -52,13 +55,19 @@ void Renderer::Run() {
 	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
 
     while (device_.Quit() == false) { // renderer main loop
+		// frame setting
+		auto current_time = steady_clock::now();
+		duration<double, std::milli> time_span = current_time - last_time_;
+		delta_time_ = time_span.count();
+		last_time_ = current_time;
+
+		// reset buffer
 		memset(frame_buffer_, 0, sizeof(unsigned char) * screen_size_ * 4);
 		std::fill(depth_buffer_, depth_buffer_ + screen_size_, 1.0);
 
+		// handle input
         device_.HandleEvents();
 
-
-		// input handling
 		float move_step = 0.05;
         vec3 move;
         if (device_.PressKeyW()) move.z -= move_step;
@@ -113,12 +122,12 @@ void Renderer::Run() {
 					}
 				}
 			}
-
-
         }
 
-
+		device_.RenderClear();
         device_.Draw(frame_buffer_);
+		device_.DrawText("fps: " + std::to_string(1000.0 / delta_time_));
+		device_.RenderPresent();
 
     }
 

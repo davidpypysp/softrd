@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 
+#include <SDL2/SDL_ttf.h>
 
 
 namespace softrd {
@@ -16,6 +17,12 @@ Device::Device(const int x_pos, const int y_pos, const int width, const int heig
 int Device::Setup() {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+		return 1;
+	}
+
+	if (TTF_Init() != 0) {
+		std::cout << "SDL_TTF Error: " << SDL_GetError() << std::endl;
+		SDL_Quit();
 		return 1;
 	}
 
@@ -43,16 +50,28 @@ int Device::Setup() {
 }
 
 void Device::Draw(unsigned char *frame_buffer) {
-	// First clear the renderer
-	SDL_RenderClear(renderer_);
+
 
 	// Draw every pixel in the Window
 	SDL_UpdateTexture(texture_, NULL, frame_buffer, width_ * 4);
 	SDL_RenderCopy(renderer_, texture_, NULL, NULL);
 
-	// Update the screen
-	SDL_RenderPresent(renderer_);
 
+
+}
+
+void Device::DrawText(const std::string &str) {
+	TTF_Font* font = TTF_OpenFont("resource/font/Lato-Light.ttf", 25); //this opens a font style and sets a size
+	SDL_Color color = { 255, 255, 255, 0 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, str.c_str(), color); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+	SDL_Texture* message = SDL_CreateTextureFromSurface(renderer_, surfaceMessage); //now you can convert it into a texture
+	SDL_Rect rect; //create a rect
+	rect.x = 2;  //controls the rect's x coordinate 
+	rect.y = 2; // controls the rect's y coordinte
+	rect.w = 200; // controls the width of the rect
+	rect.h = 40; // controls the height of the rect
+
+	SDL_RenderCopy(renderer_, message, NULL, &rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 }
 
 void Device::HandleEvents() {
@@ -74,6 +93,16 @@ void Device::HandleEvents() {
 		}
 	}
 
+}
+
+void Device::RenderClear() {
+	// First clear the renderer
+	SDL_RenderClear(renderer_);
+}
+
+void Device::RenderPresent() {
+	// Update the screen
+	SDL_RenderPresent(renderer_);
 }
 
 Device::~Device() {
