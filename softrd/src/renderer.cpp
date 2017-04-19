@@ -27,12 +27,12 @@ void Renderer::Run() {
 #define TEAPOT 1
 
 #if TEAPOT
-	Model teapot("resource/wt_teapot.obj");
+	Model model("resource/cruiser/cruiser.obj");
 	//Model teapot("resource/f-16/f-16.obj");
 	//Model teapot("resource/nanosuit/nanosuit.obj");
-	for (Mesh &mesh : teapot.meshes_) {
-		for (Vertex &vertex : mesh.vertices_) vertex_buffer_.push_back(vertex);
-		for (Uint32 index : mesh.indices_) element_buffer_.push_back(index);
+	for (Mesh &mesh : model.meshes) {
+		for (Vertex &vertex : mesh.vertices) vertex_buffer_.push_back(vertex);
+		for (Uint32 index : mesh.indices) element_buffer_.push_back(index);
 	}
 #endif
 
@@ -81,29 +81,30 @@ void Renderer::Run() {
 
 
 
-        mat4 model;
-        model.identify();
-        vertex_shader_.model_ = model;
+        mat4 model_matrix;
+        model_matrix.identify();
+        vertex_shader_.model_ = model_matrix;
 		vertex_shader_.view_ = camera.view;
 		vertex_shader_.projection_ = camera.projection;
-        vertex_shader_.transform_ = camera.projection * camera.view * model;
+        vertex_shader_.transform_ = camera.projection * camera.view * model_matrix;
 
         for (int i = 0; i < vertex_buffer_.size(); i++) {
             //vertex shader stage
-            vertex_out_buffer_[i] = vertex_shader_.Run(vertex_buffer_[i]);
+            vertex_shader_.Run(vertex_buffer_[i], &vertex_out_buffer_[i]);
         }
 
         for (int triangle_index = 0; triangle_index < element_buffer_.size() / 3; ++triangle_index) {
             VertexOut &vo1 = vertex_out_buffer_[element_buffer_[triangle_index * 3]];
             VertexOut &vo2 = vertex_out_buffer_[element_buffer_[triangle_index * 3 + 1]];
             VertexOut &vo3 = vertex_out_buffer_[element_buffer_[triangle_index * 3 + 2]];
-            std::vector<TrianglePrimitive> triangles = primitve_assembler_.AssembleTriangle(vo1, vo2, vo3);
+			std::vector<TrianglePrimitive> triangles;
+            primitve_assembler_.AssembleTriangle(vo1, vo2, vo3, &triangles);
 
-			for (TrianglePrimitive triangle : triangles) {
+			for (TrianglePrimitive &triangle : triangles) {
 				rasterizer_.DrawTriangle(triangle, fragment_buffer_, Rasterizer::TRIANGLE_LINE);
 
-				FragmentShaderOut fragment_shader_out;
-				for (Fragment fragment : *fragment_buffer_) {
+				FragmentOut fragment_shader_out;
+				for (Fragment &fragment : *fragment_buffer_) {
 					fragment_shader_.Run(fragment, &fragment_shader_out);
 					if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
 						// test fragment success, pass into framebuffer;

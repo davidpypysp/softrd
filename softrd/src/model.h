@@ -11,22 +11,18 @@
 
 namespace softrd {
 
-class Model {
-public:
+struct Model {
+	std::vector<Mesh> meshes;
+	std::string directory;
+
+
 	Model(const std::string &path);
 	void Draw();
 
-	std::vector<Mesh> meshes_;
-
 private:
-
 	void LoadModel(const std::string &path);
 	void ProcessNode(aiNode *node, const aiScene* scene);
-	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-
-
-	std::string directory_;
-
+	bool ProcessMesh(aiMesh* mesh, const aiScene* scene);
 };
 
 } // namespace softrd

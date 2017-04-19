@@ -120,7 +120,6 @@
   <ItemGroup>
     <ClCompile Include="src\device.cpp" />
     <ClCompile Include="src\fragment_shader.cpp" />
-    <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\per_sample_processing.cpp" />
     <ClCompile Include="src\primitive_assembly.cpp" />

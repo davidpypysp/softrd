@@ -24,7 +24,7 @@ public:
 	mat4 transform_;
 
 	VertexShader();
-	VertexOut Run(const Vertex &in);
+	bool Run(const Vertex &in, VertexOut *out);
 };
 
 

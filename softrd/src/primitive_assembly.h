@@ -15,7 +15,8 @@ struct TrianglePrimitive {
 class PrimitiveAssembler {
 public:
 	PrimitiveAssembler(const int width, const int height);
-	std::vector<TrianglePrimitive> AssembleTriangle(const VertexOut &v1, const VertexOut &v2, const VertexOut &v3);
+	
+	bool AssembleTriangle(const VertexOut &v1, const VertexOut &v2, const VertexOut &v3, std::vector<TrianglePrimitive> *triangles);
 
 
 private:

@@ -5,31 +5,32 @@ namespace softrd {
 PrimitiveAssembler::PrimitiveAssembler(const int width, const int height) : width_(width), height_(height) {
 }
 
-std::vector<TrianglePrimitive> PrimitiveAssembler::AssembleTriangle(const VertexOut& v1, const VertexOut& v2, const VertexOut& v3) {
-	std::vector<TrianglePrimitive> triangles;
+bool PrimitiveAssembler::AssembleTriangle(const VertexOut& v1, const VertexOut& v2, const VertexOut& v3, std::vector<TrianglePrimitive> *triangles) {
 
 	TrianglePrimitive triangle;
 	triangle.vertex[0] = v1;
 	triangle.vertex[1] = v2;
 	triangle.vertex[2] = v3;
-	
 
 	// clipping
 	for (int i = 0; i < 3; i++) {
-		if (Clip(triangle.vertex[i].position)) return triangles;
+		if (Clip(triangle.vertex[i].position)) return false;
 	}
 	
 	for (int i = 0; i < 3; i++) {
 		PerspectiveDivide(triangle.vertex[i].position);
 		ViewportTransform(triangle.vertex[i].position, width_, height_);
 	}
-	triangles.push_back(triangle);
+	triangles->push_back(triangle);
 
-	return triangles;
+	return true;
 }
 
 bool PrimitiveAssembler::Clip(const vec4 &position) {
-	return position.z < -position.w || position.z > position.w;
+	if (position.x >= -position.w && position.x <= position.w) return false;
+	if (position.y >= -position.w && position.y <= position.w) return false;
+	if (position.z >= -position.w && position.z <= position.w) return false;
+	return true;
 }
 
 bool PrimitiveAssembler::PerspectiveDivide(vec4 &position) {

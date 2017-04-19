@@ -9,7 +9,7 @@ class PerSampleProcessor {
 public:
 	PerSampleProcessor(const int width, const int height);
 	void Setup(float *depth_buffer);
-	bool Run(const FragmentShaderOut &in);
+	bool Run(const FragmentOut &in);
 
 private:
 

@@ -5,7 +5,7 @@
 
 namespace softrd {
 
-struct FragmentShaderOut {
+struct FragmentOut {
 	vec3 window_position;
 	vec4 color;
 };
@@ -14,7 +14,7 @@ struct FragmentShaderOut {
 class FragmentShader {
 public:
 	FragmentShader();
-	void Run(const Fragment &in, FragmentShaderOut *out);
+	void Run(const Fragment &in, FragmentOut *out);
 };
 
 } // namespace softrd

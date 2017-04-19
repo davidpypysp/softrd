@@ -19,7 +19,7 @@ void Model::LoadModel(const std::string &path) {
 	}
 
 	// Retrieve the directory path of the filepath
-	directory_ = path.substr(0, path.find_last_of('/'));
+	directory = path.substr(0, path.find_last_of('/'));
 
 	// Process ASSIMP's root node recursively
 	ProcessNode(scene->mRootNode, scene);
@@ -28,7 +28,7 @@ void Model::LoadModel(const std::string &path) {
 void Model::ProcessNode(aiNode *node, const aiScene *scene) {
 	for (int i = 0; i < node->mNumMeshes; i++) {
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes_.push_back(ProcessMesh(mesh, scene));
+		ProcessMesh(mesh, scene);
 	}
 
 	for (int i = 0; i < node->mNumChildren; i++) {
@@ -36,7 +36,7 @@ void Model::ProcessNode(aiNode *node, const aiScene *scene) {
 	}
 }
 
-Mesh Model::ProcessMesh(aiMesh *mesh, const aiScene *scene) {
+bool Model::ProcessMesh(aiMesh *mesh, const aiScene *scene) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 
@@ -57,7 +57,8 @@ Mesh Model::ProcessMesh(aiMesh *mesh, const aiScene *scene) {
 		}
 	}
 
-	return Mesh(vertices, indices);
+	meshes.push_back(Mesh(vertices, indices));
+	return true;
 }
 
 } // namespace softrd

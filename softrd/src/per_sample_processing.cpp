@@ -9,7 +9,7 @@ void PerSampleProcessor::Setup(float *depth_buffer) {
 	depth_buffer_ = depth_buffer;
 }
 
-bool PerSampleProcessor::Run(const FragmentShaderOut &in) {
+bool PerSampleProcessor::Run(const FragmentOut &in) {
 	if (!DepthTest(in.window_position)) return false;
 	return true;
 }
