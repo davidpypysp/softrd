@@ -32,12 +32,16 @@ private:
 
 	void SetPixel(const int x, const int y, const vec4 &color);
 	void SetDepth(const int x, const int y, const float z);
+	void LoadModel();
+	void HandleInput();
 
 	int width_, height_, screen_size_;
 
 	// frame setting
 	time_point<steady_clock> last_time_;
 	double delta_time_;
+	int fps_;
+	int frame_count_;
 	
 	// pipeline stages
 	VertexShader vertex_shader_;
@@ -46,6 +50,8 @@ private:
 	FragmentShader fragment_shader_;
 	PerSampleProcessor per_sample_proccessor_;
 	Device device_;
+
+	Camera camera_;
 
 	// all buffers
 	std::vector<Vertex> vertex_buffer_;

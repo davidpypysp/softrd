@@ -37,7 +37,7 @@ int Device::Setup() {
 	//Flags: SDL_RENDERER_ACCELERATED: We want to use hardware accelerated rendering
 	//SDL_RENDERER_PRESENTVSYNC: We want the renderer's present function (update screen) to be
 	//synchronized with the monitor's refresh rate
-	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED  | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer_ == nullptr) {
 		SDL_DestroyWindow(window_);
 		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
@@ -50,8 +50,6 @@ int Device::Setup() {
 }
 
 void Device::Draw(unsigned char *frame_buffer) {
-
-
 	// Draw every pixel in the Window
 	SDL_UpdateTexture(texture_, NULL, frame_buffer, width_ * 4);
 	SDL_RenderCopy(renderer_, texture_, NULL, NULL);
@@ -60,18 +58,21 @@ void Device::Draw(unsigned char *frame_buffer) {
 
 }
 
-void Device::DrawText(const std::string &str) {
+void Device::DrawText(const std::string &str, const int x, const int y, const int width, const int height) {
 	TTF_Font* font = TTF_OpenFont("resource/font/Lato-Light.ttf", 25); //this opens a font style and sets a size
 	SDL_Color color = { 255, 255, 255, 0 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, str.c_str(), color); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
-	SDL_Texture* message = SDL_CreateTextureFromSurface(renderer_, surfaceMessage); //now you can convert it into a texture
+	SDL_Surface* surface = TTF_RenderText_Solid(font, str.c_str(), color); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+	SDL_Texture* message = SDL_CreateTextureFromSurface(renderer_, surface); //now you can convert it into a texture
+	SDL_FreeSurface(surface);
+
 	SDL_Rect rect; //create a rect
-	rect.x = 2;  //controls the rect's x coordinate 
-	rect.y = 2; // controls the rect's y coordinte
-	rect.w = 200; // controls the width of the rect
-	rect.h = 40; // controls the height of the rect
+	rect.x = x;  //controls the rect's x coordinate 
+	rect.y = y; // controls the rect's y coordinte
+	rect.w = width; // controls the width of the rect
+	rect.h = height; // controls the height of the rect
 
 	SDL_RenderCopy(renderer_, message, NULL, &rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+	SDL_DestroyTexture(message);
 }
 
 void Device::HandleEvents() {

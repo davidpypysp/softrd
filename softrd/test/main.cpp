@@ -9,7 +9,7 @@ using namespace softrd;
 
 int main()
 {
-	softrd::Renderer renderer(800, 600);
+	softrd::Renderer renderer(640, 480);
 	renderer.Run();
 	/*
 	Device dev(100, 100, 800, 600);

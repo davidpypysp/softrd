@@ -5,21 +5,48 @@ namespace softrd {
 PrimitiveAssembler::PrimitiveAssembler(const int width, const int height) : width_(width), height_(height) {
 }
 
-bool PrimitiveAssembler::AssembleTriangle(const VertexOut& v1, const VertexOut& v2, const VertexOut& v3, std::vector<TrianglePrimitive> *triangles) {
+void PrimitiveAssembler::Setup(const int vertex_num, VertexOut *vertex_out_buffer) {
+	vertex_num_ = vertex_num;
+	vertex_out_buffer_ = vertex_out_buffer;
+	check_elements_ = new bool[vertex_num_];
+	window_positions_ = new vec4[vertex_num_];
+}
 
-	TrianglePrimitive triangle;
-	triangle.vertex[0] = v1;
-	triangle.vertex[1] = v2;
-	triangle.vertex[2] = v3;
+void PrimitiveAssembler::Reset() {
+	memset(check_elements_, 0, sizeof(bool) * vertex_num_);
+}
+
+PrimitiveAssembler::~PrimitiveAssembler() {
+	delete[] check_elements_;
+	delete[] window_positions_;
+}
+
+bool PrimitiveAssembler::AssembleTriangle(const int e1, const int e2, const int e3, std::vector<TrianglePrimitive> *triangles) {
+
+	int elements[] = { e1, e2, e3 };
 
 	// clipping
 	for (int i = 0; i < 3; i++) {
-		if (Clip(triangle.vertex[i].position)) return false;
+		if (Clip(vertex_out_buffer_[elements[i]].position)) return false;
 	}
-	
+	TrianglePrimitive triangle;
 	for (int i = 0; i < 3; i++) {
-		PerspectiveDivide(triangle.vertex[i].position);
-		ViewportTransform(triangle.vertex[i].position, width_, height_);
+		int element = elements[i];
+		if (!check_elements_[element]) {
+			triangle.vertex[i] = vertex_out_buffer_[element];
+			vec4 position = triangle.vertex[i].position;
+
+			// transform 
+			PerspectiveDivide(position);
+			ViewportTransform(position, width_, height_);
+
+			triangle.vertex[i].position = position;
+			check_elements_[element] = true;
+			window_positions_[element] = position;
+		}
+		else {
+			triangle.vertex[i].position = window_positions_[element];
+		}
 	}
 	triangles->push_back(triangle);
 
@@ -42,9 +69,9 @@ bool PrimitiveAssembler::PerspectiveDivide(vec4 &position) {
 	return true;
 }
 
-void PrimitiveAssembler::ViewportTransform(vec4 &position, int width, int height) {
+void PrimitiveAssembler::ViewportTransform(vec4 &position, const int width, const int height) {
 	position.x = (width * 0.5) * (position.x + 1.0);
-	position.y = (height * 0.5) * (-position.y + 1.0);
+	position.y = (height * 0.5) * (-position.y + 1.0); // the window space's zero is upside
 	position.z = 0.5 * (position.z + 1.0);
 }
 

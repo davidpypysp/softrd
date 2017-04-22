@@ -17,8 +17,6 @@ struct Mesh {
 		this->indices = indices;
 	}
 
-	void Setup();
-
 };
 
 
