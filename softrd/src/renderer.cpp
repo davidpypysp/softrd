@@ -29,7 +29,7 @@ camera_((float)width / (float)height) {
 void Renderer::Run() {
 	LoadModel();
 
-    while (device_.Quit() == false) { // renderer main loop
+    while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
 		// frame setting
 		auto current_time = steady_clock::now();
 		duration<double, std::milli> time_span = current_time - last_time_;
@@ -65,7 +65,7 @@ void Renderer::Run() {
             primitve_assembler_.AssembleTriangle(element_buffer_[index * 3], element_buffer_[index * 3 + 1], element_buffer_[index * 3 + 2] , &triangles);
 
 			for (TrianglePrimitive &triangle : triangles) {
-				rasterizer_.DrawTriangle(triangle, fragment_buffer_, Rasterizer::TRIANGLE_FILL);
+				rasterizer_.DrawTriangle(triangle, fragment_buffer_, Rasterizer::TRIANGLE_LINE);
 
 				FragmentOut fragment_shader_out;
 				for (Fragment &fragment : *fragment_buffer_) {
@@ -123,7 +123,7 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
 
 void Renderer::LoadModel() {
 
-#define MODEL 0
+#define MODEL 1
 #if MODEL
 	Model model("resource/cruiser/cruiser.obj");
 	//Model teapot("resource/f-16/f-16.obj");
@@ -149,7 +149,7 @@ void Renderer::LoadModel() {
 #endif
 
 
-#define CUBE 1
+#define CUBE 0
 #if CUBE
 	vec3 positions[] = {
 		vec3(0.5, -0.5, 0.0),
