@@ -9,7 +9,7 @@ namespace softrd {
 
 
 struct TrianglePrimitive {
-	VertexOut vertex[3];
+	VertexOut v[3];
 };
 
 class PrimitiveAssembler {

@@ -19,7 +19,7 @@ struct Camera {
 	mat4 projection;
 
 	Camera(const float aspect) {
-		position = vec3(0.0, 0.0, 2.0);
+		position = vec3(0.0, 0.0, 3.0);
 		direction = vec3(0.0, 0.0, 1.0);
 		up = vec3(0.0, 1.0, 0.0);
 		right = vec3(1.0, 0.0, 0.0);

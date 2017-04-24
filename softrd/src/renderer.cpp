@@ -21,6 +21,7 @@ camera_((float)width / (float)height) {
     frame_buffer_ = new unsigned char[screen_size_ * 4];
     depth_buffer_ = new float[screen_size_];
 
+	rasterizer_.Setup(fragment_buffer_, &camera_);
 	per_sample_proccessor_.Setup(depth_buffer_);
     device_.Setup();
 	last_time_ = steady_clock::now();
@@ -65,7 +66,7 @@ void Renderer::Run() {
             primitve_assembler_.AssembleTriangle(element_buffer_[index * 3], element_buffer_[index * 3 + 1], element_buffer_[index * 3 + 2] , &triangles);
 
 			for (TrianglePrimitive &triangle : triangles) {
-				rasterizer_.DrawTriangle(triangle, fragment_buffer_, Rasterizer::TRIANGLE_LINE);
+				rasterizer_.DrawTriangle(triangle, Rasterizer::TRIANGLE_FILL);
 
 				FragmentOut fragment_shader_out;
 				for (Fragment &fragment : *fragment_buffer_) {
@@ -111,8 +112,8 @@ void Renderer::SetPixel(const int x, const int y, const vec4 &color) {
     if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
         int offset = (y * width_ + x) * 4;
         frame_buffer_[offset] = color.z * 255; // b
-        frame_buffer_[offset+1] = color.x * 255; // g
-        frame_buffer_[offset+2] = color.y * 255; // r
+        frame_buffer_[offset+1] = color.y * 255 ; // g
+        frame_buffer_[offset+2] = color.x * 255; // r
         frame_buffer_[offset+3] = 255; // a 
     }
 }
@@ -123,7 +124,7 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
 
 void Renderer::LoadModel() {
 
-#define MODEL 1
+#define MODEL 0
 #if MODEL
 	Model model("resource/cruiser/cruiser.obj");
 	//Model teapot("resource/f-16/f-16.obj");
@@ -134,18 +135,29 @@ void Renderer::LoadModel() {
 	}
 #endif
 
-#define TRIANGLE 0
+#define TRIANGLE 1
 #if TRIANGLE
 	Vertex v1, v2, v3;
-	v1.position = vec3(0, 0, 0);
-	v2.position = vec3(0, 1, 0);
-	v3.position = vec3(0.2, 0, -2);
+	v1.position = vec3(-0.5, 0, 0);
+	v2.position = vec3(0.0, 1.0, 0);
+	v3.position = vec3(0.5, 0.0, 0);
+
+	v1.uv = vec2(0.0, 1.0);
+	v2.uv = vec2(0.5, 0.0);
+	v3.uv = vec2(1.0, 1.0);
+
 	vertex_buffer_.push_back(v1);
 	vertex_buffer_.push_back(v2);
 	vertex_buffer_.push_back(v3);
+
 	element_buffer_.push_back(0);
 	element_buffer_.push_back(1);
 	element_buffer_.push_back(2);
+
+	Texture *texture = new Texture("resource/img_cheryl.jpg");
+	//Texture *texture = new Texture("resource/container.jpg");
+	fragment_shader_.set_texture(texture);
+
 #endif
 
 

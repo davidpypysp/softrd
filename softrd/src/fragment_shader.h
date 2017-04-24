@@ -2,6 +2,7 @@
 #define SOFTRD_FRAGMENT_SHADER_H_
 
 #include "fragment.h"
+#include "texture.h"
 
 namespace softrd {
 
@@ -15,6 +16,12 @@ class FragmentShader {
 public:
 	FragmentShader();
 	void Run(const Fragment &in, FragmentOut *out);
+
+	void set_texture(Texture *texture) { texture_ = texture; };
+
+private:
+	Texture *texture_;
+
 };
 
 } // namespace softrd

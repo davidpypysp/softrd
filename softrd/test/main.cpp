@@ -12,7 +12,16 @@ using namespace softrd;
 
 int main()
 {
-
+	/*
+	Texture texture("resource/img_cheryl.jpg");
+	Device d(100, 100, texture.width, texture.height);
+	d.Setup();
+	while (true) {
+		d.RenderClear();
+		d.Draw(texture.fb);
+		d.RenderPresent();
+	}
+	*/
 
 	softrd::Renderer renderer(640, 480);
 	renderer.Run();

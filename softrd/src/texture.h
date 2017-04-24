@@ -11,6 +11,7 @@ struct Texture {
 	int width, height;
 	vec3 *pixels;
 
+
 	Texture(const char* file_name) {
 		unsigned char *image = SOIL_load_image(file_name, &width, &height, 0, SOIL_LOAD_RGB);
 		if (image == nullptr) return;

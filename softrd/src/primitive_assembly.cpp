@@ -33,19 +33,19 @@ bool PrimitiveAssembler::AssembleTriangle(const int e1, const int e2, const int 
 	for (int i = 0; i < 3; i++) {
 		int element = elements[i];
 		if (!check_elements_[element]) {
-			triangle.vertex[i] = vertex_out_buffer_[element];
-			vec4 position = triangle.vertex[i].position;
+			triangle.v[i] = vertex_out_buffer_[element];
+			vec4 position = triangle.v[i].position;
 
 			// transform 
 			PerspectiveDivide(position);
 			ViewportTransform(position, width_, height_);
 
-			triangle.vertex[i].position = position;
+			triangle.v[i].position = position;
 			check_elements_[element] = true;
 			window_positions_[element] = position;
 		}
 		else {
-			triangle.vertex[i].position = window_positions_[element];
+			triangle.v[i].position = window_positions_[element];
 		}
 	}
 	triangles->push_back(triangle);
