@@ -124,18 +124,20 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
 
 void Renderer::LoadModel() {
 
-#define MODEL 0
+#define MODEL 1
 #if MODEL
 	Model model("resource/cruiser/cruiser.obj");
-	//Model teapot("resource/f-16/f-16.obj");
-	//Model teapot("resource/nanosuit/nanosuit.obj");
+	//Model model("resource/f-16/f-16.obj");
+	//Model model("resource/wt_teapot.obj");
 	for (Mesh &mesh : model.meshes) {
 		for (Vertex &vertex : mesh.vertices) vertex_buffer_.push_back(vertex);
 		for (Uint32 index : mesh.indices) element_buffer_.push_back(index);
 	}
+
+
 #endif
 
-#define TRIANGLE 1
+#define TRIANGLE 0
 #if TRIANGLE
 	Vertex v1, v2, v3;
 	v1.position = vec3(-0.5, 0, 0);
@@ -154,9 +156,7 @@ void Renderer::LoadModel() {
 	element_buffer_.push_back(1);
 	element_buffer_.push_back(2);
 
-	Texture *texture = new Texture("resource/img_cheryl.jpg");
-	//Texture *texture = new Texture("resource/container.jpg");
-	fragment_shader_.set_texture(texture);
+
 
 #endif
 
@@ -198,6 +198,12 @@ void Renderer::LoadModel() {
 		element_buffer_.push_back(indices[i]);
 	}
 #endif
+
+	//Texture *texture = new Texture("resource/img_cheryl.jpg");
+	Texture *texture = new Texture("resource/test_rect.png");
+	//Texture *texture = new Texture("resource/container.jpg");
+	fragment_shader_.set_texture(texture);
+
 
 	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
 	primitve_assembler_.Setup(vertex_buffer_.size(), vertex_out_buffer_);

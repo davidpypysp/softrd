@@ -40,16 +40,19 @@ bool Model::ProcessMesh(aiMesh *mesh, const aiScene *scene) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 
+	// for each vertex
 	for (int i = 0; i < mesh->mNumVertices; i++) {
-		vec3 position(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
-		vec3 normal(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
-	
+
 		Vertex vertex;
-		vertex.position = position;
-		vertex.normal = normal;
+		vertex.position = vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+		vertex.normal = vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
+		if (mesh->mTextureCoords[0]) {
+			vertex.uv = vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+		}
 		vertices.push_back(vertex);
 	}
 
+	// for each index
 	for (int i = 0; i < mesh->mNumFaces; i++) {
 		aiFace &face = mesh->mFaces[i];
 		for (int j = 0; j < face.mNumIndices; j++) {

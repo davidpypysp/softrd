@@ -26,7 +26,7 @@ int Device::Setup() {
 		return 1;
 	}
 
-	window_ = SDL_CreateWindow("Softrd", x_pos_, y_pos_, width_, height_, SDL_WINDOW_SHOWN);
+	window_ = SDL_CreateWindow("Softrd", x_pos_, y_pos_, width_, height_, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if (window_ == nullptr) {
 		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
 		return 1;
