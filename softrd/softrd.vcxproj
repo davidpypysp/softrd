@@ -146,6 +146,9 @@
     <ClInclude Include="src\vertex.h" />
     <ClInclude Include="src\vertex_shader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\Downloads\mini.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

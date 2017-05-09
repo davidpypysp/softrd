@@ -114,10 +114,10 @@ void Rasterizer::GenerateFragment(const float x, const float y) {
 
 	// for perspective texture mapping
 	float u = TriangleInterpolation(wrapped_uvs[0].x, wrapped_uvs[1].x, wrapped_uvs[2].x, k) / (z - perspective_k_);
-	float v = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].x, wrapped_uvs[2].x, k) / (z - perspective_k_);
+	float v = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].y, wrapped_uvs[2].y, k) / (z - perspective_k_);
 
 	//float u = TriangleInterpolation(wrapped_uvs[0].x, wrapped_uvs[1].x, wrapped_uvs[2].x, k);
-	//float v = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].x, wrapped_uvs[2].x, k);
+	//float v = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].y, wrapped_uvs[2].y, k);
 
 
     Fragment fragment;
@@ -179,7 +179,7 @@ void Rasterizer::InitInterpolation(const TrianglePrimitive &triangle) {
 		wrapped_uvs[i].y = triangle_.v[i].uv.y * (triangle_.v[i].position.z - perspective_k_);
 
 		//wrapped_uvs[i].x = triangle_.v[i].uv.x ;
-		//wrapped_uvs[i].y = triangle_.v[i].uv.y ;
+		// wrapped_uvs[i].y = triangle_.v[i].uv.y ;
 
 	}
 

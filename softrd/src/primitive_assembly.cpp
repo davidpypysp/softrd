@@ -32,8 +32,9 @@ bool PrimitiveAssembler::AssembleTriangle(const int e1, const int e2, const int 
 	TrianglePrimitive triangle;
 	for (int i = 0; i < 3; i++) {
 		int element = elements[i];
+		triangle.v[i] = vertex_out_buffer_[element];
+
 		if (!check_elements_[element]) {
-			triangle.v[i] = vertex_out_buffer_[element];
 			vec4 position = triangle.v[i].position;
 
 			// transform 
