@@ -10,7 +10,6 @@ Renderer::Renderer(const int width, const int height) :
 width_(width), 
 height_(height),
 screen_size_(width * height),
-vertex_shader_(),
 primitve_assembler_(width, height),
 rasterizer_(width, height),
 per_sample_proccessor_(width, height),
@@ -30,6 +29,10 @@ camera_((float)width / (float)height) {
 void Renderer::Run() {
     LoadModel();
 
+	VertexShader vertex_shader_1;
+	FragmentShader fragment_shader_1;
+
+
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
         // frame setting
         auto current_time = steady_clock::now();
@@ -47,17 +50,17 @@ void Renderer::Run() {
         HandleInput();
 
 
-
         mat4 model_matrix;
         model_matrix.identify();
-        vertex_shader_.model_ = model_matrix;
-        vertex_shader_.view_ = camera_.view;
-        vertex_shader_.projection_ = camera_.projection;
-        vertex_shader_.transform_ = camera_.projection * camera_.view * model_matrix;
+        vertex_shader_1.model_ = model_matrix;
+        vertex_shader_1.view_ = camera_.view;
+        vertex_shader_1.projection_ = camera_.projection;
+        vertex_shader_1.transform_ = camera_.projection * camera_.view * model_matrix;
+
 
         for (int i = 0; i < vertex_buffer_.size(); i++) {
             //vertex shader stage
-            vertex_shader_.Run(vertex_buffer_[i], &vertex_out_buffer_[i]);
+            vertex_shader_1.Run(vertex_buffer_[i], &vertex_out_buffer_[i]);
         }
 
         primitve_assembler_.Reset(); 
@@ -70,7 +73,7 @@ void Renderer::Run() {
 
                 FragmentOut fragment_shader_out;
                 for (Fragment &fragment : *fragment_buffer_) {
-                    fragment_shader_.Run(fragment, &fragment_shader_out);
+                    fragment_shader_1.Run2(fragment, &fragment_shader_out);
                     if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
                         // test fragment success, pass into framebuffer;
                         SetPixel(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.color);
@@ -152,8 +155,8 @@ void Renderer::LoadModel() {
     vertex_buffer_.push_back(v2);
     vertex_buffer_.push_back(v3);
 
-    element_buffer_.push_back(1);
     element_buffer_.push_back(0);
+    element_buffer_.push_back(1);
     element_buffer_.push_back(2);
 
 
@@ -249,14 +252,12 @@ void Renderer::LoadModel() {
     }
 #endif
 
-	Texture *texture = new Texture("resource/img_cheryl.jpg");
-	//Texture *texture = new Texture("resource/mini.jpg");
+	//Texture *texture = new Texture("resource/img_cheryl.jpg");
+	Texture *texture = new Texture("resource/mini.jpg");
     //Texture *texture = new Texture("resource/test_rect.png");
     //Texture *texture = new Texture("resource/container.jpg");
-    fragment_shader_.set_texture(texture);
 
-
-    vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
+	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
     primitve_assembler_.Setup(vertex_buffer_.size(), vertex_out_buffer_);
 
 }

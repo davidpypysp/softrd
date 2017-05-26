@@ -44,10 +44,8 @@ private:
 	int frame_count_;
 	
 	// pipeline stages
-	VertexShader vertex_shader_;
 	PrimitiveAssembler primitve_assembler_;
 	Rasterizer rasterizer_;
-	FragmentShader fragment_shader_;
 	PerSampleProcessor per_sample_proccessor_;
 	Device device_;
 

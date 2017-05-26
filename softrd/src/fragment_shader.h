@@ -16,6 +16,7 @@ class FragmentShader {
 public:
 	FragmentShader();
 	void Run(const Fragment &in, FragmentOut *out);
+	void Run2(const Fragment &in, FragmentOut *out);
 
 	void set_texture(Texture *texture) { texture_ = texture; };
 
