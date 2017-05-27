@@ -29,8 +29,10 @@ camera_((float)width / (float)height) {
 void Renderer::Run() {
     LoadModel();
 
-	VertexShader vertex_shader_1;
-	FragmentShader fragment_shader_1;
+	VertexShader vertex_shader;
+	FragmentShader fragment_shader;
+	FragmentShader1 fragment_shader_1;
+
 
 
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
@@ -50,38 +52,28 @@ void Renderer::Run() {
         HandleInput();
 
 
+		// first cube
         mat4 model_matrix;
         model_matrix.identify();
-        vertex_shader_1.model_ = model_matrix;
-        vertex_shader_1.view_ = camera_.view;
-        vertex_shader_1.projection_ = camera_.projection;
-        vertex_shader_1.transform_ = camera_.projection * camera_.view * model_matrix;
+        vertex_shader.model_ = model_matrix;
+        vertex_shader.view_ = camera_.view;
+        vertex_shader.projection_ = camera_.projection;
+        vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
 
+		SetShader(&vertex_shader, &fragment_shader);
 
-        for (int i = 0; i < vertex_buffer_.size(); i++) {
-            //vertex shader stage
-            vertex_shader_1.Run(vertex_buffer_[i], &vertex_out_buffer_[i]);
-        }
+		Draw(Rasterizer::TRIANGLE_LINE);
 
-        primitve_assembler_.Reset(); 
-        for (int index = 0; index < element_buffer_.size() / 3; ++index) {
-            std::vector<TrianglePrimitive> triangles;
-            primitve_assembler_.AssembleTriangle(element_buffer_[index * 3], element_buffer_[index * 3 + 1], element_buffer_[index * 3 + 2] , &triangles);
+		// second cube
+		model_matrix[0][3] = 3.0;
+		model_matrix[1][3] = 1.0;
+		model_matrix[2][3] = 1.0;
+		vertex_shader.model_ = model_matrix;
+		vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
 
-            for (TrianglePrimitive &triangle : triangles) {
-                rasterizer_.DrawTriangle(triangle, Rasterizer::TRIANGLE_FILL);
+		SetShader(&vertex_shader, &fragment_shader_1);
 
-                FragmentOut fragment_shader_out;
-                for (Fragment &fragment : *fragment_buffer_) {
-                    fragment_shader_1.Run2(fragment, &fragment_shader_out);
-                    if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
-                        // test fragment success, pass into framebuffer;
-                        SetPixel(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.color);
-                        SetDepth(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.window_position.z);
-                    }
-                }
-            }
-        }
+		Draw(Rasterizer::TRIANGLE_FILL);
 
         // draw everything in the device
         device_.RenderClear();
@@ -92,12 +84,41 @@ void Renderer::Run() {
 
     }
 
+
     Clear();
 
 }
 
-void Renderer::Draw() {
+void Renderer::SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader) {
+	vertex_shader_ = vertex_shader;
+	fragment_shader_ = fragment_shader;
+}
 
+void Renderer::Draw(const Rasterizer::DrawTriangleMode mode) { // rendering pipeline
+	for (int i = 0; i < vertex_buffer_.size(); i++) {
+		//vertex shader stage
+		vertex_shader_->Run(vertex_buffer_[i], &vertex_out_buffer_[i]);
+	}
+
+	primitve_assembler_.Reset();
+	for (int index = 0; index < element_buffer_.size() / 3; ++index) {
+		std::vector<TrianglePrimitive> triangles;
+		primitve_assembler_.AssembleTriangle(element_buffer_[index * 3], element_buffer_[index * 3 + 1], element_buffer_[index * 3 + 2], &triangles);
+
+		for (TrianglePrimitive &triangle : triangles) {
+			rasterizer_.DrawTriangle(triangle, mode);
+
+			FragmentOut fragment_shader_out;
+			for (Fragment &fragment : *fragment_buffer_) {
+				fragment_shader_->Run(fragment, &fragment_shader_out);
+				if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
+					// test fragment success, pass into framebuffer;
+					SetPixel(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.color);
+					SetDepth(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.window_position.z);
+				}
+			}
+		}
+	}
 
 }
 
@@ -196,17 +217,31 @@ void Renderer::LoadModel() {
 
 #define CUBE 1
 #if CUBE
-    vec3 cube_positions[] = {
-        vec3(0.5, -0.5, 0.0),
-        vec3(0.5, 0.5, 0.0),
-        vec3(-0.5, 0.5, 0.0),
-        vec3(-0.5, -0.5, 0.0),
+	LoadCube();
+#endif
 
-        vec3(0.5, -0.5, -1.0),
-        vec3(0.5, 0.5, -1.0),
-        vec3(-0.5, 0.5, -1.0),
-        vec3(-0.5, -0.5, -1.0),
-    };
+	//Texture *texture = new Texture("resource/img_cheryl.jpg");
+	//Texture *texture = new Texture("resource/mini.jpg");
+    //Texture *texture = new Texture("resource/test_rect.png");
+    //Texture *texture = new Texture("resource/container.jpg");
+
+	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
+    primitve_assembler_.Setup(vertex_buffer_.size(), vertex_out_buffer_);
+
+}
+
+void Renderer::LoadCube() {
+	vec3 cube_positions[] = {
+		vec3(0.5, -0.5, 0.0),
+		vec3(0.5, 0.5, 0.0),
+		vec3(-0.5, 0.5, 0.0),
+		vec3(-0.5, -0.5, 0.0),
+
+		vec3(0.5, -0.5, -1.0),
+		vec3(0.5, 0.5, -1.0),
+		vec3(-0.5, 0.5, -1.0),
+		vec3(-0.5, -0.5, -1.0),
+	};
 
 	vec2 cube_uvs[] = {
 		vec2(1.0, 1.0),
@@ -220,46 +255,36 @@ void Renderer::LoadModel() {
 		vec2(1.0, 1.0)
 	};
 
-    for (int i = 0; i < 8; i++) {
-        Vertex vertex;
-        vertex.position = cube_positions[i];
+	for (int i = 0; i < 8; i++) {
+		Vertex vertex;
+		vertex.position = cube_positions[i];
 		vertex.uv = cube_uvs[i];
-        vertex_buffer_.push_back(vertex);
-    }
+		vertex_buffer_.push_back(vertex);
+	}
 
 
-    int indices[] = {
-        0, 1, 3, // front
-        1, 2, 3,
+	int indices[] = {
+		0, 1, 3, // front
+		1, 2, 3,
 
-        4, 5, 0, // right
-        5, 1, 0,
+		4, 5, 0, // right
+		5, 1, 0,
 
-        4, 0, 7, // down
-        0, 3, 7,
+		4, 0, 7, // down
+		0, 3, 7,
 
-        1, 5, 2, // up
-        5, 6, 2,
+		1, 5, 2, // up
+		5, 6, 2,
 
-        3, 2, 7, // left
-        2, 6, 7,
+		3, 2, 7, // left
+		2, 6, 7,
 
-        7, 6, 4, // back
-        6, 5, 4
-    };
-    for (int i = 0; i < 36; i++) {
-        element_buffer_.push_back(indices[i]);
-    }
-#endif
-
-	//Texture *texture = new Texture("resource/img_cheryl.jpg");
-	Texture *texture = new Texture("resource/mini.jpg");
-    //Texture *texture = new Texture("resource/test_rect.png");
-    //Texture *texture = new Texture("resource/container.jpg");
-
-	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
-    primitve_assembler_.Setup(vertex_buffer_.size(), vertex_out_buffer_);
-
+		7, 6, 4, // back
+		6, 5, 4
+	};
+	for (int i = 0; i < 36; i++) {
+		element_buffer_.push_back(indices[i]);
+	}
 }
 
 void Renderer::HandleInput() {

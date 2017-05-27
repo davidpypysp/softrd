@@ -1,6 +1,8 @@
 #ifndef SOFTRD_FRAGMENT_SHADER_H_
 #define SOFTRD_FRAGMENT_SHADER_H_
 
+#include <iostream>
+
 #include "fragment.h"
 #include "texture.h"
 
@@ -15,8 +17,7 @@ struct FragmentOut {
 class FragmentShader {
 public:
 	FragmentShader();
-	void Run(const Fragment &in, FragmentOut *out);
-	void Run2(const Fragment &in, FragmentOut *out);
+	virtual void Run(const Fragment &in, FragmentOut *out);
 
 	void set_texture(Texture *texture) { texture_ = texture; };
 
@@ -24,6 +25,14 @@ private:
 	Texture *texture_;
 
 };
+
+
+class FragmentShader1 : public FragmentShader {
+	void Run(const Fragment &in, FragmentOut *out);
+
+};
+
+
 
 } // namespace softrd
 

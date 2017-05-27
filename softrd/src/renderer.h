@@ -22,7 +22,8 @@ class Renderer {
 public:
 	Renderer(const int width, const int height);
 	void Run();
-	void Draw(); // draw one frame
+	void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
+	void Draw(const Rasterizer::DrawTriangleMode mode); // draw one frame
 	void Clear();
 	~Renderer();
 
@@ -33,6 +34,7 @@ private:
 	void SetPixel(const int x, const int y, const vec4 &color);
 	void SetDepth(const int x, const int y, const float z);
 	void LoadModel();
+	void LoadCube();
 	void HandleInput();
 
 	int width_, height_, screen_size_;
@@ -44,6 +46,9 @@ private:
 	int frame_count_;
 	
 	// pipeline stages
+	VertexShader *vertex_shader_;
+	FragmentShader *fragment_shader_;
+
 	PrimitiveAssembler primitve_assembler_;
 	Rasterizer rasterizer_;
 	PerSampleProcessor per_sample_proccessor_;
