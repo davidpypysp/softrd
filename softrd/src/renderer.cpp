@@ -1,5 +1,6 @@
 #include "renderer.h"
 #include "model.h"
+#include "vertex_loader.h"
 
 
 
@@ -29,7 +30,7 @@ camera_((float)width / (float)height) {
 void Renderer::Run() {
     LoadModel();
 
-	VertexShader vertex_shader;
+	VertexShaderLight vertex_shader;
 	FragmentShader fragment_shader;
 	FragmentShader1 fragment_shader_1;
 
@@ -56,13 +57,13 @@ void Renderer::Run() {
         mat4 model_matrix;
         model_matrix.identify();
         vertex_shader.model_ = model_matrix;
-        vertex_shader.view_ = camera_.view;
-        vertex_shader.projection_ = camera_.projection;
+        //vertex_shader.view_ = camera_.view;
+        //vertex_shader.projection_ = camera_.projection;
         vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
 
 		SetShader(&vertex_shader, &fragment_shader);
 
-		Draw(Rasterizer::TRIANGLE_LINE);
+		Draw(Rasterizer::TRIANGLE_FILL);
 
 		// second cube
 		model_matrix[0][3] = 3.0;
@@ -73,7 +74,8 @@ void Renderer::Run() {
 
 		SetShader(&vertex_shader, &fragment_shader_1);
 
-		Draw(Rasterizer::TRIANGLE_FILL);
+		Draw(Rasterizer::TRIANGLE_LINE);
+
 
         // draw everything in the device
         device_.RenderClear();
@@ -147,42 +149,24 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
 }
 
 void Renderer::LoadModel() {
+	VertexLoader loader;
+
+	//loader.LoadTriangle(vertex_buffer_, element_buffer_);
+	loader.LoadCube(vertex_buffer_, element_buffer_);
 
 #define MODEL 0
 #if MODEL
-    Model model("resource/cruiser/cruiser.obj");
-    //Model model("resource/f-16/f-16.obj");
-    //Model model("resource/wt_teapot.obj");
-    for (Mesh &mesh : model.meshes) {
-        for (Vertex &vertex : mesh.vertices) vertex_buffer_.push_back(vertex);
-        for (Uint32 index : mesh.indices) element_buffer_.push_back(index);
-    }
+	Model model("resource/cruiser/cruiser.obj");
+	//Model model("resource/f-16/f-16.obj");
+	//Model model("resource/wt_teapot.obj");
+	for (Mesh &mesh : model.meshes) {
+		for (Vertex &vertex : mesh.vertices) vertex_buffer_.push_back(vertex);
+		for (Uint32 index : mesh.indices) element_buffer_.push_back(index);
+	}
 
 
 #endif
 
-#define TRIANGLE1 0
-#if TRIANGLE1
-    Vertex v1, v2, v3;
-    v1.position = vec3(-0.5, -0.5, 0);
-    v2.position = vec3(0.5, 0.5, 0);
-    v3.position = vec3(0.5, -0.5, 0);
-
-    v1.uv = vec2(0.0, 1.0);
-    v2.uv = vec2(1.0, 0.0);
-    v3.uv = vec2(1.0, 1.0);
-
-    vertex_buffer_.push_back(v1);
-    vertex_buffer_.push_back(v2);
-    vertex_buffer_.push_back(v3);
-
-    element_buffer_.push_back(0);
-    element_buffer_.push_back(1);
-    element_buffer_.push_back(2);
-
-
-
-#endif
 
 #define TRIANGLE2 0
 #if TRIANGLE2
@@ -210,15 +194,11 @@ void Renderer::LoadModel() {
 	element_buffer_.push_back(2);
 	element_buffer_.push_back(3);
 
-
-
 #endif
 
 
-#define CUBE 1
-#if CUBE
-	LoadCube();
-#endif
+
+
 
 	//Texture *texture = new Texture("resource/img_cheryl.jpg");
 	//Texture *texture = new Texture("resource/mini.jpg");
@@ -230,62 +210,6 @@ void Renderer::LoadModel() {
 
 }
 
-void Renderer::LoadCube() {
-	vec3 cube_positions[] = {
-		vec3(0.5, -0.5, 0.0),
-		vec3(0.5, 0.5, 0.0),
-		vec3(-0.5, 0.5, 0.0),
-		vec3(-0.5, -0.5, 0.0),
-
-		vec3(0.5, -0.5, -1.0),
-		vec3(0.5, 0.5, -1.0),
-		vec3(-0.5, 0.5, -1.0),
-		vec3(-0.5, -0.5, -1.0),
-	};
-
-	vec2 cube_uvs[] = {
-		vec2(1.0, 1.0),
-		vec2(1.0, 0.0),
-		vec2(0.0, 0.0),
-		vec2(0.0, 1.0),
-
-		vec2(0.0, 1.0),
-		vec2(0.0, 0.0),
-		vec2(1.0, 0.0),
-		vec2(1.0, 1.0)
-	};
-
-	for (int i = 0; i < 8; i++) {
-		Vertex vertex;
-		vertex.position = cube_positions[i];
-		vertex.uv = cube_uvs[i];
-		vertex_buffer_.push_back(vertex);
-	}
-
-
-	int indices[] = {
-		0, 1, 3, // front
-		1, 2, 3,
-
-		4, 5, 0, // right
-		5, 1, 0,
-
-		4, 0, 7, // down
-		0, 3, 7,
-
-		1, 5, 2, // up
-		5, 6, 2,
-
-		3, 2, 7, // left
-		2, 6, 7,
-
-		7, 6, 4, // back
-		6, 5, 4
-	};
-	for (int i = 0; i < 36; i++) {
-		element_buffer_.push_back(indices[i]);
-	}
-}
 
 void Renderer::HandleInput() {
     device_.HandleEvents();

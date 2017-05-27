@@ -27,9 +27,8 @@ private:
 };
 
 
-class FragmentShader1 : public FragmentShader {
+class FragmentShader1 : public FragmentShader { 
 	void Run(const Fragment &in, FragmentOut *out);
-
 };
 
 

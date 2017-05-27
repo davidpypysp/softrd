@@ -17,13 +17,17 @@ struct VertexOut {
 
 class VertexShader {
 public:
-
 	mat4 model_;
 	mat4 view_;
 	mat4 projection_;
 	mat4 transform_;
 
 	VertexShader();
+	virtual bool Run(const Vertex &in, VertexOut *out);
+};
+
+
+class VertexShaderLight : public VertexShader {
 	bool Run(const Vertex &in, VertexOut *out);
 };
 

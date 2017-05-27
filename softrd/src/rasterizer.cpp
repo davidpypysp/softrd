@@ -11,11 +11,12 @@ void Rasterizer::Setup(std::vector<Fragment> *fragment_buffer, Camera *camera) {
 
 void Rasterizer::DrawTriangle(const TrianglePrimitive &triangle, DrawTriangleMode mode) { // scan line algorithm
     fragment_buffer_->clear();
+	InitInterpolation(triangle);
 
 	if (mode == TRIANGLE_FILL) {
 		DrawTriangleScanLine(triangle);
 	}
-	else if (mode == TRIANGLE_LINE) {
+	else if (mode == TRIANGLE_LINE) { // draw 3 lines
 		vec2 position0(triangle.v[0].position.x, triangle.v[0].position.y);
 		vec2 position1(triangle.v[1].position.x, triangle.v[1].position.y);
 		vec2 position2(triangle.v[2].position.x, triangle.v[2].position.y);
@@ -28,7 +29,6 @@ void Rasterizer::DrawTriangle(const TrianglePrimitive &triangle, DrawTriangleMod
 }
 
 void Rasterizer::DrawTriangleScanLine(const TrianglePrimitive &triangle) {
-	InitInterpolation(triangle);
 
 	// sorted 3 vertices
 	int min_index = 0, max_index = 0;
@@ -129,7 +129,7 @@ void Rasterizer::GenerateFragment(const float x, const float y) {
 
 }
 
-void Rasterizer::DrawLine(const vec2 &position1, const vec2 &position2) {
+void Rasterizer::DrawLine(const vec2 &position1, const vec2 &position2) { // Bresenham's line algorithm
 	int x1 = roundf(position1.x), y1 = roundf(position1.y);
 	int x2 = roundf(position2.x), y2 = roundf(position2.y);
 	bool steep = abs(y1 - y2) > abs(x1 - x2);
@@ -154,9 +154,7 @@ void Rasterizer::DrawLine(const vec2 &position1, const vec2 &position2) {
 			position.y = x;
 		}
 		if (position.x >= 0 && position.x < width_ && position.y >= 0 && position.y < height_) {
-			Fragment fragment;
-			fragment.window_position = vec3(position.x, position.y, 0);
-			fragment_buffer_->push_back(fragment);
+			GenerateFragment(position.x, position.y);
 		}
 
 		error += delta_error;

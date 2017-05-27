@@ -34,7 +34,6 @@ private:
 	void SetPixel(const int x, const int y, const vec4 &color);
 	void SetDepth(const int x, const int y, const float z);
 	void LoadModel();
-	void LoadCube();
 	void HandleInput();
 
 	int width_, height_, screen_size_;
@@ -58,7 +57,7 @@ private:
 
 	// all buffers
 	std::vector<Vertex> vertex_buffer_;
-	std::vector<Uint32> element_buffer_;
+	std::vector<uint32_t> element_buffer_;
 	VertexOut *vertex_out_buffer_;
 	std::vector<Fragment> *fragment_buffer_;
 	unsigned char *frame_buffer_;
