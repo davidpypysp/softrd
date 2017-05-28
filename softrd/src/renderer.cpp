@@ -15,7 +15,8 @@ primitve_assembler_(width, height),
 rasterizer_(width, height),
 per_sample_proccessor_(width, height),
 device_(100, 100, width, height),
-camera_((float)width / (float)height) {
+camera_((float)width / (float)height),
+polygon_mode(Rasterizer::TRIANGLE_FILL) {
     vertex_out_buffer_ = nullptr;
     fragment_buffer_ = new std::vector<Fragment>();
     frame_buffer_ = new unsigned char[screen_size_ * 4];
@@ -62,8 +63,8 @@ void Renderer::Run() {
         vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
 
 		SetShader(&vertex_shader, &fragment_shader);
-
-		Draw(Rasterizer::TRIANGLE_FILL);
+		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
+		Draw(DRAW_LINE);
 
 		// second cube
 		model_matrix[0][3] = 3.0;
@@ -73,8 +74,8 @@ void Renderer::Run() {
 		vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
 
 		SetShader(&vertex_shader, &fragment_shader_1);
-
-		Draw(Rasterizer::TRIANGLE_LINE);
+		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
+		Draw(DRAW_TRIANGLE);
 
 
         // draw everything in the device
@@ -96,20 +97,19 @@ void Renderer::SetShader(VertexShader *vertex_shader, FragmentShader *fragment_s
 	fragment_shader_ = fragment_shader;
 }
 
-void Renderer::Draw(const Rasterizer::DrawTriangleMode mode) { // rendering pipeline
+void Renderer::Draw(const DrawMode mode) { // rendering pipeline
 	for (int i = 0; i < vertex_buffer_.size(); i++) {
 		//vertex shader stage
 		vertex_shader_->Run(vertex_buffer_[i], &vertex_out_buffer_[i]);
 	}
 
 	primitve_assembler_.Reset();
-	for (int index = 0; index < element_buffer_.size() / 3; ++index) {
-		std::vector<TrianglePrimitive> triangles;
-		primitve_assembler_.AssembleTriangle(element_buffer_[index * 3], element_buffer_[index * 3 + 1], element_buffer_[index * 3 + 2], &triangles);
+	if (mode == DRAW_LINE) {
+		for (int index = 0; index < element_buffer_.size() / 2; ++index) {
+			LinePrimitive line;
+			if (primitve_assembler_.AssembleLine(element_buffer_[index * 2], element_buffer_[index * 2 + 1], &line) == false) continue;
 
-		for (TrianglePrimitive &triangle : triangles) {
-			rasterizer_.DrawTriangle(triangle, mode);
-
+			rasterizer_.DrawLinePrimitive(line);
 			FragmentOut fragment_shader_out;
 			for (Fragment &fragment : *fragment_buffer_) {
 				fragment_shader_->Run(fragment, &fragment_shader_out);
@@ -119,9 +119,34 @@ void Renderer::Draw(const Rasterizer::DrawTriangleMode mode) { // rendering pipe
 					SetDepth(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.window_position.z);
 				}
 			}
+
+		}
+	}
+	else if (mode == DRAW_TRIANGLE) {
+		for (int index = 0; index < element_buffer_.size() / 3; ++index) {
+			std::vector<TrianglePrimitive> triangles;
+			primitve_assembler_.AssembleTriangle(element_buffer_[index * 3], element_buffer_[index * 3 + 1], element_buffer_[index * 3 + 2], &triangles);
+
+			for (TrianglePrimitive &triangle : triangles) {
+				rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode);
+
+				FragmentOut fragment_shader_out;
+				for (Fragment &fragment : *fragment_buffer_) {
+					fragment_shader_->Run(fragment, &fragment_shader_out);
+					if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
+						// test fragment success, pass into framebuffer;
+						SetPixel(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.color);
+						SetDepth(fragment_shader_out.window_position.x, fragment_shader_out.window_position.y, fragment_shader_out.window_position.z);
+					}
+				}
+			}
 		}
 	}
 
+}
+
+void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
+	polygon_mode = mode;
 }
 
 void Renderer::Clear() {

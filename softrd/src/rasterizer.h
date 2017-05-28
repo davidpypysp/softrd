@@ -21,8 +21,9 @@ public:
 	Rasterizer(const int width, const int height);
 	void Setup(std::vector<Fragment> *fragment_buffer, Camera *camera);
 
+	void DrawLinePrimitive(const LinePrimitive &line);
 	// draw triangle on window space by scan-line algorithm
-	void DrawTriangle(const TrianglePrimitive &triangle, DrawTriangleMode mode);
+	void DrawTrianglePrimitive(const TrianglePrimitive &triangle, DrawTriangleMode mode);
 private:
 	void DrawTriangleScanLine(const TrianglePrimitive &triangle);
 	void DrawFlatBottomTriangle(const vec3 &bottom_position1, const vec3 &bottom_position2, const vec3 &top_position);

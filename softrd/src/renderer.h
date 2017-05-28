@@ -20,10 +20,17 @@ namespace softrd {
 // It start from reading .obj file to finally set the frame buffer to the screen
 class Renderer {
 public:
+	enum DrawMode {
+		DRAW_LINE,
+		DRAW_TRIANGLE
+	};
+
+
 	Renderer(const int width, const int height);
 	void Run();
 	void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
-	void Draw(const Rasterizer::DrawTriangleMode mode); // draw one frame
+	void Draw(const DrawMode mode); // draw one frame
+	void SetPolygonMode(const Rasterizer::DrawTriangleMode mode);
 	void Clear();
 	~Renderer();
 
@@ -62,6 +69,8 @@ private:
 	std::vector<Fragment> *fragment_buffer_;
 	unsigned char *frame_buffer_;
 	float *depth_buffer_;
+
+	Rasterizer::DrawTriangleMode polygon_mode;
 
 
 	

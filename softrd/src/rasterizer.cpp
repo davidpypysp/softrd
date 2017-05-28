@@ -9,7 +9,15 @@ void Rasterizer::Setup(std::vector<Fragment> *fragment_buffer, Camera *camera) {
 	camera_ = camera;
 }
 
-void Rasterizer::DrawTriangle(const TrianglePrimitive &triangle, DrawTriangleMode mode) { // scan line algorithm
+void Rasterizer::DrawLinePrimitive(const LinePrimitive &line) {
+	fragment_buffer_->clear();
+
+	vec2 position0(line.v[0].position.x, line.v[0].position.y);
+	vec2 position1(line.v[1].position.x, line.v[1].position.y);
+	DrawLine(position0, position1);
+}
+
+void Rasterizer::DrawTrianglePrimitive(const TrianglePrimitive &triangle, DrawTriangleMode mode) { // scan line algorithm
     fragment_buffer_->clear();
 	InitInterpolation(triangle);
 

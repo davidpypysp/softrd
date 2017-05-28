@@ -7,6 +7,9 @@
 
 namespace softrd {
 
+struct LinePrimitive {
+	VertexOut v[2];
+};
 
 struct TrianglePrimitive {
 	VertexOut v[3];
@@ -19,6 +22,7 @@ public:
 	void Reset();
 	~PrimitiveAssembler();
 	
+	bool AssembleLine(const int e1, const int e2, LinePrimitive *line);
 	bool AssembleTriangle(const int e1, const int e2, const int e3, std::vector<TrianglePrimitive> *triangles);
 
 
