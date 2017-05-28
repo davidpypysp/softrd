@@ -12,6 +12,10 @@ namespace softrd {
 
 class Rasterizer {
 public:
+	enum DrawMode {
+		DRAW_LINE,
+		DRAW_TRIANGLE
+	};
 	enum DrawTriangleMode {
 		TRIANGLE_FILL,
 		TRIANGLE_LINE
@@ -29,16 +33,20 @@ private:
 	void DrawFlatBottomTriangle(const vec3 &bottom_position1, const vec3 &bottom_position2, const vec3 &top_position);
 	void DrawFlatTopTriangle(const vec3 &bottom_position, const vec3 &top_position1, const vec3 &top_position2, bool draw_top_integer_line);
 	void DrawScanLine(const float x1, const float x2, const float y);
-	void GenerateFragment(const float x, const float y);
+	void LineGenerateFragment(const float x, const float y);
+	void TriangleGenerateFragment(const float x, const float y);
 	void DrawLine(const vec2 &position1, const vec2 &position2);
-	void InitInterpolation(const TrianglePrimitive &triangle);
+	void InitTriangleInterpolation(const TrianglePrimitive &triangle);
+	void InitLineInterpolation(const LinePrimitive &line);
 
 	int width_, height_;
 	std::vector<Fragment> *fragment_buffer_;
 	Camera *camera_;
 
-	TrianglePrimitive triangle_;
-	vec2 positions_[3]; // for interpolation calculate barycentric coordinates
+	DrawMode draw_mode_;
+	LinePrimitive line_;
+	TrianglePrimitive triangle_; // for triangle interpolation
+	vec2 positions_[3]; // for interpolation 
 	float perspective_k_; // for perspective texture mapping
 	vec2 wrapped_uvs[3];
 

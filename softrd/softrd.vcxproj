@@ -140,6 +140,7 @@
     <ClInclude Include="src\mesh.h" />
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\per_sample_processing.h" />
+    <ClInclude Include="src\primitive.h" />
     <ClInclude Include="src\primitive_assembly.h" />
     <ClInclude Include="src\rasterizer.h" />
     <ClInclude Include="src\renderer.h" />

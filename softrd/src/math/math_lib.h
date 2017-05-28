@@ -29,7 +29,18 @@ inline int ArrayIndex(const int x, const int y, const int col) {
 }
 
 
-inline vec3 GetBarycentricCoordinates(const vec2 &a, const vec2 &b, const vec2 &c, const vec2 &p) {
+inline float LinearInterpolationCoef(const float x1, const float x2, const float x) {
+	return (x - x1) / (x2 - x1);
+}
+
+
+template<typename T>
+inline T LinearInterpolation(const T &a, const T &b, const float k) { // T could be float, vec3, vec4, mat3, mat4 ...
+	return (1 - k) * a + k * b;
+}
+
+
+inline vec3 BarycentricCoordinates(const vec2 &a, const vec2 &b, const vec2 &c, const vec2 &p) {
 	/*
 	mat3 m_abc = {
 	1, a.x, a.y,

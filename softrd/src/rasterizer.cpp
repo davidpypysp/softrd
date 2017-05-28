@@ -10,16 +10,19 @@ void Rasterizer::Setup(std::vector<Fragment> *fragment_buffer, Camera *camera) {
 }
 
 void Rasterizer::DrawLinePrimitive(const LinePrimitive &line) {
+	draw_mode_ = DRAW_LINE;
 	fragment_buffer_->clear();
+	InitLineInterpolation(line);
 
-	vec2 position0(line.v[0].position.x, line.v[0].position.y);
-	vec2 position1(line.v[1].position.x, line.v[1].position.y);
-	DrawLine(position0, position1);
+	vec2 position1(line.v[0].position.x, line.v[0].position.y);
+	vec2 position2(line.v[1].position.x, line.v[1].position.y);
+	DrawLine(position1, position2);
 }
 
 void Rasterizer::DrawTrianglePrimitive(const TrianglePrimitive &triangle, DrawTriangleMode mode) { // scan line algorithm
+	draw_mode_ = DRAW_TRIANGLE;
     fragment_buffer_->clear();
-	InitInterpolation(triangle);
+	InitTriangleInterpolation(triangle);
 
 	if (mode == TRIANGLE_FILL) {
 		DrawTriangleScanLine(triangle);
@@ -108,15 +111,31 @@ void Rasterizer::DrawFlatTopTriangle(const vec3 &bottom_position, const vec3 &to
 
 void Rasterizer::DrawScanLine(const float x1, const float x2, const float y) {
     for (float x = ceilf(x1); x <= x2; ++x) {
-        GenerateFragment(x, y);
+        TriangleGenerateFragment(x, y);
     }
 }
 
-void Rasterizer::GenerateFragment(const float x, const float y) {
+void Rasterizer::LineGenerateFragment(const float x, const float y) {
+	if (x < 0 || x >= width_ || y < 0 || y >= height_) return;
+
+	// interpolation process
+	vec3 k = LinearInterpolationCoef(positions_[0].x, positions_[1].x, x);
+
+	float z = TriangleInterpolation(line_.v[0].position.z, line_.v[1].position.z, line_.v[2].position.z, k);
+
+
+	Fragment fragment;
+	fragment.window_position = vec3(x, y, z);
+
+	fragment_buffer_->push_back(fragment);
+
+}
+
+void Rasterizer::TriangleGenerateFragment(const float x, const float y) {
     if (x < 0 || x >= width_ || y < 0 || y >= height_) return;
 
     // interpolation process
-    vec3 k = GetBarycentricCoordinates(positions_[0], positions_[1], positions_[2], vec2(x, y));
+    vec3 k = BarycentricCoordinates(positions_[0], positions_[1], positions_[2], vec2(x, y));
 
     float z = TriangleInterpolation(triangle_.v[0].position.z, triangle_.v[1].position.z, triangle_.v[2].position.z, k);
 
@@ -149,6 +168,7 @@ void Rasterizer::DrawLine(const vec2 &position1, const vec2 &position2) { // Bre
 		Swap(x1, x2);
 		Swap(y1, y2);
 	}
+
 	int dx = x2 - x1;
 	int dy = abs(y2 - y1);
 	int error = -dx;
@@ -162,7 +182,12 @@ void Rasterizer::DrawLine(const vec2 &position1, const vec2 &position2) { // Bre
 			position.y = x;
 		}
 		if (position.x >= 0 && position.x < width_ && position.y >= 0 && position.y < height_) {
-			GenerateFragment(position.x, position.y);
+			if (draw_mode_ == DRAW_LINE) {
+				LineGenerateFragment(position.x, position.y);
+			} 
+			else if (draw_mode_ == DRAW_TRIANGLE) {
+				TriangleGenerateFragment(position.x, position.y);
+			}
 		}
 
 		error += delta_error;
@@ -173,9 +198,9 @@ void Rasterizer::DrawLine(const vec2 &position1, const vec2 &position2) { // Bre
 	}
 }
 
-void Rasterizer::InitInterpolation(const TrianglePrimitive &triangle) {
+void Rasterizer::InitTriangleInterpolation(const TrianglePrimitive &triangle) {
 	triangle_ = triangle;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; ++i) {
 		positions_[i].x = triangle_.v[i].position.x;
 		positions_[i].y = triangle_.v[i].position.y;
 
@@ -189,6 +214,13 @@ void Rasterizer::InitInterpolation(const TrianglePrimitive &triangle) {
 
 	}
 
+}
+
+void Rasterizer::InitLineInterpolation(const LinePrimitive &line) {
+	line_ = line;
+	for (int i = 0; i < 2; ++i) {
+		positions_[i].x = line_.v[i].position.x;
+	}
 }
 
 
