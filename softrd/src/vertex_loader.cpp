@@ -3,10 +3,18 @@
 
 namespace softrd {
 
-VertexLoader::VertexLoader() {
+VertexLoader::VertexLoader(std::vector<Vertex> *vertex_buffer, std::vector<uint32_t> *element_buffer) : 
+  vertex_buffer_(vertex_buffer), 
+  element_buffer_(element_buffer) {
 }
 
-void VertexLoader::LoadCube(std::vector<Vertex> &vertex_buffer, std::vector<uint32_t> &element_buffer) {
+void VertexLoader::Setup(std::vector<Vertex>* vertex_buffer, std::vector<uint32_t>* element_buffer) {
+	vertex_buffer_ = vertex_buffer;
+
+	element_buffer_ = element_buffer;
+}
+
+void VertexLoader::LoadCube() {
 	vec3 cube_positions[] = {
 		vec3(0.5, -0.5, 0.0),
 		vec3(0.5, 0.5, 0.0),
@@ -35,7 +43,7 @@ void VertexLoader::LoadCube(std::vector<Vertex> &vertex_buffer, std::vector<uint
 		Vertex vertex;
 		vertex.position = cube_positions[i];
 		vertex.uv = cube_uvs[i];
-		vertex_buffer.push_back(vertex);
+		vertex_buffer_->push_back(vertex);
 	}
 
 
@@ -59,11 +67,11 @@ void VertexLoader::LoadCube(std::vector<Vertex> &vertex_buffer, std::vector<uint
 		6, 5, 4
 	};
 	for (int i = 0; i < 36; i++) {
-		element_buffer.push_back(indices[i]);
+		element_buffer_->push_back(indices[i]);
 	}
 }
 
-void VertexLoader::LoadTriangle(std::vector<Vertex>& vertex_buffer, std::vector<uint32_t>& element_buffer) {
+void VertexLoader::LoadTriangle() {
 	Vertex v1, v2, v3;
 	v1.position = vec3(-0.5, -0.5, 0);
 	v2.position = vec3(0.5, 0.5, 0);
@@ -73,13 +81,34 @@ void VertexLoader::LoadTriangle(std::vector<Vertex>& vertex_buffer, std::vector<
 	v2.uv = vec2(1.0, 0.0);
 	v3.uv = vec2(1.0, 1.0);
 
-	vertex_buffer.push_back(v1);
-	vertex_buffer.push_back(v2);
-	vertex_buffer.push_back(v3);
+	vertex_buffer_->push_back(v1);
+	vertex_buffer_->push_back(v2);
+	vertex_buffer_->push_back(v3);
 
-	element_buffer.push_back(0);
-	element_buffer.push_back(1);
-	element_buffer.push_back(2);
+	element_buffer_->push_back(0);
+	element_buffer_->push_back(1);
+	element_buffer_->push_back(2);
+}
+
+void VertexLoader::LoadCoordinateSystem() {
+	Vertex v0, v1, v2, v3;
+	v0.position = vec3(0.0, 0.0, 0.0); // origin
+	v1.position = vec3(5.0, 0.0, 0.0); // x
+	v2.position = vec3(0.0, 5.0, 0.0); // y
+	v3.position = vec3(0.0, 0.0, 5.0); // z
+
+	vertex_buffer_->push_back(v0);
+	vertex_buffer_->push_back(v1);
+	vertex_buffer_->push_back(v2);
+	vertex_buffer_->push_back(v3);
+
+	element_buffer_->push_back(0);
+	element_buffer_->push_back(1);
+	element_buffer_->push_back(0);
+	element_buffer_->push_back(2);
+	element_buffer_->push_back(0);
+	element_buffer_->push_back(3);
+
 }
 
 

@@ -12,14 +12,17 @@
 namespace softrd {
 
 struct Model {
+
 	std::vector<Mesh> meshes;
 	std::string directory;
-
-
+	
+	Model();
 	Model(const std::string &path);
 	void Draw();
 
-private:
+	void LoadTriangle();
+	void LoadCube();
+	void LoadCoordinateSystem();
 	void LoadModel(const std::string &path);
 	void ProcessNode(aiNode *node, const aiScene* scene);
 	bool ProcessMesh(aiMesh* mesh, const aiScene* scene);

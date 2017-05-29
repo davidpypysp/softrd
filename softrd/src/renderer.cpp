@@ -53,7 +53,9 @@ void Renderer::Run() {
         // handle input
         HandleInput();
 
+		// load cordinate system
 
+		// -------------------------------------------------------------------------------
 		// first cube
         mat4 model_matrix;
         model_matrix.identify();
@@ -75,7 +77,10 @@ void Renderer::Run() {
 
 		SetShader(&vertex_shader, &fragment_shader_1);
 		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
-		Draw(DRAW_TRIANGLE);
+		Draw(DRAW_LINE);
+
+
+		// -------------------------------------------------------------------------------
 
 
         // draw everything in the device
@@ -174,10 +179,11 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
 }
 
 void Renderer::LoadModel() {
-	VertexLoader loader;
+	VertexLoader loader(&vertex_buffer_, &element_buffer_);
 
-	//loader.LoadTriangle(vertex_buffer_, element_buffer_);
-	loader.LoadCube(vertex_buffer_, element_buffer_);
+	//loader.LoadTriangle();
+	//loader.LoadCube();
+	loader.LoadCoordinateSystem();
 
 #define MODEL 0
 #if MODEL
