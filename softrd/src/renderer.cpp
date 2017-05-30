@@ -251,6 +251,7 @@ void Renderer::DrawCoordinateAxis() {
 		vertex_shader.transform_ = camera_.projection * camera_.view * model;
 		Draw(DRAW_LINE);
 	}
+	model[2][3] = 0;
 
 	grid_line_y_.LoadBuffer(vertex_buffer_, element_buffer_);
 	for (int x = -10; x <= 10; x += 2) {

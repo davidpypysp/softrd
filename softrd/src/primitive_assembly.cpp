@@ -32,11 +32,11 @@ PrimitiveAssembler::~PrimitiveAssembler() {
 bool PrimitiveAssembler::AssembleLine(const int e1, const int e2, LinePrimitive *line) {
 	int elements[] = { e1, e2 };
 	
-	/*
+	
 	for (int i = 0; i < 2; ++i) {
 		if (Clip(vertex_out_buffer_[elements[i]].position)) return false;
 	}
-	*/
+	
 	
 	GeneratePrimitive(elements, *line);
 	return true;
