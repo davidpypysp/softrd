@@ -27,7 +27,16 @@ private:
 };
 
 
-class FragmentShader1 : public FragmentShader { 
+class FragmentShader1 : public FragmentShader {
+public:
+	void Run(const Fragment &in, FragmentOut *out);
+};
+
+class FragmentShaderFlatColor : public FragmentShader {
+public:
+	vec3 flat_color;
+
+	FragmentShaderFlatColor(const vec3 &color = vec3());
 	void Run(const Fragment &in, FragmentOut *out);
 };
 

@@ -11,8 +11,8 @@ namespace softrd {
 
 class PrimitiveAssembler {
 public:
-	PrimitiveAssembler(const int width, const int height);
-	void Setup(const int vertex_num, VertexOut *vertex_out_buffer);
+	PrimitiveAssembler(const int width, const int height, std::vector<VertexOut> &vertex_out_buffer);
+	void Setup(std::vector<VertexOut> &vertex_out_buffer);
 	void Reset();
 	~PrimitiveAssembler();
 	
@@ -29,7 +29,7 @@ private:
 
 	int width_, height_; // window space width and height
 	int vertex_num_;
-	VertexOut *vertex_out_buffer_;
+	std::vector<VertexOut> &vertex_out_buffer_;
 	bool *check_elements_;
 	vec4 *window_positions_;
 };

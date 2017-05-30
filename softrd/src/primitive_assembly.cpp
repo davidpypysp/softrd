@@ -1,19 +1,27 @@
 #include "primitive_assembly.h"
+#include <array>
 
 namespace softrd {
 
-PrimitiveAssembler::PrimitiveAssembler(const int width, const int height) : width_(width), height_(height) {
+PrimitiveAssembler::PrimitiveAssembler(const int width, const int height, std::vector<VertexOut> &vertex_out_buffer) : 
+	width_(width), 
+	height_(height),
+	vertex_out_buffer_(vertex_out_buffer) {
 }
 
-void PrimitiveAssembler::Setup(const int vertex_num, VertexOut *vertex_out_buffer) {
-	vertex_num_ = vertex_num;
+void PrimitiveAssembler::Setup(std::vector<VertexOut> &vertex_out_buffer) {
 	vertex_out_buffer_ = vertex_out_buffer;
-	check_elements_ = new bool[vertex_num_];
-	window_positions_ = new vec4[vertex_num_];
+
 }
 
 void PrimitiveAssembler::Reset() {
+	delete[] check_elements_;
+	delete[] window_positions_;
+
+	vertex_num_ = vertex_out_buffer_.size();
+	check_elements_ = new bool[vertex_num_];
 	memset(check_elements_, 0, sizeof(bool) * vertex_num_);
+	window_positions_ = new vec4[vertex_num_];
 }
 
 PrimitiveAssembler::~PrimitiveAssembler() {

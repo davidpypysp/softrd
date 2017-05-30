@@ -11,6 +11,7 @@
 #include "fragment_shader.h"
 #include "per_sample_processing.h"
 #include "device.h"
+#include "model.h"
 
 using namespace std::chrono;
 
@@ -40,8 +41,10 @@ private:
 
 	void SetPixel(const int x, const int y, const vec4 &color);
 	void SetDepth(const int x, const int y, const float z);
-	void LoadModel();
-	void HandleInput();
+	void Input();
+
+	void LoadCoordinateAxis();
+	void DrawCoordinateAxis();
 
 	int width_, height_, screen_size_;
 
@@ -65,13 +68,16 @@ private:
 	// all buffers
 	std::vector<Vertex> vertex_buffer_;
 	std::vector<uint32_t> element_buffer_;
-	VertexOut *vertex_out_buffer_;
-	std::vector<Fragment> *fragment_buffer_;
+	std::vector<VertexOut> vertex_out_buffer_;
+	std::vector<Fragment> fragment_buffer_;
 	unsigned char *frame_buffer_;
 	float *depth_buffer_;
 
 	Rasterizer::DrawTriangleMode polygon_mode;
 
+
+	// coordinate axis
+	Mesh axis_lines_[3], grid_line_x_, grid_line_y_;
 
 	
 };

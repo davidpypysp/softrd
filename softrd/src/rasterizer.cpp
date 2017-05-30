@@ -1,17 +1,19 @@
 #include "rasterizer.h"
 
 namespace softrd {
-Rasterizer::Rasterizer(const int width, const int height) : width_(width), height_(height) {
+Rasterizer::Rasterizer(const int width, const int height, std::vector<Fragment> &fragment_buffer) :
+	width_(width),
+	height_(height),
+	fragment_buffer_(fragment_buffer) {
 }
 
-void Rasterizer::Setup(std::vector<Fragment> *fragment_buffer, Camera *camera) {
-	fragment_buffer_ = fragment_buffer;
+void Rasterizer::SetCamera(Camera *camera) {
 	camera_ = camera;
 }
 
 void Rasterizer::DrawLinePrimitive(const LinePrimitive &line) {
 	draw_mode_ = DRAW_LINE;
-	fragment_buffer_->clear();
+	fragment_buffer_.clear();
 	InitLineInterpolation(line);
 
 	vec2 position1(line.v[0].position.x, line.v[0].position.y);
@@ -21,7 +23,7 @@ void Rasterizer::DrawLinePrimitive(const LinePrimitive &line) {
 
 void Rasterizer::DrawTrianglePrimitive(const TrianglePrimitive &triangle, DrawTriangleMode mode) { // scan line algorithm
 	draw_mode_ = DRAW_TRIANGLE;
-    fragment_buffer_->clear();
+    fragment_buffer_.clear();
 	InitTriangleInterpolation(triangle);
 
 	if (mode == TRIANGLE_FILL) {
@@ -127,7 +129,7 @@ void Rasterizer::LineGenerateFragment(const float x, const float y) {
 	Fragment fragment;
 	fragment.window_position = vec3(x, y, z);
 
-	fragment_buffer_->push_back(fragment);
+	fragment_buffer_.push_back(fragment);
 
 }
 
@@ -151,7 +153,7 @@ void Rasterizer::TriangleGenerateFragment(const float x, const float y) {
     fragment.window_position = vec3(x, y, z);
 	fragment.uv = vec2(u, v);
 
-    fragment_buffer_->push_back(fragment);
+    fragment_buffer_.push_back(fragment);
 
 
 }

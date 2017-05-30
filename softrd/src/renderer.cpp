@@ -11,25 +11,29 @@ Renderer::Renderer(const int width, const int height) :
 width_(width), 
 height_(height),
 screen_size_(width * height),
-primitve_assembler_(width, height),
-rasterizer_(width, height),
+primitve_assembler_(width, height, vertex_out_buffer_),
+rasterizer_(width, height, fragment_buffer_),
 per_sample_proccessor_(width, height),
 device_(100, 100, width, height),
 camera_((float)width / (float)height),
 polygon_mode(Rasterizer::TRIANGLE_FILL) {
-    vertex_out_buffer_ = nullptr;
-    fragment_buffer_ = new std::vector<Fragment>();
     frame_buffer_ = new unsigned char[screen_size_ * 4];
     depth_buffer_ = new float[screen_size_];
 
-    rasterizer_.Setup(fragment_buffer_, &camera_);
+    rasterizer_.SetCamera(&camera_);
     per_sample_proccessor_.Setup(depth_buffer_);
     device_.Setup();
     last_time_ = steady_clock::now();
 }
 
 void Renderer::Run() {
-    LoadModel();
+	LoadCoordinateAxis();
+
+	Mesh cube;
+	cube.LoadCube();
+
+	Mesh triangle;
+	triangle.LoadTriangle();
 
 	VertexShaderLight vertex_shader;
 	FragmentShader fragment_shader;
@@ -51,12 +55,15 @@ void Renderer::Run() {
         std::fill(depth_buffer_, depth_buffer_ + screen_size_, 1.0);
 
         // handle input
-        HandleInput();
+        Input();
 
-		// load cordinate system
+		// draw cordinate system
+		DrawCoordinateAxis();
 
 		// -------------------------------------------------------------------------------
 		// first cube
+		cube.LoadBuffer(vertex_buffer_, element_buffer_);
+
         mat4 model_matrix;
         model_matrix.identify();
         vertex_shader.model_ = model_matrix;
@@ -66,9 +73,11 @@ void Renderer::Run() {
 
 		SetShader(&vertex_shader, &fragment_shader);
 		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
-		Draw(DRAW_LINE);
+		Draw(DRAW_TRIANGLE);
 
-		// second cube
+		// second triangle
+		triangle.LoadBuffer(vertex_buffer_, element_buffer_);
+
 		model_matrix[0][3] = 3.0;
 		model_matrix[1][3] = 1.0;
 		model_matrix[2][3] = 1.0;
@@ -77,7 +86,7 @@ void Renderer::Run() {
 
 		SetShader(&vertex_shader, &fragment_shader_1);
 		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
-		Draw(DRAW_LINE);
+		Draw(DRAW_TRIANGLE);
 
 
 		// -------------------------------------------------------------------------------
@@ -103,20 +112,27 @@ void Renderer::SetShader(VertexShader *vertex_shader, FragmentShader *fragment_s
 }
 
 void Renderer::Draw(const DrawMode mode) { // rendering pipeline
+	//vertex shader stage
+	vertex_out_buffer_.clear();
+	VertexOut vertex_out;
 	for (int i = 0; i < vertex_buffer_.size(); i++) {
-		//vertex shader stage
-		vertex_shader_->Run(vertex_buffer_[i], &vertex_out_buffer_[i]);
+		vertex_shader_->Run(vertex_buffer_[i], &vertex_out);
+		vertex_out_buffer_.push_back(vertex_out);
 	}
 
 	primitve_assembler_.Reset();
 	if (mode == DRAW_LINE) {
 		for (int index = 0; index < element_buffer_.size() / 2; ++index) {
 			LinePrimitive line;
-			if (primitve_assembler_.AssembleLine(element_buffer_[index * 2], element_buffer_[index * 2 + 1], &line) == false) continue;
+			// primitive assemble stage
+			if (primitve_assembler_.AssembleLine(element_buffer_[index * 2], element_buffer_[index * 2 + 1], &line) == false) continue; 
 
+			// rasterize stage
 			rasterizer_.DrawLinePrimitive(line);
+
+			// fragment shader stage
 			FragmentOut fragment_shader_out;
-			for (Fragment &fragment : *fragment_buffer_) {
+			for (Fragment &fragment : fragment_buffer_) {
 				fragment_shader_->Run(fragment, &fragment_shader_out);
 				if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
 					// test fragment success, pass into framebuffer;
@@ -136,7 +152,7 @@ void Renderer::Draw(const DrawMode mode) { // rendering pipeline
 				rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode);
 
 				FragmentOut fragment_shader_out;
-				for (Fragment &fragment : *fragment_buffer_) {
+				for (Fragment &fragment : fragment_buffer_) {
 					fragment_shader_->Run(fragment, &fragment_shader_out);
 					if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
 						// test fragment success, pass into framebuffer;
@@ -155,8 +171,6 @@ void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
 }
 
 void Renderer::Clear() {
-    delete[] vertex_out_buffer_;
-    delete fragment_buffer_;
     delete frame_buffer_;
     delete[] depth_buffer_;
 }
@@ -178,71 +192,9 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
     depth_buffer_[y * width_ + x] = z;
 }
 
-void Renderer::LoadModel() {
-	VertexLoader loader(&vertex_buffer_, &element_buffer_);
-
-	//loader.LoadTriangle();
-	//loader.LoadCube();
-	loader.LoadCoordinateSystem();
-
-#define MODEL 0
-#if MODEL
-	Model model("resource/cruiser/cruiser.obj");
-	//Model model("resource/f-16/f-16.obj");
-	//Model model("resource/wt_teapot.obj");
-	for (Mesh &mesh : model.meshes) {
-		for (Vertex &vertex : mesh.vertices) vertex_buffer_.push_back(vertex);
-		for (Uint32 index : mesh.indices) element_buffer_.push_back(index);
-	}
 
 
-#endif
-
-
-#define TRIANGLE2 0
-#if TRIANGLE2
-	Vertex v1, v2, v3, v4;
-	v1.position = vec3(-0.5, 0.0, 0);
-	v2.position = vec3(-0.5, 1.0, 0);
-	v3.position = vec3(0.5, 0.0, 0);
-	v4.position = vec3(0.5, 1.0, 0);
-
-	v1.uv = vec2(0.0, 1.0);
-	v2.uv = vec2(0.0, 0.0);
-	v3.uv = vec2(1.0, 1.0);
-	v4.uv = vec2(1.0, 0.0);
-
-	vertex_buffer_.push_back(v1);
-	vertex_buffer_.push_back(v2);
-	vertex_buffer_.push_back(v3);
-	vertex_buffer_.push_back(v4);
-
-	element_buffer_.push_back(0);
-	element_buffer_.push_back(1);
-	element_buffer_.push_back(2);
-
-	element_buffer_.push_back(1);
-	element_buffer_.push_back(2);
-	element_buffer_.push_back(3);
-
-#endif
-
-
-
-
-
-	//Texture *texture = new Texture("resource/img_cheryl.jpg");
-	//Texture *texture = new Texture("resource/mini.jpg");
-    //Texture *texture = new Texture("resource/test_rect.png");
-    //Texture *texture = new Texture("resource/container.jpg");
-
-	vertex_out_buffer_ = new VertexOut[vertex_buffer_.size()];
-    primitve_assembler_.Setup(vertex_buffer_.size(), vertex_out_buffer_);
-
-}
-
-
-void Renderer::HandleInput() {
+void Renderer::Input() {
     device_.HandleEvents();
 
     float move_step = 0.05;
@@ -264,6 +216,50 @@ void Renderer::HandleInput() {
 
     if (device_.PressKeyQ()) camera_.Zoom(-degree);
     if (device_.PressKeyE()) camera_.Zoom(degree);
+}
+
+void Renderer::LoadCoordinateAxis() {
+	axis_lines_[0].LoadLine(vec3(0, 0, 0), vec3(10, 0, 0), vec3(1, 0, 0));
+	axis_lines_[1].LoadLine(vec3(0, 0, 0), vec3(0, 10, 0), vec3(0, 1, 0));
+	axis_lines_[2].LoadLine(vec3(0, 0, 0), vec3(0, 0, 10), vec3(0, 0, 1));
+
+	grid_line_x_.LoadLine(vec3(-10, 0, 0), vec3(10, 0, 0));
+	grid_line_y_.LoadLine(vec3(0, 0, -10), vec3(0, 0, 10));
+
+}
+
+void Renderer::DrawCoordinateAxis() {
+	VertexShader vertex_shader;
+	vertex_shader.transform_ = camera_.projection * camera_.view;
+
+	FragmentShaderFlatColor fragment_shader;
+
+	SetShader(&vertex_shader, &fragment_shader);
+	
+	for (int i = 0; i < 3; ++i) {
+		axis_lines_[i].LoadBuffer(vertex_buffer_, element_buffer_);
+		fragment_shader.flat_color = axis_lines_[i].color;
+		Draw(DRAW_LINE);
+	}
+
+	fragment_shader.flat_color = vec3(1, 1, 1);
+	mat4 model;
+	model.identify();
+	grid_line_x_.LoadBuffer(vertex_buffer_, element_buffer_);
+	for (int z = -10; z <= 10; z += 2) {
+		model[2][3] = z;
+		vertex_shader.transform_ = camera_.projection * camera_.view * model;
+		Draw(DRAW_LINE);
+	}
+
+	grid_line_y_.LoadBuffer(vertex_buffer_, element_buffer_);
+	for (int x = -10; x <= 10; x += 2) {
+		model[0][3] = x;
+		vertex_shader.transform_ = camera_.projection * camera_.view * model;
+		Draw(DRAW_LINE);
+	}
+
+
 }
 
 } // namespace softrd

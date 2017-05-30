@@ -12,90 +12,43 @@ Model::Model(const std::string &path) {
 	LoadModel(path);
 }
 
+void Model::LoadBuffer(std::vector<Vertex> &vertex_buffer, std::vector<uint32_t> &element_buffer) {
+	vertex_buffer.clear();
+	element_buffer.clear();
+
+	for (Mesh &mesh : meshes) {
+		for (Vertex &vertex : mesh.vertices) {
+			vertex_buffer.push_back(vertex);
+		}
+
+		for (int element : mesh.indices) {
+			element_buffer.push_back(element);
+		}
+	}
+
+	//Texture *texture = new Texture("resource/img_cheryl.jpg");
+	//Texture *texture = new Texture("resource/mini.jpg");
+	//Texture *texture = new Texture("resource/test_rect.png");
+	//Texture *texture = new Texture("resource/container.jpg");
+}
+
+void Model::LoadLine(const vec3 &position0, const vec3 &position1, const vec3 &color) {
+	Mesh line;
+	line.LoadLine(position0, position1, color);
+	meshes.push_back(line);
+
+}
+
 void Model::LoadTriangle() {
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
-
-	Vertex v1, v2, v3;
-	v1.position = vec3(-0.5, -0.5, 0);
-	v2.position = vec3(0.5, 0.5, 0);
-	v3.position = vec3(0.5, -0.5, 0);
-
-	v1.uv = vec2(0.0, 1.0);
-	v2.uv = vec2(1.0, 0.0);
-	v3.uv = vec2(1.0, 1.0);
-
-	vertices.push_back(v1);
-	vertices.push_back(v2);
-	vertices.push_back(v3);
-
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(2);
-
-	meshes.push_back(Mesh(vertices, indices));
+	Mesh triangle;
+	triangle.LoadTriangle();
+	meshes.push_back(triangle);
 }
 
 void Model::LoadCube() {
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
-
-	vec3 cube_positions[] = {
-		vec3(0.5, -0.5, 0.0),
-		vec3(0.5, 0.5, 0.0),
-		vec3(-0.5, 0.5, 0.0),
-		vec3(-0.5, -0.5, 0.0),
-
-		vec3(0.5, -0.5, -1.0),
-		vec3(0.5, 0.5, -1.0),
-		vec3(-0.5, 0.5, -1.0),
-		vec3(-0.5, -0.5, -1.0),
-	};
-
-	vec2 cube_uvs[] = {
-		vec2(1.0, 1.0),
-		vec2(1.0, 0.0),
-		vec2(0.0, 0.0),
-		vec2(0.0, 1.0),
-
-		vec2(0.0, 1.0),
-		vec2(0.0, 0.0),
-		vec2(1.0, 0.0),
-		vec2(1.0, 1.0)
-	};
-
-	for (int i = 0; i < 8; i++) {
-		Vertex vertex;
-		vertex.position = cube_positions[i];
-		vertex.uv = cube_uvs[i];
-		vertices.push_back(vertex);
-	}
-
-
-	int indices[] = {
-		0, 1, 3, // front
-		1, 2, 3,
-
-		4, 5, 0, // right
-		5, 1, 0,
-
-		4, 0, 7, // down
-		0, 3, 7,
-
-		1, 5, 2, // up
-		5, 6, 2,
-
-		3, 2, 7, // left
-		2, 6, 7,
-
-		7, 6, 4, // back
-		6, 5, 4
-	};
-	for (int i = 0; i < 36; i++) {
-		indices.push_back(indices[i]);
-	}
-
-	meshes.push_back(Mesh(vertices, indices));
+	Mesh cube;
+	cube.LoadCube();
+	meshes.push_back(cube);
 }
 
 void Model::LoadCoordinateSystem() {
