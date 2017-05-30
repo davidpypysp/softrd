@@ -34,9 +34,8 @@ bool PrimitiveAssembler::AssembleLine(const int e1, const int e2, LinePrimitive 
 	
 	
 	for (int i = 0; i < 2; ++i) {
-		if (Clip(vertex_out_buffer_[elements[i]].position)) return false;
+		if (BackClip(vertex_out_buffer_[elements[i]].position)) return false;
 	}
-	
 	
 	GeneratePrimitive(elements, *line);
 	return true;
@@ -81,10 +80,24 @@ bool PrimitiveAssembler::GeneratePrimitive(int elements[], Primitive &primitive)
 }
 
 bool PrimitiveAssembler::Clip(const vec4 &position) { // position out of frustum
+	/*
+	if (position.x <= -position.w || position.x >= position.w) return true;
+	if (position.y <= -position.w || position.y >= position.w) return true;
+	if (position.z <= -position.w || position.z >= position.w) return true;
+	return false;
+	*/
+
+
+	// loose way
 	if (position.x >= -position.w && position.x <= position.w) return false;
 	if (position.y >= -position.w && position.y <= position.w) return false;
 	if (position.z >= -position.w && position.z <= position.w) return false;
 	return true;
+}
+
+bool PrimitiveAssembler::BackClip(const vec4 &position) {
+	if (position.w <= 0) return true;
+	return false;
 }
 
 bool PrimitiveAssembler::PerspectiveDivide(vec4 &position) {

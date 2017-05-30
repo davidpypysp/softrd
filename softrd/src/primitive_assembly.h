@@ -24,6 +24,7 @@ public:
 private:
 
 	bool Clip(const vec4 &position);
+	bool BackClip(const vec4 &position);
 	bool PerspectiveDivide(vec4 &position); // clipping space position (x, y, z range in [-w, w]) -> normalized device coordinate(NDC) (x, y, z range in [-1, 1])
 	void ViewportTransform(vec4 &position, const int width, const int height); // normalized device coordinate(NDC) -> window space coordinate (x - [0, width], y - [0, height], z - [0, 1])
 

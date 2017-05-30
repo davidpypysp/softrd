@@ -32,6 +32,7 @@ public:
 	void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
 	void Draw(const DrawMode mode); // draw one frame
 	void SetPolygonMode(const Rasterizer::DrawTriangleMode mode);
+	void ResetFrameBuffer();
 	void Clear();
 	~Renderer();
 

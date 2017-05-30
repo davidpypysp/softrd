@@ -51,7 +51,7 @@ void Renderer::Run() {
         last_time_ = current_time;
 
         // reset buffer
-        memset(frame_buffer_, 0, sizeof(unsigned char) * screen_size_ * 4);
+		ResetFrameBuffer();
         std::fill(depth_buffer_, depth_buffer_ + screen_size_, 1.0);
 
         // handle input
@@ -60,7 +60,9 @@ void Renderer::Run() {
 		// draw cordinate system
 		DrawCoordinateAxis();
 
+		
 		// -------------------------------------------------------------------------------
+		
 		// first cube
 		cube.LoadBuffer(vertex_buffer_, element_buffer_);
 
@@ -72,8 +74,9 @@ void Renderer::Run() {
         vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
 
 		SetShader(&vertex_shader, &fragment_shader);
-		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
+		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
 		Draw(DRAW_TRIANGLE);
+		
 
 		// second triangle
 		triangle.LoadBuffer(vertex_buffer_, element_buffer_);
@@ -90,6 +93,7 @@ void Renderer::Run() {
 
 
 		// -------------------------------------------------------------------------------
+		
 
 
         // draw everything in the device
@@ -170,6 +174,10 @@ void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
 	polygon_mode = mode;
 }
 
+void Renderer::ResetFrameBuffer() {
+	std::fill(frame_buffer_, frame_buffer_ + screen_size_ * 4, 10);
+}
+
 void Renderer::Clear() {
     delete frame_buffer_;
     delete[] depth_buffer_;
@@ -242,7 +250,8 @@ void Renderer::DrawCoordinateAxis() {
 		Draw(DRAW_LINE);
 	}
 
-	fragment_shader.flat_color = vec3(1, 1, 1);
+	
+	fragment_shader.flat_color = vec3(0.5, 0.5, 0.5);
 	mat4 model;
 	model.identify();
 	grid_line_x_.LoadBuffer(vertex_buffer_, element_buffer_);
@@ -259,7 +268,6 @@ void Renderer::DrawCoordinateAxis() {
 		vertex_shader.transform_ = camera_.projection * camera_.view * model;
 		Draw(DRAW_LINE);
 	}
-
 
 }
 
