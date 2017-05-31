@@ -49,7 +49,7 @@ struct mat3 {
 		memset(value, 0, sizeof(value));
 	}
 
-	inline mat3 mat3::operator + (const mat3 &b) {
+	inline mat3 operator + (const mat3 &b) const {
 		mat3 result;
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
@@ -57,7 +57,7 @@ struct mat3 {
 		return result;
 	}
 
-	inline mat3 mat3::operator - (const mat3 &b) {
+	inline mat3 operator - (const mat3 &b) const {
 		mat3 result;
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
@@ -65,7 +65,7 @@ struct mat3 {
 		return result;
 	}
 
-	inline mat3 mat3::operator * (const mat3 &b) {
+	inline mat3 operator * (const mat3 &b) const {
 		mat3 result;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -75,7 +75,7 @@ struct mat3 {
 		return result;
 	}
 
-	inline mat3 mat3::operator * (const float k) {
+	inline mat3 operator * (const float k) const {
 		mat3 result;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) result.value[i][j] = value[i][j] * k;
@@ -83,7 +83,7 @@ struct mat3 {
 		return result;
 	}
 
-	inline vec3 operator * (const vec3 &b) {
+	inline vec3 operator * (const vec3 &b) const {
 		vec3 result(
 			value[0][0] * b.x + value[0][1] * b.y + value[0][2] * b.z,
 			value[1][0] * b.x + value[1][1] * b.y + value[1][2] * b.z,
@@ -104,6 +104,9 @@ struct mat3 {
 
 
 };
+
+inline mat3 operator * (const float k, const mat3 &a) { return a * k; }
+
 
 
 struct mat4 {
@@ -145,7 +148,7 @@ struct mat4 {
 		memset(value, 0, sizeof(value));
 	}
 
-	inline mat4 mat4::operator + (const mat4 &b) {
+	inline mat4 mat4::operator + (const mat4 &b) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
@@ -153,7 +156,7 @@ struct mat4 {
 		return result;
 	}
 
-	inline mat4 mat4::operator - (const mat4 &b) {
+	inline mat4 mat4::operator - (const mat4 &b) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
@@ -161,7 +164,7 @@ struct mat4 {
 		return result;
 	}
 
-	inline mat4 mat4::operator * (const mat4 &b) {
+	inline mat4 mat4::operator * (const mat4 &b) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -171,7 +174,7 @@ struct mat4 {
 		return result;
 	}
 
-	inline mat4 mat4::operator * (const float k) {
+	inline mat4 mat4::operator * (const float k) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) result.value[i][j] = value[i][j] * k;
@@ -179,7 +182,7 @@ struct mat4 {
 		return result;
 	}
 
-	inline vec4 operator * (const vec4 &b) {
+	inline vec4 operator * (const vec4 &b) const {
 		vec4 result(
 			value[0][0] * b.x + value[0][1] * b.y + value[0][2] * b.z + value[0][3] * b.w,
 			value[1][0] * b.x + value[1][1] * b.y + value[1][2] * b.z + value[1][3] * b.w,
@@ -190,10 +193,48 @@ struct mat4 {
 	}
 
 
+	inline void translate(const float x, const float y, const float z) {
+		identify();
+		value[0][3] = x;
+		value[1][3] = y;
+		value[2][3] = z;
+	}
 
+	inline void scale(const float x, const float y, const float z) {
+		identify();
+		value[0][0] = x;
+		value[1][1] = y;
+		value[2][2] = z;
+	}
+
+	inline void rotateX(const float theta) { // radian
+		identify();
+		value[1][1] = cos(theta);
+		value[1][2] = -sin(theta);
+		value[2][1] = sin(theta);
+		value[2][2] = cos(theta);
+	}
+
+	inline void rotateY(const float theta) { // radian
+		identify();
+		value[0][0] = cos(theta);
+		value[0][2] = sin(theta);
+		value[2][0] = -sin(theta);
+		value[2][2] = cos(theta);
+	}
+
+	inline void rotateZ(const float theta) { // radian
+		identify();
+		value[0][0] = cos(theta);
+		value[0][1] = -sin(theta);
+		value[1][0] = sin(theta);
+		value[1][1] = cos(theta);
+	}
 
 
 };
+
+inline mat4 operator * (const float k, const mat4 &a) { return a * k; }
 
 }
 

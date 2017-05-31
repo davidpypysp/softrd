@@ -121,9 +121,9 @@ void Rasterizer::LineGenerateFragment(const float x, const float y) {
 	if (x < 0 || x >= width_ || y < 0 || y >= height_) return;
 
 	// interpolation process
-	vec3 k = LinearInterpolationCoef(positions_[0].x, positions_[1].x, x);
+	float k = LinearInterpolationCoef(positions_[0].x, positions_[1].x, x);
 
-	float z = TriangleInterpolation(line_.v[0].position.z, line_.v[1].position.z, line_.v[2].position.z, k);
+	float z = LinearInterpolation(line_.v[0].position.z, line_.v[1].position.z, k);
 
 
 	Fragment fragment;

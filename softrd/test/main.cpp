@@ -12,6 +12,8 @@ using namespace softrd;
 
 int main()
 {
+	mat3 a;
+	mat3 b = a * 3.1;
 	/*
 	Texture texture("resource/img_cheryl.jpg");
 	Device d(100, 100, texture.width, texture.height);

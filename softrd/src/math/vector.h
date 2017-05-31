@@ -15,6 +15,8 @@ struct vec2 {
 	inline vec2 operator + (const vec2 &b) const { return vec2(x + b.x, y + b.y); }
 	inline vec2 operator - (const vec2 &b) const { return vec2(x - b.x, y - b.y); }
 	inline vec2 operator * (const float b) const { return vec2(x * b, y * b); }
+	inline float operator * (const vec2 &b) const { return x*b.x + y*b.y; } // dot product
+	inline vec2 operator / (const float b) const { return vec2(x / b, y / b); }
 	inline vec2& operator = (const vec2 &b) { x = b.x; y = b.y; return *this; }
 
 	inline float& operator [] (const int index) {
@@ -27,10 +29,15 @@ struct vec2 {
 
 };
 
+inline vec2 operator * (const float a, const vec2 &b) { return b * a; }
+
+
+
 struct vec3 {
 	float x, y, z;
 
 	vec3(const float x = 0.0, const float y = 0.0, const float z = 0.0) : x(x), y(y), z(z) {};
+	vec3(const vec2 &b, const float z = 0.0) : x(b.x), y(b.y), z(z) {};
 
 	inline vec3 operator + (const vec3 &b) const { return vec3(x + b.x, y + b.y, z + b.z); }
 	inline vec3 operator - (const vec3 &b) const { return vec3(x - b.x, y - b.y, z - b.z); }
@@ -53,11 +60,16 @@ struct vec3 {
 
 };
 
+inline vec3 operator * (const float a, const vec3 &b) { return b * a; }
+
+
 struct vec4 {
 	float x, y, z, w;
 
 	vec4(const float x = 0.0, const float y = 0.0, const float z = 0.0, const float w = 0.0) : x(x), y(y), z(z), w(w) {};
-	vec4(const vec3 &b, const float w = 1.0) : x(b.x), y(b.y), z(b.z), w(w) {};
+	vec4(const vec2 &b, const float z = 0.0, const float w = 0.0) : x(b.x), y(b.y), z(z), w(w) {};
+	vec4(const vec3 &b, const float w = 0.0) : x(b.x), y(b.y), z(b.z), w(w) {};
+
 
 
 	inline vec4 operator + (const vec4 &b) const { return vec4(x + b.x, y + b.y, z + b.z, w + b.w); }
@@ -81,6 +93,7 @@ struct vec4 {
 
 };
 
+inline vec4 operator * (const float a, const vec4 &b) { return b * a; }
 
 
 

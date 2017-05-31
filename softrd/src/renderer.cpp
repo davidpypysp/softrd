@@ -79,9 +79,8 @@ void Renderer::Run() {
 		// second triangle
 		triangle.LoadBuffer(vertex_buffer_, element_buffer_);
 
-		model_matrix[0][3] = 3.0;
-		model_matrix[1][3] = 1.0;
-		model_matrix[2][3] = 1.0;
+		model_matrix.scale(3.0, 3.0, 3.0);
+		model_matrix.translate(3.0, 1.0, 1.0);
 		vertex_shader.model_ = model_matrix;
 		vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
 

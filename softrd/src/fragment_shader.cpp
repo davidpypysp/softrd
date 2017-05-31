@@ -25,7 +25,7 @@ FragmentShaderFlatColor::FragmentShaderFlatColor(const vec3 &color) : flat_color
 
 void FragmentShaderFlatColor::Run(const Fragment &in, FragmentOut *out) {
 	out->window_position = in.window_position;
-	out->color = vec4(flat_color.x, flat_color.y, flat_color.z, 1.0);
+	out->color = vec4(flat_color, 1.0);
 
 
 }
