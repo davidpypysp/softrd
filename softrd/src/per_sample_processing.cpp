@@ -2,10 +2,13 @@
 
 namespace softrd {
 
-PerSampleProcessor::PerSampleProcessor(const int width, const int height) : width_(width), height_(height){
+PerSampleProcessor::PerSampleProcessor(const int width, const int height, util::Array<float> &depth_buffer) :
+width_(width),
+height_(height),
+depth_buffer_(depth_buffer) {
 }
 
-void PerSampleProcessor::Setup(float *depth_buffer) {
+void PerSampleProcessor::Setup(util::Array<float> &depth_buffer) {
 	depth_buffer_ = depth_buffer;
 }
 
@@ -14,8 +17,7 @@ bool PerSampleProcessor::Run(const FragmentOut &in) {
 	return true;
 }
 
-bool PerSampleProcessor::DepthTest(const vec3 &position)
-{
+bool PerSampleProcessor::DepthTest(const vec3 &position) {
 	int index = (int)position.y * width_ + (int)position.x;
 	return position.z < depth_buffer_[index];
 }

@@ -49,9 +49,9 @@ int Device::Setup() {
 
 }
 
-void Device::Draw(unsigned char *frame_buffer) {
+void Device::Draw(util::Array<unsigned char> &frame_buffer) {
 	// Draw every pixel in the Window
-	SDL_UpdateTexture(texture_, NULL, frame_buffer, width_ * 4);
+	SDL_UpdateTexture(texture_, NULL, frame_buffer.values, width_ * 4);
 	SDL_RenderCopy(renderer_, texture_, NULL, NULL);
 
 

@@ -2,20 +2,21 @@
 #define SOFTRD_PER_SAMPLE_PROCCESSING_H_
 
 #include "fragment_shader.h"
+#include "util.h"
 
 namespace softrd {
 
 class PerSampleProcessor {
 public:
-	PerSampleProcessor(const int width, const int height);
-	void Setup(float *depth_buffer);
+	PerSampleProcessor(const int width, const int height, util::Array<float> &depth_buffer);
+	void Setup(util::Array<float> &depth_buffer);
 	bool Run(const FragmentOut &in);
 
 private:
 
 	bool DepthTest(const vec3 &position);
 	int width_, height_;
-	float *depth_buffer_;
+	util::Array<float> &depth_buffer_;
 
 };
 

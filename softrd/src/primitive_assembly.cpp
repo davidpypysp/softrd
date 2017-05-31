@@ -15,18 +15,14 @@ void PrimitiveAssembler::Setup(std::vector<VertexOut> &vertex_out_buffer) {
 }
 
 void PrimitiveAssembler::Reset() {
-	delete[] check_elements_;
-	delete[] window_positions_;
 
 	vertex_num_ = vertex_out_buffer_.size();
-	check_elements_ = new bool[vertex_num_];
-	memset(check_elements_, 0, sizeof(bool) * vertex_num_);
-	window_positions_ = new vec4[vertex_num_];
+	check_elements_.Resize(vertex_num_);
+	check_elements_.Empty();
+	window_positions_.Resize(vertex_num_);
 }
 
 PrimitiveAssembler::~PrimitiveAssembler() {
-	delete[] check_elements_;
-	delete[] window_positions_;
 }
 
 bool PrimitiveAssembler::AssembleLine(const int e1, const int e2, LinePrimitive *line) {

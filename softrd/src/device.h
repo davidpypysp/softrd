@@ -6,7 +6,7 @@
 
 #include <string>
 #include "math/vector.h"
-
+#include "util.h"
 
 
 
@@ -17,7 +17,7 @@ class Device {
 public:
 	Device(const int x_pos, const int y_pos, const int width, const int height);
 	int Setup();
-	void Draw(unsigned char *frame_buffer);
+	void Draw(util::Array<unsigned char> &frame_buffer);
 	void DrawText(const std::string &str, const int x, const int y, const int width, const int height);
 	void HandleEvents();
 	void RenderClear();

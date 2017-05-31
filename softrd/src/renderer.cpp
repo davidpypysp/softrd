@@ -11,17 +11,15 @@ Renderer::Renderer(const int width, const int height) :
 width_(width), 
 height_(height),
 screen_size_(width * height),
+frame_buffer_(screen_size_ * 4),
+depth_buffer_(screen_size_),
 primitve_assembler_(width, height, vertex_out_buffer_),
 rasterizer_(width, height, fragment_buffer_),
-per_sample_proccessor_(width, height),
+per_sample_proccessor_(width, height, depth_buffer_),
 device_(100, 100, width, height),
 camera_((float)width / (float)height),
 polygon_mode(Rasterizer::TRIANGLE_FILL) {
-    frame_buffer_ = new unsigned char[screen_size_ * 4];
-    depth_buffer_ = new float[screen_size_];
-
     rasterizer_.SetCamera(&camera_);
-    per_sample_proccessor_.Setup(depth_buffer_);
     device_.Setup();
     last_time_ = steady_clock::now();
 }
@@ -52,7 +50,7 @@ void Renderer::Run() {
 
         // reset buffer
 		ResetFrameBuffer();
-        std::fill(depth_buffer_, depth_buffer_ + screen_size_, 1.0);
+		depth_buffer_.Fill(1.0);
 
         // handle input
         Input();
@@ -175,12 +173,10 @@ void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
 }
 
 void Renderer::ResetFrameBuffer() {
-	std::fill(frame_buffer_, frame_buffer_ + screen_size_ * 4, 10);
+	frame_buffer_.Fill(10);
 }
 
 void Renderer::Clear() {
-    delete frame_buffer_;
-    delete[] depth_buffer_;
 }
 
 Renderer::~Renderer() {

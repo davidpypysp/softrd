@@ -101,6 +101,9 @@
     <ClInclude Include="src\primitive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Downloads\mini.jpg">

@@ -12,6 +12,7 @@
 #include "per_sample_processing.h"
 #include "device.h"
 #include "model.h"
+#include "util.h"
 
 using namespace std::chrono;
 
@@ -71,8 +72,8 @@ private:
 	std::vector<uint32_t> element_buffer_;
 	std::vector<VertexOut> vertex_out_buffer_;
 	std::vector<Fragment> fragment_buffer_;
-	unsigned char *frame_buffer_;
-	float *depth_buffer_;
+	util::Array<unsigned char> frame_buffer_;
+	util::Array<float> depth_buffer_;
 
 	Rasterizer::DrawTriangleMode polygon_mode;
 

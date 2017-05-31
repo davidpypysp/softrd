@@ -5,6 +5,7 @@
 
 #include "vertex_shader.h"
 #include "primitive.h"
+#include "util.h"
 
 namespace softrd {
 
@@ -31,8 +32,9 @@ private:
 	int width_, height_; // window space width and height
 	int vertex_num_;
 	std::vector<VertexOut> &vertex_out_buffer_;
-	bool *check_elements_;
-	vec4 *window_positions_;
+	util::Array<bool> check_elements_;
+	//vec4 *window_positions_;
+	util::Array<vec4> window_positions_;
 };
 
 } // namespace softrd
