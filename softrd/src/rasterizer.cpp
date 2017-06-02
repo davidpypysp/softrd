@@ -141,9 +141,20 @@ void Rasterizer::TriangleGenerateFragment(const float x, const float y) {
 
     float z = TriangleInterpolation(triangle_.v[0].position.z, triangle_.v[1].position.z, triangle_.v[2].position.z, k);
 
+	// for lighting...
+	vec3 world_position;
+	world_position.x = TriangleInterpolation(triangle_.v[0].world_position.x, triangle_.v[1].world_position.x, triangle_.v[2].world_position.x, k);
+	world_position.y = TriangleInterpolation(triangle_.v[0].world_position.y, triangle_.v[1].world_position.y, triangle_.v[2].world_position.y, k);
+	world_position.z = TriangleInterpolation(triangle_.v[0].world_position.z, triangle_.v[1].world_position.z, triangle_.v[2].world_position.z, k);
+	vec3 world_normal;
+	world_normal.x = TriangleInterpolation(triangle_.v[0].world_normal.x, triangle_.v[1].world_normal.x, triangle_.v[2].world_normal.x, k);
+	world_normal.y = TriangleInterpolation(triangle_.v[0].world_normal.y, triangle_.v[1].world_normal.y, triangle_.v[2].world_normal.y, k);
+	world_normal.z = TriangleInterpolation(triangle_.v[0].world_normal.z, triangle_.v[1].world_normal.z, triangle_.v[2].world_normal.z, k);
+
 	// for perspective texture mapping
-	float u = TriangleInterpolation(wrapped_uvs[0].x, wrapped_uvs[1].x, wrapped_uvs[2].x, k) / (z - perspective_k_);
-	float v = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].y, wrapped_uvs[2].y, k) / (z - perspective_k_);
+	vec2 uv;
+	uv.x = TriangleInterpolation(wrapped_uvs[0].x, wrapped_uvs[1].x, wrapped_uvs[2].x, k) / (z - perspective_k_);
+	uv.y = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].y, wrapped_uvs[2].y, k) / (z - perspective_k_);
 
 	//float u = TriangleInterpolation(wrapped_uvs[0].x, wrapped_uvs[1].x, wrapped_uvs[2].x, k);
 	//float v = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].y, wrapped_uvs[2].y, k);
@@ -151,7 +162,9 @@ void Rasterizer::TriangleGenerateFragment(const float x, const float y) {
 
     Fragment fragment;
     fragment.window_position = vec3(x, y, z);
-	fragment.uv = vec2(u, v);
+	fragment.world_position = world_position;
+	fragment.world_normal = world_normal;
+	fragment.uv = uv;
 
     fragment_buffer_.push_back(fragment);
 

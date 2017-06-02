@@ -8,6 +8,8 @@ namespace softrd {
 
 struct Fragment {
 	vec3 window_position;
+	vec3 world_position;
+	vec3 world_normal;
 	vec2 uv;
 
 };

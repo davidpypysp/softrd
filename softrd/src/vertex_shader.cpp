@@ -20,13 +20,16 @@ bool VertexShaderLight::Run(const Vertex &in, VertexOut *out) {
 	out->position = transform_ * vec4(in.position, 1.0);
 
 	mat4 rotation = model_;
-	rotation[0][3] = rotation[1][3] = rotation[2][3] = 0.0; // skip traslation matrix
+	rotation.translate(0.0, 0.0, 0.0); // skip traslation matrix
 	double scale_factor = sqrt(rotation[0][0] * rotation[0][0] + rotation[1][0] * rotation[1][0] + rotation[2][0] * rotation[2][0]);
 	assert(scale_factor != 0.0);
 	for (int i = 0; i < 3; ++i) { // skip uniform scaling matrix
 		for (int j = 0; j < 3; ++j)
 			rotation[i][j] /= scale_factor;
 	}
+	vec4 world_normal = rotation * vec4(in.normal, 1.0);
+	out->world_normal = vec3(world_normal.x, world_normal.y, world_normal.z);
+
 	out->uv = in.uv;
 	return true;
 }

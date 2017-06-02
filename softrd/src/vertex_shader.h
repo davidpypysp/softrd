@@ -17,9 +17,7 @@ struct VertexOut {
 
 class VertexShader {
 public:
-	mat4 model_;
-	mat4 view_;
-	mat4 projection_;
+
 	mat4 transform_;
 
 	VertexShader();
@@ -28,6 +26,11 @@ public:
 
 
 class VertexShaderLight : public VertexShader {
+public:
+	mat4 model_;
+	mat4 view_;
+	mat4 projection_;
+
 	bool Run(const Vertex &in, VertexOut *out);
 };
 
