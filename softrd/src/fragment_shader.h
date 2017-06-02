@@ -16,20 +16,29 @@ struct FragmentOut {
 
 class FragmentShader {
 public:
-	FragmentShader();
-	virtual void Run(const Fragment &in, FragmentOut *out);
+	Fragment in_;
+	FragmentOut *out_;
+	Texture *texture_;
 
+	FragmentShader();
+	virtual void Program();
+	void Run(const Fragment &in, FragmentOut *out);
 	void set_texture(Texture *texture) { texture_ = texture; };
 
+
 private:
-	Texture *texture_;
+
 
 };
 
 
-class FragmentShader1 : public FragmentShader {
+class FragmentShaderLight : public FragmentShader {
 public:
-	void Run(const Fragment &in, FragmentOut *out);
+	vec3 object_color;
+	vec3 light_color;
+	vec3 light_position;
+
+	void Program();
 };
 
 class FragmentShaderFlatColor : public FragmentShader {
@@ -37,7 +46,7 @@ public:
 	vec3 flat_color;
 
 	FragmentShaderFlatColor(const vec3 &color = vec3());
-	void Run(const Fragment &in, FragmentOut *out);
+	void Program();
 };
 
 

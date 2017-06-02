@@ -30,12 +30,14 @@ void Renderer::Run() {
 	Mesh cube;
 	cube.LoadCube();
 
-	Mesh triangle;
-	triangle.LoadTriangle();
+	Mesh lamp;
+	lamp.LoadCube();
 
-	VertexShaderLight vertex_shader;
+	VertexShaderLight vertex_shader_light;
 	FragmentShader fragment_shader;
-	FragmentShader1 fragment_shader_1;
+	FragmentShaderLight fragment_shader_light;
+	fragment_shader_light.object_color = vec3(1.0, 0.5, 0.31);
+	fragment_shader_light.light_color = vec3(1.0, 1.0, 1.0);
 
 
 
@@ -66,26 +68,27 @@ void Renderer::Run() {
 
         mat4 model_matrix;
         model_matrix.identify();
-        vertex_shader.model_ = model_matrix;
-        //vertex_shader.view_ = camera_.view;
-        //vertex_shader.projection_ = camera_.projection;
-        vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
+        vertex_shader_light.model_ = model_matrix;
 
-		SetShader(&vertex_shader, &fragment_shader);
-		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
+        vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
+
+		SetShader(&vertex_shader_light, &fragment_shader_light);
+		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
 		Draw(DRAW_TRIANGLE);
 		
 
-		// second triangle
-		triangle.LoadBuffer(vertex_buffer_, element_buffer_);
+		// second 
+		lamp.LoadBuffer(vertex_buffer_, element_buffer_);
 
-		model_matrix.scale(3.0, 3.0, 3.0);
-		model_matrix.translate(3.0, 1.0, 1.0);
-		vertex_shader.model_ = model_matrix;
-		vertex_shader.transform_ = camera_.projection * camera_.view * model_matrix;
+		model_matrix.scale(0.5, 0.5, 0.5);
+		model_matrix.translate(5.0, 1.0, 1.0);
+		vertex_shader_light.model_ = model_matrix;
+		vertex_shader_light.view_ = camera_.view;
+		vertex_shader_light.projection_ = camera_.projection;
+		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
-		SetShader(&vertex_shader, &fragment_shader_1);
-		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
+		SetShader(&vertex_shader_light, &fragment_shader);
+		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
 		Draw(DRAW_TRIANGLE);
 
 

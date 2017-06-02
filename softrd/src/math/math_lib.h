@@ -81,6 +81,10 @@ inline T TriangleInterpolation(const T &a, const T &b, const T &c, const vec3 &k
 	return k.x * a + k.y * b + k.z * c;
 }
 
+inline float Max(const float a, const float b) {
+	return a > b ? a : b;
+}
+
 
 } // namespace softrd
 

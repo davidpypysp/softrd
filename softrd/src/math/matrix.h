@@ -194,14 +194,12 @@ struct mat4 {
 
 
 	inline void translate(const float x, const float y, const float z) {
-		identify();
 		value[0][3] = x;
 		value[1][3] = y;
 		value[2][3] = z;
 	}
 
 	inline void scale(const float x, const float y, const float z) {
-		identify();
 		value[0][0] = x;
 		value[1][1] = y;
 		value[2][2] = z;
