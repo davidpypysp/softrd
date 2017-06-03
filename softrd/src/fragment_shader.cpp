@@ -42,9 +42,6 @@ void FragmentShaderLight::Program() {
 
 
 	vec3 result = (ambient + diffuse + specular).multiply(object_color);
-	if (result.x > 1) result.x = 1;
-	if (result.y > 1) result.y = 1;
-	if (result.z > 1) result.z = 1;
 	out_->color = vec4(result, 1.0);
 }
 

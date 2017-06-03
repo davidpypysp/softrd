@@ -190,10 +190,10 @@ Renderer::~Renderer() {
 void Renderer::SetPixel(const int x, const int y, const vec4 &color) {
     if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
         int offset = (y * width_ + x) * 4;
-        frame_buffer_[offset] = color.z * 255; // b
-        frame_buffer_[offset+1] = color.y * 255 ; // g
-        frame_buffer_[offset+2] = color.x * 255; // r
-        frame_buffer_[offset+3] = 255; // a 
+		frame_buffer_[offset] = Clamp(color.z * 255, 0, 255); // b
+		frame_buffer_[offset+1] = Clamp(color.y * 255, 0, 255); // g
+        frame_buffer_[offset+2] = Clamp(color.x * 255, 0, 255); // r
+        frame_buffer_[offset+3] = Clamp(color.w * 255, 0, 255); // a 
     }
 }
 
