@@ -28,16 +28,18 @@ void Renderer::Run() {
 	LoadCoordinateAxis();
 
 	Mesh cube;
-	cube.LoadCube();
+	cube.LoadCube2();
 
 	Mesh lamp;
 	lamp.LoadCube();
+	vec3 lamp_position = vec3(1.0, 2.0, 2.0);
 
 	VertexShaderLight vertex_shader_light;
 	FragmentShader fragment_shader;
 	FragmentShaderLight fragment_shader_light;
 	fragment_shader_light.object_color = vec3(1.0, 0.5, 0.31);
 	fragment_shader_light.light_color = vec3(1.0, 1.0, 1.0);
+	fragment_shader_light.light_position = lamp_position;
 
 
 
@@ -69,8 +71,10 @@ void Renderer::Run() {
         mat4 model_matrix;
         model_matrix.identify();
         vertex_shader_light.model_ = model_matrix;
-
+		vertex_shader_light.view_ = camera_.view;
+		vertex_shader_light.projection_ = camera_.projection;
         vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
+		fragment_shader_light.view_position = camera_.position;
 
 		SetShader(&vertex_shader_light, &fragment_shader_light);
 		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
@@ -80,11 +84,10 @@ void Renderer::Run() {
 		// second 
 		lamp.LoadBuffer(vertex_buffer_, element_buffer_);
 
-		model_matrix.scale(0.5, 0.5, 0.5);
-		model_matrix.translate(5.0, 1.0, 1.0);
+		model_matrix.scale(0.3, 0.3, 0.3);
+		model_matrix.translate(lamp_position.x, lamp_position.y, lamp_position.z);
 		vertex_shader_light.model_ = model_matrix;
-		vertex_shader_light.view_ = camera_.view;
-		vertex_shader_light.projection_ = camera_.projection;
+
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
 		SetShader(&vertex_shader_light, &fragment_shader);

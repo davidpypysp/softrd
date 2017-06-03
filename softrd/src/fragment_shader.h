@@ -37,6 +37,7 @@ public:
 	vec3 object_color;
 	vec3 light_color;
 	vec3 light_position;
+	vec3 view_position;
 
 	void Program();
 };
