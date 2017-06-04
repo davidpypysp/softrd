@@ -139,32 +139,18 @@ void Rasterizer::TriangleGenerateFragment(const float x, const float y) {
     // interpolation process
     vec3 k = BarycentricCoordinates(positions_[0], positions_[1], positions_[2], vec2(x, y));
 
-    float z = TriangleInterpolation(triangle_.v[0].position.z, triangle_.v[1].position.z, triangle_.v[2].position.z, k);
-
-	// for lighting...
-	vec3 world_position;
-	world_position.x = TriangleInterpolation(triangle_.v[0].world_position.x, triangle_.v[1].world_position.x, triangle_.v[2].world_position.x, k);
-	world_position.y = TriangleInterpolation(triangle_.v[0].world_position.y, triangle_.v[1].world_position.y, triangle_.v[2].world_position.y, k);
-	world_position.z = TriangleInterpolation(triangle_.v[0].world_position.z, triangle_.v[1].world_position.z, triangle_.v[2].world_position.z, k);
-	vec3 world_normal;
-	world_normal.x = TriangleInterpolation(triangle_.v[0].world_normal.x, triangle_.v[1].world_normal.x, triangle_.v[2].world_normal.x, k);
-	world_normal.y = TriangleInterpolation(triangle_.v[0].world_normal.y, triangle_.v[1].world_normal.y, triangle_.v[2].world_normal.y, k);
-	world_normal.z = TriangleInterpolation(triangle_.v[0].world_normal.z, triangle_.v[1].world_normal.z, triangle_.v[2].world_normal.z, k);
-
-	// for perspective texture mapping
-	vec2 uv;
-	uv.x = TriangleInterpolation(wrapped_uvs[0].x, wrapped_uvs[1].x, wrapped_uvs[2].x, k) / (z - perspective_k_);
-	uv.y = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].y, wrapped_uvs[2].y, k) / (z - perspective_k_);
-
-	//float u = TriangleInterpolation(wrapped_uvs[0].x, wrapped_uvs[1].x, wrapped_uvs[2].x, k);
-	//float v = TriangleInterpolation(wrapped_uvs[0].y, wrapped_uvs[1].y, wrapped_uvs[2].y, k);
-
 
     Fragment fragment;
+
+	float z = TriangleInterpolation(triangle_.v[0].position.z, triangle_.v[1].position.z, triangle_.v[2].position.z, k);
     fragment.window_position = vec3(x, y, z);
-	fragment.world_position = world_position;
-	fragment.world_normal = world_normal;
-	fragment.uv = uv;
+
+	// lighting
+	fragment.world_position = TriangleInterpolation(triangle_.v[0].world_position, triangle_.v[1].world_position, triangle_.v[2].world_position, k);
+	fragment.world_normal = TriangleInterpolation(triangle_.v[0].world_normal, triangle_.v[1].world_normal, triangle_.v[2].world_normal, k);
+
+	// perspective texture mapping
+	fragment.uv = TriangleInterpolation(wrapped_uvs[0], wrapped_uvs[1], wrapped_uvs[2], k) / (z - perspective_k_);
 
     fragment_buffer_.push_back(fragment);
 

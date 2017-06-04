@@ -36,6 +36,9 @@ public:
 	bool PressKeyD();
 	bool PressKeyQ();
 	bool PressKeyE();
+	bool PressKeyR();
+	bool PressKeyI();
+	bool PressKeyK();
 
 
 

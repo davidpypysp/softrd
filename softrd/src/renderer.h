@@ -13,6 +13,7 @@
 #include "device.h"
 #include "model.h"
 #include "util.h"
+#include "input.h"
 
 using namespace std::chrono;
 
@@ -44,6 +45,7 @@ private:
 	void SetPixel(const int x, const int y, const vec4 &color);
 	void SetDepth(const int x, const int y, const float z);
 	void Input();
+	bool Press();
 
 	void LoadCoordinateAxis();
 	void DrawCoordinateAxis();
@@ -53,7 +55,7 @@ private:
 	// frame setting
 	time_point<steady_clock> last_time_;
 	double delta_time_;
-	int fps_;
+	float fps_;
 	int frame_count_;
 	
 	// pipeline stages
@@ -81,6 +83,11 @@ private:
 	// coordinate axis
 	Mesh axis_lines_[3], grid_line_x_, grid_line_y_;
 
+
+	// input handling
+	std::vector<InputUnit> inputs_;
+	float input_index_;
+	const float kPressValue = 0.18;
 	
 };
 

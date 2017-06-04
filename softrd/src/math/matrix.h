@@ -199,10 +199,18 @@ struct mat4 {
 		value[2][3] = z;
 	}
 
+	inline void translate(const vec3 &b) {
+		translate(b.x, b.y, b.z);
+	}
+
 	inline void scale(const float x, const float y, const float z) {
 		value[0][0] = x;
 		value[1][1] = y;
 		value[2][2] = z;
+	}
+
+	inline void scale(const vec3 &b) {
+		scale(b.x, b.y, b.z);
 	}
 
 	inline void rotateX(const float theta) { // radian

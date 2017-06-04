@@ -22,24 +22,28 @@ polygon_mode(Rasterizer::TRIANGLE_FILL) {
     rasterizer_.SetCamera(&camera_);
     device_.Setup();
     last_time_ = steady_clock::now();
+	inputs_.push_back(InputUnit("Camera", &camera_.position));
+	input_index_ = 0;
 }
 
 void Renderer::Run() {
 	LoadCoordinateAxis();
 
-	Mesh cube;
-	cube.LoadCube2();
+	Mesh object;
+	object.LoadCube2();
+	vec3 object_position = vec3(0.0, 0.0, 0.0);
+	inputs_.push_back(InputUnit("Object", &object_position));
 
 	Mesh lamp;
 	lamp.LoadCube();
-	vec3 lamp_position = vec3(1.0, 2.0, 2.0);
+	vec3 lamp_position = vec3(0.0, 0.0, 3.0);
+	inputs_.push_back(InputUnit("Lamp", &lamp_position));
 
 	VertexShaderLight vertex_shader_light;
 	FragmentShader fragment_shader;
 	FragmentShaderLight fragment_shader_light;
 	fragment_shader_light.object_color = vec3(1.0, 0.5, 0.31);
 	fragment_shader_light.light_color = vec3(1.0, 1.0, 1.0);
-	fragment_shader_light.light_position = lamp_position;
 
 
 
@@ -48,7 +52,7 @@ void Renderer::Run() {
         auto current_time = steady_clock::now();
         duration<double, std::milli> time_span = current_time - last_time_;
         delta_time_ = time_span.count();
-        fps_ = (int)(1000.0 / delta_time_);
+        fps_ = 1000.0 / delta_time_;
         frame_count_++;
         last_time_ = current_time;
 
@@ -65,11 +69,12 @@ void Renderer::Run() {
 		
 		// -------------------------------------------------------------------------------
 		
-		// first cube
-		cube.LoadBuffer(vertex_buffer_, element_buffer_);
+		// first cube object
+		object.LoadBuffer(vertex_buffer_, element_buffer_);
 
         mat4 model_matrix;
         model_matrix.identify();
+		model_matrix.translate(object_position);
         vertex_shader_light.model_ = model_matrix;
 		vertex_shader_light.view_ = camera_.view;
 		vertex_shader_light.projection_ = camera_.projection;
@@ -81,14 +86,14 @@ void Renderer::Run() {
 		Draw(DRAW_TRIANGLE);
 		
 
-		// second 
+		// second lamp
 		lamp.LoadBuffer(vertex_buffer_, element_buffer_);
-
-		model_matrix.scale(0.3, 0.3, 0.3);
-		model_matrix.translate(lamp_position.x, lamp_position.y, lamp_position.z);
+		model_matrix.identify();
+		model_matrix.scale(0.1, 0.1, 0.1);
+		model_matrix.translate(lamp_position);
 		vertex_shader_light.model_ = model_matrix;
-
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
+		fragment_shader_light.light_position = lamp_position;
 
 		SetShader(&vertex_shader_light, &fragment_shader);
 		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
@@ -102,7 +107,12 @@ void Renderer::Run() {
         // draw everything in the device
         device_.RenderClear();
         device_.Draw(frame_buffer_);
-        device_.DrawText("FPS: " + std::to_string(fps_), 2, 2, 90, 30);
+		device_.DrawText("FPS: " + util::ToString(fps_, 1), 2, 2, 90, 30);
+		std::string input_info = inputs_[input_index_].name + ": ("
+			+ util::ToString(inputs_[input_index_].position->x, 2) + ", "
+			+ util::ToString(inputs_[input_index_].position->y, 2) + ", "
+			+ util::ToString(inputs_[input_index_].position->z, 2) + ")";
+		device_.DrawText(input_info, 350, 2, 270, 30);
         //device_.DrawText("Frame: " + std::to_string(frame_count_), 2, 32, 200, 30);
         device_.RenderPresent();
 
@@ -206,13 +216,29 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
 void Renderer::Input() {
     device_.HandleEvents();
 
+	if (device_.PressKeyR()) {
+		input_index_ += kPressValue;
+		if (input_index_ >= inputs_.size()) input_index_ = 0;
+	}
+	else {
+		input_index_ = floor(input_index_);
+	}
+
     float move_step = 0.05;
     vec3 move;
     if (device_.PressKeyW()) move.z -= move_step;
     if (device_.PressKeyS()) move.z += move_step;
     if (device_.PressKeyA()) move.x -= move_step;
     if (device_.PressKeyD()) move.x += move_step;
-    camera_.Move(move);
+	if (device_.PressKeyI()) move.y += move_step;
+	if (device_.PressKeyK()) move.y -= move_step;
+
+	if (input_index_ == 0) { // move camera
+		camera_.Move(move);
+	}
+	else { // move other position
+		inputs_[input_index_].position->move(move);
+	}
 
     float degree = 1.5;
     vec3 rotate;
@@ -225,6 +251,11 @@ void Renderer::Input() {
 
     if (device_.PressKeyQ()) camera_.Zoom(-degree);
     if (device_.PressKeyE()) camera_.Zoom(degree);
+}
+
+bool Renderer::Press()
+{
+	return false;
 }
 
 void Renderer::LoadCoordinateAxis() {

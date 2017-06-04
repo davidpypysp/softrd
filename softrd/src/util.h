@@ -2,6 +2,8 @@
 #define SOFTRD_UTIL_H_
 
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 namespace softrd {
 
@@ -52,6 +54,12 @@ struct Array {
 	}
 
 };
+
+inline std::string ToString(const float value, const int precision) {
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(precision) << value;
+	return stream.str();
+}
 
 
 } // namespace util

@@ -96,6 +96,36 @@ struct Mesh {
 #endif
 	}
 
+	void LoadSquare() {
+		vec3 positions[] = {
+			vec3(-1.0, -1.0, 0),
+			vec3(1.0, -1.0, 0),
+			vec3(-1.0, 1.0, 0),
+
+			vec3(-1.0, 1.0, 0),
+			vec3(1.0, -1.0, 0),
+			vec3(1.0, 1.0, 0)
+		};
+
+		vec3 normals[] = {
+			vec3(0, 0, 1),
+			vec3(0, 0, 1),
+			vec3(0, 0, 1),
+
+			vec3(0, 0, 1),
+			vec3(0, 0, 1),
+			vec3(0, 0, 1)
+		};
+		
+		for (int i = 0; i < 6; ++i) {
+			Vertex vertex;
+			vertex.position = positions[i];
+			vertex.normal = normals[i];
+			vertices.push_back(vertex);
+			indices.push_back(i);
+		}
+	}
+
 	void LoadCube() {
 		vec3 positions[] = {
 			vec3(0.5, -0.5, 0.5),

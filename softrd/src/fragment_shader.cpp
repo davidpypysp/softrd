@@ -34,9 +34,8 @@ void FragmentShaderLight::Program() {
 	// specular
 	float specular_strength = 0.5;
 	vec3 view_dir = (view_position - in_.world_position).normalize();
-	//vec3 reflectDir = reflect(-light_dir, norm);
-	vec3 reflect_dir = 2 * (light_dir * norm) * norm - light_dir;
-	reflect_dir.normalize();
+	vec3 reflect_dir = Reflect(-light_dir, norm);
+	//vec3 reflect_dir = (2.0 * (light_dir * norm) * norm) - light_dir;
 	float spec = pow(Max(view_dir * reflect_dir, 0.0), 32);
 	vec3 specular = specular_strength * spec * light_color;
 

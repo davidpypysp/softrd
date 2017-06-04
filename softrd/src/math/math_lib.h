@@ -85,6 +85,10 @@ inline float Max(const float a, const float b) {
 	return a > b ? a : b;
 }
 
+template<typename T>
+inline T Reflect(const T &v, const T &normal) {
+	return v - 2.0 * (normal * v) * normal;
+}
 
 } // namespace softrd
 
