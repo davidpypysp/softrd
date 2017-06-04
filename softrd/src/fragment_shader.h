@@ -5,6 +5,8 @@
 
 #include "fragment.h"
 #include "texture.h"
+#include "light.h"
+#include "material.h"
 
 namespace softrd {
 
@@ -31,6 +33,14 @@ private:
 
 };
 
+class FragmentShaderFlatColor : public FragmentShader {
+public:
+	vec3 flat_color;
+
+	FragmentShaderFlatColor(const vec3 &color = vec3());
+	void Program();
+};
+
 
 class FragmentShaderLight : public FragmentShader {
 public:
@@ -42,13 +52,19 @@ public:
 	void Program();
 };
 
-class FragmentShaderFlatColor : public FragmentShader {
+class FragmentShaderLightFull : public FragmentShader {
 public:
-	vec3 flat_color;
 
-	FragmentShaderFlatColor(const vec3 &color = vec3());
+	vec3 &view_position;
+	Material &material;
+	Light &light;
+
+	FragmentShaderLightFull(vec3 &view_position = vec3(), Material &material = Material(), Light &light = Light());
 	void Program();
+
 };
+
+
 
 
 

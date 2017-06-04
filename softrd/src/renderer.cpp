@@ -22,29 +22,31 @@ polygon_mode_(Rasterizer::TRIANGLE_FILL) {
     rasterizer_.SetCamera(&camera_);
     device_.Setup();
     last_time_ = steady_clock::now();
-	inputs_.push_back(InputUnit("Camera", &camera_.position));
+	inputs_.push_back(new InputUnit3("Camera", &camera_.position));
 	input_index_ = 0;
 }
 
 void Renderer::Run() {
 	LoadCoordinateAxis();
+	
 
+	// define object
 	Mesh object;
 	object.LoadCube2();
 	vec3 object_position = vec3(0.0, 0.0, 0.0);
-	inputs_.push_back(InputUnit("Object", &object_position));
+	inputs_.push_back(new InputUnit3("Object", &object_position));
+	Material object_material(vec3(1.0, 0.5, 0.31), vec3(1.0, 0.5, 0.31), vec3(0.5, 0.5, 0.5), 32.0);
 
+	// define lamp light
 	Mesh lamp;
 	lamp.LoadCube();
-	vec3 lamp_position = vec3(0.0, 0.0, 3.0);
-	inputs_.push_back(InputUnit("Lamp", &lamp_position));
+	Light light(vec3(0.0, 0.0, 3.0), vec3(0.2, 0.2, 0.2), vec3(0.5, 0.5, 0.5), vec3(1.0, 1.0, 1.0));
+	inputs_.push_back(new InputUnit3("Light", &light.position));
+
 
 	VertexShaderLight vertex_shader_light;
 	FragmentShader fragment_shader;
-	FragmentShaderLight fragment_shader_light;
-	fragment_shader_light.object_color = vec3(1.0, 0.5, 0.31);
-	fragment_shader_light.light_color = vec3(1.0, 1.0, 1.0);
-
+	FragmentShaderLightFull fragment_shader_light(camera_.position, object_material, light);
 
 
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
@@ -73,7 +75,6 @@ void Renderer::Run() {
 		vertex_shader_light.view_ = camera_.view;
 		vertex_shader_light.projection_ = camera_.projection;
         vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
-		fragment_shader_light.view_position = camera_.position;
 
 		SetShader(&vertex_shader_light, &fragment_shader_light);
 		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
@@ -84,10 +85,9 @@ void Renderer::Run() {
 		lamp.LoadBuffer(vertex_buffer_, element_buffer_);
 		model_matrix.identify();
 		model_matrix.scale(0.1, 0.1, 0.1);
-		model_matrix.translate(lamp_position);
+		model_matrix.translate(light.position);
 		vertex_shader_light.model_ = model_matrix;
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
-		fragment_shader_light.light_position = lamp_position;
 
 		SetShader(&vertex_shader_light, &fragment_shader);
 		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
@@ -213,11 +213,8 @@ void Renderer::SetUI() {
 	std::string fps_info = "FPS: " + util::ToString(fps_, 1);
 	device_.DrawText(fps_info, 0.01, 0.005, 23);
 
-	std::string input_info = inputs_[input_index_].name + ": ("
-		+ util::ToString(inputs_[input_index_].position->x, 2) + ", "
-		+ util::ToString(inputs_[input_index_].position->y, 2) + ", "
-		+ util::ToString(inputs_[input_index_].position->z, 2) + ")";
-	device_.DrawText(input_info, 0.45, 0.005, 23);
+	std::string input_info = inputs_[input_index_]->Info();
+	device_.DrawText(input_info, 0.01, 0.94, 23);
 	//device_.DrawText("Frame: " + std::to_string(frame_count_), 2, 32, 200, 30);
 }
 
@@ -244,19 +241,22 @@ void Renderer::Input() {
 
 	// move object
     float move_step = 0.05;
-    vec3 move;
+    vec4 move;
     if (device_.PressKeyW()) move.z -= move_step;
     if (device_.PressKeyS()) move.z += move_step;
     if (device_.PressKeyA()) move.x -= move_step;
     if (device_.PressKeyD()) move.x += move_step;
 	if (device_.PressKeyI()) move.y += move_step;
 	if (device_.PressKeyK()) move.y -= move_step;
+	if (device_.PressKeyJ()) move.w -= move_step;
+	if (device_.PressKeyL()) move.w += move_step;
+
 
 	if ((int)input_index_ == 0) { // move camera
-		camera_.Move(move);
+		camera_.Move(move.getVec3());
 	}
 	else { // move other position
-		inputs_[input_index_].position->move(move);
+		inputs_[input_index_]->Move(move);
 	}
 
 

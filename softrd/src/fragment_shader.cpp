@@ -17,7 +17,13 @@ void FragmentShader::Run(const Fragment &in, FragmentOut *out) {
 	Program();
 }
 
+FragmentShaderFlatColor::FragmentShaderFlatColor(const vec3 &color) : flat_color(color) {
+}
 
+void FragmentShaderFlatColor::Program() {
+	out_->color = vec4(flat_color, 1.0);
+
+}
 
 void FragmentShaderLight::Program() {
 	// ambient
@@ -44,12 +50,36 @@ void FragmentShaderLight::Program() {
 	out_->color = vec4(result, 1.0);
 }
 
-FragmentShaderFlatColor::FragmentShaderFlatColor(const vec3 &color) : flat_color(color) {
+
+
+
+
+FragmentShaderLightFull::FragmentShaderLightFull(vec3 & view_position, Material &material, Light &light) :
+	view_position(view_position), 
+	material(material),
+	light(light) {
 }
 
-void FragmentShaderFlatColor::Program() {
-	out_->color = vec4(flat_color, 1.0);
+void FragmentShaderLightFull::Program() {
+	// ambient
+	vec3 ambient = light.ambient.multiply(material.ambient);
 
+	// diffuse
+	vec3 norm = in_.world_normal.normalize();
+	vec3 light_dir = (light.position - in_.world_position).normalize();
+
+	float diff = Max(norm * light_dir, 0.0);
+	vec3 diffuse = light.diffuse.multiply(diff * material.diffuse);
+
+	// specular
+	vec3 view_dir = (view_position - in_.world_position).normalize();
+	vec3 reflect_dir = Reflect(-light_dir, norm);
+	float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
+	vec3 specular = light.specular.multiply(spec * material.specular);
+
+
+	vec3 result = ambient + diffuse + specular;
+	out_->color = vec4(result, 1.0);
 }
 
 } // namespace softrd

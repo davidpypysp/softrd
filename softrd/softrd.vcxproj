@@ -135,6 +135,8 @@
     <ClInclude Include="src\fragment.h" />
     <ClInclude Include="src\fragment_shader.h" />
     <ClInclude Include="src\input.h" />
+    <ClInclude Include="src\light.h" />
+    <ClInclude Include="src\material.h" />
     <ClInclude Include="src\math\math_lib.h" />
     <ClInclude Include="src\math\matrix.h" />
     <ClInclude Include="src\math\vector.h" />

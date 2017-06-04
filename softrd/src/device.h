@@ -40,6 +40,8 @@ public:
 	bool PressKeyR();
 	bool PressKeyI();
 	bool PressKeyK();
+	bool PressKeyJ();
+	bool PressKeyL();
 
 
 

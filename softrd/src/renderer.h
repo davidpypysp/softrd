@@ -88,7 +88,7 @@ private:
 
 
 	// input handling
-	std::vector<InputUnit> inputs_;
+	std::vector<InputUnit*> inputs_;
 	float input_index_;
 	const float kPressValue = 0.18;
 	

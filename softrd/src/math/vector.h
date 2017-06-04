@@ -88,6 +88,7 @@ struct vec4 {
 	inline vec4& normalize() { return *this = *this / sqrt(x*x + y*y + z*z + w*w); }
 	inline vec3 homogenize() { return vec3(x / w, y / w, z / w); }
 	inline void move(const vec4 &b) { x += b.x; y += b.y; z += b.z; w += b.w; }
+	inline vec3 getVec3() { return vec3(x, y, z); }
 
 
 	inline float& operator [] (const int index) {
@@ -103,6 +104,7 @@ struct vec4 {
 };
 
 inline vec4 operator * (const float a, const vec4 &b) { return b * a; }
+
 
 
 
