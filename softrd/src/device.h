@@ -18,7 +18,8 @@ public:
 	Device(const int x_pos, const int y_pos, const int width, const int height);
 	int Setup();
 	void Draw(util::Array<unsigned char> &frame_buffer);
-	void DrawText(const std::string &str, const int x, const int y, const int width, const int height);
+	void DrawTextFixed(const std::string &str, const int x, const int y, const int width, const int height);
+	void DrawText(const std::string &str, const float x, const float y, const int size = 25, const vec4 &color = vec4(255, 255, 255, 0));
 	void HandleEvents();
 	void RenderClear();
 	void RenderPresent();

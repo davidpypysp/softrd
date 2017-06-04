@@ -34,7 +34,7 @@ public:
 	void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
 	void Draw(const DrawMode mode); // draw one frame
 	void SetPolygonMode(const Rasterizer::DrawTriangleMode mode);
-	void ResetFrameBuffer();
+	void ResetBuffer();
 	void Clear();
 	~Renderer();
 
@@ -44,6 +44,9 @@ private:
 
 	void SetPixel(const int x, const int y, const vec4 &color);
 	void SetDepth(const int x, const int y, const float z);
+	void SetFrame();
+	void SetUI();
+	void DrawFrame();
 	void Input();
 	bool Press();
 

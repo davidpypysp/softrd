@@ -21,7 +21,11 @@ public:
 	mat4 transform_;
 
 	VertexShader();
-	virtual bool Run(const Vertex &in, VertexOut *out);
+	bool Run(const Vertex &in, VertexOut *out);
+	virtual bool Program();
+
+	Vertex in_;
+	VertexOut *out_;
 };
 
 
@@ -31,7 +35,8 @@ public:
 	mat4 view_;
 	mat4 projection_;
 
-	bool Run(const Vertex &in, VertexOut *out);
+	bool Program();
+
 };
 
 

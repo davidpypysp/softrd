@@ -58,7 +58,7 @@ void Device::Draw(util::Array<unsigned char> &frame_buffer) {
 
 }
 
-void Device::DrawText(const std::string &str, const int x, const int y, const int width, const int height) {
+void Device::DrawTextFixed(const std::string &str, const int x, const int y, const int width, const int height) {
 	TTF_Font* font = TTF_OpenFont("resource/font/Lato-Light.ttf", 25); //this opens a font style and sets a size
 	SDL_Color color = { 255, 255, 255, 0 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
 	SDL_Surface* surface = TTF_RenderText_Solid(font, str.c_str(), color); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
@@ -70,6 +70,25 @@ void Device::DrawText(const std::string &str, const int x, const int y, const in
 	rect.y = y; // controls the rect's y coordinte
 	rect.w = width; // controls the width of the rect
 	rect.h = height; // controls the height of the rect
+
+	SDL_RenderCopy(renderer_, message, NULL, &rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+	SDL_DestroyTexture(message);
+}
+
+void Device::DrawText(const std::string &str, const float x, const float y, const int size, const vec4 &color) {
+	TTF_Font* font = TTF_OpenFont("resource/font/Lato-Light.ttf", size); //this opens a font style and sets a size
+	SDL_Color text_color = { color.x, color.y, color.z, color.w };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+	SDL_Surface* surface = TTF_RenderText_Solid(font, str.c_str(), text_color); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+	SDL_Texture* message = SDL_CreateTextureFromSurface(renderer_, surface); //now you can convert it into a texture
+	SDL_FreeSurface(surface);
+
+	int length = str.length();
+
+	SDL_Rect rect; //create a rect
+	rect.x = x * width_;  //controls the rect's x coordinate 
+	rect.y = y * height_; // controls the rect's y coordinte
+	rect.w = size * length * 0.5; // controls the width of the rect
+	rect.h = size * 1.08; // controls the height of the rect
 
 	SDL_RenderCopy(renderer_, message, NULL, &rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 	SDL_DestroyTexture(message);

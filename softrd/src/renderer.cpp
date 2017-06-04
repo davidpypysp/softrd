@@ -48,17 +48,11 @@ void Renderer::Run() {
 
 
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
-        // frame setting
-        auto current_time = steady_clock::now();
-        duration<double, std::milli> time_span = current_time - last_time_;
-        delta_time_ = time_span.count();
-        fps_ = 1000.0 / delta_time_;
-        frame_count_++;
-        last_time_ = current_time;
+		// frame setting
+		SetFrame();
 
         // reset buffer
-		ResetFrameBuffer();
-		depth_buffer_.Fill(1.0);
+		ResetBuffer();
 
         // handle input
         Input();
@@ -105,16 +99,7 @@ void Renderer::Run() {
 
 
         // draw everything in the device
-        device_.RenderClear();
-        device_.Draw(frame_buffer_);
-		device_.DrawText("FPS: " + util::ToString(fps_, 1), 2, 2, 90, 30);
-		std::string input_info = inputs_[input_index_].name + ": ("
-			+ util::ToString(inputs_[input_index_].position->x, 2) + ", "
-			+ util::ToString(inputs_[input_index_].position->y, 2) + ", "
-			+ util::ToString(inputs_[input_index_].position->z, 2) + ")";
-		device_.DrawText(input_info, 350, 2, 270, 30);
-        //device_.DrawText("Frame: " + std::to_string(frame_count_), 2, 32, 200, 30);
-        device_.RenderPresent();
+		DrawFrame();
 
     }
 
@@ -187,8 +172,10 @@ void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
 	polygon_mode = mode;
 }
 
-void Renderer::ResetFrameBuffer() {
+void Renderer::ResetBuffer() {
 	frame_buffer_.Fill(10);
+	depth_buffer_.Fill(1.0);
+
 }
 
 void Renderer::Clear() {
@@ -211,11 +198,42 @@ void Renderer::SetDepth(const int x, const int y, const float z) {
     depth_buffer_[y * width_ + x] = z;
 }
 
+void Renderer::SetFrame() {
+	// frame setting
+	auto current_time = steady_clock::now();
+	duration<double, std::milli> time_span = current_time - last_time_;
+	delta_time_ = time_span.count();
+	fps_ = 1000.0 / delta_time_;
+	frame_count_++;
+	last_time_ = current_time;
+}
+
+void Renderer::SetUI() {
+	//device_.DrawText("FPS: " + util::ToString(fps_, 1), 2, 2, 100, 30);
+	std::string fps_info = "FPS: " + util::ToString(fps_, 1);
+	device_.DrawText(fps_info, 0.01, 0.005, 23);
+
+	std::string input_info = inputs_[input_index_].name + ": ("
+		+ util::ToString(inputs_[input_index_].position->x, 2) + ", "
+		+ util::ToString(inputs_[input_index_].position->y, 2) + ", "
+		+ util::ToString(inputs_[input_index_].position->z, 2) + ")";
+	device_.DrawText(input_info, 0.45, 0.005, 23);
+	//device_.DrawText("Frame: " + std::to_string(frame_count_), 2, 32, 200, 30);
+}
+
+void Renderer::DrawFrame() {
+	device_.RenderClear();
+	device_.Draw(frame_buffer_);
+	SetUI();
+	device_.RenderPresent();
+}
+
 
 
 void Renderer::Input() {
     device_.HandleEvents();
 
+	// change object
 	if (device_.PressKeyR()) {
 		input_index_ += kPressValue;
 		if (input_index_ >= inputs_.size()) input_index_ = 0;
@@ -224,6 +242,7 @@ void Renderer::Input() {
 		input_index_ = floor(input_index_);
 	}
 
+	// move object
     float move_step = 0.05;
     vec3 move;
     if (device_.PressKeyW()) move.z -= move_step;
@@ -233,13 +252,15 @@ void Renderer::Input() {
 	if (device_.PressKeyI()) move.y += move_step;
 	if (device_.PressKeyK()) move.y -= move_step;
 
-	if (input_index_ == 0) { // move camera
+	if ((int)input_index_ == 0) { // move camera
 		camera_.Move(move);
 	}
 	else { // move other position
 		inputs_[input_index_].position->move(move);
 	}
 
+
+	// rotate camera
     float degree = 1.5;
     vec3 rotate;
     if (device_.PressKeyUp()) rotate.x -= degree;
@@ -249,12 +270,12 @@ void Renderer::Input() {
     camera_.Rotate(rotate);
 
 
+	// fov setting
     if (device_.PressKeyQ()) camera_.Zoom(-degree);
     if (device_.PressKeyE()) camera_.Zoom(degree);
 }
 
-bool Renderer::Press()
-{
+bool Renderer::Press() {
 	return false;
 }
 
