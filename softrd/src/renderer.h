@@ -53,13 +53,13 @@ private:
 	void LoadCoordinateAxis();
 	void DrawCoordinateAxis();
 
-	int width_, height_, screen_size_;
+	unsigned int width_, height_, screen_size_;
 
 	// frame setting
 	time_point<steady_clock> last_time_;
 	double delta_time_;
 	float fps_;
-	int frame_count_;
+	unsigned int frame_count_;
 	
 	// pipeline stages
 	VertexShader *vertex_shader_;
@@ -80,7 +80,7 @@ private:
 	util::Array<unsigned char> frame_buffer_;
 	util::Array<float> depth_buffer_;
 
-	Rasterizer::DrawTriangleMode polygon_mode;
+	Rasterizer::DrawTriangleMode polygon_mode_;
 
 
 	// coordinate axis

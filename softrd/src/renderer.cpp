@@ -18,7 +18,7 @@ rasterizer_(width, height, fragment_buffer_),
 per_sample_proccessor_(width, height, depth_buffer_),
 device_(100, 100, width, height),
 camera_((float)width / (float)height),
-polygon_mode(Rasterizer::TRIANGLE_FILL) {
+polygon_mode_(Rasterizer::TRIANGLE_FILL) {
     rasterizer_.SetCamera(&camera_);
     device_.Setup();
     last_time_ = steady_clock::now();
@@ -151,7 +151,7 @@ void Renderer::Draw(const DrawMode mode) { // rendering pipeline
 			primitve_assembler_.AssembleTriangle(element_buffer_[index * 3], element_buffer_[index * 3 + 1], element_buffer_[index * 3 + 2], &triangles);
 
 			for (TrianglePrimitive &triangle : triangles) {
-				rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode);
+				rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
 
 				FragmentOut fragment_shader_out;
 				for (Fragment &fragment : fragment_buffer_) {
@@ -169,7 +169,7 @@ void Renderer::Draw(const DrawMode mode) { // rendering pipeline
 }
 
 void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
-	polygon_mode = mode;
+	polygon_mode_ = mode;
 }
 
 void Renderer::ResetBuffer() {
