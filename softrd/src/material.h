@@ -22,13 +22,15 @@ struct Material {
 
 
 struct TextureMaterial {
-	Texture *diffuse;
-	vec3 specular;
+	Texture *specular_texture;
+	Texture *diffuse_texture;
+
 	float shininess;
 
-	TextureMaterial(Texture *diffuse = nullptr, const vec3 &specular = vec3(), const float shininess = 0.0) :
-		diffuse(diffuse),
-		specular(specular),
+
+	TextureMaterial(Texture *diffuse = nullptr, Texture *specular = nullptr, const float shininess = 0.0) :
+		diffuse_texture(diffuse),
+		specular_texture(specular),
 		shininess(shininess) {
 	}
 

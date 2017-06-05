@@ -70,9 +70,12 @@ public:
 	vec3 &view_position;
 	TextureMaterial &material;
 	Light &light;
+	DirLight &dir_light;
+	PointLight point_lights[4];
 
 	FragmentShaderLightTexture(vec3 &view_position = vec3(), TextureMaterial &material = TextureMaterial(), Light &light = Light());
 	void Program();
+
 
 };
 
