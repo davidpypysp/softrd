@@ -82,4 +82,35 @@ void FragmentShaderLightFull::Program() {
 	out_->color = vec4(result, 1.0);
 }
 
+FragmentShaderLightTexture::FragmentShaderLightTexture(vec3 &view_position, TextureMaterial &material, Light &light) :
+	view_position(view_position), 
+	material(material),
+	light(light) {
+}
+
+void FragmentShaderLightTexture::Program() {
+
+	vec3 diffuse_tex = material.diffuse->GetColor(in_.uv);
+
+	// ambient
+	vec3 ambient = light.ambient.multiply(diffuse_tex);
+
+	// diffuse
+	vec3 norm = in_.world_normal.normalize();
+	vec3 light_dir = (light.position - in_.world_position).normalize();
+
+	float diff = Max(norm * light_dir, 0.0);
+	vec3 diffuse = light.diffuse.multiply(diff * diffuse_tex);
+
+	// specular
+	vec3 view_dir = (view_position - in_.world_position).normalize();
+	vec3 reflect_dir = Reflect(-light_dir, norm);
+	float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
+	vec3 specular = light.specular.multiply(spec * material.specular);
+
+
+	vec3 result = ambient + diffuse + specular;
+	out_->color = vec4(result, 1.0);
+}
+
 } // namespace softrd

@@ -7,6 +7,12 @@
 namespace softrd {
 
 
+//  texture coordinate sample
+//  (0.0, 0.0); // left, up
+//	(0.0, 1.0); // left, down
+//	(1.0, 0.0); // right, up
+//	(1.0, 1.0); // right, down
+
 struct Texture {
 	int width, height;
 	vec3 *pixels;
@@ -44,6 +50,10 @@ struct Texture {
 		float kx = x - left, ky = y - up;
 		vec3 color = rd * kx * ky + ld * (1 - kx) * ky + ru * kx * (1 - ky) + lu * (1 - kx) * (1 - ky);
 		return color;
+	}
+
+	vec3 GetColor(const vec2 &uv) {
+		return GetColor(uv.x, uv.y);
 	}
 
 };

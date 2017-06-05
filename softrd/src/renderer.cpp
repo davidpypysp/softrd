@@ -32,10 +32,14 @@ void Renderer::Run() {
 
 	// define object
 	Mesh object;
-	object.LoadCube2();
+	object.LoadSquare();
 	vec3 object_position = vec3(0.0, 0.0, 0.0);
 	inputs_.push_back(new InputUnit3("Object", &object_position));
 	Material object_material(vec3(1.0, 0.5, 0.31), vec3(1.0, 0.5, 0.31), vec3(0.5, 0.5, 0.5), 32.0);
+	Texture *object_texture = new Texture("resource/mini.jpg");
+	TextureMaterial object_material2(object_texture, vec3(0.5, 0.5, 0.5), 32.0);
+
+	inputs_.push_back(new InputUnit3("Object Material Diffuse", &object_material.diffuse));
 
 	// define lamp light
 	Mesh lamp;
@@ -47,6 +51,7 @@ void Renderer::Run() {
 	VertexShaderLight vertex_shader_light;
 	FragmentShader fragment_shader;
 	FragmentShaderLightFull fragment_shader_light(camera_.position, object_material, light);
+	FragmentShaderLightTexture fragment_shader_light_texture(camera_.position, object_material2, light);
 
 
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
@@ -76,7 +81,8 @@ void Renderer::Run() {
 		vertex_shader_light.projection_ = camera_.projection;
         vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
-		SetShader(&vertex_shader_light, &fragment_shader_light);
+		//SetShader(&vertex_shader_light, &fragment_shader_light);
+		SetShader(&vertex_shader_light, &fragment_shader_light_texture);
 		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
 		Draw(DRAW_TRIANGLE);
 		
@@ -90,7 +96,7 @@ void Renderer::Run() {
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
 		SetShader(&vertex_shader_light, &fragment_shader);
-		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
+		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
 		Draw(DRAW_TRIANGLE);
 
 

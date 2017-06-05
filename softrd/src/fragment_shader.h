@@ -64,6 +64,18 @@ public:
 
 };
 
+class FragmentShaderLightTexture : public FragmentShader {
+public:
+
+	vec3 &view_position;
+	TextureMaterial &material;
+	Light &light;
+
+	FragmentShaderLightTexture(vec3 &view_position = vec3(), TextureMaterial &material = TextureMaterial(), Light &light = Light());
+	void Program();
+
+};
+
 
 
 
