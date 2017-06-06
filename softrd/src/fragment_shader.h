@@ -2,6 +2,7 @@
 #define SOFTRD_FRAGMENT_SHADER_H_
 
 #include <iostream>
+#include <vector>
 
 #include "fragment.h"
 #include "texture.h"
@@ -69,12 +70,11 @@ public:
 
 	vec3 &view_position;
 	TextureMaterial &material;
-	Light &light;
-	DirLight &dir_light;
-	PointLight point_lights[4];
+	std::vector<Light*> lights;
 
-	FragmentShaderLightTexture(vec3 &view_position = vec3(), TextureMaterial &material = TextureMaterial(), Light &light = Light());
+	FragmentShaderLightTexture(vec3 &view_position = vec3(), TextureMaterial &material = TextureMaterial());
 	void Program();
+	void AddLight(Light *light);
 
 
 };

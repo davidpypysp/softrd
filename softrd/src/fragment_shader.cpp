@@ -82,24 +82,30 @@ void FragmentShaderLightFull::Program() {
 	out_->color = vec4(result, 1.0);
 }
 
-FragmentShaderLightTexture::FragmentShaderLightTexture(vec3 &view_position, TextureMaterial &material, Light &light) :
+FragmentShaderLightTexture::FragmentShaderLightTexture(vec3 &view_position, TextureMaterial &material) :
 	view_position(view_position), 
-	material(material),
-	light(light) {
+	material(material) {
 }
 
 void FragmentShaderLightTexture::Program() {
 	vec3 diffuse_tex = material.diffuse_texture->GetColor(in_.uv);
 	vec3 specular_tex = material.specular_texture->GetColor(in_.uv);
-	Material fragment_material(diffuse_tex, diffuse_tex, specular_tex);
+	Material fragment_material(diffuse_tex, diffuse_tex, specular_tex, material.shininess);
 
-	vec3 norm = in_.world_normal.normalize();
+	vec3 normal = in_.world_normal;
+	normal.normalize();
 	vec3 view_dir = (view_position - in_.world_position).normalize();
 
-	vec3 result = 
+	vec3 result;
 
+	for (int i = 0; i < lights.size(); i++) {
+		result = result + lights[i]->CalcColor(normal, in_.world_position, view_dir, fragment_material);
+	}
+	out_->color = vec4(result, 1.0);
+}
 
-	out_->color = vec4(ambient + diffuse + specular, 1.0);
+void FragmentShaderLightTexture::AddLight(Light *light) {
+	lights.push_back(light);
 }
 
 

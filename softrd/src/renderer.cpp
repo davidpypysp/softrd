@@ -41,16 +41,31 @@ void Renderer::Run() {
     TextureMaterial object_material2(diffuse_texture, specular_texture, 32.0);
 
     // define lamp light
-    Mesh lamp;
-    lamp.LoadCube();
+    Mesh light_lamp;
+    light_lamp.LoadCube();
     Light light(vec3(0.0, 0.0, 3.0), vec3(0.2, 0.2, 0.2), vec3(0.5, 0.5, 0.5), vec3(1.0, 1.0, 1.0));
     inputs_.push_back(new InputUnit3("Light", &light.position));
 
 
+
+	// define directional light
+	DirLight dir_light(vec3(-0.2, -1.0, -0.3), vec3(0.05, 0.05, 0.05), vec3(0.4, 0.4, 0.4), vec3(0.5, 0.5, 0.5));
+	inputs_.push_back(new InputUnit3("DirLight Direction", &dir_light.direction));
+
+
+	// define lamp point light
+	Mesh point_light_lamp;
+	point_light_lamp.LoadCube();
+	PointLight point_light(vec3(-3.0, 0.0, 0.0), vec3(0.05, 0.05, 0.05), vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
+	inputs_.push_back(new InputUnit3("PointLight", &point_light.position));
+
     VertexShaderLight vertex_shader_light;
     FragmentShader fragment_shader;
     FragmentShaderLightFull fragment_shader_light(camera_.position, object_material, light);
-    FragmentShaderLightTexture fragment_shader_light_texture(camera_.position, object_material2, light);
+    FragmentShaderLightTexture fragment_shader_light_texture(camera_.position, object_material2);
+	fragment_shader_light_texture.AddLight(&light);
+	fragment_shader_light_texture.AddLight(&dir_light);
+	fragment_shader_light_texture.AddLight(&point_light);
 
 
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
@@ -69,7 +84,7 @@ void Renderer::Run() {
         
         // -------------------------------------------------------------------------------
         
-        // first cube object
+        // 1 cube object
         object.LoadBuffer(vertex_buffer_, element_buffer_);
 
         mat4 model_matrix;
@@ -86,8 +101,8 @@ void Renderer::Run() {
         Draw(DRAW_TRIANGLE);
         
 
-        // second lamp
-        lamp.LoadBuffer(vertex_buffer_, element_buffer_);
+        // 2 light lamp
+        light_lamp.LoadBuffer(vertex_buffer_, element_buffer_);
         model_matrix.identify();
         model_matrix.scale(0.1, 0.1, 0.1);
         model_matrix.translate(light.position);
@@ -97,6 +112,19 @@ void Renderer::Run() {
         SetShader(&vertex_shader_light, &fragment_shader);
         SetPolygonMode(Rasterizer::TRIANGLE_LINE);
         Draw(DRAW_TRIANGLE);
+
+		
+		// 3 point light lamp
+		point_light_lamp.LoadBuffer(vertex_buffer_, element_buffer_);
+		model_matrix.identify();
+		model_matrix.scale(0.1, 0.1, 0.1);
+		model_matrix.translate(point_light.position);
+		vertex_shader_light.model_ = model_matrix;
+		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
+
+		SetShader(&vertex_shader_light, &fragment_shader);
+		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
+		Draw(DRAW_TRIANGLE);
 
 
         // -------------------------------------------------------------------------------

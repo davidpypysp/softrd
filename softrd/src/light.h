@@ -20,25 +20,36 @@ struct Light {
 		specular(specular) {
 	}
 
+	virtual vec3 CalcColor(const vec3 &normal, const vec3 &object_position, const vec3 &view_dir, const Material &material) {
+
+		// diffuse 
+		vec3 light_dir = (position - object_position).normalize();
+		float diff = Max(normal * light_dir, 0.0);
+
+		// specular
+		vec3 reflect_dir = Reflect(-light_dir, normal);
+		float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
+
+
+		vec3 ambient_color = ambient.multiply(material.ambient);
+		vec3 diffuse_color = diffuse.multiply(diff * material.diffuse);
+		vec3 specular_color = specular.multiply(spec * material.specular);
+
+		return ambient_color + diffuse_color + specular_color;
+	}
 
 };
 
 
-struct DirLight { // Directional Light
+struct DirLight : public Light { // Directional Light
 	vec3 direction;
 
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
-
 	DirLight(const vec3 &direction = vec3(), const vec3 &ambient = vec3(), const vec3 &diffuse = vec3(), const vec3 &specular = vec3()) :
-		direction(direction),
-		ambient(ambient),
-		diffuse(diffuse),
-		specular(specular) {
+		Light(vec3(), ambient, diffuse, specular),
+		direction(direction) {
 	}
 
-	vec3 CalcColor(const vec3 &normal, const vec3 &view_dir, const Material &material) {
+	vec3 CalcColor(const vec3 &normal, const vec3 &object_position, const vec3 &view_dir, const Material &material) {
 		vec3 light_dir = (-direction).normalize();
 
 
@@ -50,30 +61,21 @@ struct DirLight { // Directional Light
 		float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
 
 		// combine results
-		vec3 ambient = ambient.multiply(material.ambient);
-		vec3 diffuse = diffuse.multiply(diff * material.diffuse);
-		vec3 specular = specular.multiply(spec * material.specular);
-		return (ambient + diffuse + specular);
+		vec3 ambient_color = ambient.multiply(material.ambient);
+		vec3 diffuse_color = diffuse.multiply(diff * material.diffuse);
+		vec3 specular_color = specular.multiply(spec * material.specular);
+		return ambient_color + diffuse_color + specular_color;
 	}
 };
 
 
-struct PointLight {
-	vec3 position;
-
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
-
+struct PointLight : public Light {
 	float constant;
 	float linear;
 	float quadratic;
 
-	PointLight(const vec3 &position = vec3(), const vec3 &ambinet = vec3(), const vec3 &diffuse = vec3(), const vec3 &specular = vec3(), float constant = 0.0, float linear = 0.0, float quadratic = 0.0) :
-		position(position),
-		ambient(ambient),
-		diffuse(diffuse),
-		specular(specular),
+	PointLight(const vec3 &position = vec3(), const vec3 &ambient = vec3(), const vec3 &diffuse = vec3(), const vec3 &specular = vec3(), float constant = 0.0, float linear = 0.0, float quadratic = 0.0) :
+		Light(position, ambient, diffuse, specular),
 		constant(constant),
 		linear(linear),
 		quadratic(quadratic) {
@@ -81,7 +83,6 @@ struct PointLight {
 
 
 	vec3 CalcColor(const vec3 &normal, const vec3 &object_position, const vec3 &view_dir, const Material &material) {
-
 		vec3 light_dir = (position - object_position);
 		float distance = light_dir.length();
 		light_dir.normalize();
@@ -93,14 +94,13 @@ struct PointLight {
 		vec3 reflect_dir = Reflect(-light_dir, normal);
 		float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
 		// attenuation
-		float attenuation = 1.0 / (constant + linear * distance +
-			quadratic * (distance * distance));
+		float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));
 
 		// combine results
-		vec3 ambient = ambient.multiply(material.ambient) * attenuation;
-		vec3 diffuse = diffuse.multiply(diff * material.diffuse) * attenuation;
-		vec3 specular = specular.multiply(spec * material.specular) * attenuation;
-		return (ambient + diffuse + specular);
+		vec3 ambient_color = ambient.multiply(material.ambient) * attenuation;
+		vec3 diffuse_color = diffuse.multiply(diff * material.diffuse) * attenuation;
+		vec3 specular_color = specular.multiply(spec * material.specular) * attenuation;
+		return ambient_color + diffuse_color + specular_color;
 	}
 };
 
