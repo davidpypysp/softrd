@@ -90,6 +90,11 @@ inline T Reflect(const T &v, const T &normal) {
 	return v - 2.0 * (normal * v) * normal;
 }
 
+
+inline vec2 TransformUV(const vec2 &uv) { // transfor uv from standard opengl to my library setting
+	return vec2(Clamp(uv.x, 0.0, 1.0), 1.0 - Clamp(uv.y, 0.0, 1.0));
+}
+
 } // namespace softrd
 
 

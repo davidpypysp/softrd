@@ -22,7 +22,8 @@ polygon_mode_(Rasterizer::TRIANGLE_FILL) {
     rasterizer_.SetCamera(&camera_);
     device_.Setup();
     last_time_ = steady_clock::now();
-    inputs_.push_back(new InputUnit3("Camera", &camera_.position));
+	inputs_.push_back(new InputUnit3("Camera", &camera_.position));
+	inputs_.push_back(new InputUnit3("Camera Direction", &camera_.direction));
     input_index_ = 0;
 }
 
@@ -35,6 +36,8 @@ void Renderer::Run() {
     object.LoadCube2();
     vec3 object_position = vec3(0.0, 0.0, 0.0);
     inputs_.push_back(new InputUnit3("Object", &object_position));
+	vec3 object2_position = vec3(3.0, 0.0, 0.0);
+	inputs_.push_back(new InputUnit3("Object2", &object2_position));
     Material object_material(vec3(1.0, 0.5, 0.31), vec3(1.0, 0.5, 0.31), vec3(0.5, 0.5, 0.5), 32.0);
     Texture *diffuse_texture = new Texture("resource/container2.png");
 	Texture *specular_texture = new Texture("resource/container2_specular.png");
@@ -45,7 +48,6 @@ void Renderer::Run() {
     light_lamp.LoadCube();
     Light light(vec3(0.0, 0.0, 3.0), vec3(0.2, 0.2, 0.2), vec3(0.5, 0.5, 0.5), vec3(1.0, 1.0, 1.0));
     inputs_.push_back(new InputUnit3("Light", &light.position));
-
 
 
 	// define directional light
@@ -59,13 +61,20 @@ void Renderer::Run() {
 	PointLight point_light(vec3(-3.0, 0.0, 0.0), vec3(0.05, 0.05, 0.05), vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
 	inputs_.push_back(new InputUnit3("PointLight", &point_light.position));
 
+	// difine lamp spot light
+	Mesh spot_light_lamp;
+	spot_light_lamp.LoadCube();
+	SpotLight spot_light(vec3(3.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), cos(Radians(12.5)), cos(Radians(17.5)), vec3(0.1, 0.1, 0.1), vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
+	inputs_.push_back(new InputUnit3("SpotLight", &spot_light.position));
+
     VertexShaderLight vertex_shader_light;
     FragmentShader fragment_shader;
     FragmentShaderLightFull fragment_shader_light(camera_.position, object_material, light);
     FragmentShaderLightTexture fragment_shader_light_texture(camera_.position, object_material2);
-	fragment_shader_light_texture.AddLight(&light);
-	fragment_shader_light_texture.AddLight(&dir_light);
-	fragment_shader_light_texture.AddLight(&point_light);
+	//fragment_shader_light_texture.AddLight(&light);
+	//fragment_shader_light_texture.AddLight(&dir_light);
+	//fragment_shader_light_texture.AddLight(&point_light);
+	fragment_shader_light_texture.AddLight(&spot_light);
 
 
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
@@ -83,6 +92,11 @@ void Renderer::Run() {
 
         
         // -------------------------------------------------------------------------------
+
+		// update camera spot light
+		//spot_light.position = camera_.position;
+		//spot_light.direction = -camera_.direction;
+
         
         // 1 cube object
         object.LoadBuffer(vertex_buffer_, element_buffer_);
@@ -99,6 +113,21 @@ void Renderer::Run() {
         SetShader(&vertex_shader_light, &fragment_shader_light_texture);
         SetPolygonMode(Rasterizer::TRIANGLE_FILL);
         Draw(DRAW_TRIANGLE);
+
+		/*
+		// cube object 2
+		model_matrix.identify();
+		model_matrix.translate(object2_position);
+		vertex_shader_light.model_ = model_matrix;
+		vertex_shader_light.view_ = camera_.view;
+		vertex_shader_light.projection_ = camera_.projection;
+		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
+		*/
+
+		//SetShader(&vertex_shader_light, &fragment_shader_light);
+		SetShader(&vertex_shader_light, &fragment_shader_light_texture);
+		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
+		Draw(DRAW_TRIANGLE);
         
 
         // 2 light lamp
@@ -119,6 +148,18 @@ void Renderer::Run() {
 		model_matrix.identify();
 		model_matrix.scale(0.1, 0.1, 0.1);
 		model_matrix.translate(point_light.position);
+		vertex_shader_light.model_ = model_matrix;
+		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
+
+		SetShader(&vertex_shader_light, &fragment_shader);
+		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
+		Draw(DRAW_TRIANGLE);
+
+		// 4 spot light lamp
+		spot_light_lamp.LoadBuffer(vertex_buffer_, element_buffer_);
+		model_matrix.identify();
+		model_matrix.scale(0.1, 0.1, 0.1);
+		model_matrix.translate(spot_light.position);
 		vertex_shader_light.model_ = model_matrix;
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
