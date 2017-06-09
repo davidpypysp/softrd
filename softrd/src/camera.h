@@ -28,12 +28,12 @@ struct Camera {
 		yaw = 90.0;
 		*/
 		position = vec3(6.0, 6.0, 10.0);
-		direction = vec3(0.0, 0.0, 0.0);
-		up = vec3(0.0, 1.0, 0.0);
-		right = vec3(1.0, 0.0, 0.0);
 		pitch = 30.0;
 		yaw = 60.0;
 
+		direction = vec3(0.0, 0.0, 0.0);
+		up = vec3(0.0, 1.0, 0.0);
+		right = vec3(1.0, 0.0, 0.0);
 		world_up = vec3(0.0, 1.0, 0.0);
 		fov = 45.0; 
 		this->aspect = aspect;

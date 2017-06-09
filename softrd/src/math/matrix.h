@@ -92,6 +92,38 @@ struct mat3 {
 		return result;
 	}
 
+
+	inline mat3 operator / (const float k) const {
+		mat3 result;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				result.value[i][j] = value[i][j] / k;
+			}
+		}
+		return result;
+	}
+
+	inline mat3& operator += (const mat3 &b) {
+		*this = *this + b;
+		return *this;
+	}
+
+	inline mat3& operator -= (const mat3 &b) {
+		*this = *this - b;
+		return *this;
+	}
+
+	inline mat3& operator *= (const float k) {
+		*this = *this * k;
+		return *this;
+	}
+
+	inline mat3& operator /= (const float k) {
+		*this = *this / k;
+		return *this;
+	}
+
+
 	inline float det() {
 		return value[1][1] * value[2][2] * value[3][3]
 			 + value[1][2] * value[2][3] * value[3][1]
@@ -192,6 +224,35 @@ struct mat4 {
 		return result;
 	}
 
+	inline mat4 operator / (const float k) const {
+		mat4 result;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				result.value[i][j] = value[i][j] / k;
+			}
+		}
+		return result;
+	}
+
+	inline mat4& operator += (const mat4 &b) {
+		*this = *this + b;
+		return *this;
+	}
+
+	inline mat4& operator -= (const mat4 &b) {
+		*this = *this - b;
+		return *this;
+	}
+
+	inline mat4& operator *= (const float k) {
+		*this = *this * k;
+		return *this;
+	}
+
+	inline mat4& operator /= (const float k) {
+		*this = *this / k;
+		return *this;
+	}
 
 	inline void translate(const float x, const float y, const float z) {
 		value[0][3] = x;

@@ -23,6 +23,10 @@ struct vec2 {
 	inline vec2& normalize() { return *this = *this / length(); }
 	inline void move(const vec2 &b) { x += b.x; y += b.y; }
 
+	inline vec2& operator += (const vec2 &b) { *this = *this + b; return *this; }
+	inline vec2& operator -= (const vec2 &b) { *this = *this - b; return *this; }
+	inline vec2& operator *= (const float b) { *this = *this * b; return *this; }
+	inline vec2& operator /= (const float b) { *this = *this / b; return *this; }
 
 
 	inline float& operator [] (const int index) {
@@ -57,6 +61,12 @@ struct vec3 {
 	inline vec3& normalize() { return *this = *this / length(); }
 	inline vec3 multiply(const vec3 &b) const { return vec3(x*b.x, y*b.y, z*b.z); }
 	inline void move(const vec3 &b) { x += b.x; y += b.y; z += b.z; }
+
+	inline vec3& operator += (const vec3 &b) { *this = *this + b; return *this; }
+	inline vec3& operator -= (const vec3 &b) { *this = *this - b; return *this; }
+	inline vec3& operator *= (const float b) { *this = *this * b; return *this; }
+	inline vec3& operator /= (const float b) { *this = *this / b; return *this; }
+
 
 	inline float& operator [] (const int index) {
 		switch (index) {
@@ -93,6 +103,12 @@ struct vec4 {
 	inline vec3 homogenize() { return vec3(x / w, y / w, z / w); }
 	inline void move(const vec4 &b) { x += b.x; y += b.y; z += b.z; w += b.w; }
 	inline vec3 getVec3() { return vec3(x, y, z); }
+
+
+	inline vec4& operator += (const vec4 &b) { *this = *this + b; return *this; }
+	inline vec4& operator -= (const vec4 &b) { *this = *this - b; return *this; }
+	inline vec4& operator *= (const float b) { *this = *this * b; return *this; }
+	inline vec4& operator /= (const float b) { *this = *this / b; return *this; }
 
 
 	inline float& operator [] (const int index) {
