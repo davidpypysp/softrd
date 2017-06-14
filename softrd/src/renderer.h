@@ -33,6 +33,7 @@ public:
 	void Run();
 	void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
 	void Draw(const DrawMode mode); // draw one frame
+	void DrawObject(Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader, const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE, const DrawMode draw_mode = DRAW_TRIANGLE);
 	void SetPolygonMode(const Rasterizer::DrawTriangleMode mode);
 	void ResetBuffer();
 	void Clear();

@@ -67,6 +67,7 @@ void Renderer::Run() {
 	SpotLight spot_light(vec3(3.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), cos(Radians(12.5)), cos(Radians(17.5)), vec3(0.1, 0.1, 0.1), vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
 	inputs_.push_back(new InputUnit3("SpotLight", &spot_light.position));
 
+	// define shaders
     VertexShaderLight vertex_shader_light;
     FragmentShader fragment_shader;
     FragmentShaderLightFull fragment_shader_light(camera_.position, object_material, light);
@@ -97,75 +98,49 @@ void Renderer::Run() {
 		//spot_light.position = camera_.position;
 		//spot_light.direction = -camera_.direction;
 
-        
-        // 1 cube object
-        object.LoadBuffer(vertex_buffer_, element_buffer_);
+		mat4 model_matrix;
 
-        mat4 model_matrix;
+        
+        // 1. cube object
+
+
         model_matrix.identify();
         model_matrix.translate(object_position);
         vertex_shader_light.model_ = model_matrix;
-        vertex_shader_light.view_ = camera_.view;
-        vertex_shader_light.projection_ = camera_.projection;
         vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
-        //SetShader(&vertex_shader_light, &fragment_shader_light);
-        SetShader(&vertex_shader_light, &fragment_shader_light_texture);
-        SetPolygonMode(Rasterizer::TRIANGLE_FILL);
-        Draw(DRAW_TRIANGLE);
+		DrawObject(object, vertex_shader_light, fragment_shader_light_texture, Rasterizer::TRIANGLE_FILL, DRAW_TRIANGLE);
 
-		/*
-		// cube object 2
-		model_matrix.identify();
-		model_matrix.translate(object2_position);
-		vertex_shader_light.model_ = model_matrix;
-		vertex_shader_light.view_ = camera_.view;
-		vertex_shader_light.projection_ = camera_.projection;
-		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
-		*/
-
-		//SetShader(&vertex_shader_light, &fragment_shader_light);
-		SetShader(&vertex_shader_light, &fragment_shader_light_texture);
-		SetPolygonMode(Rasterizer::TRIANGLE_FILL);
-		Draw(DRAW_TRIANGLE);
         
 
-        // 2 light lamp
-        light_lamp.LoadBuffer(vertex_buffer_, element_buffer_);
+        // 2. light lamp
         model_matrix.identify();
         model_matrix.scale(0.1, 0.1, 0.1);
         model_matrix.translate(light.position);
         vertex_shader_light.model_ = model_matrix;
         vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
-        SetShader(&vertex_shader_light, &fragment_shader);
-        SetPolygonMode(Rasterizer::TRIANGLE_LINE);
-        Draw(DRAW_TRIANGLE);
+		DrawObject(light_lamp, vertex_shader_light, fragment_shader);
 
 		
-		// 3 point light lamp
-		point_light_lamp.LoadBuffer(vertex_buffer_, element_buffer_);
+		// 3. point light lamp
 		model_matrix.identify();
 		model_matrix.scale(0.1, 0.1, 0.1);
 		model_matrix.translate(point_light.position);
 		vertex_shader_light.model_ = model_matrix;
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
-		SetShader(&vertex_shader_light, &fragment_shader);
-		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
-		Draw(DRAW_TRIANGLE);
+		DrawObject(point_light_lamp, vertex_shader_light, fragment_shader);
 
-		// 4 spot light lamp
-		spot_light_lamp.LoadBuffer(vertex_buffer_, element_buffer_);
+
+		// 4. spot light lamp
 		model_matrix.identify();
 		model_matrix.scale(0.1, 0.1, 0.1);
 		model_matrix.translate(spot_light.position);
 		vertex_shader_light.model_ = model_matrix;
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
-		SetShader(&vertex_shader_light, &fragment_shader);
-		SetPolygonMode(Rasterizer::TRIANGLE_LINE);
-		Draw(DRAW_TRIANGLE);
+		DrawObject(spot_light_lamp, vertex_shader_light, fragment_shader);
 
 
         // -------------------------------------------------------------------------------
@@ -174,9 +149,7 @@ void Renderer::Run() {
 
         // draw everything in the device
         DrawFrame();
-
     }
-
 
     Clear();
 
@@ -240,6 +213,13 @@ void Renderer::Draw(const DrawMode mode) { // rendering pipeline
         }
     }
 
+}
+
+void Renderer::DrawObject(Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader, const Rasterizer::DrawTriangleMode tri_mode, const DrawMode draw_mode) {
+	mesh.LoadBuffer(vertex_buffer_, element_buffer_);
+	SetShader(&vertex_shader, &fragment_shader);
+	SetPolygonMode(tri_mode);
+	Draw(draw_mode);
 }
 
 void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
