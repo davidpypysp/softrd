@@ -97,13 +97,10 @@ void Renderer::Run() {
 		// update camera spot light
 		//spot_light.position = camera_.position;
 		//spot_light.direction = -camera_.direction;
-
 		mat4 model_matrix;
 
         
         // 1. cube object
-
-
         model_matrix.identify();
         model_matrix.translate(object_position);
         vertex_shader_light.model_ = model_matrix;
@@ -357,7 +354,6 @@ void Renderer::DrawCoordinateAxis() {
         Draw(DRAW_LINE);
     }
 
-    
     fragment_shader.flat_color = vec3(0.5, 0.5, 0.5);
     mat4 model;
     model.identify();
@@ -375,7 +371,6 @@ void Renderer::DrawCoordinateAxis() {
         vertex_shader.transform_ = camera_.projection * camera_.view * model;
         Draw(DRAW_LINE);
     }
-
 }
 
 } // namespace softrd

@@ -1,5 +1,7 @@
 #include "primitive_assembly.h"
+#include "clipping.h"
 #include <array>
+
 
 namespace softrd {
 
@@ -27,13 +29,34 @@ PrimitiveAssembler::~PrimitiveAssembler() {
 
 bool PrimitiveAssembler::AssembleLine(const int e1, const int e2, LinePrimitive *line) {
 	int elements[] = { e1, e2 };
-	
-	
+
+
+	/*
 	for (int i = 0; i < 2; ++i) {
 		if (BackClip(vertex_out_buffer_[elements[i]].position)) return false;
 	}
+	*/
 	
-	GeneratePrimitive(elements, *line);
+	//GeneratePrimitive(elements, *line);
+
+
+	for (int i = 0; i < 2; ++i) {
+		line->v[i] = vertex_out_buffer_[elements[i]];
+	}
+
+	if (ClipLineNegativeW(line) == false) return false;
+	if (ClipLine(line) == false) return false;
+	
+	for (int i = 0; i < line->size; ++i) {
+		vec4 position = line->v[i].position;
+
+		// transform 
+		PerspectiveDivide(position);
+		ViewportTransform(position, width_, height_);
+
+		line->v[i].position = position;
+	}
+	
 	return true;
 }
 

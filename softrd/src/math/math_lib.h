@@ -6,6 +6,7 @@
 
 #include "matrix.h"
 #include "vector.h"
+#include "plane.h"
 
 namespace softrd {
 
@@ -95,7 +96,16 @@ inline vec2 TransformUV(const vec2 &uv) { // transfor uv from standard opengl to
 	return vec2(Clamp(uv.x, 0.0, 1.0), 1.0 - Clamp(uv.y, 0.0, 1.0));
 }
 
+
+inline vec3 PlaneLineIntersectionPoint(const Plane &plane, const vec3 &p1, const vec3 &p2) { // plane, line(p1, p2), get the intersection point
+	float t = (plane.d + plane.a * p1.x + plane.b * p1.y + plane.c * p1.z) / (plane.a * (p1.x - p2.x) + plane.b * (p1.y - p2.y) + plane.c * (p1.z - p2.z));
+	return vec3(p1.x + t * (p1.x - p2.x), p1.y + t * (p1.y - p2.y), p1.z + t * (p1.z - p2.z));
+}
+
 } // namespace softrd
+
+
+
 
 
 #endif // SOFTRD_MATH_MATH_LIB_H_
