@@ -30,22 +30,12 @@ PrimitiveAssembler::~PrimitiveAssembler() {
 bool PrimitiveAssembler::AssembleLine(const int e1, const int e2, LinePrimitive *line) {
 	int elements[] = { e1, e2 };
 
-
-	/*
-	for (int i = 0; i < 2; ++i) {
-		if (BackClip(vertex_out_buffer_[elements[i]].position)) return false;
-	}
-	*/
-	
-	//GeneratePrimitive(elements, *line);
-
-
 	for (int i = 0; i < 2; ++i) {
 		line->v[i] = vertex_out_buffer_[elements[i]];
 	}
 
-	if (ClipLineNegativeW(line) == false) return false;
-	if (ClipLine(line) == false) return false;
+	if (Clipper::ClipLineNegativeW(line) == false) return false;
+	if (Clipper::ClipLine(line) == false) return false;
 	
 	for (int i = 0; i < line->size; ++i) {
 		vec4 position = line->v[i].position;
@@ -66,7 +56,7 @@ bool PrimitiveAssembler::AssembleTriangle(const int e1, const int e2, const int 
 
 	// clipping
 	for (int i = 0; i < 3; ++i) {
-		if (Clip(vertex_out_buffer_[elements[i]].position)) return false;
+		if (Clipper::OutsideViewFrustum(vertex_out_buffer_[elements[i]].position)) return false;
 	}
 	TrianglePrimitive triangle;
 	GeneratePrimitive(elements, triangle);
@@ -98,26 +88,7 @@ bool PrimitiveAssembler::GeneratePrimitive(int elements[], Primitive &primitive)
 	return true;
 }
 
-bool PrimitiveAssembler::Clip(const vec4 &position) { // position out of frustum
-	/*
-	if (position.x <= -position.w || position.x >= position.w) return true;
-	if (position.y <= -position.w || position.y >= position.w) return true;
-	if (position.z <= -position.w || position.z >= position.w) return true;
-	return false;
-	*/
 
-
-	// loose way
-	if (position.x >= -position.w && position.x <= position.w) return false;
-	if (position.y >= -position.w && position.y <= position.w) return false;
-	if (position.z >= -position.w && position.z <= position.w) return false;
-	return true;
-}
-
-bool PrimitiveAssembler::BackClip(const vec4 &position) {
-	if (position.w <= 0) return true;
-	return false;
-}
 
 bool PrimitiveAssembler::PerspectiveDivide(vec4 &position) {
 	if (position.w == 0) return false;

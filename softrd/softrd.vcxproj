@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\clipping.cpp" />
     <ClCompile Include="src\device.cpp" />
     <ClCompile Include="src\fragment_shader.cpp" />
     <ClCompile Include="src\model.cpp" />

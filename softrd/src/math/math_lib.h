@@ -37,7 +37,7 @@ inline float LinearInterpolationCoef(const float x1, const float x2, const float
 
 template<typename T>
 inline T LinearInterpolation(const T &a, const T &b, const float k) { // T could be float, vec3, vec4, mat3, mat4 ...
-	return (1 - k) * a + k * b;
+	return (1.0 - k) * a + k * b;
 }
 
 
