@@ -180,7 +180,7 @@ struct mat4 {
 		memset(value, 0, sizeof(value));
 	}
 
-	inline mat4 mat4::operator + (const mat4 &b) const {
+	inline mat4 operator + (const mat4 &b) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
@@ -188,7 +188,7 @@ struct mat4 {
 		return result;
 	}
 
-	inline mat4 mat4::operator - (const mat4 &b) const {
+	inline mat4 operator - (const mat4 &b) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
@@ -196,7 +196,7 @@ struct mat4 {
 		return result;
 	}
 
-	inline mat4 mat4::operator * (const mat4 &b) const {
+	inline mat4 operator * (const mat4 &b) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -206,7 +206,7 @@ struct mat4 {
 		return result;
 	}
 
-	inline mat4 mat4::operator * (const float k) const {
+	inline mat4 operator * (const float k) const {
 		mat4 result;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) result.value[i][j] = value[i][j] * k;
