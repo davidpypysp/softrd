@@ -60,7 +60,7 @@ public:
 	Material &material;
 	Light &light;
 
-	FragmentShaderLightFull(vec3 &view_position = vec3(), Material &material = Material(), Light &light = Light());
+	FragmentShaderLightFull(vec3 &view_position, Material &material, Light &light);
 	void Program();
 
 };
@@ -72,7 +72,7 @@ public:
 	TextureMaterial &material;
 	std::vector<Light*> lights;
 
-	FragmentShaderLightTexture(vec3 &view_position = vec3(), TextureMaterial &material = TextureMaterial());
+	FragmentShaderLightTexture(vec3 &view_position, TextureMaterial &material);
 	void Program();
 	void AddLight(Light *light);
 

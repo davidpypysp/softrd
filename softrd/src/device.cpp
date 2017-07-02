@@ -77,7 +77,7 @@ void Device::DrawTextFixed(const std::string &str, const int x, const int y, con
 
 void Device::DrawText(const std::string &str, const float x, const float y, const int size, const vec4 &color) {
 	TTF_Font* font = TTF_OpenFont("resource/font/Lato-Light.ttf", size); //this opens a font style and sets a size
-	SDL_Color text_color = { color.x, color.y, color.z, color.w };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+	SDL_Color text_color = { (Uint8)color.x, (Uint8)color.y, (Uint8)color.z, (Uint8)color.w };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
 	SDL_Surface* surface = TTF_RenderText_Solid(font, str.c_str(), text_color); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
 	SDL_Texture* message = SDL_CreateTextureFromSurface(renderer_, surface); //now you can convert it into a texture
 	SDL_FreeSurface(surface);

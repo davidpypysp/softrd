@@ -54,7 +54,7 @@ void FragmentShaderLight::Program() {
 
 
 
-FragmentShaderLightFull::FragmentShaderLightFull(vec3 & view_position, Material &material, Light &light) :
+FragmentShaderLightFull::FragmentShaderLightFull(vec3 &view_position, Material &material, Light &light) :
 	view_position(view_position), 
 	material(material),
 	light(light) {
