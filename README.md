@@ -22,7 +22,7 @@ Now I'm still building the windows version on visual studio, extending new featu
 
 For this project, basically, I primarily use native C++ 11 to build the total framework of all the rendering pipeline. It could be devided into the following C++ header files which in charges of each stage of the pipeline according to the [OpenGL Rendering Pipeline](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview)
 
-
+![Opengl Rendering Pipeline](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/RenderingPipeline.png)
 
 ```
 Rendering pipeline corresponding c++ header file: 
