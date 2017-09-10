@@ -20,9 +20,12 @@ Now I'm still building the windows version on visual studio, extending new featu
 
 ## Implementation Details
 
+### Rendering Pipeline Implementation
 For this project, basically, I primarily use native C++ 11 to build the total framework of all the rendering pipeline. It could be devided into the following C++ header files which in charges of each stage of the pipeline according to the [OpenGL Rendering Pipeline](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview)
+<div align=center>  
 
 ![Opengl Rendering Pipeline](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/RenderingPipeline.png)
+</div>
 
 ```
 Rendering pipeline corresponding c++ header file: 
@@ -36,11 +39,20 @@ Rendering pipeline corresponding c++ header file:
 ```
 ## How to install
 
+* TBC
+
 ## Test Environment
+
+* Surface Pro4 m3 4GB
+* Windows 10
+* Visual Studio 2015
 
 ## Reference
 
-[OpenGL](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview) 
+* [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview) 
+* [Learn OpenGL](https://learnopengl.com/)
+* [http://www.songho.ca/opengl/](http://www.songho.ca/opengl/)
+* [如何开始用 C++ 写一个光栅化渲染器？](https://www.zhihu.com/question/24786878)
 
 
 
