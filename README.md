@@ -9,7 +9,7 @@ Basically, the renderer is running on GUI based on SDL2.0 and it can load standa
 
 Now I'm still building the windows version on visual studio, extending new features, optimizing structure and performance. Ideally, it can also support cross platform running on Mac.
 
-## Feature
+## Features
 
 * 3D engine with OpenGL style rendering pipline implementation including vertex shader, primitive assembly,  rasterizing, fragment shader, per-sample operations.
 * Support rendering standard .obj file 3D model.
@@ -37,6 +37,16 @@ Rendering pipeline corresponding c++ header file:
     |----fragment_shader.h    // fragment shader stage
     |----per_sample_proccessing.h    // per-sample operations stage
 ```
+### Auxiliary Libraries
+
+* SDL2.0 -- For renderer's cross-platform GUI and keyboard I/O.
+* Assimp -- Import .obj model into self-defined `model` class object.
+* SOIL -- Import diffrent format of image file into `texture` class object.
+
+### Effects
+
+
+
 ## How to install
 
 * TBC

@@ -54,32 +54,24 @@ void FragmentShaderLight::Program() {
 
 
 
-FragmentShaderLightFull::FragmentShaderLightFull(vec3 &view_position, Material &material, Light &light) :
+FragmentShaderLightFull::FragmentShaderLightFull(vec3 &view_position, Material &material) :
 	view_position(view_position), 
-	material(material),
-	light(light) {
+	material(material) {
 }
 
 void FragmentShaderLightFull::Program() {
-	// ambient
-	vec3 ambient = light.ambient.multiply(material.ambient);
-
-	// diffuse
 	vec3 norm = in_.world_normal.normalize();
-	vec3 light_dir = (light.position - in_.world_position).normalize();
-
-	float diff = Max(norm * light_dir, 0.0);
-	vec3 diffuse = light.diffuse.multiply(diff * material.diffuse);
-
-	// specular
 	vec3 view_dir = (view_position - in_.world_position).normalize();
-	vec3 reflect_dir = Reflect(-light_dir, norm);
-	float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
-	vec3 specular = light.specular.multiply(spec * material.specular);
 
-
-	vec3 result = ambient + diffuse + specular;
+	vec3 result;
+	for (Light* light : lights) {
+		result = result + light->CalcColor(norm, in_.world_position, view_dir, material);
+	}
 	out_->color = vec4(result, 1.0);
+}
+
+void FragmentShaderLightFull::AddLight(Light *light) {
+	lights.push_back(light);
 }
 
 FragmentShaderLightTexture::FragmentShaderLightTexture(vec3 &view_position, TextureMaterial &material) :

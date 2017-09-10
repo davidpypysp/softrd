@@ -58,10 +58,11 @@ public:
 
 	vec3 &view_position;
 	Material &material;
-	Light &light;
+	std::vector<Light*> lights;
 
-	FragmentShaderLightFull(vec3 &view_position, Material &material, Light &light);
+	FragmentShaderLightFull(vec3 &view_position, Material &material);
 	void Program();
+	void AddLight(Light *light);
 
 };
 

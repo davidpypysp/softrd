@@ -61,7 +61,7 @@ void Renderer::Run() {
 	PointLight point_light(vec3(-3.0, 0.0, 0.0), vec3(0.05, 0.05, 0.05), vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
 	inputs_.push_back(new InputUnit3("PointLight", &point_light.position));
 
-	// difine lamp spot light
+	// define lamp spot light
 	Mesh spot_light_lamp;
 	spot_light_lamp.LoadCube();
 	SpotLight spot_light(vec3(3.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), cos(Radians(12.5)), cos(Radians(17.5)), vec3(0.1, 0.1, 0.1), vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
@@ -70,12 +70,13 @@ void Renderer::Run() {
 	// define shaders
     VertexShaderLight vertex_shader_light;
     FragmentShader fragment_shader;
-    FragmentShaderLightFull fragment_shader_light(camera_.position, object_material, light);
+    FragmentShaderLightFull fragment_shader_light(camera_.position, object_material);
+	fragment_shader_light.AddLight(&light);
     FragmentShaderLightTexture fragment_shader_light_texture(camera_.position, object_material2);
 	fragment_shader_light_texture.AddLight(&light);
-	fragment_shader_light_texture.AddLight(&dir_light);
-	fragment_shader_light_texture.AddLight(&point_light);
-	fragment_shader_light_texture.AddLight(&spot_light);
+	//fragment_shader_light_texture.AddLight(&dir_light);
+	//fragment_shader_light_texture.AddLight(&point_light);
+	//fragment_shader_light_texture.AddLight(&spot_light);
 
 
     while (device_.Quit() == false) { // renderer main loop, implement rendering pipeline here
@@ -106,10 +107,10 @@ void Renderer::Run() {
         vertex_shader_light.model_ = model_matrix;
         vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
-		DrawObject(object, vertex_shader_light, fragment_shader_light_texture, Rasterizer::TRIANGLE_FILL, DRAW_TRIANGLE);
+		//DrawObject(object, vertex_shader_light, fragment_shader_light_texture, Rasterizer::TRIANGLE_FILL, DRAW_TRIANGLE);
+		DrawObject(object, vertex_shader_light, fragment_shader_light, Rasterizer::TRIANGLE_FILL, DRAW_TRIANGLE);
 
         
-
         // 2. light lamp
         model_matrix.identify();
         model_matrix.scale(0.1, 0.1, 0.1);
@@ -138,7 +139,6 @@ void Renderer::Run() {
 		vertex_shader_light.transform_ = camera_.projection * camera_.view * model_matrix;
 
 		DrawObject(spot_light_lamp, vertex_shader_light, fragment_shader);
-
 
         // -------------------------------------------------------------------------------
         
