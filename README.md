@@ -18,14 +18,31 @@ Now I'm still building the windows version on visual studio, extending new featu
 * Support lighting based on Phong lighting model. User can set up different light types(directional light,   spot light, point light) in the scene
 * Use GUI to output real-time rendering frames. Support keyboard control and interaction with different objects(models, lights, camera...) in the scene.
 
+## Effects
+* Single light source with object
+
+  ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/light_test.gif)
+
+* Directional light
+
+  ![dir light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/dir_light_test.gif)
+
+* Point light
+
+  ![point light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/point_light_test.gif)
+
+* Spot light
+
+  ![spot light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/spot_light_test.gif)
+
+
+
 ## Implementation Details
 
 ### Rendering Pipeline Implementation
 For this project, basically, I primarily use native C++ 11 to build the total framework of all the rendering pipeline. It could be devided into the following C++ header files which in charges of each stage of the pipeline according to the [OpenGL Rendering Pipeline](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview)
-<div align=center>  
 
-![Opengl Rendering Pipeline](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/RenderingPipeline.png)
-</div>
+<div align=center><img src="https://raw.githubusercontent.com/davidpypysp/softrd/master/files/RenderingPipeline.png" title="Opengl Rendering Pipeline" width="200" height="280" /></div>
 
 ```
 Rendering pipeline corresponding c++ header file: 
@@ -43,17 +60,7 @@ Rendering pipeline corresponding c++ header file:
 * Assimp -- Import .obj model into self-defined `model` class object.
 * SOIL -- Import diffrent format of image file into `texture` class object.
 
-### Effects
 
-* Single light source with object
-
-  ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/light_test.gif)
-
-* Directional light
-
-* Point light
-
-* Spot light
 
 ## How to install
 
@@ -61,9 +68,8 @@ Rendering pipeline corresponding c++ header file:
 
 ## Test Environment
 
-* Surface Pro4 m3 4GB
-* Windows 10
-* Visual Studio 2015
+* Hardware: Surface Pro4, m3-6Y30 CPU, 4GB RAM
+* Software: Windows 10 Pro, Visual Studio 2015
 
 ## Reference
 
