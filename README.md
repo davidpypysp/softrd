@@ -45,6 +45,7 @@ Rendering pipeline corresponding c++ header file:
 
 ### Effects
 
+* Single light source with object
 
 
 ## How to install
