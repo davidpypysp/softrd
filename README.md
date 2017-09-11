@@ -1,9 +1,9 @@
 # SoftRd
 
-Welcome to SoftRd, a Software 3D Rendering Engine based on C++.  
+Welcome to SoftRd, a 3D Software Rendering Engine based on C++.  
 
 
-This is my individual project due to my interest in computer graphic and rendering pipeline implementation. I developed this project by native C++ from the scratch and refer to OpenGL rendering pipeline standard from [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview).  
+This is my individual project due to my interest in computer graphic and rendering pipeline implementation. I developed this project by native C++ from the scratch and refer to OpenGL rendering pipeline standard from [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview). So currently it's completely a CPU based renderer without GPU acceleration.
 
 Basically, the renderer is running on GUI based on SDL2.0 and it can load standard model files and render them into scenes by different mode and support basic lighting and different customizing shading effect.  
 
@@ -19,6 +19,7 @@ Now I'm still building the windows version on visual studio, extending new featu
 * Use GUI to output real-time rendering frames. Support keyboard control and interaction with different objects(models, lights, camera...) in the scene.
 
 ## Effects
+
 * Single light source with object
 
   ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/light_test.gif)
@@ -40,9 +41,12 @@ Now I'm still building the windows version on visual studio, extending new featu
 ## Implementation Details
 
 ### Rendering Pipeline Implementation
+
 For this project, basically, I primarily use native C++ 11 to build the total framework of all the rendering pipeline. It could be devided into the following C++ header files which in charges of each stage of the pipeline according to the [OpenGL Rendering Pipeline](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview)
 
-<div align=center><img src="https://raw.githubusercontent.com/davidpypysp/softrd/master/files/RenderingPipeline.png" title="Opengl Rendering Pipeline" width="200" height="280" /></div>
+<div align=center>
+<img src="https://raw.githubusercontent.com/davidpypysp/softrd/master/files/RenderingPipeline.png" title="Opengl Rendering Pipeline" width="200" height="280" />
+</div>
 
 ```
 Rendering pipeline corresponding c++ header file: 
