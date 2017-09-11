@@ -47,6 +47,8 @@ Rendering pipeline corresponding c++ header file:
 
 * Single light source with object
 
+  ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/light_test.gif)
+
 
 ## How to install
 
