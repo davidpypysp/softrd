@@ -49,6 +49,11 @@ Rendering pipeline corresponding c++ header file:
 
   ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/light_test.gif)
 
+* Directional light
+
+* Point light
+
+* Spot light
 
 ## How to install
 

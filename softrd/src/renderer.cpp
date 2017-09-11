@@ -71,7 +71,7 @@ void Renderer::Run() {
     VertexShaderLight vertex_shader_light;
     FragmentShader fragment_shader;
     FragmentShaderLightFull fragment_shader_light(camera_.position, object_material);
-	fragment_shader_light.AddLight(&light);
+	fragment_shader_light.AddLight(&spot_light);
     FragmentShaderLightTexture fragment_shader_light_texture(camera_.position, object_material2);
 	fragment_shader_light_texture.AddLight(&light);
 	//fragment_shader_light_texture.AddLight(&dir_light);
