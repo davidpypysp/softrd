@@ -4,9 +4,22 @@
 
 
 
+//	Note: Why I choose this cpp file to display for recruiment?
+//
+//	This is my individual project: Softrd - 3D Software Rendering Engine based on C++.
+//	And this file is the main renderer pipeline class implementation. 
+//	It contains the main loop of the renderer running process: import models and light sources, vertices transform through different space, rasterizing algorithm, pixel generating...
+//	During the development of this project, I modify this code file so many times to make this renderer from nothing to runnable and to have better performance.
+//
+//	I think this code segment can show my ability about how to organize different modules and class in a big project.
+//	And I also strictly take reference to the google c++ code style document to give my codes better readability.
+
+
+
+
 namespace softrd {
 
-
+// Renderer initialization, include each stage's initialization
 Renderer::Renderer(const int width, const int height) : 
 width_(width), 
 height_(height),
@@ -27,6 +40,7 @@ polygon_mode_(Rasterizer::TRIANGLE_FILL) {
     input_index_ = 0;
 }
 
+// main loop of renderer
 void Renderer::Run() {
     LoadCoordinateAxis();
     
@@ -152,12 +166,14 @@ void Renderer::Run() {
 
 }
 
+// use appointed vertex shader and fragment shader for rendering
 void Renderer::SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader) {
     vertex_shader_ = vertex_shader;
     fragment_shader_ = fragment_shader;
 }
 
-void Renderer::Draw(const DrawMode mode) { // rendering pipeline
+// rendering pipeline program
+void Renderer::Draw(const DrawMode mode) { 
     //vertex shader stage
     vertex_out_buffer_.clear();
     VertexOut vertex_out;
@@ -212,6 +228,8 @@ void Renderer::Draw(const DrawMode mode) { // rendering pipeline
 
 }
 
+
+// Draw mesh using rendering pipeline
 void Renderer::DrawObject(Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader, const Rasterizer::DrawTriangleMode tri_mode, const DrawMode draw_mode) {
 	mesh.LoadBuffer(vertex_buffer_, element_buffer_);
 	SetShader(&vertex_shader, &fragment_shader);
@@ -219,6 +237,7 @@ void Renderer::DrawObject(Mesh &mesh, VertexShader &vertex_shader, FragmentShade
 	Draw(draw_mode);
 }
 
+// set polygonmode in triangle mode or wireframe mode
 void Renderer::SetPolygonMode(const Rasterizer::DrawTriangleMode mode) {
     polygon_mode_ = mode;
 }
@@ -235,6 +254,7 @@ void Renderer::Clear() {
 Renderer::~Renderer() {
 }
 
+// set pixel to the appointed color
 void Renderer::SetPixel(const int x, const int y, const vec4 &color) {
     if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
         int offset = (y * width_ + x) * 4;
@@ -245,10 +265,12 @@ void Renderer::SetPixel(const int x, const int y, const vec4 &color) {
     }
 }
 
+// set depth buffer value
 void Renderer::SetDepth(const int x, const int y, const float z) {
     depth_buffer_[y * width_ + x] = z;
 }
 
+// for fps display
 void Renderer::SetFrame() {
     // frame setting
     auto current_time = steady_clock::now();
@@ -259,6 +281,7 @@ void Renderer::SetFrame() {
     last_time_ = current_time;
 }
 
+// set ui text in SDL2.0
 void Renderer::SetUI() {
     //device_.DrawText("FPS: " + util::ToString(fps_, 1), 2, 2, 100, 30);
     std::string fps_info = "FPS: " + util::ToString(fps_, 1);
@@ -269,6 +292,7 @@ void Renderer::SetUI() {
     //device_.DrawText("Frame: " + std::to_string(frame_count_), 2, 32, 200, 30);
 }
 
+// draw one frame in GUI
 void Renderer::DrawFrame() {
     device_.RenderClear();
     device_.Draw(frame_buffer_);
@@ -330,6 +354,8 @@ bool Renderer::Press() {
     return false;
 }
 
+
+
 void Renderer::LoadCoordinateAxis() {
     axis_lines_[0].LoadLine(vec3(0, 0, 0), vec3(10, 0, 0), vec3(1, 0, 0));
     axis_lines_[1].LoadLine(vec3(0, 0, 0), vec3(0, 10, 0), vec3(0, 1, 0));
@@ -340,6 +366,7 @@ void Renderer::LoadCoordinateAxis() {
 
 }
 
+// Draw Coordinate Axis function
 void Renderer::DrawCoordinateAxis() {
     VertexShader vertex_shader;
     vertex_shader.transform_ = camera_.projection * camera_.view;
