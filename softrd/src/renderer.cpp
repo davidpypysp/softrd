@@ -2,21 +2,6 @@
 #include "model.h"
 #include "vertex_loader.h"
 
-
-
-//	Note: Why I choose this cpp file to display for recruiment?
-//
-//	This is my individual project: Softrd - 3D Software Rendering Engine based on C++.
-//	And this file is the main renderer pipeline class implementation. 
-//	It contains the main loop of the renderer running process: import models and light sources, vertices transform through different space, rasterizing algorithm, pixel generating...
-//	During the development of this project, I modify this code file so many times to make this renderer from nothing to runnable and to have better performance.
-//
-//	I think this code segment can show my ability about how to organize different modules and class in a big project.
-//	And I also strictly take reference to the google c++ code style document to give my codes better readability.
-
-
-
-
 namespace softrd {
 
 // Renderer initialization, include each stage's initialization

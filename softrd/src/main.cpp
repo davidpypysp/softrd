@@ -1,10 +1,11 @@
 #include <iostream>
 
-#include "renderer.h"
+// #include "renderer.h"
 
-int main() // main entrance of this project
+int main(int argc, char** argv) // main entrance of this project
 {
-	softrd::Renderer renderer(640, 480);
-	renderer.Run();
+	// softrd::Renderer renderer(640, 480);
+	// renderer.Run();
+	std::cout << "test running" << std::endl;
 	return 0;
 }
