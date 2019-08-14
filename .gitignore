@@ -253,4 +253,3 @@ bazel-testlogs
 /Debug/
 *.pyc
 *genrule.log
-WORKSPACE
