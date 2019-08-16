@@ -1,7 +1,8 @@
 #ifndef SOFTRD_CAMERA_H_
 #define SOFTRD_CAMERA_H_
 
-#include "math/math_lib.h"
+#include "src/math/math_lib.h"
+
 namespace softrd {
 
 struct Camera {

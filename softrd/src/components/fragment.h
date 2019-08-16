@@ -1,7 +1,7 @@
 #ifndef SOFTRD_FRAGMENT_H_
 #define SOFTRD_FRAGMENT_H_
 
-#include "math/vector.h"
+#include "src/math/vector.h"
 
 
 namespace softrd {

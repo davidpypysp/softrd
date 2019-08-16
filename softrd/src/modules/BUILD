@@ -1,3 +1,5 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_library(
     name = "vertex_shader",
     hdrs = ["vertex_shader.h"],

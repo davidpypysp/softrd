@@ -1,7 +1,7 @@
 #ifndef SOFTRD_PRIMITIVE_H_
 #define SOFTRD_PRIMITIVE_H_
 
-#include "vertex_shader.h"
+#include "src/modules/vertex_shader.h"
 
 namespace softrd {
 

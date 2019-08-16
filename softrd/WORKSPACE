@@ -1,1 +1,6 @@
 # workspace
+new_local_repository(
+    name = "soil",
+    path = "/path/to/coworkers-project",
+    build_file = "coworker.BUILD",
+)

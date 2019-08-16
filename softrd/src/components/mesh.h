@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "vertex.h"
+#include "src/components/vertex.h"
 
 namespace softrd {
 
