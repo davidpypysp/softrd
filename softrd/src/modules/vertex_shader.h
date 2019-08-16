@@ -1,9 +1,9 @@
 #ifndef SOFTRD_VERTEX_SHADER_H_
 #define SOFTRD_VERTEX_SHADER_H_
 
-#include "vertex.h"
-#include "math/matrix.h"
-#include "math/vector.h"
+#include "src/math/vector.h"
+#include "src/math/matrix.h"
+#include "src/components/vertex.h"
 
 namespace softrd {
 
