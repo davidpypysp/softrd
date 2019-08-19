@@ -38,3 +38,24 @@ cc_library(
         "//src/math:math_lib",
     ]
 )
+
+cc_library(
+    name = "texture",
+    hdrs = ["texture.h"],
+    deps = [
+        "//src/math:math_lib",
+        # "//third_party/soil:soillib",
+    ]
+)
+
+cc_library(
+    name = "material",
+    hdrs = ["material.h"],
+)
+
+cc_library(
+    name = "model",
+    hdrs = ["model.h"],
+    srcs = ["model.cc"]
+)
+
