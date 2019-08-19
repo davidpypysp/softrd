@@ -59,3 +59,9 @@ cc_library(
     srcs = ["model.cc"]
 )
 
+cc_library(
+    name = "light",
+    hdrs = ["light.h"],
+)
+
+

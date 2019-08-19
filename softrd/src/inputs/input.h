@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "math/vector.h"
+#include "src/math/vector.h"
 
 namespace softrd {
 
