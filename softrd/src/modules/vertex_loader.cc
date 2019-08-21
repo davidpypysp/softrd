@@ -1,3 +1,5 @@
+#include <cstdint>
+
 #include "vertex_loader.h"
 
 

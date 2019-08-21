@@ -18,4 +18,8 @@ cc_library(
 cc_library(
     name = "math_lib",
     hdrs = ["math_lib.h"],
+    deps = [
+        "//src/math:matrix",
+        "//src/math:plane",
+    ]
 )

@@ -2,7 +2,7 @@
 #define VERTEX_LOADER_H_
 
 #include <vector>
-#include "vertex.h"
+#include "src/components/vertex.h"
 namespace softrd {
 
 class VertexLoader {

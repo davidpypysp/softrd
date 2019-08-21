@@ -4,10 +4,10 @@
 #include <iostream>
 #include <vector>
 
-#include "fragment.h"
-#include "texture.h"
-#include "light.h"
-#include "material.h"
+#include "src/components/fragment.h"
+#include "src/components/texture.h"
+#include "src/components/light.h"
+#include "src/components/material.h"
 
 namespace softrd {
 

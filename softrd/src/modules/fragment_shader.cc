@@ -1,5 +1,5 @@
-#include "fragment_shader.h"
-#include "math/math_lib.h"
+#include "src/modules/fragment_shader.h"
+#include "src/math/math_lib.h"
 
 namespace softrd {
 
