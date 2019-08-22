@@ -2,7 +2,7 @@
 #define SOFTRD_DEVICE_H_
 
 #define SDL_MAIN_HANDLED
-#include <SDL2/SDL.h>
+#include "include/SDL2/SDL.h"
 
 #include <string>
 #include "src/math/vector.h"

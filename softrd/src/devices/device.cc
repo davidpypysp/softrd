@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include <SDL2/SDL_ttf.h>
+#include "include/SDL2/SDL_ttf.h"
 
 namespace softrd
 {

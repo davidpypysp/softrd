@@ -4,3 +4,10 @@ new_local_repository(
     path = "/path/to/coworkers-project",
     build_file = "coworker.BUILD",
 )
+
+new_local_repository(
+    name = "sdl2",
+    path = "third_party/sdl2",
+    build_file = "third_party/sdl2.BUILD",
+)
+

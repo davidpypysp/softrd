@@ -5,7 +5,9 @@ cc_library(
     hdrs = ["device.h"],
     srcs = ["device.cc"],
     deps = [
-        "//third_party/sdl2_lib:sdl2",
+        "@sdl2//:SDL2",
+        "@sdl2//:SDL2main",
+        "@sdl2//:SDL2_ttf",
         "//src/math:vector",
         "//src/utils:util",
     ]
