@@ -28,6 +28,7 @@ cc_library(
     name = "mesh",
     hdrs = ["mesh.h"],
     deps = [
+        "//src/components:vertex",
     ]
 )
 
@@ -56,7 +57,11 @@ cc_library(
 cc_library(
     name = "model",
     hdrs = ["model.h"],
-    srcs = ["model.cc"]
+    srcs = ["model.cc"],
+    deps = [
+        "//src/components:mesh",
+        "@assimp//:assimp_lib",
+    ]
 )
 
 cc_library(

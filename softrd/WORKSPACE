@@ -11,3 +11,10 @@ new_local_repository(
     build_file = "third_party/sdl2.BUILD",
 )
 
+new_local_repository(
+    name = "assimp",
+    path = "third_party/assimp",
+    build_file = "third_party/assimp.BUILD",
+)
+
+

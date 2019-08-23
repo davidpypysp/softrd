@@ -2,11 +2,11 @@
 #define SOFTRD_MODEL_H_
 
 #include <string>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "include/assimp/Importer.hpp"
+#include "include/assimp/scene.h"
+#include "include/assimp/postprocess.h"
 
-#include "mesh.h"
+#include "src/components/mesh.h"
 
 
 namespace softrd {
