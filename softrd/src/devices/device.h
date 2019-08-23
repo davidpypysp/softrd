@@ -2,18 +2,18 @@
 #define SOFTRD_DEVICE_H_
 
 #define SDL_MAIN_HANDLED
-#include <SDL2/SDL.h>
+#include "include/SDL2/SDL.h"
 
 #include <string>
-#include "math/vector.h"
-#include "util.h"
+#include "src/math/vector.h"
+#include "src/utils/util.h"
 
+namespace softrd
+{
 
-
-namespace softrd {
-	
 // package the sdl library windows function
-class Device {
+class Device
+{
 public:
 	Device(const int x_pos, const int y_pos, const int width, const int height);
 	int Setup();
@@ -43,12 +43,7 @@ public:
 	bool PressKeyJ();
 	bool PressKeyL();
 
-
-
-
 private:
-
-
 	int width_, height_;
 	int x_pos_, y_pos_;
 	SDL_Window *window_;
@@ -60,6 +55,5 @@ private:
 };
 
 } // namespace softrd
-
 
 #endif // SOFTRD_DEVICE_H_
