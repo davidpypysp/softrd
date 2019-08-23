@@ -40,3 +40,37 @@ cc_library(
         "//src/components:material",
     ]
 )
+
+cc_library(
+    name = "clipping",
+    hdrs = ["clipping.h"],
+    srcs = ["clipping.cc"],
+    deps = [
+        "//src/components:primitive",
+        "//src/math:math_lib",
+    ]
+)
+
+cc_library(
+    name = "primitive_assembly",
+    hdrs = ["primitive_assembly.h"],
+    srcs = ["primitive_assembly.cc"],
+    deps = [
+        "//src/components:primitive",
+        ":vertex_shader",
+        ":clipping",
+        "//src/utils:util",
+    ]
+)
+
+cc_library(
+    name = "rasterizer",
+    hdrs = ["rasterizer.h"],
+    srcs = ["rasterizer.cc"],
+    deps = [
+        ":primitive_assembly",
+        "//src/math:math_lib",
+        "//src/components:fragment",
+        "//src/components:camera",
+    ]
+)

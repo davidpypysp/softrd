@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "vertex_shader.h"
-#include "primitive.h"
-#include "util.h"
+#include "src/modules/vertex_shader.h"
+#include "src/components/primitive.h"
+#include "src/utils/util.h"
 
 namespace softrd {
 

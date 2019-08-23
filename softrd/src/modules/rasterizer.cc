@@ -1,4 +1,4 @@
-#include "rasterizer.h"
+#include "src/modules/rasterizer.h"
 
 namespace softrd {
 Rasterizer::Rasterizer(const int width, const int height, std::vector<Fragment> &fragment_buffer) :

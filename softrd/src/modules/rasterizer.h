@@ -3,10 +3,10 @@
 
 #include <vector>
 
-#include "math/math_lib.h"
-#include "primitive_assembly.h"
-#include "fragment.h"
-#include "camera.h"
+#include "src/math/math_lib.h"
+#include "src/modules/primitive_assembly.h"
+#include "src/components/fragment.h"
+#include "src/components/camera.h"
 
 namespace softrd {
 

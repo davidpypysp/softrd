@@ -1,6 +1,7 @@
-#include "primitive_assembly.h"
-#include "clipping.h"
 #include <array>
+
+#include "src/modules/primitive_assembly.h"
+#include "src/modules/clipping.h"
 
 
 namespace softrd {
