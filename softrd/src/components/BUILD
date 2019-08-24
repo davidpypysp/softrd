@@ -45,13 +45,16 @@ cc_library(
     hdrs = ["texture.h"],
     deps = [
         "//src/math:math_lib",
-        # "//third_party/soil:soillib",
+        "@soil//:soil_lib",
     ]
 )
 
 cc_library(
     name = "material",
     hdrs = ["material.h"],
+    deps = [
+        "//src/components:texture",
+    ]
 )
 
 cc_library(
@@ -67,6 +70,11 @@ cc_library(
 cc_library(
     name = "light",
     hdrs = ["light.h"],
+    deps = [
+        "//src/components:material",
+        "//src/math:vector",
+    ]
 )
+
 
 

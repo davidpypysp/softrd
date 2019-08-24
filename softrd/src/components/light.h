@@ -1,8 +1,8 @@
 #ifndef SOFTRD_LIGHT_H_
 #define SOFTRD_LIGHT_H_
 
-#include "math/vector.h"
-#include "material.h"
+#include "src/math/vector.h"
+#include "src/components/material.h"
 
 namespace softrd {
 

@@ -17,4 +17,11 @@ new_local_repository(
     build_file = "third_party/assimp.BUILD",
 )
 
+new_local_repository(
+    name = "soil",
+    path = "third_party/soil",
+    build_file = "third_party/soil.BUILD",
+)
+
+
 
