@@ -1,7 +1,7 @@
 #ifndef SOFTRD_PER_SAMPLE_PROCCESSING_H_
 #define SOFTRD_PER_SAMPLE_PROCCESSING_H_
 
-#include "fragment_shader.h"
+#include "src/modules/fragment_shader.h"
 #include "src/utils/util.h"
 
 namespace softrd {

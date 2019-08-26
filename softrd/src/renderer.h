@@ -5,15 +5,17 @@
 #include <chrono>
 
 
-#include "camera.h"
-#include "vertex_shader.h"
-#include "rasterizer.h"
-#include "fragment_shader.h"
-#include "per_sample_processing.h"
-#include "device.h"
-#include "model.h"
-#include "util.h"
-#include "input.h"
+#include "src/components/camera.h"
+#include "src/modules/vertex_shader.h"
+#include "src/modules/rasterizer.h"
+#include "src/modules/fragment_shader.h"
+#include "src/modules/per_sample_processing.h"
+#include "src/devices/device.h"
+#include "src/components/model.h"
+#include "src/utils/util.h"
+#include "src/inputs/input.h"
+#include "src/modules/vertex_loader.h"
+
 
 using namespace std::chrono;
 

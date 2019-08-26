@@ -1,4 +1,4 @@
-# workspace
+
 new_local_repository(
     name = "soil",
     path = "/path/to/coworkers-project",
@@ -21,6 +21,18 @@ new_local_repository(
     name = "soil",
     path = "third_party/soil",
     build_file = "third_party/soil.BUILD",
+)
+
+new_local_repository(
+    name = "freetype2",
+    path = "third_party/freetype2",
+    build_file = "third_party/freetype2.BUILD",
+)
+
+new_local_repository(
+    name = "zlib",
+    path = "third_party/zlib",
+    build_file = "third_party/zlib.BUILD",
 )
 
 

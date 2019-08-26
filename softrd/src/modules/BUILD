@@ -26,6 +26,7 @@ cc_library(
     srcs = ["per_sample_processing.cc"],
     deps = [
         "//src/utils:util",
+        "//src/modules:fragment_shader",
     ]
 )
 

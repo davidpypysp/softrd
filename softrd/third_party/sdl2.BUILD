@@ -1,11 +1,14 @@
 cc_library(
   name = "SDL2",
   hdrs = glob(["include/SDL2/*.h"]),
-#   strip_include_prefix = "include/SDL/",
-  visibility = ["//visibility:public"],
-  deps = [
-    ":SDL2impl"
+  srcs = [
+    "lib/libSDL2.a"
   ],
+  linkopts = [
+    "-ldl",
+    "-lpthread",
+  ],
+  visibility = ["//visibility:public"],
 )
 
 
@@ -19,7 +22,6 @@ cc_import(
 cc_library(
   name = "SDL2main",
   hdrs = glob(["include/SDL2/*.h"]),
-#   strip_include_prefix = "include/SDL/",
   visibility = ["//visibility:public"],
   deps = [
     ":SDL2mainimpl"
@@ -33,19 +35,20 @@ cc_import(
   visibility = ["//visibility:private"],
 )
 
+
 cc_library(
   name = "SDL2_ttf",
   hdrs = glob(["include/SDL2/*.h"]),
-#   strip_include_prefix = "include/SDL/",
-  visibility = ["//visibility:public"],
-  deps = [
-    ":SDL2_ttf_impl"
+  srcs = [
+    "lib/libSDL2_ttf.a",
+    "lib/libSDL2_ttf.so",
+    "lib/libSDL2_ttf-2.0.so.0",
+    "lib/libSDL2_ttf-2.0.so.0.14.1",
   ],
+  linkopts = [
+  ],
+  deps = [
+    "@freetype2//:freetype2_lib",
+  ],
+  visibility = ["//visibility:public"],
 )
-
-cc_import(
-  name = "SDL2_ttf_impl",
-  static_library = "lib/libSDL2_ttf.a",
-  visibility = ["//visibility:private"],
-)
-
