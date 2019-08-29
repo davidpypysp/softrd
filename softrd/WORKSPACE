@@ -1,0 +1,39 @@
+
+new_local_repository(
+    name = "soil",
+    path = "/path/to/coworkers-project",
+    build_file = "coworker.BUILD",
+)
+
+new_local_repository(
+    name = "sdl2",
+    path = "third_party/sdl2",
+    build_file = "third_party/sdl2.BUILD",
+)
+
+new_local_repository(
+    name = "assimp",
+    path = "third_party/assimp",
+    build_file = "third_party/assimp.BUILD",
+)
+
+new_local_repository(
+    name = "soil",
+    path = "third_party/soil",
+    build_file = "third_party/soil.BUILD",
+)
+
+new_local_repository(
+    name = "freetype2",
+    path = "third_party/freetype2",
+    build_file = "third_party/freetype2.BUILD",
+)
+
+new_local_repository(
+    name = "zlib",
+    path = "third_party/zlib",
+    build_file = "third_party/zlib.BUILD",
+)
+
+
+

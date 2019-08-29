@@ -2,9 +2,10 @@
 #define SOFTRD_MATH_MATRIX_H_
 
 #include <assert.h>
+#include <cstring>
 #include <iostream>
 
-#include "vector.h"
+#include "src/math/vector.h"
 
 
 namespace softrd {

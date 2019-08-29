@@ -4,9 +4,9 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "matrix.h"
-#include "vector.h"
-#include "plane.h"
+#include "src/math/matrix.h"
+#include "src/math/vector.h"
+#include "src/math/plane.h"
 
 namespace softrd {
 
