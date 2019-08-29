@@ -41,9 +41,6 @@ cc_library(
   hdrs = glob(["include/SDL2/*.h"]),
   srcs = [
     "lib/libSDL2_ttf.a",
-    "lib/libSDL2_ttf.so",
-    "lib/libSDL2_ttf-2.0.so.0",
-    "lib/libSDL2_ttf-2.0.so.0.14.1",
   ],
   linkopts = [
   ],

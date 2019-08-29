@@ -9,9 +9,6 @@ cc_library(
         "include/assimp/Compiler/*.h",
     ]),
     srcs = [
-        "lib/libassimp.so",
-        "lib/libassimp.so.4",
-        "lib/libassimp.so.4.1.0",
     ],
     linkopts = [
     ],

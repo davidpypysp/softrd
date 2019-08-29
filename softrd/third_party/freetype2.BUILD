@@ -7,9 +7,6 @@ cc_library(
   ]),
   srcs = [
     "lib/libfreetype.a",
-    "lib/libfreetype.so",
-    "lib/libfreetype.so.6",
-    "lib/libfreetype.so.6.17.0",
   ],
   linkopts = [
   ],
