@@ -12,6 +12,8 @@ Device::Device(const int x_pos, const int y_pos, const int width, const int heig
 																					  width_(width),
 																					  height_(height)
 {
+	memset(keys_, false, sizeof(keys_));
+
 }
 
 int Device::Setup()
@@ -36,11 +38,11 @@ int Device::Setup()
 		return 1;
 	}
 
-	//Create a renderer that will draw to the window, -1 specifies that we want to load whichever
-	//video driver supports the flags we're passing
-	//Flags: SDL_RENDERER_ACCELERATED: We want to use hardware accelerated rendering
-	//SDL_RENDERER_PRESENTVSYNC: We want the renderer's present function (update screen) to be
-	//synchronized with the monitor's refresh rate
+	// Create a renderer that will draw to the window, -1 specifies that we want to load whichever
+	// video driver supports the flags we're passing
+	// Flags: SDL_RENDERER_ACCELERATED: We want to use hardware accelerated rendering
+	// SDL_RENDERER_PRESENTVSYNC: We want the renderer's present function (update screen) to be
+	// synchronized with the monitor's refresh rate
 	renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer_ == nullptr)
 	{
@@ -143,7 +145,12 @@ Device::~Device()
 
 bool Device::Quit()
 {
-	return keys_[SDL_SCANCODE_ESCAPE] || quit_;
+	std::cout << "quic func" << std::endl;
+	std::cout << "keys_[SDL_SCANCODE_ESCAPE] " << keys_[SDL_SCANCODE_ESCAPE] << std::endl; 
+	std::cout << "quit_ " << quit_ << std::endl; 
+
+	// return keys_[SDL_SCANCODE_ESCAPE] || quit_;
+	return quit_;
 }
 
 bool Device::PressKeyUp()
