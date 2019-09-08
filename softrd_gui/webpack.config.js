@@ -1,3 +1,4 @@
+var path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -27,5 +28,10 @@ module.exports = {
       filename: "./index.html"
     }),
     new CleanWebpackPlugin()
-  ]
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, "src"),
+    port: 9000,
+},
+
 };

@@ -9,7 +9,7 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({width: 900, height: 680});
-  mainWindow.loadURL(isDev ? 'http://localhost:8080' : `file://${path.join(__dirname, '../../dist/index.html')}`);
+  mainWindow.loadURL(isDev ? 'http://localhost:9000' : `file://${path.join(__dirname, '../../dist/index.html')}`);
   if (isDev) {
     // Open the DevTools.
     //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
