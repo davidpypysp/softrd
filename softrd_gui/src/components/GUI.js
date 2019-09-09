@@ -1,5 +1,5 @@
 import React from "react";
-import "styles/main.css";
+import "styles/main.scss";
 
 export default class GUI extends React.Component {
     constructor(props) {

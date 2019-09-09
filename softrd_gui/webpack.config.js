@@ -27,9 +27,23 @@ module.exports = {
         ]
       },
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        // This is to apply the following style loaders in (reverse) order.
+        // Grommet scss files needs to be processed this way.
+        test: /\.scss$/,
+        use: [
+            {
+                loader: "style-loader",
+            }, {
+                loader: "css-loader",
+            }, {
+                loader: "sass-loader",
+            }
+        ],
+    },
     ]
   },
   plugins: [
