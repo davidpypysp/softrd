@@ -1,7 +1,54 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+
+    // background-color: #14171A !important;
+    // font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    // color: #FFFFFF;
+}
+
+#root {
+    height: 100%;
+}
+
+
+
 .gui {
-    background-color: red;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    // background-color: red;
 
     &:hover {
         background-color: green;
     }
+}
+
+.header {
+    background-color: grey;
+    height: 50px;
+}
+
+.container {
+    display: flex;
+    flex-grow: 1;
+}
+
+.menu {
+    width: 100px;
+    border-color: yellow;
+    border-width: 2px;
+    background-color: blue;
+}
+
+.main-view {
+    flex-grow: 1;
+
 }
