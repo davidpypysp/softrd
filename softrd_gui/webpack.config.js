@@ -3,6 +3,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+    resolve: {
+        alias: {
+            components: path.resolve(__dirname, 'src/components/'),
+            styles: path.resolve(__dirname, 'styles/')
+        }
+    },
   module: {
     rules: [
       {
@@ -19,7 +25,11 @@ module.exports = {
             loader: "html-loader"
           }
         ]
-      }
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ]
   },
   plugins: [
