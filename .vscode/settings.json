@@ -43,5 +43,6 @@
         "utility": "cpp",
         "list": "cpp",
         "algorithm": "cpp"
-    }
+    },
+    "editor.formatOnSave": true,
 }

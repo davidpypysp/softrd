@@ -6,5 +6,18 @@ module.exports = {
     semi: true,
     trailingComma: "none",
     bracketSpacing: true,
-    parser: "babel"
+    overrides: [
+        {
+            files: "*.js",
+            options: {
+                parser: "babel"
+            }
+        },
+        {
+            files: ["*.css", "*.scss"],
+            options: {
+                parser: "css"
+            }
+        }
+    ]
 };
