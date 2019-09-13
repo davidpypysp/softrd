@@ -7,10 +7,6 @@ import MainView from "components/Layouts/MainView";
 import Menu from "components/Layouts/Menu";
 
 export default class GUI extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="gui">
