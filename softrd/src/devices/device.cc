@@ -13,7 +13,6 @@ Device::Device(const int x_pos, const int y_pos, const int width, const int heig
 																					  height_(height)
 {
 	memset(keys_, false, sizeof(keys_));
-
 }
 
 int Device::Setup()
@@ -146,8 +145,8 @@ Device::~Device()
 bool Device::Quit()
 {
 	std::cout << "quic func" << std::endl;
-	std::cout << "keys_[SDL_SCANCODE_ESCAPE] " << keys_[SDL_SCANCODE_ESCAPE] << std::endl; 
-	std::cout << "quit_ " << quit_ << std::endl; 
+	std::cout << "keys_[SDL_SCANCODE_ESCAPE] " << keys_[SDL_SCANCODE_ESCAPE] << std::endl;
+	std::cout << "quit_ " << quit_ << std::endl;
 
 	// return keys_[SDL_SCANCODE_ESCAPE] || quit_;
 	return quit_;
