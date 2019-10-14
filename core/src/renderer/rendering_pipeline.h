@@ -24,9 +24,9 @@ class RenderingPipeline {
     };
 
     RenderingPipeline(const int width, const int height);
-    void DrawObject(Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader, const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE, const DrawMode draw_mode = DRAW_TRIANGLE);
+    void DrawMesh(Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader, const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE, const DrawMode draw_mode = DRAW_TRIANGLE);
     void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
-    void Draw(const DrawMode mode);  // draw one frame
+    void Run(const DrawMode mode);  // draw one frame
     void SetPolygonMode(const Rasterizer::DrawTriangleMode mode);
     void ResetBuffer();
     void Clear();

@@ -19,11 +19,11 @@ RenderingPipeline::RenderingPipeline(const int width, const int height) : width_
 }
 
 // Draw mesh using rendering pipeline
-void RenderingPipeline::DrawObject(Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader, const Rasterizer::DrawTriangleMode tri_mode, const DrawMode draw_mode) {
+void RenderingPipeline::DrawMesh(Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader, const Rasterizer::DrawTriangleMode tri_mode, const DrawMode draw_mode) {
     mesh.LoadBuffer(vertex_buffer_, element_buffer_);
     SetShader(&vertex_shader, &fragment_shader);
     SetPolygonMode(tri_mode);
-    Draw(draw_mode);
+    Run(draw_mode);
 }
 
 // use appointed vertex shader and fragment shader for rendering
@@ -33,7 +33,7 @@ void RenderingPipeline::SetShader(VertexShader *vertex_shader, FragmentShader *f
 }
 
 // rendering pipeline program
-void RenderingPipeline::Draw(const DrawMode mode) {
+void RenderingPipeline::Run(const DrawMode mode) {
     //vertex shader stage
     vertex_out_buffer_.clear();
     VertexOut vertex_out;
