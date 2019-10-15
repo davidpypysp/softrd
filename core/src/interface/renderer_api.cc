@@ -6,12 +6,12 @@
 namespace softrd {
 
 class RendererAPI {
-   public:
-    RendererAPI(const int width, const int height);
-    void RunExample();
-    ~RendererAPI();
+ public:
+  RendererAPI(const int width, const int height);
+  void RunExample();
+  ~RendererAPI();
 
-   private:
+ private:
 };
 
 }  // namespace softrd
