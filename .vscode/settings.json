@@ -42,7 +42,8 @@
     "typeinfo": "cpp",
     "utility": "cpp",
     "list": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "string": "cpp"
   },
   "editor.formatOnSave": true
 }
