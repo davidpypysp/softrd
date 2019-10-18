@@ -9,7 +9,7 @@ void RendererAPI::InitExampleMesh() {
 
   // define shaders
   VertexShaderLight vertex_shader_light;
-  FragmentShader fragment_shader;
+  FragmentShaderFlatColor fragment_shader;
   FragmentShaderLightFull fragment_shader_light(camera_.position,
                                                 object_material);
 
