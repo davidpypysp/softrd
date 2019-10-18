@@ -1,26 +1,25 @@
-#include "myobject.h"
+#include "renderer_api_addon.h"
 
-Napi::FunctionReference MyObject::constructor;
+Napi::FunctionReference RendererAPIAddon::constructor;
 
-Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
+Napi::Object RendererAPIAddon::Init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func =
-      DefineClass(env,
-                  "MyObject",
-                  {InstanceMethod("plusOne", &MyObject::PlusOne),
-                   InstanceMethod("value", &MyObject::GetValue),
-                   InstanceMethod("multiply", &MyObject::Multiply)});
+      DefineClass(env, "RendererAPIAddon",
+                  {InstanceMethod("plusOne", &RendererAPIAddon::PlusOne),
+                   InstanceMethod("value", &RendererAPIAddon::GetValue),
+                   InstanceMethod("multiply", &RendererAPIAddon::Multiply)});
 
   constructor = Napi::Persistent(func);
   constructor.SuppressDestruct();
 
-  exports.Set("MyObject", func);
+  exports.Set("RendererAPIAddon", func);
   return exports;
 }
 
-MyObject::MyObject(const Napi::CallbackInfo& info)
-    : Napi::ObjectWrap<MyObject>(info) {
+RendererAPIAddon::RendererAPIAddon(const Napi::CallbackInfo& info)
+    : Napi::ObjectWrap<RendererAPIAddon>(info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
@@ -34,19 +33,19 @@ MyObject::MyObject(const Napi::CallbackInfo& info)
   this->value_ = value.DoubleValue();
 }
 
-Napi::Value MyObject::GetValue(const Napi::CallbackInfo& info) {
+Napi::Value RendererAPIAddon::GetValue(const Napi::CallbackInfo& info) {
   double num = this->value_;
 
   return Napi::Number::New(info.Env(), num);
 }
 
-Napi::Value MyObject::PlusOne(const Napi::CallbackInfo& info) {
+Napi::Value RendererAPIAddon::PlusOne(const Napi::CallbackInfo& info) {
   this->value_ = this->value_ + 1;
 
-  return MyObject::GetValue(info);
+  return RendererAPIAddon::GetValue(info);
 }
 
-Napi::Value MyObject::Multiply(const Napi::CallbackInfo& info) {
+Napi::Value RendererAPIAddon::Multiply(const Napi::CallbackInfo& info) {
   Napi::Number multiple;
   if (info.Length() <= 0 || !info[0].IsNumber()) {
     multiple = Napi::Number::New(info.Env(), 1);

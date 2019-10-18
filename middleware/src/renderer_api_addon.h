@@ -1,12 +1,12 @@
-#ifndef MYOBJECT_H
-#define MYOBJECT_H
+#ifndef SOFTRD_RENDERER_API_ADDON_H_
+#define SOFTRD_RENDERER_API_ADDON_H_
 
 #include <napi.h>
 
-class MyObject : public Napi::ObjectWrap<MyObject> {
+class RendererAPIAddon : public Napi::ObjectWrap<RendererAPIAddon> {
  public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
-  MyObject(const Napi::CallbackInfo& info);
+  RendererAPIAddon(const Napi::CallbackInfo& info);
 
  private:
   static Napi::FunctionReference constructor;
@@ -18,4 +18,4 @@ class MyObject : public Napi::ObjectWrap<MyObject> {
   double value_;
 };
 
-#endif
+#endif  // SOFTRD_RENDERER_API_ADDON_H_
