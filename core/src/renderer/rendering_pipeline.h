@@ -18,6 +18,8 @@ class RenderingPipeline {
  public:
   enum DrawMode { DRAW_LINE, DRAW_TRIANGLE };
 
+  const Camera &camera() const { return camera_; }
+
   RenderingPipeline(const int width, const int height);
   void DrawMesh(
       Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader,
