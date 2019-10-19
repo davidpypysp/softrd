@@ -1,6 +1,6 @@
-const R = require("bindings")("softrd-js");
+const softrd_js = require("bindings")("SoftrdJs");
 
-const obj = new R.RendererAPIAddon(10);
+const obj = new softrd_js.RendererAPIAddon(10);
 console.log(obj.plusOne()); // 11
 console.log(obj.plusOne()); // 12
 console.log(obj.plusOne()); // 13

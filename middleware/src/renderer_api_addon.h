@@ -2,6 +2,7 @@
 #define SOFTRD_RENDERER_API_ADDON_H_
 
 #include <napi.h>
+#include "src/interface/renderer_api.h"
 
 class RendererAPIAddon : public Napi::ObjectWrap<RendererAPIAddon> {
  public:
@@ -16,6 +17,7 @@ class RendererAPIAddon : public Napi::ObjectWrap<RendererAPIAddon> {
   Napi::Value Multiply(const Napi::CallbackInfo& info);
 
   double value_;
+  softrd::RendererAPI* renderer_api_;
 };
 
 #endif  // SOFTRD_RENDERER_API_ADDON_H_

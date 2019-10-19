@@ -1,5 +1,7 @@
 #include "renderer_api_addon.h"
 
+#include <iostream>
+
 Napi::FunctionReference RendererAPIAddon::constructor;
 
 Napi::Object RendererAPIAddon::Init(Napi::Env env, Napi::Object exports) {
@@ -31,10 +33,13 @@ RendererAPIAddon::RendererAPIAddon(const Napi::CallbackInfo& info)
 
   Napi::Number value = info[0].As<Napi::Number>();
   this->value_ = value.DoubleValue();
+  this->renderer_api_ = new softrd::RendererAPI();
+  this->renderer_api_->ExamplePrint();
 }
 
 Napi::Value RendererAPIAddon::GetValue(const Napi::CallbackInfo& info) {
   double num = this->value_;
+  std::cout << "value = " << num << std::endl;
 
   return Napi::Number::New(info.Env(), num);
 }

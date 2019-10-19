@@ -11,13 +11,14 @@ class RendererAPI {
  public:
   RendererAPI();
 
-  void InitExampleMesh();
-  void DrawExampleMesh();
+  //   void InitExampleMesh();
+  //   void DrawExampleMesh();
+  void ExamplePrint();
 
   ~RendererAPI();
 
  private:
-  RenderingPipeline rendering_pipeline_;
+  //   RenderingPipeline rendering_pipeline_;
 
   Mesh example_cube_;
 };

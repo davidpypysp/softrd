@@ -12,14 +12,23 @@
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     },
     {
-      "target_name": "softrd-js",
+      "target_name": "SoftrdJs",
       "cflags!": [ "-fno-exceptions" ],
       "cflags_cc!": [ "-fno-exceptions" ],
       "sources": [ "src/addon_init.cc", "src/renderer_api_addon.cc" ],
       "include_dirs": [
-        "<!@(node -p \"require('node-addon-api').include\")"
+        "<!@(node -p \"require('node-addon-api').include\")",
+        "../core"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
+      'link_settings': {
+        # "ldflags": [
+        #     "-Wl,-z,defs"
+        # ],
+        "libraries" : ["-ldl"]
+      },
+      "libraries": [ "../../core/bazel-bin/src/interface/librenderer_api.a" ]
+      # "libraries": [ "librenderer_api.so" ]
     }
   ]
 }
