@@ -24,3 +24,12 @@ cc_library(
         "//src/modules:vertex_loader",
     ]
 )
+
+
+cc_binary(
+    name = "test_api",
+    srcs = ["test_api.cc"],
+    deps = [
+        "//src/interface:renderer_api",
+    ]
+)
