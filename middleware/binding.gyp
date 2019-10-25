@@ -18,10 +18,10 @@
       "sources": [ "src/addon_init.cc", "src/renderer_api_addon.cc" ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
-        "../core"
+        "<!(pwd)/../core/"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
-      "libraries": [ "/home/ship/working/softrd-development/core/bazel-bin/src/interface/libSoftrdAPI.so" ]
+      "libraries": [ "<!(pwd)/../core/bazel-bin/src/interface/libSoftrdAPI.so" ]
     }
   ]
 }
