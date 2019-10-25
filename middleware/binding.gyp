@@ -21,14 +21,7 @@
         "../core"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
-      'link_settings': {
-        # "ldflags": [
-        #     "-Wl,-z,defs"
-        # ],
-        "libraries" : ["-ldl"]
-      },
-      "libraries": [ "../../core/bazel-bin/src/interface/librenderer_api.a" ]
-      # "libraries": [ "librenderer_api.so" ]
+      "libraries": [ "/home/ship/working/softrd-development/core/bazel-bin/src/interface/libSoftrdAPI.so" ]
     }
   ]
 }

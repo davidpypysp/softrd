@@ -1,12 +1,11 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_binary(
-    name = "libSoftRdAPI",
+    name = "libSoftrdAPI.so",
     deps = [
         "//src/interface:renderer_api",
     ],
-    linkopts = ['-static'],
-    # linkshared = True
+    linkshared = True
 )
 
 cc_library(
