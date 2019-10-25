@@ -18,9 +18,9 @@ class RendererAPI {
   ~RendererAPI();
 
  private:
-  //   RenderingPipeline rendering_pipeline_;
+  RenderingPipeline *rendering_pipeline_;
 
-  Mesh example_cube_;
+  Mesh *example_cube_;
 };
 
 }  // namespace softrd

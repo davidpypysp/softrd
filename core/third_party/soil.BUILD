@@ -1,3 +1,4 @@
+package(default_visibility = ["//visibility:public"])
 
 cc_library(
   name = "soil_lib",
@@ -5,9 +6,7 @@ cc_library(
   srcs = [
     "lib/libsoil.a",
   ],
-  visibility = ["//visibility:public"],
   linkopts = [
       "-lGL",
-
-  ],
+  ]
 )
