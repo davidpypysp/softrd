@@ -1,42 +1,39 @@
 # SoftRd
 
-Welcome to SoftRd, a 3D Software Rendering Engine based on C++.  
-
+Welcome to SoftRd, a 3D Software Rendering Engine based on C++.
 
 This is my individual project due to my interest in computer graphic and rendering pipeline implementation. I developed this project by native C++ from the scratch and refer to OpenGL rendering pipeline standard from [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview). So currently it's completely a CPU based renderer without GPU acceleration.
 
-Basically, the renderer is running on GUI based on SDL2.0 and it can load standard model files and render them into scenes by different mode and support basic lighting and different customizing shading effect.  
+Basically, the renderer is running on GUI based on SDL2.0 and it can load standard model files and render them into scenes by different mode and support basic lighting and different customizing shading effect.
 
 Now I'm still building the windows version on visual studio, extending new features, optimizing structure and performance. Ideally, it can also support cross platform running on Mac.
 
 ## Features
 
-* 3D engine with OpenGL style rendering pipline implementation including vertex shader, primitive assembly,  rasterizing, fragment shader, per-sample operations.
-* Support rendering standard .obj file 3D model.
-* Support loading texture from popular image format such as .jpg, .png.
-* Renderer can render model or mesh in triangle or wireframe mode.
-* Support lighting based on Phong lighting model. User can set up different light types(directional light,   spot light, point light) in the scene
-* Use GUI to output real-time rendering frames. Support keyboard control and interaction with different objects(models, lights, camera...) in the scene.
+-   3D engine with OpenGL style rendering pipline implementation including vertex shader, primitive assembly, rasterizing, fragment shader, per-sample operations.
+-   Support rendering standard .obj file 3D model.
+-   Support loading texture from popular image format such as .jpg, .png.
+-   Renderer can render model or mesh in triangle or wireframe mode.
+-   Support lighting based on Phong lighting model. User can set up different light types(directional light, spot light, point light) in the scene
+-   Use GUI to output real-time rendering frames. Support keyboard control and interaction with different objects(models, lights, camera...) in the scene.
 
 ## Effects
 
-* Single light source with object
+-   Single light source with object
 
-  ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/light_test.gif)
+    ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/light_test.gif)
 
-* Directional light
+-   Directional light
 
-  ![dir light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/dir_light_test.gif)
+    ![dir light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/dir_light_test.gif)
 
-* Point light
+-   Point light
 
-  ![point light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/point_light_test.gif)
+    ![point light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/point_light_test.gif)
 
-* Spot light
+-   Spot light
 
-  ![spot light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/spot_light_test.gif)
-
-
+    ![spot light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/spot_light_test.gif)
 
 ## Implementation Details
 
@@ -49,7 +46,7 @@ For this project, basically, I primarily use native C++ 11 to build the total fr
 </div>
 
 ```
-Rendering pipeline corresponding c++ header file: 
+Rendering pipeline corresponding c++ header file:
 
     renderer.h    // control the main loop of renderer program
     |----vertex_shader.h    // vertex shader stage
@@ -58,30 +55,29 @@ Rendering pipeline corresponding c++ header file:
     |----fragment_shader.h    // fragment shader stage
     |----per_sample_proccessing.h    // per-sample operations stage
 ```
+
 ### Auxiliary Libraries
 
-* SDL2.0 -- For renderer's cross-platform GUI and keyboard I/O.
-* Assimp -- Import .obj model into self-defined `model` class object.
-* SOIL -- Import diffrent format of image file into `texture` class object.
-
-
+-   SDL2.0 -- For renderer's cross-platform GUI and keyboard I/O.
+-   Assimp -- Import .obj model into self-defined `model` class object.
+-   SOIL -- Import diffrent format of image file into `texture` class object.
 
 ## How to install
 
-* TBC
+-   TBC
 
 ## Test Environment
 
-* Hardware: Surface Pro4, m3-6Y30 CPU, 4GB RAM
-* Software: Windows 10 Pro, Visual Studio 2015
+-   Hardware: Surface Pro4, m3-6Y30 CPU, 4GB RAM
+-   Software: Windows 10 Pro, Visual Studio 2015
 
 ## Reference
 
-* [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview) 
-* [Learn OpenGL](https://learnopengl.com/)
-* [http://www.songho.ca/opengl/](http://www.songho.ca/opengl/)
-* [如何开始用 C++ 写一个光栅化渲染器？](https://www.zhihu.com/question/24786878)
+-   [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview)
+-   [Learn OpenGL](https://learnopengl.com/)
+-   [http://www.songho.ca/opengl/](http://www.songho.ca/opengl/)
+-   [如何开始用 C++ 写一个光栅化渲染器？](https://www.zhihu.com/question/24786878)
 
+## Notes
 
-
-
+-   May rename to SquirrelRenderer(abrev sqrd)
