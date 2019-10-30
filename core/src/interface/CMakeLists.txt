@@ -1,1 +1,1 @@
-add_library (components renderer_api.cc)
+add_library (interface renderer_api.cc)
