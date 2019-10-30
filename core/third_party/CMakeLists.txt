@@ -1,1 +1,11 @@
 message(WARNING "third_party/ path: " ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(LIB_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/assimp
+    ${CMAKE_CURRENT_SOURCE_DIR}/soil
+)
+
+set(CMAKE_PREFIX_PATH ${LIB_DIRS} ${CMAKE_PREFIX_PATH} PARENT_SCOPE)
+
+
+
