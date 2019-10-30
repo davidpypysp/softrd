@@ -8,5 +8,10 @@ message(WARNING "assimp_lib: " ${ASSIMP_LIB})
 find_library(SOIL_LIB soil)
 message(WARNING "soil_lib: " ${SOIL_LIB})
 
+
+find_library(GL_LIB GL)
+message(WARNING "gl_lib: " ${GL_LIB})
+
+
 add_library (components model.cc)
-target_link_libraries(components "${ASSIMP_LIB}" "${SOIL_LIB}")
+target_link_libraries(components "${ASSIMP_LIB}" "${SOIL_LIB}" "${GL_LIB}")

@@ -36,11 +36,9 @@ RendererAPI::RendererAPI() {
 void RendererAPI::ExamplePrint() {
   std::cout << "I'm suvived!" << std::endl;
   std::cout << "node-gyp work!!!" << std::endl;
+  Texture *specular_texture = new Texture("resource/container2_specular.png");
 
-  // Texture *specular_texture = new Texture(
-  //     "resource/"
-  //     "container2_"
-  //     "specular.png");
+  Model *example_model = new Model();
 }
 
 RendererAPI::~RendererAPI() {}
