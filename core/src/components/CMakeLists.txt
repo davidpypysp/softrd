@@ -1,6 +1,5 @@
 find_package(Assimp)
 find_package(Soil)
-# find_package(ThirdParty)
 
 add_library (components model.cc)
 
