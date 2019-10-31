@@ -255,3 +255,4 @@ bazel-*/
 *genrule.log
 
 core/build-cmake/
+middleware/build-*
