@@ -21,7 +21,7 @@
         "<!(pwd)/../core/"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
-      "libraries": [ "<!(pwd)/../core/build-cmake/src/interface/libinterface.so" ],
+      "libraries": [ "<!(pwd)/../core/build-cmake/src/interface/libSoftrdAPI.so" ]
       # "libraries": [ "<!(pwd)/../core/bazel-bin/src/interface/libSoftrdAPI.so" ],
     }
   ]
