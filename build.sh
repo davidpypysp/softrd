@@ -1,2 +1,2 @@
-cd softrd
+cd core
 bazel build //src:main
