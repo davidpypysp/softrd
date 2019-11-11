@@ -1,17 +1,24 @@
 const electron = require("electron");
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { app, BrowserWindow, ipcMain } = electron;
 
 const path = require("path");
 const isDev = require("electron-is-dev");
+
+const fs = require("fs");
 
 let mainWindow;
 
 function createWindow() {
     console.log("creating window......");
+    const root = fs.readdirSync("/");
+    console.log(root);
+    console.log("dirname", __dirname);
     mainWindow = new BrowserWindow({
         width: 900,
-        height: 680
+        height: 680,
+        webPreferences: {
+            preload: __dirname + "/preload.js"
+        }
     });
     mainWindow.loadURL(
         isDev
@@ -42,4 +49,8 @@ app.on("activate", () => {
     if (mainWindow === null) {
         createWindow();
     }
+});
+
+ipcMain.on("test-channel", (event, arg) => {
+    console.log("arg", arg);
 });
