@@ -8,6 +8,7 @@ const isDev = require("electron-is-dev");
 let mainWindow;
 
 function createWindow() {
+    console.log("creating window......");
     mainWindow = new BrowserWindow({
         width: 900,
         height: 680
@@ -23,7 +24,10 @@ function createWindow() {
         // ("<location to your react chrome extension>");
         mainWindow.webContents.openDevTools();
     }
-    mainWindow.on("closed", () => (mainWindow = null));
+    mainWindow.on("closed", () => {
+        console.log("closing window......");
+        mainWindow = null;
+    });
 }
 
 app.on("ready", createWindow);
