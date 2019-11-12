@@ -1,5 +1,5 @@
 import React from "react";
-const { ipcRenderer } = window.electron;
+import MIDDLEWARE_ENDPOINT from "components/utils/middleware_endpoint";
 
 export default class Menu extends React.Component {
     render() {
@@ -8,8 +8,9 @@ export default class Menu extends React.Component {
                 {"Menu"}
                 <button
                     onClick={() => {
-                        console.log("test button");
-                        ipcRenderer.send("test-channel", { abc: "aqew" });
+                        MIDDLEWARE_ENDPOINT.send("test-channel", {
+                            abc: "aqew"
+                        });
                     }}
                 >
                     test
