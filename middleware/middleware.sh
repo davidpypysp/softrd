@@ -13,7 +13,7 @@ function build_core() {
 }
 
 function build_node() {
-
+    cd $script_path
     node-gyp rebuild
 
 }
@@ -21,8 +21,6 @@ function build_node() {
 function rebuild() {
     rm -rf "$PWD/build-core"
     build_core
-
-    cd $script_path
     build_node
 }
 
