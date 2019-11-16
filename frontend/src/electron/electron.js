@@ -1,5 +1,6 @@
 const electron = require("electron");
 const { app, BrowserWindow, ipcMain } = electron;
+const softrd_js = require("bindings")("SoftrdJs");
 
 const path = require("path");
 const isDev = require("electron-is-dev");
@@ -10,9 +11,12 @@ let mainWindow;
 
 function createWindow() {
     console.log("creating window......");
-    const root = fs.readdirSync("/");
-    console.log(root);
-    console.log("dirname", __dirname);
+
+    const obj = new softrd_js.RendererAPIAddon(10);
+    console.log(obj.plusOne()); // 11
+    console.log(obj.plusOne()); // 12
+    console.log(obj.plusOne()); // 13
+
     mainWindow = new BrowserWindow({
         width: 900,
         height: 680,
