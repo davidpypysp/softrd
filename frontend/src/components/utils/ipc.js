@@ -1,10 +1,10 @@
 const { ipcRenderer } = window.electron;
 
-class MiddlewareEndpoint {
+class Ipc {
     send(channel, data) {
         ipcRenderer.send(channel, data);
     }
 }
 
-const MIDDLEWARE_ENDPOINT = new MiddlewareEndpoint();
-export default MIDDLEWARE_ENDPOINT;
+const IPC = new Ipc();
+export default IPC;

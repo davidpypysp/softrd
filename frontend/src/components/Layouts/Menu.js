@@ -1,5 +1,5 @@
 import React from "react";
-import MIDDLEWARE_ENDPOINT from "components/utils/middleware_endpoint";
+import IPC from "components/utils/ipc";
 
 export default class Menu extends React.Component {
     render() {
@@ -8,12 +8,23 @@ export default class Menu extends React.Component {
                 {"Menu"}
                 <button
                     onClick={() => {
-                        MIDDLEWARE_ENDPOINT.send("test-channel", {
+                        IPC.send("softrd", {
                             abc: "aqew"
                         });
                     }}
                 >
                     test
+                </button>
+                <button
+                    onClick={() => {
+                        const obj = new window.softrd.RendererAPIAddon(10);
+                        console.log(obj.plusOne()); // 11
+
+                        const po1 = obj.plusOne();
+                        console.log("po1=", po1);
+                    }}
+                >
+                    test2
                 </button>
             </div>
         );

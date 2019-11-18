@@ -1,22 +1,15 @@
 const electron = require("electron");
-const { app, BrowserWindow, ipcMain } = electron;
-const softrd_js = require("bindings")("SoftrdJs");
+const { app, BrowserWindow } = electron;
 
 const path = require("path");
 const isDev = require("electron-is-dev");
 
-const fs = require("fs");
+require("./ipc")
 
 let mainWindow;
 
 function createWindow() {
     console.log("creating window......");
-
-    const obj = new softrd_js.RendererAPIAddon(10);
-    console.log(obj.plusOne()); // 11
-    console.log(obj.plusOne()); // 12
-    console.log(obj.plusOne()); // 13
-
     mainWindow = new BrowserWindow({
         width: 900,
         height: 680,
@@ -55,6 +48,4 @@ app.on("activate", () => {
     }
 });
 
-ipcMain.on("test-channel", (event, arg) => {
-    console.log("arg", arg);
-});
+
