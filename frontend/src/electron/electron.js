@@ -4,15 +4,15 @@ const { app, BrowserWindow } = electron;
 const path = require("path");
 const isDev = require("electron-is-dev");
 
-require("./ipc")
+// require(path.join(__dirname, "/ipc"));
 
 let mainWindow;
 
 function createWindow() {
     console.log("creating window......");
     mainWindow = new BrowserWindow({
-        width: 900,
-        height: 680,
+        width: 1280,
+        height: 720,
         webPreferences: {
             preload: __dirname + "/preload.js"
         }

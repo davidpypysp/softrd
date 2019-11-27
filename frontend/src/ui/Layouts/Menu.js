@@ -1,5 +1,7 @@
 import React from "react";
-import IPC from "components/utils/ipc";
+import IPC from "ui/utils/ipc";
+
+import { exampleRun } from "ui/renderer";
 
 export default class Menu extends React.Component {
     render() {
@@ -17,11 +19,7 @@ export default class Menu extends React.Component {
                 </button>
                 <button
                     onClick={() => {
-                        const obj = new window.softrd.RendererAPIAddon(10);
-                        console.log(obj.plusOne()); // 11
-
-                        const po1 = obj.plusOne();
-                        console.log("po1=", po1);
+                        exampleRun();
                     }}
                 >
                     test2

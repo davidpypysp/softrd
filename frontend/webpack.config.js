@@ -6,7 +6,8 @@ module.exports = {
     resolve: {
         alias: {
             src: path.resolve(__dirname, "src/"),
-            components: path.resolve(__dirname, "src/components/"),
+            ui: path.resolve(__dirname, "src/ui/"),
+            electron: path.resolve(__dirname, "src/electron/"),
             styles: path.resolve(__dirname, "styles/"),
         }
     },
