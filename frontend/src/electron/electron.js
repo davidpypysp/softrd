@@ -9,7 +9,6 @@ const isDev = require("electron-is-dev");
 let mainWindow;
 
 function createWindow() {
-    console.log("creating window......");
     mainWindow = new BrowserWindow({
         width: 1280,
         height: 720,
@@ -17,17 +16,20 @@ function createWindow() {
             preload: __dirname + "/preload.js"
         }
     });
+
     mainWindow.loadURL(
         isDev
             ? "http://localhost:9000"
             : `file://${path.join(__dirname, "../../dist/index.html")}`
     );
+
     if (isDev) {
         // Open the DevTools.
         // BrowserWindow.addDevToolsExtension
         // ("<location to your react chrome extension>");
         mainWindow.webContents.openDevTools();
     }
+
     mainWindow.on("closed", () => {
         console.log("closing window......");
         mainWindow = null;

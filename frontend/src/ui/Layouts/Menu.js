@@ -1,7 +1,6 @@
 import React from "react";
-import IPC from "ui/utils/ipc";
 
-import { exampleRun } from "ui/renderer";
+import RENDERER, { exampleRun } from "ui/renderer";
 
 export default class Menu extends React.Component {
     render() {
@@ -10,9 +9,8 @@ export default class Menu extends React.Component {
                 {"Menu"}
                 <button
                     onClick={() => {
-                        IPC.send("softrd", {
-                            abc: "aqew"
-                        });
+                        console.log("drawing");
+                        RENDERER.draw();
                     }}
                 >
                     test
