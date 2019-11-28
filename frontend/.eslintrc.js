@@ -31,7 +31,7 @@ module.exports = {
         "init-declarations": ["error", "always"],
         // Disallow unused variables.
         // TODO(breakds): Re-disallow when the repo is more stable.
-        // "no-unused-vars": "error",
+        // "no-unused-vars": "warn",
         // Require constructor names to begin with a capital letter.
         "new-cap": [
             "error",
@@ -47,7 +47,7 @@ module.exports = {
         "no-trailing-spaces": "error",
         // React specific rule. Enable this so that no-unused-vars respect
         // the use of a react component.
-        "react/jsx-uses-vars": "error",
+        // "react/jsx-uses-vars": "error",
         // Enforce consistent spacing before and after the arrow in arrow
         // functions.
         "arrow-spacing": "error",
@@ -57,11 +57,11 @@ module.exports = {
         "no-useless-constructor": "warn",
         // Require `let` or `const` instead of `var`.
         "no-var": "error",
-        // Require `const` declaration for variables taht are never
+        // Require `const` declaration for variables that are never
         // reassigned after declared.
-        "prefer-const": "error",
+        "prefer-const": "warn",
         indent: ["warn", 4],
-        "prettier/prettier": "error"
+        // "prettier/prettier": "error"
     },
-    plugins: ["prettier", "react"]
+    // plugins: ["prettier", "react"]
 };

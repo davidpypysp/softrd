@@ -43,6 +43,7 @@
     "dependencies": {
         "bindings": "^1.5.0",
         "electron-is-dev": "^1.1.0",
+        "prettier": "^1.19.1",
         "react": "^16.9.0",
         "react-dom": "^16.9.0"
     }
