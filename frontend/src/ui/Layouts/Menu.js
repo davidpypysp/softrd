@@ -13,7 +13,22 @@ export default class Menu extends React.Component {
                         RENDERER.draw();
                     }}
                 >
-                    test
+                    draw
+                </button>
+                <button
+                    onClick={() => {
+                        RENDERER.reDraw();
+                    }}
+                >
+                    redraw
+                </button>
+                <button
+                    onClick={() => {
+                        console.log("clearing");
+                        RENDERER.clearImage();
+                    }}
+                >
+                    clear
                 </button>
                 <button
                     onClick={() => {
