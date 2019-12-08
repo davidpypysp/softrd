@@ -11,8 +11,8 @@ class RendererAPI {
  public:
   RendererAPI();
 
-  //   void InitExampleMesh();
-  //   void DrawExampleMesh();
+  void InitExampleMesh();
+  void DrawExampleMesh();
   void ExamplePrint();
 
   ~RendererAPI();
