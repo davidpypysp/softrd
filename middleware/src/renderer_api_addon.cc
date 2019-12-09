@@ -81,12 +81,21 @@ Napi::Value RendererAPIAddon::AcceptArrayBuffer(
 
   Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
 
-  const int32_t* array = reinterpret_cast<int32_t*>(buf.Data());
-  size_t length = buf.ByteLength() / sizeof(int32_t);
+  uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
+  size_t length = buf.ByteLength() / sizeof(uint8_t);
 
-  for (size_t index = 0; index < length; index++) {
-    fprintf(stderr, "array[%lu] is %d\n", index, array[index]);
+  std::cout << "length = " << length << std::endl;
+
+  for (size_t index = 0; index < length; index += 4) {
+    array[index] = 255;      // red
+    array[index + 1] = 100;  // green
+    array[index + 2] = 100;  // blue
+    array[index + 3] = 255;  // alpha
   }
+
+  // for (size_t index = 0; index < length; index++) {
+  //   fprintf(stderr, "array[%lu] is %d\n", index, array[index]);
+  // }
 
   return info.Env().Undefined();
 }
