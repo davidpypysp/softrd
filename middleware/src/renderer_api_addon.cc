@@ -11,7 +11,9 @@ Napi::Object RendererAPIAddon::Init(Napi::Env env, Napi::Object exports) {
       DefineClass(env, "RendererAPIAddon",
                   {InstanceMethod("plusOne", &RendererAPIAddon::PlusOne),
                    InstanceMethod("value", &RendererAPIAddon::GetValue),
-                   InstanceMethod("multiply", &RendererAPIAddon::Multiply)});
+                   InstanceMethod("multiply", &RendererAPIAddon::Multiply),
+                   InstanceMethod("acceptArrayBuffer",
+                                  &RendererAPIAddon::AcceptArrayBuffer)});
 
   constructor = Napi::Persistent(func);
   constructor.SuppressDestruct();
@@ -62,4 +64,29 @@ Napi::Value RendererAPIAddon::Multiply(const Napi::CallbackInfo& info) {
       {Napi::Number::New(info.Env(), this->value_ * multiple.DoubleValue())});
 
   return obj;
+}
+
+Napi::Value RendererAPIAddon::AcceptArrayBuffer(
+    const Napi::CallbackInfo& info) {
+  if (info.Length() != 1) {
+    Napi::Error::New(info.Env(), "Expected exactly one argument")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+  if (!info[0].IsArrayBuffer()) {
+    Napi::Error::New(info.Env(), "Expected an ArrayBuffer")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+
+  Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
+
+  const int32_t* array = reinterpret_cast<int32_t*>(buf.Data());
+  size_t length = buf.ByteLength() / sizeof(int32_t);
+
+  for (size_t index = 0; index < length; index++) {
+    fprintf(stderr, "array[%lu] is %d\n", index, array[index]);
+  }
+
+  return info.Env().Undefined();
 }
