@@ -3,16 +3,17 @@
 script_path=$PWD
 
 function build_core() {
-
-    if [ ! -d "$PWD/build-core" ]; then
-        mkdir "$PWD/build-core"
+    if [ ! -d "$script_path/build-core" ]; then
+        mkdir "$script_path/build-core"
     fi
 
-    cd "$PWD/build-core"
+    cd "$script_path/build-core"
     echo 'build_core in ' $PWD
 
-    cmake "$PWD/../../core"
+    cmake "$script_path/../core"
     make -j8
+
+    cp $script_path/build-core/src/interface/libSoftrdAPI.so /usr/lib
 }
 
 function build_node() {
@@ -23,7 +24,7 @@ function build_node() {
 }
 
 function rebuild() {
-    rm -rf "$PWD/build-core"
+    rm -rf "$script_path/build-core"
     build_core
     build_node
 }

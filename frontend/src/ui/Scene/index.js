@@ -17,8 +17,8 @@ export default class Scene extends React.Component {
                 <canvas
                     id={this.canvasId}
                     className="scene-canvas"
-                    width="800"
-                    height="600"
+                    width="640"
+                    height="480"
                 >
                 </canvas>
             </div>

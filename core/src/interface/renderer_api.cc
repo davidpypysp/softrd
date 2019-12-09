@@ -9,7 +9,8 @@ RendererAPI::RendererAPI() {
 
 void RendererAPI::InitExampleMesh() {
   // define cube
-  example_cube_->LoadCube2();
+  std::cout << "InitExampleMesh" << std::endl;
+  example_cube_->LoadCube();
 }
 
 void RendererAPI::DrawExampleMesh() {
@@ -27,6 +28,7 @@ void RendererAPI::DrawExampleMesh() {
   vertex_shader.model_ = model_matrix;
   vertex_shader.transform_ = camera.projection * camera.view * model_matrix;
 
+  std::cout << "draw mesh" << std::endl;
   rendering_pipeline_->DrawMesh(*example_cube_, vertex_shader, fragment_shader,
                                 Rasterizer::TRIANGLE_FILL,
                                 RenderingPipeline::DrawMode::DRAW_TRIANGLE);
@@ -38,6 +40,17 @@ void RendererAPI::ExamplePrint() {
   Texture *specular_texture = new Texture("resource/container2_specular.png");
 
   Model *example_model = new Model();
+}
+
+void RendererAPI::ResetBuffer(uint8_t *buffer, size_t size) {
+  std::cout << "reset buffer" << std::endl;
+
+  for (size_t index = 0; index < size; index += 4) {
+    buffer[index] = 50;       // red
+    buffer[index + 1] = 50;   // green
+    buffer[index + 2] = 50;   // blue
+    buffer[index + 3] = 255;  // alpha
+  }
 }
 
 RendererAPI::~RendererAPI() {}

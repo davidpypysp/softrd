@@ -77,12 +77,16 @@ void RenderingPipeline::Run(const DrawMode mode) {
     }
   } else if (mode == DRAW_TRIANGLE) {
     for (int index = 0; index < element_buffer_.size() / 3; ++index) {
+      std::cout << "index " << index << std::endl;
+
       std::vector<TrianglePrimitive> triangles;
       primitve_assembler_.AssembleTriangle(
           element_buffer_[index * 3], element_buffer_[index * 3 + 1],
           element_buffer_[index * 3 + 2], &triangles);
-
+      std::cout << triangles.size() << std::endl;
       for (TrianglePrimitive &triangle : triangles) {
+        std::cout << "triangle " << std::endl;
+
         rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
 
         FragmentOut fragment_shader_out;
@@ -120,6 +124,7 @@ RenderingPipeline::~RenderingPipeline() {}
 void RenderingPipeline::SetPixel(const int x, const int y, const vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
+    std::cout << "offset" << offset << std::endl;
     frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
     frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
     frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
