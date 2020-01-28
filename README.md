@@ -62,14 +62,18 @@ Rendering pipeline corresponding c++ header file:
 -   Assimp -- Import .obj model into self-defined `model` class object.
 -   SOIL -- Import diffrent format of image file into `texture` class object.
 
-## How to install
+## Build
 
--   TBC
+####   Full rebuild and boot (temp)
+```
+cd frontend/
+sudo ./frontend.sh reinstall
+yarn electron-dev
+```
 
-## Test Environment
 
--   Hardware: Surface Pro4, m3-6Y30 CPU, 4GB RAM
--   Software: Windows 10 Pro, Visual Studio 2015
+
+
 
 ## Reference
 

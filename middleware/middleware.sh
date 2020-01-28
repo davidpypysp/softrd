@@ -20,7 +20,6 @@ function build_node() {
     echo 'build_node in ' $PWD
     cd $script_path
     node-gyp rebuild
-
 }
 
 function rebuild() {
