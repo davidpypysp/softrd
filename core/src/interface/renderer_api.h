@@ -11,9 +11,10 @@ class RendererAPI {
  public:
   RendererAPI();
 
-  //   void InitExampleMesh();
-  //   void DrawExampleMesh();
+  void InitExampleMesh();
+  void DrawExampleMesh();
   void ExamplePrint();
+  void ResetBuffer(uint8_t *buffer, size_t size);
 
   ~RendererAPI();
 

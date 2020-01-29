@@ -2,9 +2,9 @@ import React from "react";
 
 import "styles/main.scss";
 
-import Header from "components/Layouts/Header";
-import MainView from "components/Layouts/MainView";
-import Menu from "components/Layouts/Menu";
+import Header from "ui/Layouts/Header";
+import MainView from "ui/Layouts/MainView";
+import Menu from "ui/Layouts/Menu";
 
 export default class GUI extends React.Component {
     render() {

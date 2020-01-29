@@ -23,11 +23,11 @@
         "css-loader": "^3.2.0",
         "electron": "^6.0.7",
         "electron-builder": "^21.2.0",
-        "eslint": "^6.3.0",
+        "eslint": "^6.7.1",
         "eslint-config-google": "^0.14.0",
         "eslint-loader": "^3.0.0",
-        "eslint-plugin-prettier": "^3.1.0",
-        "eslint-plugin-react": "^7.14.3",
+        "eslint-plugin-prettier": "^3.1.1",
+        "eslint-plugin-react": "^7.16.0",
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
         "node-sass": "^4.12.0",
@@ -41,7 +41,9 @@
         "webpack-dev-server": "^3.8.0"
     },
     "dependencies": {
+        "bindings": "^1.5.0",
         "electron-is-dev": "^1.1.0",
+        "prettier": "^1.19.1",
         "react": "^16.9.0",
         "react-dom": "^16.9.0"
     }

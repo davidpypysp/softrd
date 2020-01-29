@@ -1,29 +1,39 @@
 const electron = require("electron");
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { app, BrowserWindow } = electron;
 
 const path = require("path");
 const isDev = require("electron-is-dev");
+
+// require(path.join(__dirname, "/ipc"));
 
 let mainWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 900,
-        height: 680
+        width: 1280,
+        height: 720,
+        webPreferences: {
+            preload: __dirname + "/preload.js"
+        }
     });
+
     mainWindow.loadURL(
         isDev
-            ? "http://localhost:9000"
-            : `file://${path.join(__dirname, "../../dist/index.html")}`
+            ? "http://localhost:9000" : `file://${path.join(__dirname,
+                "../../dist/index.html")}`
     );
+
     if (isDev) {
         // Open the DevTools.
         // BrowserWindow.addDevToolsExtension
         // ("<location to your react chrome extension>");
         mainWindow.webContents.openDevTools();
     }
-    mainWindow.on("closed", () => (mainWindow = null));
+
+    mainWindow.on("closed", () => {
+        console.log("closing window......");
+        mainWindow = null;
+    });
 }
 
 app.on("ready", createWindow);
@@ -39,3 +49,5 @@ app.on("activate", () => {
         createWindow();
     }
 });
+
+
