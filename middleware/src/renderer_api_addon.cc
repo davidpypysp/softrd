@@ -85,7 +85,7 @@ Napi::Value RendererAPIAddon::AcceptArrayBuffer(
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
 
-  this->renderer_api_->ResetBuffer(array, length);
+  // this->renderer_api_->ResetBuffer(array, length);
 
   // std::cout << "length = " << length << std::endl;
 
@@ -99,6 +99,28 @@ Napi::Value RendererAPIAddon::AcceptArrayBuffer(
   // // for (size_t index = 0; index < length; index++) {
   // //   fprintf(stderr, "array[%lu] is %d\n", index, array[index]);
   // }
+
+  return info.Env().Undefined();
+}
+
+Napi::Value RendererAPIAddon::DrawFrame(const Napi::CallbackInfo& info) {
+  if (info.Length() != 1) {
+    Napi::Error::New(info.Env(), "Expected exactly one argument")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+  if (!info[0].IsArrayBuffer()) {
+    Napi::Error::New(info.Env(), "Expected an ArrayBuffer")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+
+  Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
+
+  uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
+  size_t length = buf.ByteLength() / sizeof(uint8_t);
+
+  this->renderer_api_->ResetBuffer(array, length);
 
   return info.Env().Undefined();
 }
