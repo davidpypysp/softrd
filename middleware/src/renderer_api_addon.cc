@@ -13,7 +13,8 @@ Napi::Object RendererAPIAddon::Init(Napi::Env env, Napi::Object exports) {
                    InstanceMethod("value", &RendererAPIAddon::GetValue),
                    InstanceMethod("multiply", &RendererAPIAddon::Multiply),
                    InstanceMethod("acceptArrayBuffer",
-                                  &RendererAPIAddon::AcceptArrayBuffer)});
+                                  &RendererAPIAddon::AcceptArrayBuffer),
+                   InstanceMethod("drawFrame", &RendererAPIAddon::DrawFrame)});
 
   constructor = Napi::Persistent(func);
   constructor.SuppressDestruct();
@@ -79,13 +80,14 @@ Napi::Value RendererAPIAddon::AcceptArrayBuffer(
         .ThrowAsJavaScriptException();
     return info.Env().Undefined();
   }
+  std::cout << "accet array buffer" << std::endl;
 
   Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
 
-  // this->renderer_api_->ResetBuffer(array, length);
+  this->renderer_api_->ResetBuffer(array, length);
 
   // std::cout << "length = " << length << std::endl;
 
@@ -119,8 +121,7 @@ Napi::Value RendererAPIAddon::DrawFrame(const Napi::CallbackInfo& info) {
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
-
+  std::cout << "addon call draw frame" << std::endl;
   this->renderer_api_->ResetBuffer(array, length);
-
   return info.Env().Undefined();
 }

@@ -9,22 +9,21 @@ export default class Menu extends React.Component {
                 {"Menu"}
                 <button
                     onClick={() => {
-                        console.log("drawing");
+                        console.log("draw");
                         RENDERER.draw();
                     }}
                 >
-                    draw
+                    flat
                 </button>
                 <button
                     onClick={() => {
-                        RENDERER.reDraw();
+                        RENDERER.drawFrame();
                     }}
                 >
-                    redraw
+                    frame
                 </button>
                 <button
                     onClick={() => {
-                        console.log("clearing");
                         RENDERER.clearImage();
                     }}
                 >
@@ -35,7 +34,7 @@ export default class Menu extends React.Component {
                         exampleRun();
                     }}
                 >
-                    test2
+                    example
                 </button>
             </div>
         );
