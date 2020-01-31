@@ -13,7 +13,8 @@ Napi::Object RendererAPIAddon::Init(Napi::Env env, Napi::Object exports) {
                    InstanceMethod("value", &RendererAPIAddon::GetValue),
                    InstanceMethod("multiply", &RendererAPIAddon::Multiply),
                    InstanceMethod("acceptArrayBuffer",
-                                  &RendererAPIAddon::AcceptArrayBuffer)});
+                                  &RendererAPIAddon::AcceptArrayBuffer),
+                   InstanceMethod("drawFrame", &RendererAPIAddon::DrawFrame)});
 
   constructor = Napi::Persistent(func);
   constructor.SuppressDestruct();
@@ -79,6 +80,7 @@ Napi::Value RendererAPIAddon::AcceptArrayBuffer(
         .ThrowAsJavaScriptException();
     return info.Env().Undefined();
   }
+  std::cout << "accet array buffer" << std::endl;
 
   Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
 
@@ -99,6 +101,31 @@ Napi::Value RendererAPIAddon::AcceptArrayBuffer(
   // // for (size_t index = 0; index < length; index++) {
   // //   fprintf(stderr, "array[%lu] is %d\n", index, array[index]);
   // }
+
+  return info.Env().Undefined();
+}
+
+Napi::Value RendererAPIAddon::DrawFrame(const Napi::CallbackInfo& info) {
+  if (info.Length() != 1) {
+    Napi::Error::New(info.Env(), "Expected exactly one argument")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+  if (!info[0].IsArrayBuffer()) {
+    Napi::Error::New(info.Env(), "Expected an ArrayBuffer")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+
+  Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
+
+  uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
+  size_t length = buf.ByteLength() / sizeof(uint8_t);
+
+  std::cout << "addon call draw frame" << std::endl;
+  this->renderer_api_->DrawExampleMesh();
+
+  // this->renderer_api_->ResetBuffer(array, length);
 
   return info.Env().Undefined();
 }

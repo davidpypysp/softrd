@@ -18,20 +18,12 @@ class Renderer {
     draw() {
         const { buffer } = this.imageData.data;
         this.softrdAddon.acceptArrayBuffer(buffer);
+        this.context2D.putImageData(this.imageData, 0, 0);
+    }
 
-        // console.log("buffer", this.imageData.data);
-        // console.log("imageData", this.imageData);
-
-
-
-        // const data = this.imageData.data;
-        // for (let i = 0; i < data.length; i += 4) {
-        //     data[i] = 255;     // red
-        //     data[i + 1] = 100; // green
-        //     data[i + 2] = 100; // blue
-        //     data[i + 3] = 255; // alpha
-        // }
-
+    drawFrame() {
+        const { buffer } = this.imageData.data;
+        this.softrdAddon.drawFrame(buffer);
         this.context2D.putImageData(this.imageData, 0, 0);
     }
 

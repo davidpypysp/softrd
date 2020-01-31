@@ -43,7 +43,8 @@
     "utility": "cpp",
     "list": "cpp",
     "algorithm": "cpp",
-    "string": "cpp"
+    "string": "cpp",
+    "string_view": "cpp"
   },
   "editor.formatOnSave": true
 }

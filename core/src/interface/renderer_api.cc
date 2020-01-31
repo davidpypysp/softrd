@@ -46,8 +46,8 @@ void RendererAPI::ResetBuffer(uint8_t *buffer, size_t size) {
   std::cout << "reset buffer" << std::endl;
 
   for (size_t index = 0; index < size; index += 4) {
-    buffer[index] = 50;       // red
-    buffer[index + 1] = 50;   // green
+    buffer[index] = 150;      // red
+    buffer[index + 1] = 150;  // green
     buffer[index + 2] = 50;   // blue
     buffer[index + 3] = 255;  // alpha
   }
