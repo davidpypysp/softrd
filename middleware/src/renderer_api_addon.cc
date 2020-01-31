@@ -121,7 +121,11 @@ Napi::Value RendererAPIAddon::DrawFrame(const Napi::CallbackInfo& info) {
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
+
   std::cout << "addon call draw frame" << std::endl;
-  this->renderer_api_->ResetBuffer(array, length);
+  this->renderer_api_->DrawExampleMesh();
+
+  // this->renderer_api_->ResetBuffer(array, length);
+
   return info.Env().Undefined();
 }
