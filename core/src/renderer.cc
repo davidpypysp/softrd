@@ -173,7 +173,7 @@ void Renderer::RunExample() {
 }
 
 void Renderer::RunExample2() {
-  LoadCoordinateAxis();
+  // LoadCoordinateAxis();
 
   // define object
   Mesh object;
@@ -184,14 +184,14 @@ void Renderer::RunExample2() {
   inputs_.push_back(new InputUnit3("Object2", &object2_position));
   Material object_material(vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31),
                            vec3(0.5, 0.5, 0.5), 32.0);
-  Texture *diffuse_texture = new Texture(
-      "resource/"
-      "container2.png");
-  Texture *specular_texture = new Texture(
-      "resource/"
-      "container2_"
-      "specular.png");
-  TextureMaterial object_material2(diffuse_texture, specular_texture, 32.0);
+  // Texture *diffuse_texture = new Texture(
+  //     "resource/"
+  //     "container2.png");
+  // Texture *specular_texture = new Texture(
+  //     "resource/"
+  //     "container2_"
+  //     "specular.png");
+  // TextureMaterial object_material2(diffuse_texture, specular_texture, 32.0);
 
   // define lamp light
   Mesh light_lamp;
@@ -273,6 +273,13 @@ void Renderer::RunExample2() {
     vertex_shader_light.model_ = model_matrix;
     vertex_shader_light.transform_ =
         camera_.projection * camera_.view * model_matrix;
+
+    camera_.projection.print();
+    camera_.view.print();
+
+    vertex_shader_light.model_.print();
+    vertex_shader_light.transform_.print();
+    break;
 
     // DrawObject(object, vertex_shader_light, fragment_shader_light_texture,
     //            Rasterizer::TRIANGLE_FILL, DRAW_TRIANGLE);

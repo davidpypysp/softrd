@@ -15,6 +15,7 @@ void RendererAPI::InitExampleMesh() {
 
 void RendererAPI::DrawExampleMesh() {
   auto &camera = rendering_pipeline_->camera();
+  camera.Rotate(vec3(0, 0, 0));
 
   // ----------------- define procedure ------------------------
 
@@ -43,28 +44,34 @@ void RendererAPI::DrawExampleMesh() {
   // ----------------- draw procedure ------------------------
   mat4 model_matrix;
 
-  // // 1. cube object
-  // model_matrix.identify();
-  // model_matrix.translate(vec3(0.0, 0.0, 0.0));
-
-  // vertex_shader_light.model_ = model_matrix;
-  // vertex_shader_light.transform_ =
-  //     camera.projection * camera.view * model_matrix;
-
-  // std::cout << "draw mesh" << std::endl;
-  // rendering_pipeline_->DrawMesh(
-  //     object, vertex_shader_light, fragment_shader_light,
-  //     Rasterizer::TRIANGLE_FILL, RenderingPipeline::DrawMode::DRAW_TRIANGLE);
-
-  // 4. spot light lamp
+  // 1. cube object
   model_matrix.identify();
-  model_matrix.scale(0.1, 0.1, 0.1);
-  model_matrix.translate(spot_light.position);
+  model_matrix.translate(vec3(0.0, 0.0, 0.0));
+
   vertex_shader_light.model_ = model_matrix;
   vertex_shader_light.transform_ =
       camera.projection * camera.view * model_matrix;
-  rendering_pipeline_->DrawMesh(spot_light_lamp, vertex_shader_light,
-                                fragment_shader, Rasterizer::TRIANGLE_FILL);
+
+  camera.projection.print();
+  camera.view.print();
+
+  vertex_shader_light.model_.print();
+  vertex_shader_light.transform_.print();
+
+  std::cout << "draw mesh" << std::endl;
+  rendering_pipeline_->DrawMesh(
+      object, vertex_shader_light, fragment_shader_light,
+      Rasterizer::TRIANGLE_FILL, RenderingPipeline::DrawMode::DRAW_TRIANGLE);
+
+  // // 4. spot light lamp
+  // model_matrix.identify();
+  // model_matrix.scale(0.1, 0.1, 0.1);
+  // model_matrix.translate(spot_light.position);
+  // vertex_shader_light.model_ = model_matrix;
+  // vertex_shader_light.transform_ =
+  //     camera.projection * camera.view * model_matrix;
+  // rendering_pipeline_->DrawMesh(spot_light_lamp, vertex_shader_light,
+  //                               fragment_shader, Rasterizer::TRIANGLE_FILL);
 }
 
 void RendererAPI::ExamplePrint() {

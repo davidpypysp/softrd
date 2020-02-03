@@ -41,6 +41,20 @@ void RenderingPipeline::Run(const DrawMode mode) {
   // vertex shader stage
   vertex_out_buffer_.clear();
   VertexOut vertex_out;
+
+  for (int i = 0; i < vertex_buffer_.size(); i++) {
+    const auto &vertex = vertex_buffer_[i];
+    std::cout << "vertex_buffer[" << i << "].position=(" << vertex.position.x
+              << "," << vertex.position.y << "," << vertex.position.z << ")"
+              << std::endl;
+
+    std::cout << "vertex_buffer[" << i << "].normal=(" << vertex.normal.x << ","
+              << vertex.normal.y << "," << vertex.normal.z << ")" << std::endl;
+
+    std::cout << "vertex_buffer[" << i << "].uv=(" << vertex.normal.x << ","
+              << vertex.normal.y << ")" << std::endl;
+  }
+
   for (int i = 0; i < vertex_buffer_.size(); i++) {
     vertex_shader_->Run(vertex_buffer_[i], &vertex_out);
     vertex_out_buffer_.push_back(vertex_out);
@@ -76,13 +90,13 @@ void RenderingPipeline::Run(const DrawMode mode) {
     }
   } else if (mode == DRAW_TRIANGLE) {
     for (int index = 0; index < element_buffer_.size() / 3; ++index) {
-      std::cout << "index " << index << std::endl;
+      std::cout << "draw triangle index " << index << std::endl;
 
       std::vector<TrianglePrimitive> triangles;
       primitve_assembler_.AssembleTriangle(
           element_buffer_[index * 3], element_buffer_[index * 3 + 1],
           element_buffer_[index * 3 + 2], &triangles);
-      std::cout << triangles.size() << std::endl;
+      std::cout << "triangle size = " << triangles.size() << std::endl;
       for (TrianglePrimitive &triangle : triangles) {
         std::cout << "triangle " << std::endl;
 
