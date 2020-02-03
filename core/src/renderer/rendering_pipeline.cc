@@ -103,13 +103,23 @@ void RenderingPipeline::Run(const DrawMode mode) {
         rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
 
         FragmentOut fragment_shader_out;
+        // std::cout << "draw fragment size: " << fragment_buffer_.size()
+        //           << std::endl;
+
         for (Fragment &fragment : fragment_buffer_) {
           fragment_shader_->Run(fragment, &fragment_shader_out);
+          std::cout << "fragment shader out 1. window_position 2. color"
+                    << std::endl;
+          fragment_shader_out.window_position.print();
+          fragment_shader_out.color.print();
+
           if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
+            std::cout << ("test success") << std::endl;
+
             // test fragment success, pass into framebuffer;
-            SetPixel(fragment_shader_out.window_position.x,
-                     fragment_shader_out.window_position.y,
-                     fragment_shader_out.color);
+            SetPixelToWindow(fragment_shader_out.window_position.x,
+                             fragment_shader_out.window_position.y,
+                             fragment_shader_out.color);
             SetDepth(fragment_shader_out.window_position.x,
                      fragment_shader_out.window_position.y,
                      fragment_shader_out.window_position.z);
@@ -124,6 +134,10 @@ void RenderingPipeline::Run(const DrawMode mode) {
 void RenderingPipeline::SetPolygonMode(
     const Rasterizer::DrawTriangleMode mode) {
   polygon_mode_ = mode;
+}
+
+void RenderingPipeline::SetWindowFrameBuffer(uint8_t *buffer) {
+  this->window_frame_buffer_ = buffer;
 }
 
 void RenderingPipeline::ResetBuffer() {
@@ -142,6 +156,19 @@ void RenderingPipeline::SetPixel(const int x, const int y, const vec4 &color) {
     frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
     frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
     frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
+  }
+}
+
+// set pixel to window frame buffer
+void RenderingPipeline::SetPixelToWindow(const int x, const int y,
+                                         const vec4 &color) {
+  if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
+    int offset = (y * width_ + x) * 4;
+    std::cout << "window offset = " << offset << std::endl;
+    window_frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
+    window_frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
+    window_frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
+    window_frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
   }
 }
 

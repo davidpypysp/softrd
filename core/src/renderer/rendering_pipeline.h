@@ -28,12 +28,14 @@ class RenderingPipeline {
   void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
   void Run(const DrawMode mode);  // draw one frame
   void SetPolygonMode(const Rasterizer::DrawTriangleMode mode);
+  void SetWindowFrameBuffer(uint8_t *buffer);
   void ResetBuffer();
   void Clear();
   ~RenderingPipeline();
 
  private:
   void SetPixel(const int x, const int y, const vec4 &color);
+  void SetPixelToWindow(const int x, const int y, const vec4 &color);
   void SetDepth(const int x, const int y, const float z);
   void SetFrame();
   void DrawFrame();
@@ -57,6 +59,7 @@ class RenderingPipeline {
   std::vector<Fragment> fragment_buffer_;
   util::Array<unsigned char> frame_buffer_;
   util::Array<float> depth_buffer_;
+  uint8_t *window_frame_buffer_;
 
   Rasterizer::DrawTriangleMode polygon_mode_;
 };

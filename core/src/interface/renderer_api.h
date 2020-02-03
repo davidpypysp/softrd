@@ -12,7 +12,7 @@ class RendererAPI {
   RendererAPI();
 
   void InitExampleMesh();
-  void DrawExampleMesh();
+  void DrawExampleMesh(uint8_t *buffer);
   void ExamplePrint();
   void ResetBuffer(uint8_t *buffer, size_t size);
 

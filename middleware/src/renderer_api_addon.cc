@@ -123,7 +123,7 @@ Napi::Value RendererAPIAddon::DrawFrame(const Napi::CallbackInfo& info) {
   size_t length = buf.ByteLength() / sizeof(uint8_t);
 
   std::cout << "addon call draw frame" << std::endl;
-  this->renderer_api_->DrawExampleMesh();
+  this->renderer_api_->DrawExampleMesh(array);
 
   // this->renderer_api_->ResetBuffer(array, length);
 

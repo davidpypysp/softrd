@@ -13,7 +13,10 @@ void RendererAPI::InitExampleMesh() {
   example_cube_->LoadCube2();
 }
 
-void RendererAPI::DrawExampleMesh() {
+void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
+  rendering_pipeline_->SetWindowFrameBuffer(buffer);
+  rendering_pipeline_->ResetBuffer();
+
   auto &camera = rendering_pipeline_->camera();
   camera.Rotate(vec3(0, 0, 0));
 
