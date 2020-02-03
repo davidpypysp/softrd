@@ -16,7 +16,6 @@ RenderingPipeline::RenderingPipeline(const int width, const int height)
       polygon_mode_(Rasterizer::TRIANGLE_FILL) {
   std::cout << "rendering pipeline constructor()" << std::endl;
   rasterizer_.SetCamera(&camera_);
-  // DrawObject(spot_light_lamp, vertex_shader_light, fragment_shader);
 }
 
 // Draw mesh using rendering pipeline
