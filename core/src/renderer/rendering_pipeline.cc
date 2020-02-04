@@ -14,9 +14,7 @@ RenderingPipeline::RenderingPipeline(const int width, const int height)
       per_sample_proccessor_(width, height, depth_buffer_),
       camera_((float)width / (float)height),
       polygon_mode_(Rasterizer::TRIANGLE_FILL) {
-  std::cout << "rendering pipeline constructor()" << std::endl;
   rasterizer_.SetCamera(&camera_);
-  // DrawObject(spot_light_lamp, vertex_shader_light, fragment_shader);
 }
 
 // Draw mesh using rendering pipeline
@@ -42,6 +40,11 @@ void RenderingPipeline::Run(const DrawMode mode) {
   // vertex shader stage
   vertex_out_buffer_.clear();
   VertexOut vertex_out;
+
+  for (int i = 0; i < vertex_buffer_.size(); i++) {
+    const auto &vertex = vertex_buffer_[i];
+  }
+
   for (int i = 0; i < vertex_buffer_.size(); i++) {
     vertex_shader_->Run(vertex_buffer_[i], &vertex_out);
     vertex_out_buffer_.push_back(vertex_out);
@@ -77,26 +80,22 @@ void RenderingPipeline::Run(const DrawMode mode) {
     }
   } else if (mode == DRAW_TRIANGLE) {
     for (int index = 0; index < element_buffer_.size() / 3; ++index) {
-      std::cout << "index " << index << std::endl;
-
       std::vector<TrianglePrimitive> triangles;
       primitve_assembler_.AssembleTriangle(
           element_buffer_[index * 3], element_buffer_[index * 3 + 1],
           element_buffer_[index * 3 + 2], &triangles);
-      std::cout << triangles.size() << std::endl;
       for (TrianglePrimitive &triangle : triangles) {
-        std::cout << "triangle " << std::endl;
-
         rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
 
         FragmentOut fragment_shader_out;
         for (Fragment &fragment : fragment_buffer_) {
           fragment_shader_->Run(fragment, &fragment_shader_out);
+
           if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
             // test fragment success, pass into framebuffer;
-            SetPixel(fragment_shader_out.window_position.x,
-                     fragment_shader_out.window_position.y,
-                     fragment_shader_out.color);
+            SetPixelToWindow(fragment_shader_out.window_position.x,
+                             fragment_shader_out.window_position.y,
+                             fragment_shader_out.color);
             SetDepth(fragment_shader_out.window_position.x,
                      fragment_shader_out.window_position.y,
                      fragment_shader_out.window_position.z);
@@ -113,6 +112,10 @@ void RenderingPipeline::SetPolygonMode(
   polygon_mode_ = mode;
 }
 
+void RenderingPipeline::SetWindowFrameBuffer(uint8_t *buffer) {
+  this->window_frame_buffer_ = buffer;
+}
+
 void RenderingPipeline::ResetBuffer() {
   frame_buffer_.Fill(10);
   depth_buffer_.Fill(1.0);
@@ -124,11 +127,22 @@ RenderingPipeline::~RenderingPipeline() {}
 void RenderingPipeline::SetPixel(const int x, const int y, const vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    std::cout << "offset" << offset << std::endl;
     frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
     frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
     frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
     frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
+  }
+}
+
+// set pixel to window frame buffer
+void RenderingPipeline::SetPixelToWindow(const int x, const int y,
+                                         const vec4 &color) {
+  if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
+    int offset = (y * width_ + x) * 4;
+    window_frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
+    window_frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
+    window_frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
+    window_frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
   }
 }
 

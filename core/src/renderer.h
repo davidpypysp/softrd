@@ -27,6 +27,7 @@ class Renderer {
 
   Renderer(const int width, const int height);
   void RunExample();
+  void RunExample2();
   void SetShader(VertexShader *vertex_shader, FragmentShader *fragment_shader);
   void Draw(const DrawMode mode);  // draw one frame
   void DrawObject(

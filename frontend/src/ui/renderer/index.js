@@ -17,7 +17,7 @@ class Renderer {
 
     draw() {
         const { buffer } = this.imageData.data;
-        this.softrdAddon.acceptArrayBuffer(buffer);
+        this.softrdAddon.resetArrayBuffer(buffer);
         this.context2D.putImageData(this.imageData, 0, 0);
     }
 

@@ -9,7 +9,6 @@ export default class Menu extends React.Component {
                 {"Menu"}
                 <button
                     onClick={() => {
-                        console.log("draw");
                         RENDERER.draw();
                     }}
                 >

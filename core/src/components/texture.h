@@ -29,9 +29,6 @@ struct Texture {
       pixels[i].x = image[i * 3] * k;
       pixels[i].y = image[i * 3 + 1] * k;
       pixels[i].z = image[i * 3 + 2] * k;
-
-      std::cout << "(" << pixels[i].x << ", " << pixels[i].y << ", "
-                << pixels[i].z << ")" << std::endl;
     }
     SOIL_free_image_data(image);
   }

@@ -44,7 +44,21 @@
     "list": "cpp",
     "algorithm": "cpp",
     "string": "cpp",
-    "string_view": "cpp"
+    "string_view": "cpp",
+    "unordered_set": "cpp",
+    "hash_map": "cpp",
+    "hash_set": "cpp",
+    "codecvt": "cpp",
+    "condition_variable": "cpp",
+    "cstddef": "cpp",
+    "optional": "cpp",
+    "mutex": "cpp",
+    "thread": "cpp",
+    "iterator": "cpp",
+    "map": "cpp",
+    "memory_resource": "cpp",
+    "random": "cpp",
+    "set": "cpp"
   },
   "editor.formatOnSave": true
 }
