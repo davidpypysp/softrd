@@ -17,9 +17,6 @@ bool PerSampleProcessor::Run(const FragmentOut &in) {
 
 bool PerSampleProcessor::DepthTest(const vec3 &position) {
   int index = (int)position.y * width_ + (int)position.x;
-  std::cout << "index = " << index << "position.z = " << position.z
-            << std::endl;
-  std::cout << "depth_buffer_[index] = " << depth_buffer_[index] << std::endl;
   return position.z < depth_buffer_[index];
 }
 

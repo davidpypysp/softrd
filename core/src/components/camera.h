@@ -49,9 +49,6 @@ struct Camera {
             up.x,        up.y,        up.z,        -(up * position),
             direction.x, direction.y, direction.z, -(direction * position),
             0.0,         0.0,         0.0,         1.0};
-
-    std::cout << "set view mat" << std::endl;
-    view.print();
   }
 
   void SetProjectionMatrix() {
@@ -67,7 +64,6 @@ struct Camera {
     position = position + right * move.x;
     position = position + up * move.y;
     position = position + direction * move.z;
-    printf("move position: %f, %f, %f\n", position.x, position.y, position.z);
     SetViewMatrix();
   }
 
@@ -87,8 +83,6 @@ struct Camera {
     direction.normalize();
     right = (world_up % direction).normalize();
     up = (direction % right).normalize();
-    printf("rotate: %f, %f, %f\n", rotate.x, rotate.y, rotate.z);
-
     SetViewMatrix();
   }
 

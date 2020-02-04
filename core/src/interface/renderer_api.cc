@@ -55,30 +55,22 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   vertex_shader_light.transform_ =
       camera.projection * camera.view * model_matrix;
 
-  camera.projection.print();
-  camera.view.print();
-
-  vertex_shader_light.model_.print();
-  vertex_shader_light.transform_.print();
-
-  std::cout << "draw mesh" << std::endl;
   rendering_pipeline_->DrawMesh(
       object, vertex_shader_light, fragment_shader_light,
       Rasterizer::TRIANGLE_FILL, RenderingPipeline::DrawMode::DRAW_TRIANGLE);
 
-  // // 4. spot light lamp
-  // model_matrix.identify();
-  // model_matrix.scale(0.1, 0.1, 0.1);
-  // model_matrix.translate(spot_light.position);
-  // vertex_shader_light.model_ = model_matrix;
-  // vertex_shader_light.transform_ =
-  //     camera.projection * camera.view * model_matrix;
-  // rendering_pipeline_->DrawMesh(spot_light_lamp, vertex_shader_light,
-  //                               fragment_shader, Rasterizer::TRIANGLE_FILL);
+  // 4. spot light lamp
+  model_matrix.identify();
+  model_matrix.scale(0.1, 0.1, 0.1);
+  model_matrix.translate(spot_light.position);
+  vertex_shader_light.model_ = model_matrix;
+  vertex_shader_light.transform_ =
+      camera.projection * camera.view * model_matrix;
+  rendering_pipeline_->DrawMesh(spot_light_lamp, vertex_shader_light,
+                                fragment_shader, Rasterizer::TRIANGLE_FILL);
 }
 
 void RendererAPI::ExamplePrint() {
-  std::cout << "I'm suvived!" << std::endl;
   std::cout << "node-gyp work!!!" << std::endl;
   Texture *specular_texture = new Texture("resource/container2_specular.png");
 
@@ -86,8 +78,6 @@ void RendererAPI::ExamplePrint() {
 }
 
 void RendererAPI::ResetBuffer(uint8_t *buffer, size_t size) {
-  std::cout << "reset buffer" << std::endl;
-
   for (size_t index = 0; index < size; index += 4) {
     buffer[index] = 150;      // red
     buffer[index + 1] = 150;  // green

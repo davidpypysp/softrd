@@ -14,7 +14,6 @@ RenderingPipeline::RenderingPipeline(const int width, const int height)
       per_sample_proccessor_(width, height, depth_buffer_),
       camera_((float)width / (float)height),
       polygon_mode_(Rasterizer::TRIANGLE_FILL) {
-  std::cout << "rendering pipeline constructor()" << std::endl;
   rasterizer_.SetCamera(&camera_);
 }
 
@@ -44,15 +43,6 @@ void RenderingPipeline::Run(const DrawMode mode) {
 
   for (int i = 0; i < vertex_buffer_.size(); i++) {
     const auto &vertex = vertex_buffer_[i];
-    std::cout << "vertex_buffer[" << i << "].position=(" << vertex.position.x
-              << "," << vertex.position.y << "," << vertex.position.z << ")"
-              << std::endl;
-
-    std::cout << "vertex_buffer[" << i << "].normal=(" << vertex.normal.x << ","
-              << vertex.normal.y << "," << vertex.normal.z << ")" << std::endl;
-
-    std::cout << "vertex_buffer[" << i << "].uv=(" << vertex.normal.x << ","
-              << vertex.normal.y << ")" << std::endl;
   }
 
   for (int i = 0; i < vertex_buffer_.size(); i++) {
@@ -90,32 +80,19 @@ void RenderingPipeline::Run(const DrawMode mode) {
     }
   } else if (mode == DRAW_TRIANGLE) {
     for (int index = 0; index < element_buffer_.size() / 3; ++index) {
-      std::cout << "draw triangle index " << index << std::endl;
-
       std::vector<TrianglePrimitive> triangles;
       primitve_assembler_.AssembleTriangle(
           element_buffer_[index * 3], element_buffer_[index * 3 + 1],
           element_buffer_[index * 3 + 2], &triangles);
-      std::cout << "triangle size = " << triangles.size() << std::endl;
       for (TrianglePrimitive &triangle : triangles) {
-        std::cout << "triangle " << std::endl;
-
         rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
 
         FragmentOut fragment_shader_out;
-        // std::cout << "draw fragment size: " << fragment_buffer_.size()
-        //           << std::endl;
 
         for (Fragment &fragment : fragment_buffer_) {
           fragment_shader_->Run(fragment, &fragment_shader_out);
-          std::cout << "fragment shader out 1. window_position 2. color"
-                    << std::endl;
-          fragment_shader_out.window_position.print();
-          fragment_shader_out.color.print();
 
           if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
-            std::cout << ("test success") << std::endl;
-
             // test fragment success, pass into framebuffer;
             SetPixelToWindow(fragment_shader_out.window_position.x,
                              fragment_shader_out.window_position.y,
@@ -151,7 +128,6 @@ RenderingPipeline::~RenderingPipeline() {}
 void RenderingPipeline::SetPixel(const int x, const int y, const vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    std::cout << "offset" << offset << std::endl;
     frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
     frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
     frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
@@ -164,7 +140,6 @@ void RenderingPipeline::SetPixelToWindow(const int x, const int y,
                                          const vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    std::cout << "window offset = " << offset << std::endl;
     window_frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
     window_frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
     window_frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r

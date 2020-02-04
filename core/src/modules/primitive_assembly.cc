@@ -52,18 +52,9 @@ bool PrimitiveAssembler::AssembleTriangle(
     std::vector<TrianglePrimitive> *triangles) {
   int elements[] = {e1, e2, e3};
 
-  std::cout << "e: " << e1 << ", " << e2 << ", " << e3 << std::endl;
-
   // clipping
   for (int i = 0; i < 3; ++i) {
-    std::cout << "e[" << i << "].position=("
-              << vertex_out_buffer_[elements[i]].position.x << ","
-              << vertex_out_buffer_[elements[i]].position.y << ","
-              << vertex_out_buffer_[elements[i]].position.z << ","
-              << vertex_out_buffer_[elements[i]].position.w << ")" << std::endl;
-
     if (Clipper::OutsideViewFrustum(vertex_out_buffer_[elements[i]].position)) {
-      std::cout << "out frustum" << std::endl;
       return false;
     }
   }
