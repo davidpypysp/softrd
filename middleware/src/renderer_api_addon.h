@@ -15,7 +15,7 @@ class RendererAPIAddon : public Napi::ObjectWrap<RendererAPIAddon> {
   Napi::Value GetValue(const Napi::CallbackInfo& info);
   Napi::Value PlusOne(const Napi::CallbackInfo& info);
   Napi::Value Multiply(const Napi::CallbackInfo& info);
-  Napi::Value AcceptArrayBuffer(const Napi::CallbackInfo& info);
+  Napi::Value ResetArrayBuffer(const Napi::CallbackInfo& info);
   Napi::Value DrawFrame(const Napi::CallbackInfo& info);
 
   double value_;

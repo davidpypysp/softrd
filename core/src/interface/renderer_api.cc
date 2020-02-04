@@ -2,14 +2,12 @@
 
 namespace softrd {
 RendererAPI::RendererAPI() {
-  std::cout << "renderer api constructor()" << std::endl;
   example_cube_ = new Mesh();
   rendering_pipeline_ = new RenderingPipeline(640, 480);
 }
 
 void RendererAPI::InitExampleMesh() {
   // define cube
-  std::cout << "InitExampleMesh" << std::endl;
   example_cube_->LoadCube2();
 }
 
@@ -73,7 +71,6 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
 void RendererAPI::ExamplePrint() {
   std::cout << "node-gyp work!!!" << std::endl;
   Texture *specular_texture = new Texture("resource/container2_specular.png");
-
   Model *example_model = new Model();
 }
 

@@ -88,7 +88,6 @@ void RenderingPipeline::Run(const DrawMode mode) {
         rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
 
         FragmentOut fragment_shader_out;
-
         for (Fragment &fragment : fragment_buffer_) {
           fragment_shader_->Run(fragment, &fragment_shader_out);
 
