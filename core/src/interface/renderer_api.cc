@@ -69,7 +69,6 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
 }
 
 void RendererAPI::ExamplePrint() {
-  std::cout << "node-gyp work!!!" << std::endl;
   Texture *specular_texture = new Texture("resource/container2_specular.png");
   Model *example_model = new Model();
 }
