@@ -1,6 +1,6 @@
 #!/bin/bash
 
-script_path=$PWD
+script_path=$(dirname $(readlink -f "$0"))
 
 function build() {
     if [ ! -d "$script_path/build-cmake" ]; then
@@ -22,7 +22,6 @@ function main() {
         build $@
         ;;
     *) ;;
-
     esac
 }
 
