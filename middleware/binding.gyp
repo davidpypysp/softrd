@@ -24,9 +24,7 @@
       'library_dirs': [
           '<!(pwd)/build-core/src/interface',
       ],
-      "libraries": [ "<!(pwd)/build-core/src/interface/libSoftrdAPI.so" ]
-      # "libraries": [ "-L<!(pwd)/../core/build-cmake/src", "-lSoftrdAPI" ]
-      # "libraries": [ "<!(pwd)/../core/bazel-bin/src/interface/libSoftrdAPI.so" ],
+      "libraries": [ "<!(pwd)/../core/build-cmake/src/interface/libSoftrdAPI.so" ]
     }
   ]
 }
