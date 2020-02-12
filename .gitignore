@@ -245,7 +245,11 @@ ModelManifest.xml
 .fake/
 
 # Bazel
-bazel-*/
+bazel-bin
+bazel-genfiles
+bazel-out
+bazel-testlogs
+bazel-core
 /Debug/
 *.pyc
 *genrule.log
