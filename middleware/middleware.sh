@@ -5,8 +5,6 @@ core_path=$(readlink -f "${script_path}/../core/")
 
 function build_core() {
     ${core_path}/core.sh build
-    echo "copy ${core_path}/build-cmake/src/interface/libSoftrdAPI.so -> /usr/lib"
-    cp ${core_path}/build-cmake/src/interface/libSoftrdAPI.so /usr/lib
 }
 
 function build_node() {
@@ -17,6 +15,8 @@ function build_node() {
 
 function rebuild() {
     rm -rf "$core_path/build-cmake"
+    rm -rf "$script_path/build"
+
     build_core
     build_node
 }

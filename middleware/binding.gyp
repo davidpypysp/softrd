@@ -21,10 +21,14 @@
         "<!(pwd)/../core/"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
-      'library_dirs': [
-          '<!(pwd)/build-core/src/interface',
-      ],
-      "libraries": [ "<!(pwd)/../core/build-cmake/src/interface/libSoftrdAPI.so" ]
+      'link_settings': {
+        "libraries": [ 
+          "<!(pwd)/../core/build-cmake/src/interface/libSoftrdAPI.so", 
+        ],
+        "ldflags": [
+          "-Wl,-rpath,<!(pwd)/../core/build-cmake/src/interface/",
+        ]
+      },
     }
   ]
 }
