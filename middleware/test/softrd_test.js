@@ -24,7 +24,7 @@ array[5] = 12;
 array[6] = 221;
 array[7] = 49;
 array[8] = 96;
-array[9] = 1;
+array[9] = 111;
 obj.resetArrayBuffer(array.buffer);
 
 console.log("array", array);
