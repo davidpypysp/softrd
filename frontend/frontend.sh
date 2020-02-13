@@ -6,7 +6,6 @@ function rebuild_middleware() {
     echo 'node-gyp rebuild middleware addon modules'
     cd "$script_path/../middleware"
     ./middleware.sh rebuild
-
 }
 
 function install_addon() {
