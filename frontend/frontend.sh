@@ -9,8 +9,8 @@ function rebuild_middleware() {
 }
 
 function install_addon() {
+    rm -rf "$script_path/build"
     echo 'copy middleware addon modules middleware/build -> ./'
-    cd $script_path
     cp -r $script_path/../middleware/build $script_path/
 }
 
