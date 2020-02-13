@@ -4,7 +4,8 @@ import "styles/main.scss";
 
 import Header from "ui/Layouts/Header";
 import MainView from "ui/Layouts/MainView";
-import Menu from "ui/Layouts/Menu";
+import LeftPanel from "ui/Layouts/LeftPanel";
+import RightPanel from "ui/Layouts/RightPanel";
 
 export default class GUI extends React.Component {
     render() {
@@ -12,8 +13,9 @@ export default class GUI extends React.Component {
             <div className="gui">
                 <Header />
                 <div className="container">
-                    <Menu />
+                    <LeftPanel />
                     <MainView />
+                    <RightPanel />
                 </div>
             </div>
         );

@@ -27,7 +27,7 @@ function createWindow() {
         // Open the DevTools.
         // BrowserWindow.addDevToolsExtension
         // ("<location to your react chrome extension>");
-        mainWindow.webContents.openDevTools();
+        // mainWindow.webContents.openDevTools();
     }
 
     mainWindow.on("closed", () => {

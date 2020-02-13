@@ -2,10 +2,10 @@ import React from "react";
 
 import RENDERER, { exampleRun } from "ui/renderer";
 
-export default class Menu extends React.Component {
+export default class extends React.Component {
     render() {
         return (
-            <div className="menu">
+            <div className="left-panel">
                 {"Menu"}
                 <button
                     onClick={() => {
