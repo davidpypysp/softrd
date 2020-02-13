@@ -245,14 +245,15 @@ ModelManifest.xml
 .fake/
 
 # Bazel
-bazel-*/
-# bazel-bin
-# bazel-genfiles
-# bazel-out
-# bazel-testlogs
+bazel-bin
+bazel-genfiles
+bazel-out
+bazel-testlogs
+bazel-core
 /Debug/
 *.pyc
 *genrule.log
 
-core/build-cmake/
+# Build files
+core/build-cmake
 middleware/build-*

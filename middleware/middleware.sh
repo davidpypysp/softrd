@@ -1,29 +1,22 @@
 #!/bin/bash
 
-script_path=$PWD
+script_path=$(dirname $(readlink -f "$0"))
+core_path=$(readlink -f "${script_path}/../core/")
 
 function build_core() {
-    if [ ! -d "$script_path/build-core" ]; then
-        mkdir "$script_path/build-core"
-    fi
-
-    cd "$script_path/build-core"
-    echo 'build_core in ' $PWD
-
-    cmake "$script_path/../core"
-    make -j8
-
-    cp $script_path/build-core/src/interface/libSoftrdAPI.so /usr/lib
+    ${core_path}/core.sh build
 }
 
 function build_node() {
-    echo 'build_node in ' $PWD
+    echo 'build_node in ' $script_path
     cd $script_path
     node-gyp rebuild
 }
 
 function rebuild() {
-    rm -rf "$script_path/build-core"
+    rm -rf "$core_path/build-cmake"
+    rm -rf "$script_path/build"
+
     build_core
     build_node
 }

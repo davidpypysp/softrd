@@ -279,7 +279,6 @@ void Renderer::RunExample2() {
 
     vertex_shader_light.model_.print();
     vertex_shader_light.transform_.print();
-    break;
 
     // DrawObject(object, vertex_shader_light, fragment_shader_light_texture,
     //            Rasterizer::TRIANGLE_FILL, DRAW_TRIANGLE);

@@ -1,17 +1,16 @@
 #!/bin/bash
 
-script_path=$PWD
+script_path=$(dirname $(readlink -f "$0"))
 
 function rebuild_middleware() {
     echo 'node-gyp rebuild middleware addon modules'
-    cd "$PWD/../middleware"
+    cd "$script_path/../middleware"
     ./middleware.sh rebuild
-
 }
 
 function install_addon() {
+    rm -rf "$script_path/build"
     echo 'copy middleware addon modules middleware/build -> ./'
-    cd $script_path
     cp -r $script_path/../middleware/build $script_path/
 }
 
