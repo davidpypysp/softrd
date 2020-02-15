@@ -1,6 +1,7 @@
 import React from "react";
 
 import RENDERER, { exampleRun } from "ui/renderer";
+import { Button, Intent, Spinner } from "@blueprintjs/core";
 
 export default class extends React.Component {
     render() {
@@ -35,6 +36,10 @@ export default class extends React.Component {
                 >
                     example
                 </button>
+                <Button intent="success" text="blueprint_button"
+                    onClick={null}
+                />
+                <Spinner intent={Intent.PRIMARY} />;
             </div>
         );
     }

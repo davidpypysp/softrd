@@ -41,6 +41,7 @@
         "webpack-dev-server": "^3.8.0"
     },
     "dependencies": {
+        "@blueprintjs/core": "^3.23.1",
         "bindings": "^1.5.0",
         "electron-is-dev": "^1.1.0",
         "prettier": "^1.19.1",
