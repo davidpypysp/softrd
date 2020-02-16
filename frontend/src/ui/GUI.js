@@ -2,6 +2,8 @@ import React from "react";
 
 import "styles/main.scss";
 
+import { Card, Elevation } from "@blueprintjs/core";
+
 import Header from "ui/Layouts/Header";
 import MainView from "ui/Layouts/MainView";
 import LeftPanel from "ui/Layouts/LeftPanel";
@@ -10,14 +12,14 @@ import RightPanel from "ui/Layouts/RightPanel";
 export default class GUI extends React.Component {
     render() {
         return (
-            <div className="gui">
+            <Card className="bp3-dark gui">
                 <Header />
                 <div className="container">
                     <LeftPanel />
                     <MainView />
                     <RightPanel />
                 </div>
-            </div>
+            </Card>
         );
     }
 }

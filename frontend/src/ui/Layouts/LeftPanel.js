@@ -1,45 +1,55 @@
 import React from "react";
 
-import RENDERER, { exampleRun } from "ui/renderer";
-import { Button, Intent, Spinner } from "@blueprintjs/core";
+import RENDERER from "ui/renderer";
+import { Card, Button, Elevation } from "@blueprintjs/core";
 
 export default class extends React.Component {
     render() {
         return (
             <div className="left-panel">
                 {"Menu"}
-                <button
-                    onClick={() => {
-                        RENDERER.draw();
-                    }}
+                <Card
+                    className="bp3-dark"
+                    elevation={Elevation.ZERO}
                 >
-                    flat
-                </button>
-                <button
-                    onClick={() => {
-                        RENDERER.drawFrame();
-                    }}
-                >
-                    frame
-                </button>
-                <button
-                    onClick={() => {
-                        RENDERER.clearImage();
-                    }}
-                >
-                    clear
-                </button>
-                <button
-                    onClick={() => {
-                        exampleRun();
-                    }}
-                >
-                    example
-                </button>
-                <Button intent="success" text="blueprint_button"
-                    onClick={null}
-                />
-                <Spinner intent={Intent.PRIMARY} />;
+                    <Button
+                        intent="primary"
+                        text="Draw"
+                        onClick={() => {
+                            RENDERER.draw();
+                        }}
+                    />
+                    <Button
+                        intent="primary"
+                        text="Frame"
+                        onClick={() => {
+                            RENDERER.drawFrame();
+                        }}
+                    />
+                    <Button
+                        intent="danger"
+                        text="Clear"
+                        onClick={() => {
+                            RENDERER.clearImage();
+                        }}
+                    />
+                    <Button intent="success" text="blueprint_button"
+                        onClick={() => {
+                            console.log("onclick blueprint button");
+                        }}
+                    />
+                    <Card
+                        // className="bp3-dark"
+                        elevation={Elevation.ZERO}
+                    >
+                        <h5><a href="#">Card heading</a></h5>
+                        <p>Card content</p>
+                        <Button>Submit</Button>
+                    </Card>
+                </Card>
+
+
+
             </div>
         );
     }
