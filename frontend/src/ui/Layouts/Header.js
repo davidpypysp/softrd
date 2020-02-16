@@ -1,7 +1,11 @@
 import React from "react";
 
+import { Card } from "@blueprintjs/core";
+
 export default class Header extends React.Component {
     render() {
-        return <div className="header">{"Header"}</div>;
+        return <Card className="header">
+            Help
+        </Card>;
     }
 }

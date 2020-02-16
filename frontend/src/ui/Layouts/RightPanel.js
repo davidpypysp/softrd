@@ -1,9 +1,11 @@
 import React from "react";
 
+import { Card, Button } from "@blueprintjs/core";
+
 export default class extends React.Component {
     render() {
         return (
-            <div className="right-panel">
+            <Card className="right-panel">
                 {"Right Panel"}
                 <button>
                     flat
@@ -11,7 +13,7 @@ export default class extends React.Component {
                 <button>
                     frame
                 </button>
-            </div>
+            </Card>
         );
     }
 }
