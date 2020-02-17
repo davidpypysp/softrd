@@ -2,7 +2,7 @@ import React from "react";
 
 import "styles/main.scss";
 
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card } from "@blueprintjs/core";
 
 import Header from "ui/Layouts/Header";
 import MainView from "ui/Layouts/MainView";
