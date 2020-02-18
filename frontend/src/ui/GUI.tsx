@@ -1,15 +1,15 @@
-import React from "react";
+import * as React from "react";
 
 import "styles/main.scss";
 
 import { Card } from "@blueprintjs/core";
 
-import Header from "ui/Layouts/Header";
-import MainView from "ui/Layouts/MainView";
-import LeftPanel from "ui/Layouts/LeftPanel";
-import RightPanel from "ui/Layouts/RightPanel";
+import Header from "src/ui/Layouts/Header";
+import MainView from "src/ui/Layouts/MainView";
+import LeftPanel from "src/ui/Layouts/LeftPanel";
+import RightPanel from "src/ui/Layouts/RightPanel";
 
-export default class GUI extends React.Component {
+export class GUI extends React.Component {
     render() {
         return (
             <Card className="bp3-dark gui">

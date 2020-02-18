@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-    // entry: './src/index.ts',
+    entry: './src/index.tsx',
     resolve: {
         alias: {
             src: path.resolve(__dirname, "src/"),
@@ -29,6 +29,11 @@ module.exports = {
                 test: /\.ts(x?)$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
+            },
+            {
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
             },
             {
                 test: /\.html$/,
@@ -81,8 +86,4 @@ module.exports = {
         contentBase: path.join(__dirname, "src"),
         port: 9000
     },
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
-    }
 };
