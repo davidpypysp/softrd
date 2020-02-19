@@ -1,6 +1,6 @@
 import React from "react";
 
-import RENDERER from "src/ui/renderer";
+import RENDERER from "src/renderer";
 import {
     Card, Button, Tree,
     Icon, Tooltip, Intent,
