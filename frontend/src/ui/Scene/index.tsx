@@ -1,5 +1,5 @@
 import React from "react";
-import RENDERER from "src/ui/renderer";
+import RENDERER from "src/renderer";
 
 export default class Scene extends React.Component {
     public canvasId: string = "scene-canvas";
