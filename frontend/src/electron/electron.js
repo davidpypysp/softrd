@@ -4,9 +4,7 @@ const { app, BrowserWindow } = electron;
 const path = require("path");
 const isDev = require("electron-is-dev");
 
-// require(path.join(__dirname, "/ipc"));
-
-let mainWindow;
+let mainWindow = null;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -49,5 +47,3 @@ app.on("activate", () => {
         createWindow();
     }
 });
-
-
