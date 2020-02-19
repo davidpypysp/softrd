@@ -1,11 +1,8 @@
 import React from "react";
-import RENDERER from "ui/renderer";
+import RENDERER from "src/ui/renderer";
 
 export default class Scene extends React.Component {
-    constructor(props) {
-        super(props);
-        this.canvasId = "scene-canvas";
-    }
+    public canvasId: string = "scene-canvas";
 
     componentDidMount() {
         RENDERER.init(this.canvasId);
@@ -13,7 +10,7 @@ export default class Scene extends React.Component {
 
     render() {
         return (
-            <div className="main-view">
+            <div className="main-view" >
                 <canvas
                     id={this.canvasId}
                     className="scene-canvas"
