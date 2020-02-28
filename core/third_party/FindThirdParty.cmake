@@ -7,7 +7,7 @@ message("assimp found:" ${ASSIMP_LIB})
 find_library(SDL2_LIB SDL2)
 message("sdl2 found:" ${SDL2_LIB}) 
 
-find_library(SDL2_TTF_LIB SDL2_TTF)
+find_library(SDL2_TTF_LIB SDL2_ttf)
 message("sdl2_ttf found:" ${SDL2_TTF_LIB})
 
 
