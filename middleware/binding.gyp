@@ -23,7 +23,7 @@
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       'link_settings': {
         "libraries": [ 
-          "<!(pwd)/../core/build-cmake/src/interface/libSoftrdAPI.so", 
+          "-L<!(pwd)/../core/build-cmake/src/interface/ -lSoftrdAPI", 
         ],
         "ldflags": [
           "-Wl,-rpath,<!(pwd)/../core/build-cmake/src/interface/",

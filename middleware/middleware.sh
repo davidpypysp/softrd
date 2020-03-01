@@ -1,7 +1,12 @@
 #!/bin/bash
 
-script_path=$(dirname $(readlink -f "$0"))
-core_path=$(readlink -f "${script_path}/../core/")
+if [ "$(uname)" == "Darwin" ]; then
+    script_path=$(dirname $(realpath "$0"))
+    core_path=$(realpath "${script_path}/../core/")
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then 
+    script_path=$(dirname $(readlink -f "$0"))
+    core_path=$(readlink -f "${script_path}/../core/")
+fi
 
 function build_core() {
     ${core_path}/core.sh build

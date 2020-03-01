@@ -1,6 +1,11 @@
 #!/bin/bash
 
-script_path=$(dirname $(readlink -f "$0"))
+if [ "$(uname)" == "Darwin" ]; then
+    script_path=$(dirname $(realpath "$0"))
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then 
+    script_path=$(dirname $(readlink -f "$0"))
+fi
+
 
 function rebuild_middleware() {
     echo 'node-gyp rebuild middleware addon modules'
