@@ -3,10 +3,8 @@ import React from "react";
 import {
     Card, Button, Tree,
     Icon, Tooltip, Intent,
-    Classes, Position
+    Classes, Position, ITreeNode
 } from "@blueprintjs/core";
-
-
 
 
 
@@ -86,7 +84,6 @@ export default class SceneMenu extends React.Component<SceneMenuProps, {}> {
     //         disabled: true,
     //     },
     // ];
-
     private analysisNodes = (nodes: any[]) => {
         const treeNodes: any[] = [];
         for (let node of nodes) {
@@ -106,11 +103,48 @@ export default class SceneMenu extends React.Component<SceneMenuProps, {}> {
         return treeNodes;
     }
 
+    public state: {
+        nodes: ITreeNode[];
+    } = { nodes: this.analysisNodes(this.props.nodes) };
+
+    private handleNodeClick = (nodeData: ITreeNode, _nodePath: number[], e: React.MouseEvent<HTMLElement>) => {
+        const originallySelected = nodeData.isSelected;
+        if (!e.shiftKey) {
+            this.forEachNode(this.state.nodes, n => (n.isSelected = false));
+        }
+        nodeData.isSelected = originallySelected == null ? true : !originallySelected;
+        this.setState(this.state);
+    };
+
+    private handleNodeCollapse = (nodeData: ITreeNode) => {
+        nodeData.isExpanded = false;
+        this.setState(this.state);
+    };
+
+    private handleNodeExpand = (nodeData: ITreeNode) => {
+        nodeData.isExpanded = true;
+        this.setState(this.state);
+    };
+
+    private forEachNode(nodes: ITreeNode[], callback: (node: ITreeNode) => void) {
+        if (nodes == null) {
+            return;
+        }
+
+        for (const node of nodes) {
+            callback(node);
+            this.forEachNode(node.childNodes, callback);
+        }
+    }
+
     render() {
         return (
             <div>
                 <Tree
-                    contents={this.analysisNodes(this.props.nodes)}
+                    contents={this.state.nodes}
+                    onNodeClick={this.handleNodeClick}
+                    onNodeCollapse={this.handleNodeCollapse}
+                    onNodeExpand={this.handleNodeExpand}
                     className={Classes.ELEVATION_0}
                 />
             </div>
