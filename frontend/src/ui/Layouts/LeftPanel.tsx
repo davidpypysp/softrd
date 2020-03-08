@@ -7,22 +7,23 @@ import {
     Icon, Tooltip, Intent,
     Classes, Position
 } from "@blueprintjs/core";
+
 import { Tab, Tabs } from "@blueprintjs/core";
 
 import SceneMenu from "src/ui/Components/SceneMenu";
 
 const testNodes: any[] = [
     {
-        name: "camera"
+        name: "Camera"
     },
     {
-        name: "tree",
+        name: "Scene",
         children: [
             {
-                name: "subtree1"
+                name: "Box1"
             },
             {
-                name: "subtree2"
+                name: "Box2"
             }
         ]
     }

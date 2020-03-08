@@ -84,6 +84,7 @@ export default class SceneMenu extends React.Component<SceneMenuProps, {}> {
     //         disabled: true,
     //     },
     // ];
+
     private analysisNodes = (nodes: any[]) => {
         const treeNodes: any[] = [];
         for (let node of nodes) {
@@ -95,6 +96,7 @@ export default class SceneMenu extends React.Component<SceneMenuProps, {}> {
             if (node.children) {
                 treeNode.childNodes = this.analysisNodes(node.children);
                 treeNode.icon = "folder-close";
+                treeNode.isExpanded = true;
             } else {
                 treeNode.icon = "document";
             }
