@@ -45,11 +45,11 @@ body {
 }
 
 .left-panel {
-    width: 250px;
+    min-width: 250px;
 }
 
 .right-panel {
-    width: 400px;
+    min-width: 700px;
 }
 
 .main-view {
@@ -67,6 +67,26 @@ body {
     &-title {
         min-width: 100px;
         text-align: center;
-        padding-top: 5px;
+        padding: 5px;
+    }
+
+    .object-name {
+        padding: 4px 10px;
     }
 }
+
+.vector3-input {
+    display: flex;
+
+    &-numeric {
+        padding: 0px 5px;
+
+        :first-child {
+            > input {
+                width:80px;
+            }
+        }
+    }
+}
+
+

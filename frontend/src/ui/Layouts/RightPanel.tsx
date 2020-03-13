@@ -14,7 +14,14 @@ export default class extends React.Component {
                     defaultSelectedTabId="objectBoard"
                 >
                     <Tab id="objectBoard" title="Object"
-                        panel={<ObjectBoard />} />
+                        panel={
+                            <ObjectBoard
+                                objectName="Box1"
+                                position={{ x: 1.05, y: 2, z: 3 }}
+                                rotation={{ x: 1, y: 1, z: 1 }}
+                            />
+                        }
+                    />
                     <Tabs.Expander />
                 </Tabs>
             </Card>

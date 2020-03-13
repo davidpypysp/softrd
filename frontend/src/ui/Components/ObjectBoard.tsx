@@ -1,37 +1,44 @@
 import React from "react";
-
-import {
-    Card,
-    NumericInput
-} from "@blueprintjs/core";
-
+import { Card } from "@blueprintjs/core";
+import { Vector3Input } from "src/ui/Components/VectorInput";
+import { Vec3 } from "src/utils/math";
 
 export interface RowDataProps {
     title: string;
-    component?: React.Component;
+    component?: React.ReactNode;
+    data?: any;
 }
 
+const RowData = (props: RowDataProps) => (
+    <li className="row-data">
+        <span className="row-data-title">{props.title}</span>
+        {props.component}
+    </li>
+);
 
-class RowData extends React.Component<RowDataProps, {}> {
-    render() {
-        return (
-            <li className="row-data">
-                <span className="row-data-title">{this.props.title}</span>
-                <NumericInput placeholder="Enter a number..." />
-            </li>
-        )
-    }
+export interface ObjectBoardProps {
+    objectName: string;
+    position?: Vec3;
+    rotation?: Vec3;
 }
 
-export default class ObjectBoard extends React.Component {
-    render() {
-        return (
-            <Card>
-                <ul className="bp3-list bp3-list-unstyled">
-                    <RowData title="Position" />
-                    <RowData title="Rotation" />
-                </ul>
-            </Card>
-        );
-    }
+export default function ObjectBoard(props: ObjectBoardProps) {
+    return (
+        <Card>
+            <ul className="bp3-list bp3-list-unstyled">
+                <RowData
+                    title="Object"
+                    component={<div className="object-name">{props.objectName}</div>}
+                />
+                <RowData
+                    title="Position"
+                    component={<Vector3Input data={props.position} />}
+                />
+                <RowData
+                    title="Rotation"
+                    component={<Vector3Input data={props.rotation} />}
+                />
+            </ul>
+        </Card>
+    );
 }
