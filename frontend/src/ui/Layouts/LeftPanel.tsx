@@ -1,5 +1,6 @@
 import React from "react";
-
+import { connect, ConnectedProps } from 'react-redux'
+import { addObject } from "src/store/actions/objectList";
 import RENDERER from "src/renderer";
 
 import {
@@ -17,21 +18,24 @@ const testNodes: any[] = [
         name: "Camera"
     },
     {
-        name: "Scene",
-        children: [
-            {
-                name: "Box1"
-            },
-            {
-                name: "Box2"
-            }
-        ]
+        name: "Box1"
+    },
+    {
+        name: "Box2"
     }
-]
+];
 
 
 
-class TestMenu extends React.Component {
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    addObject: () => dispatch(addObject("test1", { x: 0, y: 0, z: 3 }, { x: 1, y: 1, z: 1 }))
+})
+
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+class TestMenu extends React.Component<PropsFromRedux, {}> {
     render() {
         return (
             <Card>
@@ -56,15 +60,20 @@ class TestMenu extends React.Component {
                         RENDERER.clearImage();
                     }}
                 />
-                <Button intent="success" text="blueprint_button"
+                <Button intent="success" text="Add_Object"
                     onClick={() => {
-                        console.log("onclick blueprint button");
+                        this.props.addObject();
                     }}
                 />
             </Card>
         );
     }
 }
+
+
+
+const ConnectTestMenu = connect(null, mapDispatchToProps)(TestMenu);
+
 
 
 class Others extends React.Component {
@@ -92,7 +101,7 @@ export default class LeftPanel extends React.Component {
                     <Tab id="scene" title="Scene"
                         panel={<SceneMenu nodes={testNodes} />} />
                     <Tab id="test" title="Test"
-                        panel={<TestMenu />} />
+                        panel={<ConnectTestMenu />} />
                     <Tab id="others" title="Others"
                         panel={<Others />}
                     />

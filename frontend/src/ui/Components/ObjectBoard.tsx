@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@blueprintjs/core";
 import { Vector3Input } from "src/ui/Components/VectorInput";
-import { Vec3 } from "src/utils/math";
+import { Vec3 } from "src/interfaces/vector";
 
 export interface RowDataProps {
     title: string;
