@@ -6,85 +6,20 @@ import {
     Classes, Position, ITreeNode
 } from "@blueprintjs/core";
 
+import { connect, ConnectedProps } from 'react-redux'
+import { selectObject } from "src/store/actions/objectSelector";
 
 
-export interface SceneMenuProps { nodes: any[] }
 
-export default class SceneMenu extends React.Component<SceneMenuProps, {}> {
-    // public nodes: any[] = [
-    //     {
-    //         id: 0,
-    //         hasCaret: true,
-    //         icon: "folder-close",
-    //         label: "Folder 0",
-    //     },
-    //     {
-    //         id: 1,
-    //         icon: "folder-close",
-    //         isExpanded: true,
-    //         label: "tree",
-    //         childNodes: [
-    //             {
-    //                 id: 2,
-    //                 icon: "document",
-    //                 label: "Item 0",
-    //                 secondaryLabel: (
-    //                     <Tooltip content="An eye!">
-    //                         <Icon icon="eye-open" />
-    //                     </Tooltip>
-    //                 ),
-    //             },
-    //             {
-    //                 id: 3,
-    //                 icon: <Icon icon="tag"
-    //                     intent={Intent.PRIMARY}
-    //                     className={Classes.TREE_NODE_ICON} />,
-    //                 // label: "Organic meditation gluten-free,
-    //                 // sriracha VHS drinking vinegar beard man.",
-    //             },
-    //             {
-    //                 id: 4,
-    //                 hasCaret: true,
-    //                 icon: "folder-close",
-    //                 label: (
-    //                     <Tooltip content="foo" position={Position.RIGHT}>
-    //                         Folder 2
-    //                     </Tooltip>
-    //                 ),
-    //                 childNodes: [
-    //                     { id: 5, label: "No-Icon Item" },
-    //                     { id: 6, icon: "tag", label: "Item 1" },
-    //                     {
-    //                         id: 7,
-    //                         hasCaret: true,
-    //                         icon: "folder-close",
-    //                         label: "Folder 3",
-    //                         childNodes: [
-    //                             {
-    //                                 id: 8,
-    //                                 icon: "document",
-    //                                 label: "Item 0"
-    //                             },
-    //                             {
-    //                                 id: 9,
-    //                                 icon: "tag",
-    //                                 label: "Item 1"
-    //                             },
-    //                         ],
-    //                     },
-    //                 ],
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         id: 2,
-    //         hasCaret: true,
-    //         icon: "folder-close",
-    //         label: "Super secret files",
-    //         disabled: true,
-    //     },
-    // ];
+const mapDispatchToProps = dispatch => ({
+    selectObject: (id) => dispatch(selectObject(id))
+});
 
+const connector = connect(null, mapDispatchToProps);
+
+type SceneMenuProps = { nodes: any[] } & ConnectedProps<typeof connector>;
+
+class SceneMenu extends React.Component<SceneMenuProps, {}> {
     private analysisNodes = (nodes: any[]) => {
         const treeNodes: any[] = [];
         for (let node of nodes) {
@@ -115,6 +50,9 @@ export default class SceneMenu extends React.Component<SceneMenuProps, {}> {
             this.forEachNode(this.state.nodes, n => (n.isSelected = false));
         }
         nodeData.isSelected = originallySelected == null ? true : !originallySelected;
+
+        this.props.selectObject(nodeData.isSelected ? nodeData.label : null);
+
         this.setState(this.state);
     };
 
@@ -154,4 +92,4 @@ export default class SceneMenu extends React.Component<SceneMenuProps, {}> {
     }
 }
 
-
+export default connect(null, mapDispatchToProps)(SceneMenu);

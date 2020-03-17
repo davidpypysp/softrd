@@ -29,7 +29,7 @@ const testNodes: any[] = [
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     addObject: () => dispatch(addObject("test1", { x: 0, y: 0, z: 3 }, { x: 1, y: 1, z: 1 }))
-})
+});
 
 const connector = connect(null, mapDispatchToProps);
 
