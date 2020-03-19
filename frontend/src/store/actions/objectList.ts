@@ -1,6 +1,4 @@
-export const addObject = (id, position, rotation) => ({
+export const addObject = (object: Object) => ({
     type: 'ADD_OBJECT',
-    id,
-    position,
-    rotation
+    object
 });

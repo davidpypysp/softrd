@@ -1,40 +1,39 @@
 import React from "react";
 
-import {
-    Card, Button, Tree,
-    Icon, Tooltip, Intent,
-    Classes, Position, ITreeNode
-} from "@blueprintjs/core";
-
+import { Tree, Classes, ITreeNode } from "@blueprintjs/core";
 import { connect, ConnectedProps } from 'react-redux'
 import { selectObject } from "src/store/actions/objectSelector";
+import { ObjectListState } from "src/store/reducers/objectList";
 
-
-
+const mapStateToProps = (state) => {
+    const { objectList } = state;
+    return { objectList }
+};
 const mapDispatchToProps = dispatch => ({
-    selectObject: (id) => dispatch(selectObject(id))
+    selectObject: id => dispatch(selectObject(id))
 });
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const connector = connect(null, mapDispatchToProps);
-
-type SceneMenuProps = { nodes: any[] } & ConnectedProps<typeof connector>;
+type SceneMenuProps = ConnectedProps<typeof connector>;
 
 class SceneMenu extends React.Component<SceneMenuProps, {}> {
-    private analysisNodes = (nodes: any[]) => {
-        const treeNodes: any[] = [];
-        for (let node of nodes) {
+    private analysisNodes = (nodes: ObjectListState) => {
+        const treeNodes = [];
+        for (let node of Object.values(nodes)) {
+            const tempNode: any = node;
             const treeNode: { [key: string]: any } = {
                 label: node.name,
-                id: node.name
+                id: node.id,
+                icon: "document"
             };
 
-            if (node.children) {
-                treeNode.childNodes = this.analysisNodes(node.children);
-                treeNode.icon = "folder-close";
-                treeNode.isExpanded = true;
-            } else {
-                treeNode.icon = "document";
-            }
+            // if (node.children) {
+            //     treeNode.childNodes = this.analysisNodes(node.children);
+            //     treeNode.icon = "folder-close";
+            //     treeNode.isExpanded = true;
+            // } else {
+            //     treeNode.icon = "document";
+            // }
             treeNodes.push(treeNode);
         }
         return treeNodes;
@@ -42,7 +41,7 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
 
     public state: {
         nodes: ITreeNode[];
-    } = { nodes: this.analysisNodes(this.props.nodes) };
+    } = { nodes: this.analysisNodes(this.props.objectList) };
 
     private handleNodeClick = (nodeData: ITreeNode, _nodePath: number[], e: React.MouseEvent<HTMLElement>) => {
         const originallySelected = nodeData.isSelected;
@@ -51,7 +50,7 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
         }
         nodeData.isSelected = originallySelected == null ? true : !originallySelected;
 
-        this.props.selectObject(nodeData.isSelected ? nodeData.label : null);
+        this.props.selectObject(nodeData.isSelected ? nodeData.id : null);
 
         this.setState(this.state);
     };
@@ -92,4 +91,4 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SceneMenu);
+export default connector(SceneMenu);

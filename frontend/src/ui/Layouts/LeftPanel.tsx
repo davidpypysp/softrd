@@ -3,32 +3,17 @@ import { connect, ConnectedProps } from 'react-redux'
 import { addObject } from "src/store/actions/objectList";
 import RENDERER from "src/renderer";
 
-import {
-    Card, Button, Tree,
-    Icon, Tooltip, Intent,
-    Classes, Position
-} from "@blueprintjs/core";
-
+import { Card, Button } from "@blueprintjs/core";
 import { Tab, Tabs } from "@blueprintjs/core";
-
 import SceneMenu from "src/ui/Components/SceneMenu";
 
-const testNodes: any[] = [
-    {
-        name: "Camera"
-    },
-    {
-        name: "Box1"
-    },
-    {
-        name: "Box2"
-    }
-];
-
-
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    addObject: () => dispatch(addObject("test1", { x: 0, y: 0, z: 3 }, { x: 1, y: 1, z: 1 }))
+const mapDispatchToProps = dispatch => ({
+    addObject: () => dispatch(addObject({
+        id: "test_object",
+        name: "Test Object",
+        position: { x: 0, y: 0, z: 3 },
+        rotation: { x: 1, y: 1, z: 1 }
+    }))
 });
 
 const connector = connect(null, mapDispatchToProps);
@@ -74,8 +59,6 @@ class TestMenu extends React.Component<PropsFromRedux, {}> {
 
 const ConnectTestMenu = connect(null, mapDispatchToProps)(TestMenu);
 
-
-
 class Others extends React.Component {
     render() {
         return (
@@ -99,7 +82,7 @@ export default class LeftPanel extends React.Component {
                     defaultSelectedTabId="scene"
                 >
                     <Tab id="scene" title="Scene"
-                        panel={<SceneMenu nodes={testNodes} />} />
+                        panel={<SceneMenu />} />
                     <Tab id="test" title="Test"
                         panel={<ConnectTestMenu />} />
                     <Tab id="others" title="Others"
