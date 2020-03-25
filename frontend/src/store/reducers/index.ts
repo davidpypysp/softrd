@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import objectListReducer from "src/store/reducers/objectList";
-import objectSelectorReducer from "src/store/reducers/objectSelector";
+import objectListReducer from "src/store/reducers/objectListReducer";
+import objectSelectorReducer from "src/store/reducers/objectSelectorReducer";
 
 export default combineReducers({
     objectList: objectListReducer,

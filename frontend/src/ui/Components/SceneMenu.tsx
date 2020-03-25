@@ -2,8 +2,8 @@ import React from "react";
 
 import { Tree, Classes, ITreeNode } from "@blueprintjs/core";
 import { connect, ConnectedProps } from 'react-redux'
-import { selectObject } from "src/store/actions/objectSelector";
-import { ObjectListState } from "src/store/reducers/objectList";
+import { selectObject } from "src/store/actions/objectSelectorAction";
+import { ObjectListState } from "src/store/reducers/objectListReducer";
 
 const mapStateToProps = (state) => {
     const { objectList } = state;

@@ -38,6 +38,22 @@ const objectListReducer = (state: ObjectListState = initialState, action) => {
                 ...state,
                 [action.object.id]: action.object
             };
+        case 'UPDATE_OBJECT_POSITION':
+            return {
+                ...state,
+                [action.id]: {
+                    ...state[action.id],
+                    position: action.position,
+                }
+            };
+        case 'UPDATE_OBJECT_ROTATION':
+            return {
+                ...state,
+                [action.id]: {
+                    ...state[action.id],
+                    rotation: action.rotation,
+                }
+            };
         default:
             return state;
     }

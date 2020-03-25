@@ -1,6 +1,6 @@
 import React from "react";
 import { connect, ConnectedProps } from 'react-redux'
-import { addObject } from "src/store/actions/objectList";
+import { addObject } from "src/store/actions/objectListAction";
 import RENDERER from "src/renderer";
 
 import { Card, Button } from "@blueprintjs/core";
