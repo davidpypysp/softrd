@@ -3,10 +3,9 @@ const { app, BrowserWindow } = electron;
 
 const path = require("path");
 const isDev = require("electron-is-dev");
+const os = require('os');
 
-// require(path.join(__dirname, "/ipc"));
-
-let mainWindow;
+let mainWindow = null;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -27,7 +26,24 @@ function createWindow() {
         // Open the DevTools.
         // BrowserWindow.addDevToolsExtension
         // ("<location to your react chrome extension>");
-        mainWindow.webContents.openDevTools();
+        // mainWindow.webContents.openDevTools();
+
+        console.log("home", os.homedir());
+
+        BrowserWindow.addDevToolsExtension(
+            path.join(
+                os.homedir(),
+                "/.config/google-chrome/Default/Extensions/",
+                "fmkadmapgofadopljbjfkapdkoienihi/4.5.0_0"
+            )
+        );
+        BrowserWindow.addDevToolsExtension(
+            path.join(
+                os.homedir(),
+                "/.config/google-chrome/Default/Extensions/",
+                "lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0"
+            )
+        );
     }
 
     mainWindow.on("closed", () => {
@@ -49,5 +65,3 @@ app.on("activate", () => {
         createWindow();
     }
 });
-
-

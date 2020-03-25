@@ -1,3 +1,7 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
 html {
     height: 100%;
 }
@@ -27,15 +31,12 @@ body {
     flex-direction: column;
     height: 100%;
     width: 100%;
+    padding: 0px;
 }
 
 .header {
-    background-color: grey;
-    height: 35px;
-
-    background-color: var(--ui-background-color);
-    color: var(--ui-font-color);
-    border: var(--ui-border);
+    height: 30px;
+    padding: 5px;
 }
 
 .container {
@@ -43,18 +44,12 @@ body {
     flex-grow: 1;
 }
 
-.menu {
-    width: 100px;
-    border-color: yellow;
-    border-width: 2px;
-    background-color: blue;
+.left-panel {
+    min-width: 250px;
+}
 
-    width: 250px;
-    padding: 0px 24px;
-
-    background-color: var(--ui-background-color);
-    color: var(--ui-font-color);
-    border: var(--ui-border);
+.right-panel {
+    min-width: 700px;
 }
 
 .main-view {
@@ -65,3 +60,33 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.row-data {
+    display: flex;
+
+    &-title {
+        min-width: 100px;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .object-name {
+        padding: 4px 10px;
+    }
+}
+
+.vector3-input {
+    display: flex;
+
+    &-numeric {
+        padding: 0px 5px;
+
+        :first-child {
+            > input {
+                width:80px;
+            }
+        }
+    }
+}
+
+

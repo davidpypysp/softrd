@@ -1,11 +1,12 @@
-const { softrd } = window;
+const { softrd } = window as any;
 
 class Renderer {
-    constructor() {
-        this.canvasElement = null;
-    }
+    public canvasElement: any = null;
+    public context2D: any = null;
+    public imageData: any = null;
+    public softrdAddon: any = null;
 
-    init(canvasId) {
+    init(canvasId: any) {
         this.canvasElement = document.getElementById(canvasId);
         this.context2D = this.canvasElement.getContext("2d");
         this.imageData = this.context2D.getImageData(0, 0,
