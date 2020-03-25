@@ -13,7 +13,7 @@ export const updateObjectPosition = (id: string, position: Vec3) => ({
 })
 
 export const updateObjectRotation = (id: string, rotation: Vec3) => ({
-    type: 'UPDATE_OBJECT_POSITION',
+    type: 'UPDATE_OBJECT_ROTATION',
     id,
     rotation
 })
