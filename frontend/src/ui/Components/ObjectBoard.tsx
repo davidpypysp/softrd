@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "@blueprintjs/core";
-import { Vector3Input } from "src/ui/Components/VectorInput";
+import { Vec3Input } from "src/ui/Components/VectorInput";
 import { updateObjectPosition, updateObjectRotation } from "src/store/actions/objectListAction";
 import { connect, ConnectedProps } from 'react-redux'
 import { Object } from "src/interfaces/object";
@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = dispatch => ({
     updateObjectPosition: (id: string, position: Vec3) => dispatch(updateObjectPosition(id, position)),
-    updateObjectRotation: (id: string, rotation: Vec3) => dispatch(updateObjectRotation(id, rotation)),
+    updateObjectRotation: (id: string, rotation: Vec3) => dispatch(updateObjectRotation(id, rotation))
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -43,15 +43,16 @@ const ObjectBoard = (props: ConnectedProps<typeof connector>) => {
                 <RowData
                     title="Position"
                     component={
-                        <Vector3Input
+                        <Vec3Input
                             data={object.position}
                             onChangeHandler={(position) => updateObjectPosition(object.id, position)}
-                        />}
+                        />
+                    }
                 />
                 <RowData
                     title="Rotation"
                     component={
-                        <Vector3Input
+                        <Vec3Input
                             data={object.rotation}
                             onChangeHandler={(rotation) => updateObjectRotation(object.id, rotation)}
                         />

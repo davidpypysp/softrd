@@ -2,7 +2,7 @@ import React from "react";
 import { NumericInput } from "@blueprintjs/core";
 import { Vec3 } from "src/interfaces/vector";
 
-export class Vector3Input extends React.Component<{ data: Vec3, onChangeHandler?: Function }, {}> {
+export class Vec3Input extends React.Component<{ data: Vec3, onChangeHandler?: Function }, {}> {
     render() {
         const { data, onChangeHandler } = this.props;
         return (
