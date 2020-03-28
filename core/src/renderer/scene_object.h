@@ -1,0 +1,43 @@
+#ifndef SOFTRD_SCENE_OBJECT_H_
+#define SOFTRD_SCENE_OBJECT_H_
+
+#include <memory>
+
+#include "src/components/mesh.h"
+#include "src/modules/fragment_shader.h"
+#include "src/modules/vertex_shader.h"
+
+namespace softrd {
+
+class SceneObject {
+ public:
+  SceneObject();
+
+  void set_mesh(const std::shared_ptr<Mesh> &mesh) { mesh_ = mesh; }
+  std::shared_ptr<Mesh> mesh() const { return mesh_; }
+
+  void set_vertex_shader(const std::shared_ptr<VertexShader> &vertex_shader) {
+    vertex_shader_ = vertex_shader;
+  }
+
+  void set_fragment_shader(
+      const std::shared_ptr<FragmentShader> &fragment_shader) {
+    fragment_shader_ = fragment_shader;
+  }
+
+  void set_material(const std::shared_ptr<Material> &material) {
+    material_ = material;
+  }
+
+ private:
+  std::shared_ptr<Mesh> mesh_ = nullptr;
+
+  std::shared_ptr<VertexShader> vertex_shader_ = nullptr;
+  std::shared_ptr<FragmentShader> fragment_shader_ = nullptr;
+
+  std::shared_ptr<Material> material_ = nullptr;
+};
+
+}  // namespace softrd
+
+#endif  // SOFTRD_SCENE_OBJECT_H_

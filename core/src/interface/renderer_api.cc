@@ -64,6 +64,7 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   vertex_shader_light.model_ = model_matrix;
   vertex_shader_light.transform_ =
       camera.projection * camera.view * model_matrix;
+
   rendering_pipeline_->DrawMesh(spot_light_lamp, vertex_shader_light,
                                 fragment_shader, Rasterizer::TRIANGLE_FILL);
 }

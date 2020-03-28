@@ -22,7 +22,7 @@ const RowData = (props: RowDataProps) => (
 const mapStateToProps = (state) => {
     const { objectSelector, objectList } = state;
     const object: Object = objectList[objectSelector];
-    return { object }
+    return { object };
 };
 const mapDispatchToProps = dispatch => ({
     updateObjectPosition: (id: string, position: Vec3) => dispatch(updateObjectPosition(id, position)),
