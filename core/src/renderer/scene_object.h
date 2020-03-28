@@ -13,6 +13,18 @@ class SceneObject {
  public:
   SceneObject();
 
+  void set_id(const std::string &id) { id_ = id; }
+  std::string id() const { return id_; }
+
+  void set_position(const vec3 &position) { position_ = position; }
+  vec3 position() const { return position_; }
+
+  void set_rotation(const vec3 &rotation) { rotation_ = rotation; }
+  vec3 rotation() const { return rotation_; }
+
+  void set_scale(const vec3 &scale) { scale_ = scale; }
+  vec3 scale() const { return scale_; }
+
   void set_mesh(const std::shared_ptr<Mesh> &mesh) { mesh_ = mesh; }
   std::shared_ptr<Mesh> mesh() const { return mesh_; }
 
@@ -30,6 +42,12 @@ class SceneObject {
   }
 
  private:
+  std::string id_;
+
+  vec3 position_;
+  vec3 rotation_;
+  vec3 scale_;
+
   std::shared_ptr<Mesh> mesh_ = nullptr;
 
   std::shared_ptr<VertexShader> vertex_shader_ = nullptr;

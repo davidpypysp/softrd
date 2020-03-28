@@ -10,6 +10,9 @@ class SceneManager {
  public:
   SceneManager();
 
+  std::shared_ptr<SceneObject> AddSceneObject(const std::string &id);
+  std::shared_ptr<SceneObject> GetSceneObject(const std::string &id);
+
  private:
   std::unordered_map<std::string, std::shared_ptr<SceneObject>> scene_objects_;
 };

@@ -1,8 +1,8 @@
-#include "src/renderer/render_engine.h"
+#include "src/renderer/engine.h"
 
 namespace softrd {
 
-RenderEngine::RenderEngine() {
+Engine::Engine() {
   // this->rendering_pipeline_=std::unique_ptr<RenderingPipeline>(new
   // RenderingPipeline());
   this->scene_manager_ = std::unique_ptr<SceneManager>(new SceneManager());
