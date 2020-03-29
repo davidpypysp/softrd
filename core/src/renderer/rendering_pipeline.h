@@ -1,6 +1,7 @@
 #ifndef SOFTRD_RENDERING_PIPELINE_H_
 #define SOFTRD_RENDERING_PIPELINE_H_
 
+#include <memory>
 #include <vector>
 
 #include "src/components/camera.h"
@@ -18,9 +19,8 @@ class RenderingPipeline {
  public:
   enum DrawMode { DRAW_LINE, DRAW_TRIANGLE };
 
-  Camera &camera() { return camera_; }
-
-  RenderingPipeline(const int width, const int height);
+  RenderingPipeline();
+  void Reset(const int width, const int height, std::shared_ptr<Camera> camera);
   void DrawMesh(
       Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader,
       const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE,
@@ -32,6 +32,9 @@ class RenderingPipeline {
   void ResetBuffer();
   void Clear();
   ~RenderingPipeline();
+
+  void set_camera(const std::shared_ptr<Camera> &camera) { camera_ = camera; }
+  std::shared_ptr<Camera> camera() const { return camera_; }
 
  private:
   void SetPixel(const int x, const int y, const vec4 &color);
@@ -46,11 +49,11 @@ class RenderingPipeline {
   VertexShader *vertex_shader_;
   FragmentShader *fragment_shader_;
 
-  PrimitiveAssembler primitve_assembler_;
-  Rasterizer rasterizer_;
-  PerSampleProcessor per_sample_proccessor_;
+  std::unique_ptr<PrimitiveAssembler> primitive_assembler_;
+  std::unique_ptr<Rasterizer> rasterizer_;
+  std::unique_ptr<PerSampleProcessor> per_sample_processor_;
 
-  Camera camera_;
+  std::shared_ptr<Camera> camera_ = nullptr;
 
   // all buffers
   std::vector<Vertex> vertex_buffer_;

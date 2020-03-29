@@ -2,19 +2,31 @@
 
 namespace softrd {
 
-// Renderer initialization, include each stage's initialization
-RenderingPipeline::RenderingPipeline(const int width, const int height)
-    : width_(width),
-      height_(height),
-      screen_size_(width * height),
-      frame_buffer_(screen_size_ * 4),
-      depth_buffer_(screen_size_),
-      primitve_assembler_(width, height, vertex_out_buffer_),
-      rasterizer_(width, height, fragment_buffer_),
-      per_sample_proccessor_(width, height, depth_buffer_),
-      camera_((float)width / (float)height),
-      polygon_mode_(Rasterizer::TRIANGLE_FILL) {
-  rasterizer_.SetCamera(&camera_);
+RenderingPipeline::RenderingPipeline() {}
+
+// rendering pipeline initialization, include each stage's initialization
+void RenderingPipeline::Reset(const int width, const int height,
+                              std::shared_ptr<Camera> camera) {
+  width_ = width;
+  height_ = height;
+  screen_size_ = width * height;
+
+  frame_buffer_.Resize(screen_size_ * 4);
+  depth_buffer_.Resize(screen_size_ * 4);
+
+  camera_ = camera;
+
+  primitive_assembler_ =
+      std::make_unique<PrimitiveAssembler>(width, height, vertex_out_buffer_);
+
+  rasterizer_ = std::make_unique<Rasterizer>(width, height, fragment_buffer_);
+  if (camera_) {
+    rasterizer_->SetCamera(camera_.get());
+  }
+  polygon_mode_ = Rasterizer::TRIANGLE_FILL;
+
+  per_sample_processor_ =
+      std::make_unique<PerSampleProcessor>(width, height, depth_buffer_);
 }
 
 // Draw mesh using rendering pipeline
@@ -50,24 +62,24 @@ void RenderingPipeline::Run(const DrawMode mode) {
     vertex_out_buffer_.push_back(vertex_out);
   }
 
-  primitve_assembler_.Reset();
+  primitive_assembler_->Reset();
   if (mode == DRAW_LINE) {
     for (int index = 0; index < element_buffer_.size() / 2; ++index) {
       LinePrimitive line;
       // primitive assemble stage
-      if (primitve_assembler_.AssembleLine(element_buffer_[index * 2],
-                                           element_buffer_[index * 2 + 1],
-                                           &line) == false)
+      if (primitive_assembler_->AssembleLine(element_buffer_[index * 2],
+                                             element_buffer_[index * 2 + 1],
+                                             &line) == false)
         continue;
 
       // rasterize stage
-      rasterizer_.DrawLinePrimitive(line);
+      rasterizer_->DrawLinePrimitive(line);
 
       // fragment shader stage
       FragmentOut fragment_shader_out;
       for (Fragment &fragment : fragment_buffer_) {
         fragment_shader_->Run(fragment, &fragment_shader_out);
-        if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
+        if (per_sample_processor_->Run(fragment_shader_out) == true) {
           // test fragment success, pass into framebuffer;
           SetPixel(fragment_shader_out.window_position.x,
                    fragment_shader_out.window_position.y,
@@ -81,17 +93,17 @@ void RenderingPipeline::Run(const DrawMode mode) {
   } else if (mode == DRAW_TRIANGLE) {
     for (int index = 0; index < element_buffer_.size() / 3; ++index) {
       std::vector<TrianglePrimitive> triangles;
-      primitve_assembler_.AssembleTriangle(
+      primitive_assembler_->AssembleTriangle(
           element_buffer_[index * 3], element_buffer_[index * 3 + 1],
           element_buffer_[index * 3 + 2], &triangles);
       for (TrianglePrimitive &triangle : triangles) {
-        rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
+        rasterizer_->DrawTrianglePrimitive(triangle, polygon_mode_);
 
         FragmentOut fragment_shader_out;
         for (Fragment &fragment : fragment_buffer_) {
           fragment_shader_->Run(fragment, &fragment_shader_out);
 
-          if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
+          if (per_sample_processor_->Run(fragment_shader_out) == true) {
             // test fragment success, pass into framebuffer;
             SetPixelToWindow(fragment_shader_out.window_position.x,
                              fragment_shader_out.window_position.y,

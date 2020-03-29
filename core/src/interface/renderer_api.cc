@@ -3,7 +3,7 @@
 namespace softrd {
 RendererAPI::RendererAPI() {
   example_cube_ = new Mesh();
-  rendering_pipeline_ = new RenderingPipeline(640, 480);
+  rendering_pipeline_ = new RenderingPipeline();
 }
 
 void RendererAPI::InitExampleMesh() {
@@ -15,8 +15,8 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   rendering_pipeline_->SetWindowFrameBuffer(buffer);
   rendering_pipeline_->ResetBuffer();
 
-  auto &camera = rendering_pipeline_->camera();
-  camera.Rotate(vec3(0, 0, 0));
+  auto camera = rendering_pipeline_->camera();
+  camera->Rotate(vec3(0, 0, 0));
 
   // ----------------- define procedure ------------------------
 
@@ -38,7 +38,7 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   VertexShaderLight vertex_shader_light;
 
   FragmentShader fragment_shader;
-  FragmentShaderLightFull fragment_shader_light(camera.position,
+  FragmentShaderLightFull fragment_shader_light(camera->position,
                                                 object_material);
   fragment_shader_light.AddLight(&spot_light);
 
@@ -51,7 +51,7 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
 
   vertex_shader_light.model_ = model_matrix;
   vertex_shader_light.transform_ =
-      camera.projection * camera.view * model_matrix;
+      camera->projection * camera->view * model_matrix;
 
   rendering_pipeline_->DrawMesh(
       object, vertex_shader_light, fragment_shader_light,
@@ -63,7 +63,7 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   model_matrix.translate(spot_light.position);
   vertex_shader_light.model_ = model_matrix;
   vertex_shader_light.transform_ =
-      camera.projection * camera.view * model_matrix;
+      camera->projection * camera->view * model_matrix;
 
   rendering_pipeline_->DrawMesh(spot_light_lamp, vertex_shader_light,
                                 fragment_shader, Rasterizer::TRIANGLE_FILL);
