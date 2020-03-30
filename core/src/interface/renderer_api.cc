@@ -49,9 +49,9 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   model_matrix.identify();
   model_matrix.translate(vec3(0.0, 0.0, 0.0));
 
-  vertex_shader_light.model_ = model_matrix;
-  vertex_shader_light.transform_ =
-      camera->projection * camera->view * model_matrix;
+  vertex_shader_light.set_model(model_matrix);
+  vertex_shader_light.set_transform(camera->projection * camera->view *
+                                    model_matrix);
 
   rendering_pipeline_->DrawMesh(
       object, vertex_shader_light, fragment_shader_light,
@@ -61,9 +61,9 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   model_matrix.identify();
   model_matrix.scale(0.1, 0.1, 0.1);
   model_matrix.translate(spot_light.position);
-  vertex_shader_light.model_ = model_matrix;
-  vertex_shader_light.transform_ =
-      camera->projection * camera->view * model_matrix;
+  vertex_shader_light.set_model(model_matrix);
+  vertex_shader_light.set_transform(camera->projection * camera->view *
+                                    model_matrix);
 
   rendering_pipeline_->DrawMesh(spot_light_lamp, vertex_shader_light,
                                 fragment_shader, Rasterizer::TRIANGLE_FILL);

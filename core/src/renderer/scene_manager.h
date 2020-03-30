@@ -19,6 +19,11 @@ class SceneManager {
   void set_camera(const std::shared_ptr<Camera> &camera) { camera_ = camera; }
   std::shared_ptr<Camera> camera() const { return camera_; }
 
+  std::unordered_map<std::string, std::shared_ptr<SceneObject>> scene_objects()
+      const {
+    return scene_objects_;
+  }
+
  private:
   std::unordered_map<std::string, std::shared_ptr<SceneObject>> scene_objects_;
 

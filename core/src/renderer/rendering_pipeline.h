@@ -11,6 +11,7 @@
 #include "src/modules/rasterizer.h"
 #include "src/modules/vertex_loader.h"
 #include "src/modules/vertex_shader.h"
+#include "src/renderer/scene_object.h"
 #include "src/utils/util.h"
 
 namespace softrd {
@@ -20,7 +21,9 @@ class RenderingPipeline {
   enum DrawMode { DRAW_LINE, DRAW_TRIANGLE };
 
   RenderingPipeline();
+
   void Reset(const int width, const int height, std::shared_ptr<Camera> camera);
+  void DrawSceneObject(const std::shared_ptr<SceneObject> &scene_object);
   void DrawMesh(
       Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader,
       const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE,

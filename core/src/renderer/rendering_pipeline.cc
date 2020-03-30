@@ -29,6 +29,9 @@ void RenderingPipeline::Reset(const int width, const int height,
       std::make_unique<PerSampleProcessor>(width, height, depth_buffer_);
 }
 
+void RenderingPipeline::DrawSceneObject(
+    const std::shared_ptr<SceneObject> &scene_object) {}
+
 // Draw mesh using rendering pipeline
 void RenderingPipeline::DrawMesh(Mesh &mesh, VertexShader &vertex_shader,
                                  FragmentShader &fragment_shader,

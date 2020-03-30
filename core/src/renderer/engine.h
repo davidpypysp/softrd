@@ -9,6 +9,8 @@ namespace softrd {
 class Engine {
  public:
   Engine();
+  void Reset(const int width, const int height);
+  void DrawSceneObjects();
 
  private:
   std::unique_ptr<RenderingPipeline> rendering_pipeline_ = nullptr;
