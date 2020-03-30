@@ -11,8 +11,6 @@ namespace softrd {
 
 class SceneObject {
  public:
-  SceneObject();
-
   void set_id(const std::string &id) { id_ = id; }
   std::string id() const { return id_; }
 

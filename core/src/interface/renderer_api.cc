@@ -4,6 +4,16 @@ namespace softrd {
 RendererAPI::RendererAPI() {
   example_cube_ = new Mesh();
   rendering_pipeline_ = new RenderingPipeline();
+
+  engine_ = std::make_unique<Engine>();
+  engine_->Reset(640, 480);
+}
+
+void RendererAPI::DrawScene(uint8_t *buffer) {
+  if (!buffer) {
+    return;
+  }
+  engine_->DrawScene(buffer);
 }
 
 void RendererAPI::InitExampleMesh() {

@@ -11,6 +11,7 @@ class Engine {
   Engine();
   void Reset(const int width, const int height);
   void DrawSceneObjects();
+  void DrawScene(uint8_t *buffer);
 
  private:
   std::unique_ptr<RenderingPipeline> rendering_pipeline_ = nullptr;

@@ -10,7 +10,7 @@ Engine::Engine() {
 void Engine::Reset(const int width, const int height) {
   if (!scene_manager_ || !rendering_pipeline_) return;
 
-  rendering_pipeline_->Reset(640, 480, scene_manager_->camera());
+  rendering_pipeline_->Reset(width, height, scene_manager_->camera());
 }
 
 void Engine::DrawSceneObjects() {
@@ -18,7 +18,15 @@ void Engine::DrawSceneObjects() {
 
   for (const auto& it : scene_objects) {
     auto scene_object = it.second;
+    rendering_pipeline_->DrawSceneObject(scene_object);
   }
+}
+
+void Engine::DrawScene(uint8_t* buffer) {
+  rendering_pipeline_->SetWindowFrameBuffer(buffer);
+  rendering_pipeline_->ResetBuffer();
+
+  this->DrawSceneObjects();
 }
 
 }  // namespace softrd
