@@ -30,7 +30,31 @@ void RenderingPipeline::Reset(const int width, const int height,
 }
 
 void RenderingPipeline::DrawSceneObject(
-    const std::shared_ptr<SceneObject> &scene_object) {}
+    const std::shared_ptr<SceneObject> &scene_object) {
+  mat4 model_matrix;
+  model_matrix.identify();
+
+  model_matrix.translate(scene_object->position());
+  model_matrix.rotateX(scene_object->rotation().x);
+  model_matrix.rotateY(scene_object->rotation().y);
+  model_matrix.rotateZ(scene_object->rotation().z);
+  model_matrix.scale(scene_object->scale());
+
+  std::shared_ptr<VertexShaderLight> vertex_shader_light =
+      std::dynamic_pointer_cast<VertexShaderLight>(
+          scene_object->vertex_shader());
+
+  if (!vertex_shader_light) {
+    return;
+  }
+
+  vertex_shader_light->set_transform(camera_->projection * camera_->view *
+                                     model_matrix);
+  vertex_shader_light->set_model(model_matrix);
+
+  this->DrawMesh(*(scene_object->mesh()), *vertex_shader_light,
+                 *(scene_object->fragment_shader()), Rasterizer::TRIANGLE_FILL);
+}
 
 // Draw mesh using rendering pipeline
 void RenderingPipeline::DrawMesh(Mesh &mesh, VertexShader &vertex_shader,
