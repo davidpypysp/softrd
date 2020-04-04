@@ -1,10 +1,10 @@
 #ifndef SOFTRD_RENDERER_API_H_
 #define SOFTRD_RENDERER_API_H_
 
+#include <vector>
+
 #include "src/renderer/engine.h"
 #include "src/renderer/rendering_pipeline.h"
-
-#include <vector>
 
 namespace softrd {
 
@@ -21,10 +21,10 @@ class RendererAPI {
   ~RendererAPI();
 
  private:
-  RenderingPipeline *rendering_pipeline_;
+  std::unique_ptr<RenderingPipeline> rendering_pipeline_ = nullptr;
   std::unique_ptr<Engine> engine_ = nullptr;
 
-  Mesh *example_cube_;
+  std::shared_ptr<Mesh> example_cube_ = nullptr;
 };
 
 }  // namespace softrd

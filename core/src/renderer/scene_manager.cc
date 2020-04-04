@@ -6,7 +6,8 @@ SceneManager::SceneManager() {
   this->set_camera(std::make_shared<Camera>(float(640.0) / float(480.0)));
 
   this->InitShaders();
-  this->AddSceneObject("TestCube");
+
+  this->AddExampleObjects();
 }
 
 void SceneManager::InitShaders() {
@@ -20,8 +21,10 @@ void SceneManager::InitShaders() {
   fragment_shaders_.emplace(std::make_pair("fragment_shader", fragment_shader));
 }
 
+void SceneManager::AddExampleObjects() { this->AddSceneObject("TestCube"); }
+
 std::shared_ptr<SceneObject> SceneManager::AddSceneObject(
-    const std::string &id) {
+    const std::string &id, const vec3 &position, const vec3 &rotation) {
   if (scene_objects_.find(id) != scene_objects_.end()) {
     return nullptr;
   }
@@ -49,8 +52,8 @@ std::shared_ptr<SceneObject> SceneManager::AddSceneObject(
       vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31), vec3(0.5, 0.5, 0.5), 32.0);
   scene_object->set_material(material);
 
-  scene_object->set_position(vec3(0, 0, 0));
-  scene_object->set_rotation(vec3(0, 0, 0));
+  scene_object->set_position(position);
+  scene_object->set_rotation(rotation);
   scene_object->set_scale(vec3(1, 1, 1));
 
   scene_objects_.emplace(std::make_pair(id, scene_object));
