@@ -16,7 +16,7 @@ class Renderer {
 
         this.softrdAddon = new softrd.RendererAPIAddon(10);
         this.lastExcutedTime = performance.now();
-        this.drawFrameLoop();
+        // this.drawFrameLoop();
     }
 
     draw() {

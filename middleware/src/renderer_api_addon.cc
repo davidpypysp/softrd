@@ -112,7 +112,6 @@ Napi::Value RendererAPIAddon::DrawFrame(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-
 Napi::Value RendererAPIAddon::DrawScene(const Napi::CallbackInfo& info) {
   if (info.Length() != 1) {
     Napi::Error::New(info.Env(), "Expected exactly one argument")
@@ -129,6 +128,8 @@ Napi::Value RendererAPIAddon::DrawScene(const Napi::CallbackInfo& info) {
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
+
+  std::cout << "addon draw scene" << std::endl;
 
   this->renderer_api_->DrawScene(array);
 

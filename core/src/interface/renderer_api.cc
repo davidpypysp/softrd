@@ -29,7 +29,6 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   rendering_pipeline_->ResetBuffer();
 
   auto camera = rendering_pipeline_->camera();
-  camera->Rotate(vec3(0, 0, 0));
 
   // ----------------- define procedure ------------------------
 
