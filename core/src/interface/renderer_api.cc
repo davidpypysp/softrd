@@ -13,6 +13,7 @@ void RendererAPI::DrawScene(uint8_t *buffer) {
   if (!buffer) {
     return;
   }
+
   engine_->DrawScene(buffer);
 }
 

@@ -48,6 +48,12 @@ class Renderer {
             this.lastExcutedTime = currentTime;
         }, 0);
     }
+
+    drawScene() {
+        const { buffer } = this.imageData.data;
+        this.softrdAddon.drawScene(buffer);
+        this.context2D.putImageData(this.imageData, 0, 0);
+    }
 }
 
 const RENDERER = new Renderer();
