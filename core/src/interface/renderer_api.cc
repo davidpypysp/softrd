@@ -4,6 +4,8 @@ namespace softrd {
 RendererAPI::RendererAPI() {
   example_cube_ = new Mesh();
   rendering_pipeline_ = new RenderingPipeline();
+  rendering_pipeline_->Reset(
+      640, 480, std::make_shared<Camera>(float(640.0) / float(480.0)));
 
   engine_ = std::make_unique<Engine>();
   engine_->Reset(640, 480);
