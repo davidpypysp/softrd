@@ -36,8 +36,8 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   Mesh object;
   object.LoadCube2();
 
-  Material object_material(vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31),
-                           vec3(0.5, 0.5, 0.5), 32.0);
+  auto object_material = std::make_shared<Material>(
+      vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31), vec3(0.5, 0.5, 0.5), 32.0);
 
   Mesh spot_light_lamp;
   spot_light_lamp.LoadCube();
@@ -50,9 +50,8 @@ void RendererAPI::DrawExampleMesh(uint8_t *buffer) {
   VertexShaderLight vertex_shader_light;
 
   FragmentShader fragment_shader;
-  FragmentShaderLightFull fragment_shader_light(
-      std::shared_ptr<vec3>(&(camera->position)),
-      std::shared_ptr<Material>(&object_material));
+  FragmentShaderLightFull fragment_shader_light(&(camera->position),
+                                                object_material);
   fragment_shader_light.AddLight(&spot_light);
 
   // ----------------- draw procedure ------------------------

@@ -45,7 +45,7 @@ void FragmentShaderLight::Program() {
 }
 
 FragmentShaderLightFull::FragmentShaderLightFull(
-    std::shared_ptr<vec3> view_position, std::shared_ptr<Material> material)
+    vec3 *view_position, std::shared_ptr<Material> material)
     : view_position_(view_position), material_(material) {}
 
 void FragmentShaderLightFull::Program() {

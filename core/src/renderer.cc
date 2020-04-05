@@ -85,8 +85,7 @@ void Renderer::RunExample() {
   FragmentShader fragment_shader;
   auto position_ptr = std::shared_ptr<vec3>(&(camera_.position));
   FragmentShaderLightFull fragment_shader_light(
-      std::shared_ptr<vec3>(&(camera_.position)),
-      std::shared_ptr<Material>(&object_material));
+      &(camera_.position), std::shared_ptr<Material>(&object_material));
   fragment_shader_light.AddLight(&spot_light);
   FragmentShaderLightTexture fragment_shader_light_texture(camera_.position,
                                                            object_material2);
@@ -232,8 +231,7 @@ void Renderer::RunExample2() {
   VertexShaderLight vertex_shader_light;
   FragmentShader fragment_shader;
   FragmentShaderLightFull fragment_shader_light(
-      std::shared_ptr<vec3>(&(camera_.position)),
-      std::shared_ptr<Material>(&object_material));
+      &(camera_.position), std::shared_ptr<Material>(&object_material));
   fragment_shader_light.AddLight(&spot_light);
 
   // FragmentShaderLightTexture fragment_shader_light_texture(camera_.position,

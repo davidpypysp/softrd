@@ -51,11 +51,11 @@ class FragmentShaderLight : public FragmentShader {
 
 class FragmentShaderLightFull : public FragmentShader {
  public:
-  std::shared_ptr<vec3> view_position_;
-  std::shared_ptr<Material> material_;
+  vec3 *view_position_ = nullptr;
+  std::shared_ptr<Material> material_ = nullptr;
   std::vector<Light *> lights;
 
-  FragmentShaderLightFull(std::shared_ptr<vec3> view_position,
+  FragmentShaderLightFull(vec3 *view_position,
                           std::shared_ptr<Material> material);
   void Program();
   void AddLight(Light *light);
