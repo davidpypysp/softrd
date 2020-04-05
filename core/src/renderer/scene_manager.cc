@@ -25,7 +25,7 @@ void SceneManager::InitShaders() {
   auto fragment_shader_light_full = std::make_shared<FragmentShaderLightFull>(
       std::shared_ptr<vec3>(&(camera_->position)), material);
   SpotLight *spot_light =
-      new SpotLight(vec3(3.0, 3.0, 3.0), vec3(-1.0, 0.0, 0.0),
+      new SpotLight(vec3(3.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0),
                     cos(Radians(12.5)), cos(Radians(17.5)), vec3(0.1, 0.1, 0.1),
                     vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
   fragment_shader_light_full->AddLight(spot_light);
