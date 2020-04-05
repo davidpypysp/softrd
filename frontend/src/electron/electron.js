@@ -34,7 +34,7 @@ function createWindow() {
             path.join(
                 os.homedir(),
                 "/.config/google-chrome/Default/Extensions/",
-                "fmkadmapgofadopljbjfkapdkoienihi/4.5.0_0"
+                "fmkadmapgofadopljbjfkapdkoienihi/4.6.0_0"
             )
         );
         BrowserWindow.addDevToolsExtension(

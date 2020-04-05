@@ -18,6 +18,7 @@ void Engine::DrawSceneObjects() {
 
   for (const auto& it : scene_objects) {
     auto scene_object = it.second;
+
     rendering_pipeline_->DrawSceneObject(scene_object);
   }
 }

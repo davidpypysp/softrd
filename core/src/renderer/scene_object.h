@@ -39,11 +39,12 @@ class SceneObject {
     fragment_shader_ = fragment_shader;
   }
 
+  std::shared_ptr<Material> material() const { return material_; }
   void set_material(const std::shared_ptr<Material> &material) {
     material_ = material;
   }
 
- private:
+ protected:
   std::string id_;
 
   vec3 position_;
@@ -56,6 +57,16 @@ class SceneObject {
   std::shared_ptr<FragmentShader> fragment_shader_ = nullptr;
 
   std::shared_ptr<Material> material_ = nullptr;
+};
+
+class SpotLightObject : public SceneObject {
+ public:
+  void set_spot_light(const std::shared_ptr<SpotLight> &spot_light) {
+    spot_light_ = spot_light;
+  }
+
+ protected:
+  std::shared_ptr<SpotLight> spot_light_;
 };
 
 }  // namespace softrd

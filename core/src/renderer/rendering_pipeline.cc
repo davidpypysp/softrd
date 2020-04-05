@@ -35,10 +35,15 @@ void RenderingPipeline::DrawSceneObject(
   model_matrix.identify();
 
   model_matrix.translate(scene_object->position());
-  model_matrix.rotateX(scene_object->rotation().x);
-  model_matrix.rotateY(scene_object->rotation().y);
-  model_matrix.rotateZ(scene_object->rotation().z);
+
+  // TODO: fix rotation issue
+  // model_matrix.rotateX(scene_object->rotation().x);
+  // model_matrix.rotateY(scene_object->rotation().y);
+  // model_matrix.rotateZ(scene_object->rotation().z);
+
   model_matrix.scale(scene_object->scale());
+
+  model_matrix.print();
 
   std::shared_ptr<VertexShaderLight> vertex_shader_light =
       std::dynamic_pointer_cast<VertexShaderLight>(
@@ -106,6 +111,7 @@ void RenderingPipeline::Run(const DrawMode mode) {
       FragmentOut fragment_shader_out;
       for (Fragment &fragment : fragment_buffer_) {
         fragment_shader_->Run(fragment, &fragment_shader_out);
+
         if (per_sample_processor_->Run(fragment_shader_out) == true) {
           // test fragment success, pass into framebuffer;
           SetPixel(fragment_shader_out.window_position.x,

@@ -1,5 +1,6 @@
 #include "src/renderer.h"
 
+#include <memory>
 namespace softrd {
 
 // Renderer initialization,
@@ -82,8 +83,10 @@ void Renderer::RunExample() {
   // define shaders
   VertexShaderLight vertex_shader_light;
   FragmentShader fragment_shader;
-  FragmentShaderLightFull fragment_shader_light(camera_.position,
-                                                object_material);
+  auto position_ptr = std::shared_ptr<vec3>(&(camera_.position));
+  FragmentShaderLightFull fragment_shader_light(
+      std::shared_ptr<vec3>(&(camera_.position)),
+      std::shared_ptr<Material>(&object_material));
   fragment_shader_light.AddLight(&spot_light);
   FragmentShaderLightTexture fragment_shader_light_texture(camera_.position,
                                                            object_material2);
@@ -228,8 +231,9 @@ void Renderer::RunExample2() {
   // define shaders
   VertexShaderLight vertex_shader_light;
   FragmentShader fragment_shader;
-  FragmentShaderLightFull fragment_shader_light(camera_.position,
-                                                object_material);
+  FragmentShaderLightFull fragment_shader_light(
+      std::shared_ptr<vec3>(&(camera_.position)),
+      std::shared_ptr<Material>(&object_material));
   fragment_shader_light.AddLight(&spot_light);
 
   // FragmentShaderLightTexture fragment_shader_light_texture(camera_.position,
