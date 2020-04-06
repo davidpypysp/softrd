@@ -18,7 +18,7 @@ class Renderer {
 
         this.softrdAddon = new softrd.RendererAPIAddon(10);
         this.lastExcutedTime = performance.now();
-        // this.drawFrameLoop();
+        this.drawFrameLoop();
     }
 
     draw() {
@@ -44,7 +44,7 @@ class Renderer {
 
     drawFrameLoop() {
         setInterval(() => {
-            this.drawFrame();
+            this.drawSceneObjects();
             const currentTime = performance.now();
             this.fps = 1000.0 / (currentTime - this.lastExcutedTime)
             this.lastExcutedTime = currentTime;
@@ -59,8 +59,6 @@ class Renderer {
 
     drawSceneObjects() {
         const state = store.getState();
-        console.log("state:", state.objectList);
-
         const { buffer } = this.imageData.data;
         this.softrdAddon.drawSceneObjects(buffer, state.objectList);
         this.context2D.putImageData(this.imageData, 0, 0);

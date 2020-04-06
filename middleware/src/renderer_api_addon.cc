@@ -168,13 +168,8 @@ Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
 
   auto keys = object_list.GetPropertyNames();
 
-  std::cout << "keys: " << keys.Length() << std::endl;
-  std::cout << "object: " << object_list.ToString().Utf8Value() << std::endl;
-
   for (int i = 0; i < keys.Length(); ++i) {
     auto key = keys.Get(i);
-    std::cout << keys.Get(i).ToString().Utf8Value() << std::endl;
-
     Napi::Object wrapped_scene_object = object_list.Get(key).ToObject();
 
     const std::string& id =
@@ -184,20 +179,12 @@ Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
     const softrd::vec3& rotation =
         ParseVec3(wrapped_scene_object.Get("rotation").ToObject());
 
-    std::cout << "position: " << position.x << ", " << position.y << ", "
-              << position.z << std::endl;
-
-    std::cout << "rotation: " << rotation.x << ", " << rotation.y << ", "
-              << rotation.z << std::endl;
-
     renderer_api_->SetSceneObject(id, position, rotation);
   }
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
   memset(array, 0, buf.ByteLength());
-
-  std::cout << "addon draw scene objects" << std::endl;
 
   this->renderer_api_->DrawScene(array);
 

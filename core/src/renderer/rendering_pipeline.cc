@@ -43,8 +43,6 @@ void RenderingPipeline::DrawSceneObject(
 
   model_matrix.scale(scene_object->scale());
 
-  model_matrix.print();
-
   std::shared_ptr<VertexShaderLight> vertex_shader_light =
       std::dynamic_pointer_cast<VertexShaderLight>(
           scene_object->vertex_shader());
