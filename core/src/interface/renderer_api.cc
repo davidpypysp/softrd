@@ -95,6 +95,19 @@ void RendererAPI::ResetBuffer(uint8_t *buffer, size_t size) {
   }
 }
 
+void RendererAPI::SetSceneObject(const std::string &id, const vec3 &position,
+                                 const vec3 &rotation) {
+  const auto &scene_manager = engine_->scene_manager();
+
+  const auto &scene_object = scene_manager->GetSceneObject(id);
+  if (scene_object) {
+    scene_object->set_position(position);
+    scene_object->set_rotation(rotation);
+  } else {
+    scene_manager->AddSceneObject(id, position, rotation);
+  }
+}
+
 RendererAPI::~RendererAPI() {}
 
 }  // namespace softrd

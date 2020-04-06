@@ -3,7 +3,7 @@
 namespace softrd {
 
 Engine::Engine() {
-  scene_manager_ = std::make_unique<SceneManager>();
+  scene_manager_ = std::make_shared<SceneManager>();
   rendering_pipeline_ = std::make_unique<RenderingPipeline>();
 }
 

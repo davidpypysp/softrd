@@ -2,6 +2,13 @@
 
 #include <iostream>
 
+softrd::vec3 ParseVec3(const Napi::Object& wrapped_vec3) {
+  float x = wrapped_vec3.Get("x").ToNumber().FloatValue();
+  float y = wrapped_vec3.Get("y").ToNumber().FloatValue();
+  float z = wrapped_vec3.Get("z").ToNumber().FloatValue();
+  return softrd::vec3(x, y, z);
+}
+
 Napi::FunctionReference RendererAPIAddon::constructor;
 
 Napi::Object RendererAPIAddon::Init(Napi::Env env, Napi::Object exports) {
@@ -17,6 +24,8 @@ Napi::Object RendererAPIAddon::Init(Napi::Env env, Napi::Object exports) {
                                      &RendererAPIAddon::ResetArrayBuffer),
                       InstanceMethod("drawFrame", &RendererAPIAddon::DrawFrame),
                       InstanceMethod("drawScene", &RendererAPIAddon::DrawScene),
+                      InstanceMethod("drawSceneObjects",
+                                     &RendererAPIAddon::DrawSceneObjects),
                   });
 
   constructor = Napi::Persistent(func);
@@ -128,8 +137,67 @@ Napi::Value RendererAPIAddon::DrawScene(const Napi::CallbackInfo& info) {
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
+  memset(array, 0, length);
 
   std::cout << "addon draw scene" << std::endl;
+
+  this->renderer_api_->DrawScene(array);
+
+  return info.Env().Undefined();
+}
+
+Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
+  if (info.Length() != 2) {
+    Napi::Error::New(info.Env(), "Expected exactly one argument")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+  if (!info[0].IsArrayBuffer()) {
+    Napi::Error::New(info.Env(), "Expected an ArrayBuffer")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+  if (!info[1].IsObject()) {
+    Napi::Error::New(info.Env(), "Expected an Object")
+        .ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+
+  Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
+  Napi::Object object_list = info[1].As<Napi::Object>();
+
+  auto keys = object_list.GetPropertyNames();
+
+  std::cout << "keys: " << keys.Length() << std::endl;
+  std::cout << "object: " << object_list.ToString().Utf8Value() << std::endl;
+
+  for (int i = 0; i < keys.Length(); ++i) {
+    auto key = keys.Get(i);
+    std::cout << keys.Get(i).ToString().Utf8Value() << std::endl;
+
+    Napi::Object wrapped_scene_object = object_list.Get(key).ToObject();
+
+    const std::string& id =
+        wrapped_scene_object.Get("id").ToString().Utf8Value();
+    const softrd::vec3& position =
+        ParseVec3(wrapped_scene_object.Get("position").ToObject());
+    const softrd::vec3& rotation =
+        ParseVec3(wrapped_scene_object.Get("rotation").ToObject());
+
+    std::cout << "position: " << position.x << ", " << position.y << ", "
+              << position.z << std::endl;
+
+    std::cout << "rotation: " << rotation.x << ", " << rotation.y << ", "
+              << rotation.z << std::endl;
+
+    renderer_api_->SetSceneObject(id, position, rotation);
+  }
+
+  uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
+  size_t length = buf.ByteLength() / sizeof(uint8_t);
+  memset(array, 0, buf.ByteLength());
+
+  std::cout << "addon draw scene objects" << std::endl;
 
   this->renderer_api_->DrawScene(array);
 

@@ -17,6 +17,8 @@ class RendererAPI {
   void ExamplePrint();
   void ResetBuffer(uint8_t *buffer, size_t size);
   void DrawScene(uint8_t *buffer);
+  void SetSceneObject(const std::string &id, const vec3 &position,
+                      const vec3 &rotation);
 
   ~RendererAPI();
 

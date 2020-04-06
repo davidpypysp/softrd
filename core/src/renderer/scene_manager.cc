@@ -7,7 +7,7 @@ SceneManager::SceneManager() {
 
   this->InitShaders();
 
-  this->AddExampleObjects();
+  // this->AddExampleObjects();
 }
 
 void SceneManager::InitShaders() {

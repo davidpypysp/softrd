@@ -1,3 +1,5 @@
+import store from "src/store"
+
 const { softrd } = window as any;
 
 class Renderer {
@@ -52,6 +54,15 @@ class Renderer {
     drawScene() {
         const { buffer } = this.imageData.data;
         this.softrdAddon.drawScene(buffer);
+        this.context2D.putImageData(this.imageData, 0, 0);
+    }
+
+    drawSceneObjects() {
+        const state = store.getState();
+        console.log("state:", state.objectList);
+
+        const { buffer } = this.imageData.data;
+        this.softrdAddon.drawSceneObjects(buffer, state.objectList);
         this.context2D.putImageData(this.imageData, 0, 0);
     }
 }

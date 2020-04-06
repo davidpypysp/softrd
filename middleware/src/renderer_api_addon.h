@@ -19,6 +19,7 @@ class RendererAPIAddon : public Napi::ObjectWrap<RendererAPIAddon> {
   Napi::Value ResetArrayBuffer(const Napi::CallbackInfo& info);
   Napi::Value DrawFrame(const Napi::CallbackInfo& info);
   Napi::Value DrawScene(const Napi::CallbackInfo& info);
+  Napi::Value DrawSceneObjects(const Napi::CallbackInfo& info);
 
   double value_;
   softrd::RendererAPI* renderer_api_;

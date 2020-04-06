@@ -13,9 +13,11 @@ class Engine {
   void DrawSceneObjects();
   void DrawScene(uint8_t *buffer);
 
+  std::shared_ptr<SceneManager> scene_manager() const { return scene_manager_; }
+
  private:
   std::unique_ptr<RenderingPipeline> rendering_pipeline_ = nullptr;
-  std::unique_ptr<SceneManager> scene_manager_ = nullptr;
+  std::shared_ptr<SceneManager> scene_manager_ = nullptr;
 };
 
 }  // namespace softrd
