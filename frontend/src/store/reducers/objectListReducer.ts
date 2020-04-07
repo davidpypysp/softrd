@@ -3,9 +3,9 @@ import { Object } from "src/interfaces/object";
 export interface ObjectListState { [id: string]: Object };
 
 const initialState: ObjectListState = {
-    "camera": {
-        id: "camera",
-        name: "Camera",
+    "box0": {
+        id: "box0",
+        name: "box0",
         position: { x: 0, y: 0, z: 0 },
         rotation: { x: 1, y: 2, z: 3 },
     },

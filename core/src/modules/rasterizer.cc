@@ -3,9 +3,7 @@
 namespace softrd {
 Rasterizer::Rasterizer(const int width, const int height,
                        std::vector<Fragment> &fragment_buffer)
-    : width_(width), height_(height), fragment_buffer_(fragment_buffer) {
-  std::cout << "rasterizer constructor" << std::endl;
-}
+    : width_(width), height_(height), fragment_buffer_(fragment_buffer) {}
 
 void Rasterizer::SetCamera(Camera *camera) { camera_ = camera; }
 

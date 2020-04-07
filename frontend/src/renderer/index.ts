@@ -27,12 +27,6 @@ class Renderer {
         this.context2D.putImageData(this.imageData, 0, 0);
     }
 
-    drawFrame() {
-        const { buffer } = this.imageData.data;
-        this.softrdAddon.drawFrame(buffer);
-        this.context2D.putImageData(this.imageData, 0, 0);
-    }
-
     clearImage() {
         this.context2D.clearRect(0, 0,
             this.canvasElement.width, this.canvasElement.height);
@@ -67,10 +61,3 @@ class Renderer {
 
 const RENDERER = new Renderer();
 export default RENDERER;
-
-export function exampleRun() {
-    const obj = new softrd.RendererAPIAddon(10);
-    console.log(obj.plusOne()); // 11
-    const po1 = obj.plusOne();
-    console.log("po1=", po1);
-}

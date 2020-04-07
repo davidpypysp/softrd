@@ -12,9 +12,6 @@ class RendererAPI {
  public:
   RendererAPI();
 
-  void InitExampleMesh();
-  void DrawExampleMesh(uint8_t *buffer);
-  void ExamplePrint();
   void ResetBuffer(uint8_t *buffer, size_t size);
   void DrawScene(uint8_t *buffer);
   void SetSceneObject(const std::string &id, const vec3 &position,
@@ -23,10 +20,7 @@ class RendererAPI {
   ~RendererAPI();
 
  private:
-  std::unique_ptr<RenderingPipeline> rendering_pipeline_ = nullptr;
   std::unique_ptr<Engine> engine_ = nullptr;
-
-  std::shared_ptr<Mesh> example_cube_ = nullptr;
 };
 
 }  // namespace softrd

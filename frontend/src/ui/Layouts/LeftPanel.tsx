@@ -33,13 +33,6 @@ class TestMenu extends React.Component<PropsFromRedux, {}> {
                 />
                 <Button
                     intent="primary"
-                    text="Frame"
-                    onClick={() => {
-                        RENDERER.drawFrame();
-                    }}
-                />
-                <Button
-                    intent="primary"
                     text="Draw Scene"
                     onClick={() => {
                         RENDERER.drawScene();
