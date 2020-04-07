@@ -1,7 +1,28 @@
 import React from "react";
 import RENDERER from "src/renderer";
 
-export default class Scene extends React.Component {
+
+class FPSText extends React.Component<{}, { fps: string }> {
+    state = {
+        fps: ''
+    };
+
+    componentDidMount() {
+        setInterval(() => {
+            this.setState({ fps: RENDERER.fps.toFixed(1) });
+        }, 1000);
+    }
+
+    render() {
+        return (
+            <div className="fps-text">
+                {`FPS: ${this.state.fps}`}
+            </div>
+        );
+    }
+}
+
+export default class SceneView extends React.Component {
     public canvasId: string = "scene-canvas";
 
     componentDidMount() {
@@ -9,8 +30,9 @@ export default class Scene extends React.Component {
     }
 
     render() {
+        console.log("scene rerender");
         return (
-            <div className="main-view" >
+            <div className="scene-view" >
                 <canvas
                     id={this.canvasId}
                     className="scene-canvas"
@@ -18,6 +40,7 @@ export default class Scene extends React.Component {
                     height="480"
                 >
                 </canvas>
+                <FPSText />
             </div>
         );
     }

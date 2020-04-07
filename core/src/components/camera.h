@@ -42,6 +42,8 @@ struct Camera {
     far = 500.0f;
     SetViewMatrix();
     SetProjectionMatrix();
+
+    this->Rotate(vec3(0, 0, 0));
   }
 
   void SetViewMatrix() {

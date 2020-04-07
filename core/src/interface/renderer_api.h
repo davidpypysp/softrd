@@ -1,9 +1,10 @@
 #ifndef SOFTRD_RENDERER_API_H_
 #define SOFTRD_RENDERER_API_H_
 
-#include "src/renderer/rendering_pipeline.h"
-
 #include <vector>
+
+#include "src/renderer/engine.h"
+#include "src/renderer/rendering_pipeline.h"
 
 namespace softrd {
 
@@ -11,17 +12,15 @@ class RendererAPI {
  public:
   RendererAPI();
 
-  void InitExampleMesh();
-  void DrawExampleMesh(uint8_t *buffer);
-  void ExamplePrint();
   void ResetBuffer(uint8_t *buffer, size_t size);
+  void DrawScene(uint8_t *buffer);
+  void SetSceneObject(const std::string &id, const vec3 &position,
+                      const vec3 &rotation);
 
   ~RendererAPI();
 
  private:
-  RenderingPipeline *rendering_pipeline_;
-
-  Mesh *example_cube_;
+  std::unique_ptr<Engine> engine_ = nullptr;
 };
 
 }  // namespace softrd
