@@ -56,6 +56,7 @@ Napi::Value RendererAPIAddon::ResetArrayBuffer(const Napi::CallbackInfo& info) {
   size_t length = buf.ByteLength() / sizeof(uint8_t);
 
   renderer_api_->ResetBuffer(array, length);
+
   return info.Env().Undefined();
 }
 
@@ -101,11 +102,11 @@ Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
   Napi::ArrayBuffer buf = info[0].As<Napi::ArrayBuffer>();
   Napi::Object object_list = info[1].As<Napi::Object>();
 
-  auto keys = object_list.GetPropertyNames();
+  const auto& keys = object_list.GetPropertyNames();
 
-  for (int i = 0; i < keys.Length(); ++i) {
-    auto key = keys.Get(i);
-    Napi::Object wrapped_scene_object = object_list.Get(key).ToObject();
+  for (size_t i = 0; i < keys.Length(); ++i) {
+    const auto& key = keys.Get(i);
+    const Napi::Object& wrapped_scene_object = object_list.Get(key).ToObject();
 
     const std::string& id =
         wrapped_scene_object.Get("id").ToString().Utf8Value();
@@ -120,7 +121,7 @@ Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   size_t length = buf.ByteLength() / sizeof(uint8_t);
   memset(array, 0, buf.ByteLength());
+  renderer_api_->DrawScene(array);
 
-  this->renderer_api_->DrawScene(array);
   return info.Env().Undefined();
 }
