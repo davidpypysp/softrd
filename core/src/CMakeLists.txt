@@ -6,7 +6,7 @@ add_subdirectory(devices)
 
 
 add_executable(test_api test_api.cc)
-target_link_libraries(test_api SoftrdAPI)
+target_link_libraries(test_api SoftrdAPI ${GTEST_LIB} pthread)
 
 
 add_library (custom_renderer renderer.cc)
