@@ -2,5 +2,5 @@
 path = core/third_party/googletest
 url = https://github.com/google/googletest.git
 [submodule "core/third_party/abseil-cpp"]
-	path = core/third_party/abseil-cpp
-	url = https://github.com/abseil/abseil-cpp.git
+path = core/third_party/abseil-cpp
+url = https://github.com/abseil/abseil-cpp.git
