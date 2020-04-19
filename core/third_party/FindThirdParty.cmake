@@ -12,3 +12,6 @@ message("sdl2_ttf found: " ${SDL2_TTF_LIB})
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/googletest)
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/soil)
+
