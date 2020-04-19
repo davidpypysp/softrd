@@ -18,7 +18,8 @@
       "sources": [ "src/addon_init.cc", "src/renderer_api_addon.cc" ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
-        "<!(pwd)/../core/"
+        "<!(pwd)/../core/",
+        "<!(pwd)/../core/third_party/abseil-cpp"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       'link_settings': {
