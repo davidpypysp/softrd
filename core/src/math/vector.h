@@ -5,6 +5,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "absl/strings/str_format.h"
+
 namespace softrd {
 
 struct vec2 {
@@ -166,8 +168,7 @@ struct vec3 {
   }
 
   inline std::string to_string() {
-    // auto str = absl::string_view("(%f, %f, %f)", x, y, z);
-    return "abc";
+    return absl::StrFormat("(%f, %f, %f)", x, y, z);
   }
 
   inline void print() {

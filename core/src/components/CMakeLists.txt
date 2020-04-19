@@ -1,2 +1,2 @@
 add_library(components model.cc)
-target_link_libraries(components ${ASSIMP_LIB} ${SOIL_LIB})
+target_link_libraries(components ${ASSIMP_LIB} ${SOIL_LIB} absl::str_format_internal)
