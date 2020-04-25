@@ -75,9 +75,7 @@ struct vec2 {
     }
   }
 
-  inline void print() {
-    std::cout << "(" << x << ", " << y << ")" << std::endl;
-  }
+  inline std::string ToString() { return absl::StrFormat("(%f, %f)", x, y); }
 };
 
 inline vec2 operator*(const float a, const vec2 &b) { return b * a; }
@@ -167,12 +165,12 @@ struct vec3 {
     }
   }
 
-  inline std::string to_string() {
-    return absl::StrFormat("(%f, %f, %f)", x, y, z);
+  inline bool operator==(const vec3 &b) const {
+    return x == b.x && y == b.y && z == b.z;
   }
 
-  inline void print() {
-    std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
+  inline std::string ToString() {
+    return absl::StrFormat("(%f, %f, %f)", x, y, z);
   }
 };
 
@@ -233,7 +231,7 @@ struct vec4 {
     z += b.z;
     w += b.w;
   }
-  inline vec3 getVec3() { return vec3(x, y, z); }
+  inline vec3 GetVec3() { return vec3(x, y, z); }
 
   inline vec4 &operator+=(const vec4 &b) {
     *this = *this + b;
@@ -252,9 +250,12 @@ struct vec4 {
     return *this;
   }
 
-  inline void print() {
-    std::cout << "(" << x << ", " << y << ", " << z << ", " << w << ")"
-              << std::endl;
+  inline bool operator==(const vec4 &b) const {
+    return x == b.x && y == b.y && z == b.z && w == b.w;
+  }
+
+  inline std::string ToString() {
+    return absl::StrFormat("(%f, %f, %f, %f)", x, y, z, w);
   }
 
   inline float &operator[](const int index) {

@@ -511,7 +511,7 @@ void Renderer::Input() {
   if (device_.PressKeyL()) move.w += move_step;
 
   if ((int)input_index_ == 0) {  // move camera
-    camera_.Move(move.getVec3());
+    camera_.Move(move.GetVec3());
   } else {  // move other
             // position
     inputs_[input_index_]->Move(move);
