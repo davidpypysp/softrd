@@ -23,16 +23,16 @@ struct Light {
   virtual vec3 CalcColor(const vec3 &normal, const vec3 &object_position,
                          const vec3 &view_dir, const Material &material) {
     // diffuse
-    vec3 light_dir = (position - object_position).normalize();
+    vec3 light_dir = (position - object_position).Normalize();
     float diff = Max(normal * light_dir, 0.0);
 
     // specular
     vec3 reflect_dir = Reflect(-light_dir, normal);
     float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
 
-    vec3 ambient_color = ambient.multiply(material.ambient);
-    vec3 diffuse_color = diffuse.multiply(diff * material.diffuse);
-    vec3 specular_color = specular.multiply(spec * material.specular);
+    vec3 ambient_color = ambient.Multiply(material.ambient);
+    vec3 diffuse_color = diffuse.Multiply(diff * material.diffuse);
+    vec3 specular_color = specular.Multiply(spec * material.specular);
 
     return ambient_color + diffuse_color + specular_color;
   }
@@ -47,7 +47,7 @@ struct DirLight : public Light {  // Directional Light
 
   vec3 CalcColor(const vec3 &normal, const vec3 &object_position,
                  const vec3 &view_dir, const Material &material) {
-    vec3 light_dir = (-direction).normalize();
+    vec3 light_dir = (-direction).Normalize();
 
     // diffuse shading
     float diff = Max(normal * light_dir, 0.0);
@@ -57,9 +57,9 @@ struct DirLight : public Light {  // Directional Light
     float spec = pow(Max(view_dir * reflect_dir, 0.0), material.shininess);
 
     // combine results
-    vec3 ambient_color = ambient.multiply(material.ambient);
-    vec3 diffuse_color = diffuse.multiply(diff * material.diffuse);
-    vec3 specular_color = specular.multiply(spec * material.specular);
+    vec3 ambient_color = ambient.Multiply(material.ambient);
+    vec3 diffuse_color = diffuse.Multiply(diff * material.diffuse);
+    vec3 specular_color = specular.Multiply(spec * material.specular);
     return ambient_color + diffuse_color + specular_color;
   }
 };
@@ -80,8 +80,8 @@ struct PointLight : public Light {
   vec3 CalcColor(const vec3 &normal, const vec3 &object_position,
                  const vec3 &view_dir, const Material &material) {
     vec3 light_dir = (position - object_position);
-    float distance = light_dir.length();
-    light_dir.normalize();
+    float distance = light_dir.Length();
+    light_dir.Normalize();
 
     // diffuse shading
     float diff = Max(normal * light_dir, 0.0);
@@ -94,11 +94,11 @@ struct PointLight : public Light {
                                quadratic * (distance * distance));
 
     // combine results
-    vec3 ambient_color = ambient.multiply(material.ambient) * attenuation;
+    vec3 ambient_color = ambient.Multiply(material.ambient) * attenuation;
     vec3 diffuse_color =
-        diffuse.multiply(diff * material.diffuse) * attenuation;
+        diffuse.Multiply(diff * material.diffuse) * attenuation;
     vec3 specular_color =
-        specular.multiply(spec * material.specular) * attenuation;
+        specular.Multiply(spec * material.specular) * attenuation;
     return ambient_color + diffuse_color + specular_color;
   }
 };
@@ -122,8 +122,8 @@ struct SpotLight : public PointLight {
   vec3 CalcColor(const vec3 &normal, const vec3 &object_position,
                  const vec3 &view_dir, const Material &material) {
     vec3 light_dir = (position - object_position);
-    float distance = light_dir.length();
-    light_dir.normalize();
+    float distance = light_dir.Length();
+    light_dir.Normalize();
 
     // diffuse shading
     float diff = Max(normal * light_dir, 0.0);
@@ -139,16 +139,16 @@ struct SpotLight : public PointLight {
     float theta =
         light_dir *
         (-direction)
-            .normalize();  // in opengl tutorial it's (-direction).normalize()
+            .Normalize();  // in opengl tutorial it's (-direction).Normalize()
     float epsilon = cut_off - outer_cut_off;
     float intensity = Clamp((theta - outer_cut_off) / epsilon, 0.0, 1.0);
 
     // combine results
-    vec3 ambient_color = ambient.multiply(material.ambient) * attenuation;
+    vec3 ambient_color = ambient.Multiply(material.ambient) * attenuation;
     vec3 diffuse_color =
-        diffuse.multiply(diff * material.diffuse) * attenuation * intensity;
+        diffuse.Multiply(diff * material.diffuse) * attenuation * intensity;
     vec3 specular_color =
-        specular.multiply(spec * material.specular) * attenuation * intensity;
+        specular.Multiply(spec * material.specular) * attenuation * intensity;
     return ambient_color + diffuse_color + specular_color;
   }
 };

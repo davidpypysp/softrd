@@ -26,21 +26,21 @@ void FragmentShaderLight::Program() {
   vec3 ambient = ambientStrength * light_color;
 
   // diffuse
-  vec3 norm = in_.world_normal.normalize();
-  vec3 light_dir = (light_position - in_.world_position).normalize();
+  vec3 norm = in_.world_normal.Normalize();
+  vec3 light_dir = (light_position - in_.world_position).Normalize();
 
   float diff = Max(norm * light_dir, 0.0);
   vec3 diffuse = diff * light_color;
 
   // specular
   float specular_strength = 0.5;
-  vec3 view_dir = (view_position - in_.world_position).normalize();
+  vec3 view_dir = (view_position - in_.world_position).Normalize();
   vec3 reflect_dir = Reflect(-light_dir, norm);
   // vec3 reflect_dir = (2.0 * (light_dir * norm) * norm) - light_dir;
   float spec = pow(Max(view_dir * reflect_dir, 0.0), 32);
   vec3 specular = specular_strength * spec * light_color;
 
-  vec3 result = (ambient + diffuse + specular).multiply(object_color);
+  vec3 result = (ambient + diffuse + specular).Multiply(object_color);
   out_->color = vec4(result, 1.0);
 }
 
@@ -49,8 +49,8 @@ FragmentShaderLightFull::FragmentShaderLightFull(
     : view_position_(view_position), material_(material) {}
 
 void FragmentShaderLightFull::Program() {
-  vec3 norm = in_.world_normal.normalize();
-  vec3 view_dir = (*view_position_ - in_.world_position).normalize();
+  vec3 norm = in_.world_normal.Normalize();
+  vec3 view_dir = (*view_position_ - in_.world_position).Normalize();
 
   vec3 result;
   for (Light *light : lights) {
@@ -75,8 +75,8 @@ void FragmentShaderLightTexture::Program() {
                              material.shininess);
 
   vec3 normal = in_.world_normal;
-  normal.normalize();
-  vec3 view_dir = (view_position - in_.world_position).normalize();
+  normal.Normalize();
+  vec3 view_dir = (view_position - in_.world_position).Normalize();
 
   vec3 result;
 

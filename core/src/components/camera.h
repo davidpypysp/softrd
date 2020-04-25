@@ -82,9 +82,9 @@ struct Camera {
     direction.x = cos(Radians(pitch)) * cos(Radians(yaw));
     direction.y = sin(Radians(pitch));
     direction.z = cos(Radians(pitch)) * sin(Radians(yaw));
-    direction.normalize();
-    right = (world_up % direction).normalize();
-    up = (direction % right).normalize();
+    direction.Normalize();
+    right = (world_up % direction).Normalize();
+    up = (direction % right).Normalize();
     SetViewMatrix();
   }
 

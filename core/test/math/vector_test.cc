@@ -12,8 +12,8 @@ TEST(VectorTest, Vector3) {
   softrd::vec3 v3 = v1 + v2;
   EXPECT_EQ(v3, softrd::vec3(0, 2, 4));
 
-  EXPECT_EQ(v1.lengthSqr(), 5.0);
-  EXPECT_FLOAT_EQ(v1.length(), std::sqrt(5.0));
+  EXPECT_EQ(v1.LengthSqr(), 5.0);
+  EXPECT_FLOAT_EQ(v1.Length(), std::sqrt(5.0));
 }
 
 TEST(VectorTest, Vector4) {
