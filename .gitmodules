@@ -10,3 +10,6 @@ url = https://github.com/abseil/abseil-cpp.git
 [submodule "core/third_party/assimp"]
 	path = core/third_party/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "core/third_party/glog"]
+	path = core/third_party/glog
+	url = https://github.com/google/glog.git
