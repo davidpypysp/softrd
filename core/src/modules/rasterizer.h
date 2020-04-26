@@ -5,7 +5,7 @@
 
 #include "src/components/camera.h"
 #include "src/components/fragment.h"
-#include "src/math/math_lib.h"
+#include "src/math/math_util.h"
 #include "src/modules/primitive_assembly.h"
 
 namespace softrd {

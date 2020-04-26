@@ -2,7 +2,7 @@
 #define SOFTRD_TEXTURE_H_
 
 #include "include/SOIL/SOIL.h"
-#include "src/math/math_lib.h"
+#include "src/math/math_util.h"
 
 namespace softrd {
 

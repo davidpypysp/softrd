@@ -2,7 +2,7 @@
 #define SOFTRD_CLIPPING_H_
 
 #include "src/components/primitive.h"
-#include "src/math/math_lib.h"
+#include "src/math/math_util.h"
 
 namespace softrd {
 

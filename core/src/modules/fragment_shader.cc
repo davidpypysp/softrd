@@ -1,6 +1,6 @@
 #include "src/modules/fragment_shader.h"
 
-#include "src/math/math_lib.h"
+#include "src/math/math_util.h"
 
 namespace softrd {
 

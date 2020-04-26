@@ -1,7 +1,7 @@
 #ifndef SOFTRD_CAMERA_H_
 #define SOFTRD_CAMERA_H_
 
-#include "src/math/math_lib.h"
+#include "src/math/math_util.h"
 
 namespace softrd {
 
