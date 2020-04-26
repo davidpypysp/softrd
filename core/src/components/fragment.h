@@ -3,17 +3,15 @@
 
 #include "src/math/vector.h"
 
-
 namespace softrd {
 
 struct Fragment {
-	vec3 window_position;
-	vec3 world_position;
-	vec3 world_normal;
-	vec2 uv;
-
+  math::vec3 window_position;
+  math::vec3 world_position;
+  math::vec3 world_normal;
+  math::vec2 uv;
 };
 
-} // namespace softrd
+}  // namespace softrd
 
-#endif // SOFTRD_FRAGMENT_H_
+#endif  // SOFTRD_FRAGMENT_H_

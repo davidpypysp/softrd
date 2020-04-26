@@ -14,7 +14,7 @@ struct InputUnit {
 
   InputUnit(std::string name, int size) : name(name), size(size) {}
 
-  virtual void Move(const vec4 &move) = 0;
+  virtual void Move(const math::vec4 &move) = 0;
   virtual std::string Info(int precision = 2) = 0;
 };
 
@@ -24,7 +24,7 @@ struct InputUnit1 : public InputUnit {
   InputUnit1(std::string name, float *value)
       : InputUnit(name, 1), value(value) {}
 
-  void Move(const vec4 &move) { *value += move.z; }
+  void Move(const math::vec4 &move) { *value += move.z; }
 
   std::string Info(int precision) {
     return name + ": " + util::ToString(*value, precision);
@@ -32,12 +32,12 @@ struct InputUnit1 : public InputUnit {
 };
 
 struct InputUnit2 : public InputUnit {
-  vec2 *value;
+  math::vec2 *value;
 
-  InputUnit2(std::string name, vec2 *value)
+  InputUnit2(std::string name, math::vec2 *value)
       : InputUnit(name, 2), value(value) {}
 
-  void Move(const vec4 &move) { value->Move(vec2(move.z, move.x)); }
+  void Move(const math::vec4 &move) { value->Move(math::vec2(move.z, move.x)); }
 
   std::string Info(int precision) {
     return name + ": (" + util::ToString(value->x, precision) + ", " +
@@ -46,12 +46,14 @@ struct InputUnit2 : public InputUnit {
 };
 
 struct InputUnit3 : public InputUnit {
-  vec3 *value;
+  math::vec3 *value;
 
-  InputUnit3(std::string name, vec3 *value)
+  InputUnit3(std::string name, math::vec3 *value)
       : InputUnit(name, 3), value(value) {}
 
-  void Move(const vec4 &move) { value->Move(vec3(move.x, move.y, move.z)); }
+  void Move(const math::vec4 &move) {
+    value->Move(math::vec3(move.x, move.y, move.z));
+  }
 
   std::string Info(int precision) {
     return name + ": (" + util::ToString(value->x, precision) + ", " +
@@ -61,12 +63,12 @@ struct InputUnit3 : public InputUnit {
 };
 
 struct InputUnit4 : public InputUnit {
-  vec4 *value;
+  math::vec4 *value;
 
-  InputUnit4(std::string name, vec4 *value)
+  InputUnit4(std::string name, math::vec4 *value)
       : InputUnit(name, 4), value(value) {}
 
-  void Move(const vec4 &move) { value->Move(move); }
+  void Move(const math::vec4 &move) { value->Move(move); }
 
   std::string Info(int precision) {
     return name + ": (" + util::ToString(value->x, precision) + ", " +

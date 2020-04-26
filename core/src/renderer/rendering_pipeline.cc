@@ -31,7 +31,7 @@ void RenderingPipeline::Reset(const int width, const int height,
 
 void RenderingPipeline::DrawSceneObject(
     const std::shared_ptr<SceneObject> &scene_object) {
-  mat4 model_matrix;
+  math::mat4 model_matrix;
   model_matrix.identify();
 
   model_matrix.translate(scene_object->position());
@@ -167,25 +167,26 @@ void RenderingPipeline::ResetBuffer() {
 RenderingPipeline::~RenderingPipeline() {}
 
 // set pixel to the appointed color
-void RenderingPipeline::SetPixel(const int x, const int y, const vec4 &color) {
+void RenderingPipeline::SetPixel(const int x, const int y,
+                                 const math::vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
-    frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
-    frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
-    frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
+    frame_buffer_[offset] = math::Clamp(color.z * 255, 0, 255);      // b
+    frame_buffer_[offset + 1] = math::Clamp(color.y * 255, 0, 255);  // g
+    frame_buffer_[offset + 2] = math::Clamp(color.x * 255, 0, 255);  // r
+    frame_buffer_[offset + 3] = math::Clamp(color.w * 255, 0, 255);  // a
   }
 }
 
 // set pixel to window frame buffer
 void RenderingPipeline::SetPixelToWindow(const int x, const int y,
-                                         const vec4 &color) {
+                                         const math::vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    window_frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
-    window_frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
-    window_frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
-    window_frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
+    window_frame_buffer_[offset] = math::Clamp(color.z * 255, 0, 255);      // b
+    window_frame_buffer_[offset + 1] = math::Clamp(color.y * 255, 0, 255);  // g
+    window_frame_buffer_[offset + 2] = math::Clamp(color.x * 255, 0, 255);  // r
+    window_frame_buffer_[offset + 3] = math::Clamp(color.w * 255, 0, 255);  // a
   }
 }
 

@@ -7,13 +7,15 @@
 namespace softrd {
 
 struct Material {
-  vec3 ambient;
-  vec3 diffuse;
-  vec3 specular;
+  math::vec3 ambient;
+  math::vec3 diffuse;
+  math::vec3 specular;
   float shininess;
 
-  Material(const vec3 &ambient = vec3(), const vec3 &diffuse = vec3(),
-           const vec3 &specular = vec3(), const float shininess = 0.0)
+  Material(const math::vec3 &ambient = math::vec3(),
+           const math::vec3 &diffuse = math::vec3(),
+           const math::vec3 &specular = math::vec3(),
+           const float shininess = 0.0)
       : ambient(ambient),
         diffuse(diffuse),
         specular(specular),

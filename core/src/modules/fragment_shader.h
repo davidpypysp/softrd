@@ -13,8 +13,8 @@
 namespace softrd {
 
 struct FragmentOut {
-  vec3 window_position;
-  vec4 color;
+  math::vec3 window_position;
+  math::vec4 color;
 };
 
 class FragmentShader {
@@ -33,29 +33,29 @@ class FragmentShader {
 
 class FragmentShaderFlatColor : public FragmentShader {
  public:
-  vec3 flat_color;
+  math::vec3 flat_color;
 
-  FragmentShaderFlatColor(const vec3 &color = vec3());
+  FragmentShaderFlatColor(const math::vec3 &color = math::vec3());
   void Program();
 };
 
 class FragmentShaderLight : public FragmentShader {
  public:
-  vec3 object_color;
-  vec3 light_color;
-  vec3 light_position;
-  vec3 view_position;
+  math::vec3 object_color;
+  math::vec3 light_color;
+  math::vec3 light_position;
+  math::vec3 view_position;
 
   void Program();
 };
 
 class FragmentShaderLightFull : public FragmentShader {
  public:
-  vec3 *view_position_ = nullptr;
+  math::vec3 *view_position_ = nullptr;
   std::shared_ptr<Material> material_ = nullptr;
   std::vector<Light *> lights;
 
-  FragmentShaderLightFull(vec3 *view_position,
+  FragmentShaderLightFull(math::vec3 *view_position,
                           std::shared_ptr<Material> material);
   void Program();
   void AddLight(Light *light);
@@ -63,11 +63,12 @@ class FragmentShaderLightFull : public FragmentShader {
 
 class FragmentShaderLightTexture : public FragmentShader {
  public:
-  vec3 &view_position;
+  math::vec3 &view_position;
   TextureMaterial &material;
   std::vector<Light *> lights;
 
-  FragmentShaderLightTexture(vec3 &view_position, TextureMaterial &material);
+  FragmentShaderLightTexture(math::vec3 &view_position,
+                             TextureMaterial &material);
   void Program();
   void AddLight(Light *light);
 };

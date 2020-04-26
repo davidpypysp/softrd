@@ -1,5 +1,7 @@
 #include "src/devices/device.h"
+
 #include <string.h>
+
 #include <iostream>
 #include <string>
 
@@ -87,7 +89,7 @@ void Device::DrawTextFixed(const std::string &str, const int x, const int y,
 }
 
 void Device::DrawText(const std::string &str, const float x, const float y,
-                      const int size, const vec4 &color) {
+                      const int size, const math::vec4 &color) {
   TTF_Font *font =
       TTF_OpenFont("resource/font/Lato-Light.ttf",
                    size);  // this opens a font style and sets a size

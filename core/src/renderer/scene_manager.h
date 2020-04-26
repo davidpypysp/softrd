@@ -15,11 +15,11 @@ class SceneManager {
   void AddExampleObjects();
 
   std::shared_ptr<SceneObject> AddSceneObject(
-      const std::string &id, const vec3 &position = vec3(0, 0, 0),
-      const vec3 &rotation = vec3(0, 0, 0));
+      const std::string &id, const math::vec3 &position = math::vec3(0, 0, 0),
+      const math::vec3 &rotation = math::vec3(0, 0, 0));
   std::shared_ptr<SpotLightObject> AddSpotLightObject(
-      const std::string &id, const vec3 &position = vec3(0, 0, 0),
-      const vec3 &rotation = vec3(0, 0, 0));
+      const std::string &id, const math::vec3 &position = math::vec3(0, 0, 0),
+      const math::vec3 &rotation = math::vec3(0, 0, 0));
   std::shared_ptr<SceneObject> GetSceneObject(const std::string &id);
 
   void set_camera(const std::shared_ptr<Camera> &camera) { camera_ = camera; }

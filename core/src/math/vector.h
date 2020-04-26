@@ -8,6 +8,7 @@
 #include "absl/strings/str_format.h"
 
 namespace softrd {
+namespace math {
 
 struct vec2 {
   float x, y;
@@ -276,6 +277,7 @@ struct vec4 {
 
 inline vec4 operator*(const float a, const vec4 &b) { return b * a; }
 
+}  // namespace math
 }  // namespace softrd
 
 #endif  // SOFTRD_MATH_VECTOR_H_

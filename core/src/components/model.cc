@@ -28,8 +28,8 @@ void Model::LoadBuffer(std::vector<Vertex> &vertex_buffer,
   // Texture *texture = new Texture("resource/container.jpg");
 }
 
-void Model::LoadLine(const vec3 &position0, const vec3 &position1,
-                     const vec3 &color) {
+void Model::LoadLine(const math::vec3 &position0, const math::vec3 &position1,
+                     const math::vec3 &color) {
   Mesh line;
   line.LoadLine(position0, position1, color);
   meshes.push_back(line);
@@ -49,17 +49,17 @@ void Model::LoadCube() {
 
 void Model::LoadCoordinateSystem() {
   Vertex v0, v1, v2, v3;
-  v0.position = vec3(0.0, 0.0, 0.0);  // origin
-  v1.position = vec3(5.0, 0.0, 0.0);  // x
-  v2.position = vec3(0.0, 5.0, 0.0);  // y
-  v3.position = vec3(0.0, 0.0, 5.0);  // z
+  v0.position = math::vec3(0.0, 0.0, 0.0);  // origin
+  v1.position = math::vec3(5.0, 0.0, 0.0);  // x
+  v2.position = math::vec3(0.0, 5.0, 0.0);  // y
+  v3.position = math::vec3(0.0, 0.0, 5.0);  // z
 
   Mesh x;
   x.vertices.push_back(v0);
   x.vertices.push_back(v1);
   x.indices.push_back(0);
   x.indices.push_back(1);
-  x.color = vec3(1.0, 0.0, 0.0);
+  x.color = math::vec3(1.0, 0.0, 0.0);
   meshes.push_back(x);
 
   Mesh y;
@@ -67,7 +67,7 @@ void Model::LoadCoordinateSystem() {
   y.vertices.push_back(v2);
   y.indices.push_back(0);
   y.indices.push_back(1);
-  y.color = vec3(0.0, 1.0, 0.0);
+  y.color = math::vec3(0.0, 1.0, 0.0);
   meshes.push_back(y);
 
   Mesh z;
@@ -75,7 +75,7 @@ void Model::LoadCoordinateSystem() {
   z.vertices.push_back(v3);
   z.indices.push_back(0);
   z.indices.push_back(1);
-  z.color = vec3(0.0, 0.0, 1.0);
+  z.color = math::vec3(0.0, 0.0, 1.0);
   meshes.push_back(z);
 }
 
@@ -114,13 +114,13 @@ bool Model::ProcessMesh(aiMesh *mesh, const aiScene *scene) {
   // for each vertex
   for (int i = 0; i < mesh->mNumVertices; i++) {
     Vertex vertex;
-    vertex.position =
-        vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
-    vertex.normal =
-        vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
+    vertex.position = math::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y,
+                                 mesh->mVertices[i].z);
+    vertex.normal = math::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y,
+                               mesh->mNormals[i].z);
     if (mesh->mTextureCoords[0]) {
-      vertex.uv =
-          vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+      vertex.uv = math::vec2(mesh->mTextureCoords[0][i].x,
+                             mesh->mTextureCoords[0][i].y);
     }
     vertices.push_back(vertex);
   }

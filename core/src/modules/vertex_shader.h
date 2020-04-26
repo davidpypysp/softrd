@@ -9,23 +9,23 @@ namespace softrd {
 
 // contain clipping space position
 struct VertexOut {
-  vec4 position;  // clipping space position
-  vec3 world_position;
-  vec3 world_normal;
-  vec2 uv;
+  math::vec4 position;  // clipping space position
+  math::vec3 world_position;
+  math::vec3 world_normal;
+  math::vec2 uv;
 };
 
 class VertexShader {
  public:
-  mat4 transform() const { return transform_; }
-  void set_transform(const mat4 &transform) { transform_ = transform; }
+  math::mat4 transform() const { return transform_; }
+  void set_transform(const math::mat4 &transform) { transform_ = transform; }
 
   VertexShader();
   bool Run(const Vertex &in, VertexOut *out);
   virtual bool Program();
 
  protected:
-  mat4 transform_;
+  math::mat4 transform_;
 
   Vertex in_;
   VertexOut *out_;
@@ -33,11 +33,11 @@ class VertexShader {
 
 class VertexShaderLight : public VertexShader {
  public:
-  mat4 model() const { return model_; }
-  void set_model(const mat4 &model) { model_ = model; }
+  math::mat4 model() const { return model_; }
+  void set_model(const math::mat4 &model) { model_ = model; }
 
  protected:
-  mat4 model_;
+  math::mat4 model_;
 
   bool Program();
 };

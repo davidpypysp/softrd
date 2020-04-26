@@ -33,12 +33,13 @@ void Renderer::RunExample() {
   // define object
   Mesh object;
   object.LoadCube2();
-  vec3 object_position = vec3(0.0, 0.0, 0.0);
+  math::vec3 object_position = math::vec3(0.0, 0.0, 0.0);
   inputs_.push_back(new InputUnit3("Object", &object_position));
-  vec3 object2_position = vec3(3.0, 0.0, 0.0);
+  math::vec3 object2_position = math::vec3(3.0, 0.0, 0.0);
   inputs_.push_back(new InputUnit3("Object2", &object2_position));
-  Material object_material(vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31),
-                           vec3(0.5, 0.5, 0.5), 32.0);
+  Material object_material(math::vec3(1.0, 1.0, 1.0),
+                           math::vec3(1.0, 0.5, 0.31),
+                           math::vec3(0.5, 0.5, 0.5), 32.0);
   Texture *diffuse_texture = new Texture(
       "resource/"
       "container2.png");
@@ -51,13 +52,13 @@ void Renderer::RunExample() {
   // define lamp light
   Mesh light_lamp;
   light_lamp.LoadCube();
-  Light light(vec3(0.0, 0.0, 3.0), vec3(0.2, 0.2, 0.2), vec3(0.5, 0.5, 0.5),
-              vec3(1.0, 1.0, 1.0));
+  Light light(math::vec3(0.0, 0.0, 3.0), math::vec3(0.2, 0.2, 0.2),
+              math::vec3(0.5, 0.5, 0.5), math::vec3(1.0, 1.0, 1.0));
   inputs_.push_back(new InputUnit3("Light", &light.position));
 
   // define directional light
-  DirLight dir_light(vec3(-0.2, -1.0, -0.3), vec3(0.05, 0.05, 0.05),
-                     vec3(0.4, 0.4, 0.4), vec3(0.5, 0.5, 0.5));
+  DirLight dir_light(math::vec3(-0.2, -1.0, -0.3), math::vec3(0.05, 0.05, 0.05),
+                     math::vec3(0.4, 0.4, 0.4), math::vec3(0.5, 0.5, 0.5));
   inputs_.push_back(
       new InputUnit3("DirLight "
                      "Direction",
@@ -66,24 +67,24 @@ void Renderer::RunExample() {
   // define lamp point light
   Mesh point_light_lamp;
   point_light_lamp.LoadCube();
-  PointLight point_light(vec3(-3.0, 0.0, 0.0), vec3(0.05, 0.05, 0.05),
-                         vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09,
-                         0.032);
+  PointLight point_light(
+      math::vec3(-3.0, 0.0, 0.0), math::vec3(0.05, 0.05, 0.05),
+      math::vec3(0.8, 0.8, 0.8), math::vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
   inputs_.push_back(new InputUnit3("PointLight", &point_light.position));
 
   // define lamp spot light
   Mesh spot_light_lamp;
   spot_light_lamp.LoadCube();
-  SpotLight spot_light(vec3(3.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0),
-                       cos(Radians(12.5)), cos(Radians(17.5)),
-                       vec3(0.1, 0.1, 0.1), vec3(0.8, 0.8, 0.8),
-                       vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
+  SpotLight spot_light(math::vec3(3.0, 0.0, 0.0), math::vec3(-1.0, 0.0, 0.0),
+                       cos(math::Radians(12.5)), cos(math::Radians(17.5)),
+                       math::vec3(0.1, 0.1, 0.1), math::vec3(0.8, 0.8, 0.8),
+                       math::vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
   inputs_.push_back(new InputUnit3("SpotLight", &spot_light.position));
 
   // define shaders
   VertexShaderLight vertex_shader_light;
   FragmentShader fragment_shader;
-  auto position_ptr = std::shared_ptr<vec3>(&(camera_.position));
+  auto position_ptr = std::shared_ptr<math::vec3>(&(camera_.position));
   FragmentShaderLightFull fragment_shader_light(
       &(camera_.position), std::shared_ptr<Material>(&object_material));
   fragment_shader_light.AddLight(&spot_light);
@@ -120,7 +121,7 @@ void Renderer::RunExample() {
     // camera_.position;
     // spot_light.direction =
     // -camera_.direction;
-    mat4 model_matrix;
+    math::mat4 model_matrix;
 
     // 1. cube object
     model_matrix.identify();
@@ -180,12 +181,13 @@ void Renderer::RunExample2() {
   // define object
   Mesh object;
   object.LoadCube2();
-  vec3 object_position = vec3(0.0, 0.0, 0.0);
+  math::vec3 object_position = math::vec3(0.0, 0.0, 0.0);
   inputs_.push_back(new InputUnit3("Object", &object_position));
-  vec3 object2_position = vec3(3.0, 0.0, 0.0);
+  math::vec3 object2_position = math::vec3(3.0, 0.0, 0.0);
   inputs_.push_back(new InputUnit3("Object2", &object2_position));
-  Material object_material(vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31),
-                           vec3(0.5, 0.5, 0.5), 32.0);
+  Material object_material(math::vec3(1.0, 1.0, 1.0),
+                           math::vec3(1.0, 0.5, 0.31),
+                           math::vec3(0.5, 0.5, 0.5), 32.0);
   // Texture *diffuse_texture = new Texture(
   //     "resource/"
   //     "container2.png");
@@ -198,13 +200,13 @@ void Renderer::RunExample2() {
   // define lamp light
   Mesh light_lamp;
   light_lamp.LoadCube();
-  Light light(vec3(0.0, 0.0, 3.0), vec3(0.2, 0.2, 0.2), vec3(0.5, 0.5, 0.5),
-              vec3(1.0, 1.0, 1.0));
+  Light light(math::vec3(0.0, 0.0, 3.0), math::vec3(0.2, 0.2, 0.2),
+              math::vec3(0.5, 0.5, 0.5), math::vec3(1.0, 1.0, 1.0));
   inputs_.push_back(new InputUnit3("Light", &light.position));
 
   // define directional light
-  DirLight dir_light(vec3(-0.2, -1.0, -0.3), vec3(0.05, 0.05, 0.05),
-                     vec3(0.4, 0.4, 0.4), vec3(0.5, 0.5, 0.5));
+  DirLight dir_light(math::vec3(-0.2, -1.0, -0.3), math::vec3(0.05, 0.05, 0.05),
+                     math::vec3(0.4, 0.4, 0.4), math::vec3(0.5, 0.5, 0.5));
   inputs_.push_back(
       new InputUnit3("DirLight "
                      "Direction",
@@ -213,18 +215,18 @@ void Renderer::RunExample2() {
   // define lamp point light
   Mesh point_light_lamp;
   point_light_lamp.LoadCube();
-  PointLight point_light(vec3(-3.0, 0.0, 0.0), vec3(0.05, 0.05, 0.05),
-                         vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09,
-                         0.032);
+  PointLight point_light(
+      math::vec3(-3.0, 0.0, 0.0), math::vec3(0.05, 0.05, 0.05),
+      math::vec3(0.8, 0.8, 0.8), math::vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
   inputs_.push_back(new InputUnit3("PointLight", &point_light.position));
 
   // define lamp spot light
   Mesh spot_light_lamp;
   spot_light_lamp.LoadCube();
-  SpotLight spot_light(vec3(3.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0),
-                       cos(Radians(12.5)), cos(Radians(17.5)),
-                       vec3(0.1, 0.1, 0.1), vec3(0.8, 0.8, 0.8),
-                       vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
+  SpotLight spot_light(math::vec3(3.0, 0.0, 0.0), math::vec3(-1.0, 0.0, 0.0),
+                       cos(math::Radians(12.5)), cos(math::Radians(17.5)),
+                       math::vec3(0.1, 0.1, 0.1), math::vec3(0.8, 0.8, 0.8),
+                       math::vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
   inputs_.push_back(new InputUnit3("SpotLight", &spot_light.position));
 
   // define shaders
@@ -267,7 +269,7 @@ void Renderer::RunExample2() {
     // camera_.position;
     // spot_light.direction =
     // -camera_.direction;
-    mat4 model_matrix;
+    math::mat4 model_matrix;
 
     // 1. cube object
     model_matrix.identify();
@@ -437,13 +439,13 @@ Renderer::~Renderer() {}
 
 // set pixel to the appointed
 // color
-void Renderer::SetPixel(const int x, const int y, const vec4 &color) {
+void Renderer::SetPixel(const int x, const int y, const math::vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
-    frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
-    frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
-    frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
+    frame_buffer_[offset] = math::Clamp(color.z * 255, 0, 255);      // b
+    frame_buffer_[offset + 1] = math::Clamp(color.y * 255, 0, 255);  // g
+    frame_buffer_[offset + 2] = math::Clamp(color.x * 255, 0, 255);  // r
+    frame_buffer_[offset + 3] = math::Clamp(color.w * 255, 0, 255);  // a
   }
 }
 
@@ -500,7 +502,7 @@ void Renderer::Input() {
 
   // move object
   float move_step = 0.05;
-  vec4 move;
+  math::vec4 move;
   if (device_.PressKeyW()) move.z -= move_step;
   if (device_.PressKeyS()) move.z += move_step;
   if (device_.PressKeyA()) move.x -= move_step;
@@ -519,7 +521,7 @@ void Renderer::Input() {
 
   // rotate camera
   float degree = 1.5;
-  vec3 rotate;
+  math::vec3 rotate;
   if (device_.PressKeyUp()) rotate.x -= degree;
   if (device_.PressKeyDown()) rotate.x += degree;
   if (device_.PressKeyLeft()) rotate.y -= degree;
@@ -534,12 +536,15 @@ void Renderer::Input() {
 bool Renderer::Press() { return false; }
 
 void Renderer::LoadCoordinateAxis() {
-  axis_lines_[0].LoadLine(vec3(0, 0, 0), vec3(10, 0, 0), vec3(1, 0, 0));
-  axis_lines_[1].LoadLine(vec3(0, 0, 0), vec3(0, 10, 0), vec3(0, 1, 0));
-  axis_lines_[2].LoadLine(vec3(0, 0, 0), vec3(0, 0, 10), vec3(0, 0, 1));
+  axis_lines_[0].LoadLine(math::vec3(0, 0, 0), math::vec3(10, 0, 0),
+                          math::vec3(1, 0, 0));
+  axis_lines_[1].LoadLine(math::vec3(0, 0, 0), math::vec3(0, 10, 0),
+                          math::vec3(0, 1, 0));
+  axis_lines_[2].LoadLine(math::vec3(0, 0, 0), math::vec3(0, 0, 10),
+                          math::vec3(0, 0, 1));
 
-  grid_line_x_.LoadLine(vec3(-10, 0, 0), vec3(10, 0, 0));
-  grid_line_y_.LoadLine(vec3(0, 0, -10), vec3(0, 0, 10));
+  grid_line_x_.LoadLine(math::vec3(-10, 0, 0), math::vec3(10, 0, 0));
+  grid_line_y_.LoadLine(math::vec3(0, 0, -10), math::vec3(0, 0, 10));
 }
 
 // Draw Coordinate Axis
@@ -558,8 +563,8 @@ void Renderer::DrawCoordinateAxis() {
     Draw(DRAW_LINE);
   }
 
-  fragment_shader.flat_color = vec3(0.5, 0.5, 0.5);
-  mat4 model;
+  fragment_shader.flat_color = math::vec3(0.5, 0.5, 0.5);
+  math::mat4 model;
   model.identify();
   grid_line_x_.LoadBuffer(vertex_buffer_, element_buffer_);
   for (int z = -10; z <= 10; z += 2) {

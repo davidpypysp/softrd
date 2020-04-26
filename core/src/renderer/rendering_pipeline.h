@@ -40,8 +40,8 @@ class RenderingPipeline {
   std::shared_ptr<Camera> camera() const { return camera_; }
 
  private:
-  void SetPixel(const int x, const int y, const vec4 &color);
-  void SetPixelToWindow(const int x, const int y, const vec4 &color);
+  void SetPixel(const int x, const int y, const math::vec4 &color);
+  void SetPixelToWindow(const int x, const int y, const math::vec4 &color);
   void SetDepth(const int x, const int y, const float z);
   void SetFrame();
   void DrawFrame();

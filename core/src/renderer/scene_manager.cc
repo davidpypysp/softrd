@@ -20,27 +20,30 @@ void SceneManager::InitShaders() {
   auto fragment_shader = std::make_shared<FragmentShader>();
   fragment_shaders_.emplace(std::make_pair("fragment_shader", fragment_shader));
 
-  auto material = std::make_shared<Material>(
-      vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31), vec3(0.5, 0.5, 0.5), 32.0);
+  auto material = std::make_shared<Material>(math::vec3(1.0, 1.0, 1.0),
+                                             math::vec3(1.0, 0.5, 0.31),
+                                             math::vec3(0.5, 0.5, 0.5), 32.0);
   auto fragment_shader_light_full =
       std::make_shared<FragmentShaderLightFull>(&(camera_->position), material);
   SpotLight *spot_light =
-      new SpotLight(vec3(3.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0),
-                    cos(Radians(12.5)), cos(Radians(17.5)), vec3(0.1, 0.1, 0.1),
-                    vec3(0.8, 0.8, 0.8), vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
+      new SpotLight(math::vec3(3.0, 0.0, 0.0), math::vec3(-1.0, 0.0, 0.0),
+                    cos(math::Radians(12.5)), cos(math::Radians(17.5)),
+                    math::vec3(0.1, 0.1, 0.1), math::vec3(0.8, 0.8, 0.8),
+                    math::vec3(1.0, 1.0, 1.0), 1.0, 0.09, 0.032);
   fragment_shader_light_full->AddLight(spot_light);
   fragment_shaders_.emplace(
       std::make_pair("fragment_shader_light_full", fragment_shader_light_full));
 }
 
 void SceneManager::AddExampleObjects() {
-  this->AddSpotLightObject("TestSpotLight", vec3(4.0, 0.0, 0.0),
-                           vec3(-1.0, 0.0, 0.0));
+  this->AddSpotLightObject("TestSpotLight", math::vec3(4.0, 0.0, 0.0),
+                           math::vec3(-1.0, 0.0, 0.0));
   this->AddSceneObject("TestCube");
 }
 
 std::shared_ptr<SceneObject> SceneManager::AddSceneObject(
-    const std::string &id, const vec3 &position, const vec3 &rotation) {
+    const std::string &id, const math::vec3 &position,
+    const math::vec3 &rotation) {
   if (scene_objects_.find(id) != scene_objects_.end()) {
     return nullptr;
   }
@@ -65,13 +68,14 @@ std::shared_ptr<SceneObject> SceneManager::AddSceneObject(
     scene_object->set_fragment_shader(fragment_shader);
   }
 
-  auto material = std::make_shared<Material>(
-      vec3(1.0, 1.0, 1.0), vec3(1.0, 0.5, 0.31), vec3(0.5, 0.5, 0.5), 32.0);
+  auto material = std::make_shared<Material>(math::vec3(1.0, 1.0, 1.0),
+                                             math::vec3(1.0, 0.5, 0.31),
+                                             math::vec3(0.5, 0.5, 0.5), 32.0);
   scene_object->set_material(material);
 
   scene_object->set_position(position);
   scene_object->set_rotation(rotation);
-  scene_object->set_scale(vec3(1, 1, 1));
+  scene_object->set_scale(math::vec3(1, 1, 1));
 
   scene_objects_.emplace(std::make_pair(id, scene_object));
 
@@ -79,7 +83,8 @@ std::shared_ptr<SceneObject> SceneManager::AddSceneObject(
 }
 
 std::shared_ptr<SpotLightObject> SceneManager::AddSpotLightObject(
-    const std::string &id, const vec3 &position, const vec3 &rotation) {
+    const std::string &id, const math::vec3 &position,
+    const math::vec3 &rotation) {
   if (scene_objects_.find(id) != scene_objects_.end()) {
     return nullptr;
   }
@@ -105,7 +110,7 @@ std::shared_ptr<SpotLightObject> SceneManager::AddSpotLightObject(
 
   spot_light_object->set_position(position);
   spot_light_object->set_rotation(rotation);
-  spot_light_object->set_scale(vec3(0.1, 0.1, 0.1));
+  spot_light_object->set_scale(math::vec3(0.1, 0.1, 0.1));
 
   scene_objects_.emplace(std::make_pair(id, spot_light_object));
 
