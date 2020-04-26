@@ -31,7 +31,10 @@ int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
 
   google::InitGoogleLogging(argv[0]);
-  LOG(ERROR) << "Hello, World!";
+  LOG(ERROR) << "Hello, World! ERROR";
+  LOG(WARNING) << "Hello, World! WARN";
+  LOG(INFO) << "Hello, World! INFO";
+  DLOG(INFO) << "Hello, World debug!";
 
   return RUN_ALL_TESTS();
 }
