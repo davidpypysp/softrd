@@ -1,5 +1,6 @@
 #include "src/math/vector.h"
 
+#include "glog/logging.h"
 #include "gtest/gtest.h"
 
 TEST(VectorTest, Vector3) {
@@ -28,7 +29,9 @@ TEST(VectorTest, Vector4) {
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 
-  return 0;
+  google::InitGoogleLogging(argv[0]);
+  LOG(ERROR) << "Hello, World!";
+
+  return RUN_ALL_TESTS();
 }
