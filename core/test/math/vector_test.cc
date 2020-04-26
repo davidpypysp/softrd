@@ -1,5 +1,6 @@
 #include "src/math/vector.h"
 
+#include "gflags/gflags.h"
 #include "glog/logging.h"
 #include "gtest/gtest.h"
 
@@ -28,6 +29,7 @@ TEST(VectorTest, Vector4) {
 }
 
 int main(int argc, char** argv) {
+  gflags::ParseCommandLineFlags(&argc, &argv, true);
   testing::InitGoogleTest(&argc, argv);
 
   google::InitGoogleLogging(argv[0]);

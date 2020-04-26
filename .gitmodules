@@ -13,3 +13,6 @@ url = https://github.com/abseil/abseil-cpp.git
 [submodule "core/third_party/glog"]
 	path = core/third_party/glog
 	url = https://github.com/google/glog.git
+[submodule "core/third_party/gflags"]
+	path = core/third_party/gflags
+	url = https://github.com/gflags/gflags.git

@@ -8,6 +8,7 @@ find_library(SDL2_TTF_LIB SDL2_ttf)
 # add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/googletest)
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/glog)
+add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/gflags)
 
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/soil)
