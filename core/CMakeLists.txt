@@ -7,6 +7,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/third_party)
 
 include_directories(${CMAKE_SOURCE_DIR})
+include(CTest)
 
 find_package(ThirdParty)
 

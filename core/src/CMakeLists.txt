@@ -9,10 +9,10 @@ add_subdirectory(renderer)
 add_subdirectory(interface)
 add_subdirectory(devices)
 add_subdirectory(math)
+add_subdirectory(scene)
 
 add_library (custom_renderer renderer.cc)
-target_link_libraries(custom_renderer modules)
-target_link_libraries(custom_renderer devices)
+target_link_libraries(custom_renderer modules devices)
 
 add_executable(main main.cc)
 target_link_libraries(main custom_renderer)
