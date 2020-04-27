@@ -1,6 +1,6 @@
 #include "src/math/vector.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 using namespace softrd;
 

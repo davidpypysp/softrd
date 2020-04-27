@@ -1,11 +1,11 @@
 #ifndef SOFTRD_MATH_VECTOR_H_
 #define SOFTRD_MATH_VECTOR_H_
 
+#include <absl/strings/str_format.h>
+
 #include <cassert>
 #include <cmath>
 #include <iostream>
-
-#include "absl/strings/str_format.h"
 
 namespace softrd {
 namespace math {

@@ -68,7 +68,9 @@
     "scoped_allocator": "cpp",
     "typeindex": "cpp",
     "valarray": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "slist": "cpp",
+    "regex": "cpp"
   },
   "editor.formatOnSave": true
 }
