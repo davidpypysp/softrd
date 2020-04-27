@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "src/components/camera.h"
 #include "src/components/model.h"
 #include "src/modules/fragment_shader.h"
 #include "src/modules/per_sample_processing.h"
@@ -12,6 +11,7 @@
 #include "src/modules/vertex_loader.h"
 #include "src/modules/vertex_shader.h"
 #include "src/renderer/scene_object.h"
+#include "src/scene/camera.h"
 #include "src/utils/util.h"
 
 namespace softrd {
@@ -22,7 +22,8 @@ class RenderingPipeline {
 
   RenderingPipeline();
 
-  void Reset(const int width, const int height, std::shared_ptr<Camera> camera);
+  void Reset(const int width, const int height,
+             std::shared_ptr<scene::Camera> camera);
   void DrawSceneObject(const std::shared_ptr<SceneObject> &scene_object);
   void DrawMesh(
       Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader,
@@ -36,8 +37,10 @@ class RenderingPipeline {
   void Clear();
   ~RenderingPipeline();
 
-  void set_camera(const std::shared_ptr<Camera> &camera) { camera_ = camera; }
-  std::shared_ptr<Camera> camera() const { return camera_; }
+  void set_camera(const std::shared_ptr<scene::Camera> &camera) {
+    camera_ = camera;
+  }
+  std::shared_ptr<scene::Camera> camera() const { return camera_; }
 
  private:
   void SetPixel(const int x, const int y, const math::vec4 &color);
@@ -56,7 +59,7 @@ class RenderingPipeline {
   std::unique_ptr<Rasterizer> rasterizer_;
   std::unique_ptr<PerSampleProcessor> per_sample_processor_;
 
-  std::shared_ptr<Camera> camera_ = nullptr;
+  std::shared_ptr<scene::Camera> camera_ = nullptr;
 
   // all buffers
   std::vector<Vertex> vertex_buffer_;

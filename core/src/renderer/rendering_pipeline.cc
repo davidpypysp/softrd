@@ -6,7 +6,7 @@ RenderingPipeline::RenderingPipeline() {}
 
 // rendering pipeline initialization, include each stage's initialization
 void RenderingPipeline::Reset(const int width, const int height,
-                              std::shared_ptr<Camera> camera) {
+                              std::shared_ptr<scene::Camera> camera) {
   width_ = width;
   height_ = height;
   screen_size_ = width * height;
@@ -51,7 +51,7 @@ void RenderingPipeline::DrawSceneObject(
     return;
   }
 
-  vertex_shader_light->set_transform(camera_->projection * camera_->view *
+  vertex_shader_light->set_transform(camera_->projection() * camera_->view() *
                                      model_matrix);
   vertex_shader_light->set_model(model_matrix);
 

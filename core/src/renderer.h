@@ -4,7 +4,6 @@
 #include <chrono>
 #include <vector>
 
-#include "src/components/camera.h"
 #include "src/components/model.h"
 #include "src/devices/device.h"
 #include "src/inputs/input.h"
@@ -13,6 +12,7 @@
 #include "src/modules/rasterizer.h"
 #include "src/modules/vertex_loader.h"
 #include "src/modules/vertex_shader.h"
+#include "src/scene/camera.h"
 #include "src/utils/util.h"
 
 using namespace std::chrono;
@@ -68,7 +68,7 @@ class Renderer {
   PerSampleProcessor per_sample_proccessor_;
   Device device_;
 
-  Camera camera_;
+  scene::Camera camera_;
 
   // all buffers
   std::vector<Vertex> vertex_buffer_;

@@ -5,7 +5,7 @@ Rasterizer::Rasterizer(const int width, const int height,
                        std::vector<Fragment> &fragment_buffer)
     : width_(width), height_(height), fragment_buffer_(fragment_buffer) {}
 
-void Rasterizer::SetCamera(Camera *camera) { camera_ = camera; }
+void Rasterizer::SetCamera(scene::Camera *camera) { camera_ = camera; }
 
 void Rasterizer::DrawLinePrimitive(const LinePrimitive &line) {
   draw_mode_ = DRAW_LINE;
@@ -229,7 +229,7 @@ void Rasterizer::InitTriangleInterpolation(const TrianglePrimitive &triangle) {
     positions_[i].y = triangle_.v[i].position.y;
 
     // for perspective texture mapping
-    perspective_k_ = camera_->far / (camera_->far - camera_->near);
+    perspective_k_ = camera_->far() / (camera_->far() - camera_->near());
     wrapped_uvs[i].x =
         triangle_.v[i].uv.x * (triangle_.v[i].position.z - perspective_k_);
     wrapped_uvs[i].y =

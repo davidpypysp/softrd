@@ -3,7 +3,8 @@
 namespace softrd {
 
 SceneManager::SceneManager() {
-  this->set_camera(std::make_shared<Camera>(float(640.0) / float(480.0)));
+  this->set_camera(
+      std::make_shared<scene::Camera>(float(640.0) / float(480.0)));
 
   this->InitShaders();
 
@@ -23,8 +24,8 @@ void SceneManager::InitShaders() {
   auto material = std::make_shared<Material>(math::vec3(1.0, 1.0, 1.0),
                                              math::vec3(1.0, 0.5, 0.31),
                                              math::vec3(0.5, 0.5, 0.5), 32.0);
-  auto fragment_shader_light_full =
-      std::make_shared<FragmentShaderLightFull>(&(camera_->position), material);
+  auto fragment_shader_light_full = std::make_shared<FragmentShaderLightFull>(
+      camera_->PositionPtr(), material);
   SpotLight *spot_light =
       new SpotLight(math::vec3(3.0, 0.0, 0.0), math::vec3(-1.0, 0.0, 0.0),
                     cos(math::Radians(12.5)), cos(math::Radians(17.5)),

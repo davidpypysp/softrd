@@ -3,10 +3,10 @@
 
 #include <vector>
 
-#include "src/components/camera.h"
 #include "src/components/fragment.h"
 #include "src/math/math_util.h"
 #include "src/modules/primitive_assembly.h"
+#include "src/scene/camera.h"
 
 namespace softrd {
 
@@ -17,7 +17,7 @@ class Rasterizer {
 
   Rasterizer(const int width, const int height,
              std::vector<Fragment> &fragment_buffer);
-  void SetCamera(Camera *camera);
+  void SetCamera(scene::Camera *camera);
 
   void DrawLinePrimitive(const LinePrimitive &line);
   // draw triangle on window space by scan-line algorithm
@@ -42,7 +42,7 @@ class Rasterizer {
 
   int width_, height_;
   std::vector<Fragment> &fragment_buffer_;
-  Camera *camera_;
+  scene::Camera *camera_;
 
   DrawMode draw_mode_;
   LinePrimitive line_;

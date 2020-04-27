@@ -21,8 +21,9 @@ Renderer::Renderer(const int width, const int height)
   rasterizer_.SetCamera(&camera_);
   device_.Setup();
   last_time_ = steady_clock::now();
-  inputs_.push_back(new InputUnit3("Camera", &camera_.position));
-  inputs_.push_back(new InputUnit3("Camera Direction", &camera_.direction));
+  // inputs_.push_back(new InputUnit3("Camera", &camera_.position()));
+  // inputs_.push_back(new InputUnit3("Camera Direction",
+  // &camera_.direction()));
   input_index_ = 0;
 }
 
@@ -84,12 +85,12 @@ void Renderer::RunExample() {
   // define shaders
   VertexShaderLight vertex_shader_light;
   FragmentShader fragment_shader;
-  auto position_ptr = std::shared_ptr<math::vec3>(&(camera_.position));
+  auto position_ptr = std::shared_ptr<math::vec3>(camera_.PositionPtr());
   FragmentShaderLightFull fragment_shader_light(
-      &(camera_.position), std::shared_ptr<Material>(&object_material));
+      camera_.PositionPtr(), std::shared_ptr<Material>(&object_material));
   fragment_shader_light.AddLight(&spot_light);
-  FragmentShaderLightTexture fragment_shader_light_texture(camera_.position,
-                                                           object_material2);
+  FragmentShaderLightTexture fragment_shader_light_texture(
+      *(camera_.PositionPtr()), object_material2);
   fragment_shader_light_texture.AddLight(&light);
   fragment_shader_light_texture.AddLight(&dir_light);
   fragment_shader_light_texture.AddLight(&point_light);
@@ -127,7 +128,7 @@ void Renderer::RunExample() {
     model_matrix.identify();
     model_matrix.translate(object_position);
     vertex_shader_light.set_model(model_matrix);
-    vertex_shader_light.set_transform(camera_.projection * camera_.view *
+    vertex_shader_light.set_transform(camera_.projection() * camera_.view() *
                                       model_matrix);
 
     DrawObject(object, vertex_shader_light, fragment_shader_light_texture,
@@ -140,7 +141,7 @@ void Renderer::RunExample() {
     model_matrix.scale(0.1, 0.1, 0.1);
     model_matrix.translate(light.position);
     vertex_shader_light.set_model(model_matrix);
-    vertex_shader_light.set_transform(camera_.projection * camera_.view *
+    vertex_shader_light.set_transform(camera_.projection() * camera_.view() *
                                       model_matrix);
 
     DrawObject(light_lamp, vertex_shader_light, fragment_shader);
@@ -150,7 +151,7 @@ void Renderer::RunExample() {
     model_matrix.scale(0.1, 0.1, 0.1);
     model_matrix.translate(point_light.position);
     vertex_shader_light.set_model(model_matrix);
-    vertex_shader_light.set_transform(camera_.projection * camera_.view *
+    vertex_shader_light.set_transform(camera_.projection() * camera_.view() *
                                       model_matrix);
 
     DrawObject(point_light_lamp, vertex_shader_light, fragment_shader);
@@ -160,7 +161,7 @@ void Renderer::RunExample() {
     model_matrix.scale(0.1, 0.1, 0.1);
     model_matrix.translate(spot_light.position);
     vertex_shader_light.set_model(model_matrix);
-    vertex_shader_light.set_transform(camera_.projection * camera_.view *
+    vertex_shader_light.set_transform(camera_.projection() * camera_.view() *
                                       model_matrix);
 
     DrawObject(spot_light_lamp, vertex_shader_light, fragment_shader);
@@ -233,7 +234,7 @@ void Renderer::RunExample2() {
   VertexShaderLight vertex_shader_light;
   FragmentShader fragment_shader;
   FragmentShaderLightFull fragment_shader_light(
-      &(camera_.position), std::shared_ptr<Material>(&object_material));
+      camera_.PositionPtr(), std::shared_ptr<Material>(&object_material));
   fragment_shader_light.AddLight(&spot_light);
 
   // FragmentShaderLightTexture fragment_shader_light_texture(camera_.position,
@@ -276,13 +277,7 @@ void Renderer::RunExample2() {
     model_matrix.translate(object_position);
     vertex_shader_light.model() = model_matrix;
     vertex_shader_light.transform() =
-        camera_.projection * camera_.view * model_matrix;
-
-    camera_.projection.print();
-    camera_.view.print();
-
-    vertex_shader_light.model().print();
-    vertex_shader_light.transform().print();
+        camera_.projection() * camera_.view() * model_matrix;
 
     // DrawObject(object, vertex_shader_light, fragment_shader_light_texture,
     //            Rasterizer::TRIANGLE_FILL, DRAW_TRIANGLE);
@@ -551,7 +546,7 @@ void Renderer::LoadCoordinateAxis() {
 // function
 void Renderer::DrawCoordinateAxis() {
   VertexShader vertex_shader;
-  vertex_shader.set_transform(camera_.projection * camera_.view);
+  vertex_shader.set_transform(camera_.projection() * camera_.view());
 
   FragmentShaderFlatColor fragment_shader;
 
@@ -569,7 +564,7 @@ void Renderer::DrawCoordinateAxis() {
   grid_line_x_.LoadBuffer(vertex_buffer_, element_buffer_);
   for (int z = -10; z <= 10; z += 2) {
     model[2][3] = z;
-    vertex_shader.set_transform(camera_.projection * camera_.view * model);
+    vertex_shader.set_transform(camera_.projection() * camera_.view() * model);
     Draw(DRAW_LINE);
   }
   model[2][3] = 0;
@@ -577,7 +572,7 @@ void Renderer::DrawCoordinateAxis() {
   grid_line_y_.LoadBuffer(vertex_buffer_, element_buffer_);
   for (int x = -10; x <= 10; x += 2) {
     model[0][3] = x;
-    vertex_shader.set_transform(camera_.projection * camera_.view * model);
+    vertex_shader.set_transform(camera_.projection() * camera_.view() * model);
     Draw(DRAW_LINE);
   }
 }

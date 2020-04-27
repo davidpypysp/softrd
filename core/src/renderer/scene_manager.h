@@ -3,8 +3,8 @@
 
 #include <unordered_map>
 
-#include "src/components/camera.h"
 #include "src/renderer/scene_object.h"
+#include "src/scene/camera.h"
 
 namespace softrd {
 class SceneManager {
@@ -22,8 +22,10 @@ class SceneManager {
       const math::vec3 &rotation = math::vec3(0, 0, 0));
   std::shared_ptr<SceneObject> GetSceneObject(const std::string &id);
 
-  void set_camera(const std::shared_ptr<Camera> &camera) { camera_ = camera; }
-  std::shared_ptr<Camera> camera() const { return camera_; }
+  void set_camera(const std::shared_ptr<scene::Camera> &camera) {
+    camera_ = camera;
+  }
+  std::shared_ptr<scene::Camera> camera() const { return camera_; }
 
   std::unordered_map<std::string, std::shared_ptr<SceneObject>> scene_objects()
       const {
@@ -38,7 +40,7 @@ class SceneManager {
   std::unordered_map<std::string, std::shared_ptr<FragmentShader>>
       fragment_shaders_;
 
-  std::shared_ptr<Camera> camera_;
+  std::shared_ptr<scene::Camera> camera_;
 };
 
 }  // namespace softrd
