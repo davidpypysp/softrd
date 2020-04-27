@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "src/components/primitive.h"
+#include "src/common/primitive.h"
 #include "src/modules/vertex_shader.h"
 #include "src/utils/util.h"
 

@@ -1,10 +1,10 @@
 macro(add_gtest_exe exe)
     add_executable(${exe} ${ARGV})
     target_link_libraries(${exe} gtest pthread)
-    add_test(NAME run_${exe} COMMAND ${exe})
+    add_test(NAME ${exe} COMMAND ${exe})
 endmacro()
 
-add_subdirectory(components)
+add_subdirectory(common)
 add_subdirectory(modules)
 add_subdirectory(renderer)
 add_subdirectory(interface)

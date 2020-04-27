@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "src/components/model.h"
+#include "src/common/model.h"
 #include "src/modules/fragment_shader.h"
 #include "src/modules/per_sample_processing.h"
 #include "src/modules/rasterizer.h"

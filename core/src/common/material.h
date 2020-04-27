@@ -1,7 +1,7 @@
 #ifndef SOFTRD_MATERIAL_H_
 #define SOFTRD_MATERIAL_H_
 
-#include "src/components/texture.h"
+#include "src/common/texture.h"
 #include "src/math/vector.h"
 
 namespace softrd {

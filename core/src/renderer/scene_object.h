@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "src/components/mesh.h"
+#include "src/common/mesh.h"
 #include "src/modules/fragment_shader.h"
 #include "src/modules/vertex_shader.h"
 

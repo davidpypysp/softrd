@@ -4,7 +4,7 @@
 #include <chrono>
 #include <vector>
 
-#include "src/components/model.h"
+#include "src/common/model.h"
 #include "src/devices/device.h"
 #include "src/inputs/input.h"
 #include "src/modules/fragment_shader.h"

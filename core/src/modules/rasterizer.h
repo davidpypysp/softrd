@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "src/components/fragment.h"
+#include "src/common/fragment.h"
 #include "src/math/math_util.h"
 #include "src/modules/primitive_assembly.h"
 #include "src/scene/camera.h"

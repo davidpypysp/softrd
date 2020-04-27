@@ -28,7 +28,7 @@ cc_library(
     name = "mesh",
     hdrs = ["mesh.h"],
     deps = [
-        "//src/components:vertex",
+        "//src/common:vertex",
     ]
 )
 
@@ -53,7 +53,7 @@ cc_library(
     name = "material",
     hdrs = ["material.h"],
     deps = [
-        "//src/components:texture",
+        "//src/common:texture",
     ]
 )
 
@@ -62,7 +62,7 @@ cc_library(
     hdrs = ["model.h"],
     srcs = ["model.cc"],
     deps = [
-        "//src/components:mesh",
+        "//src/common:mesh",
         "@assimp//:assimp_lib",
     ]
 )
@@ -71,7 +71,7 @@ cc_library(
     name = "light",
     hdrs = ["light.h"],
     deps = [
-        "//src/components:material",
+        "//src/common:material",
         "//src/math:vector",
     ]
 )

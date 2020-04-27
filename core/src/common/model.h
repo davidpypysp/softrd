@@ -6,7 +6,7 @@
 #include "include/assimp/Importer.hpp"
 #include "include/assimp/postprocess.h"
 #include "include/assimp/scene.h"
-#include "src/components/mesh.h"
+#include "src/common/mesh.h"
 
 namespace softrd {
 

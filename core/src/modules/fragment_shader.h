@@ -5,10 +5,10 @@
 #include <memory>
 #include <vector>
 
-#include "src/components/fragment.h"
-#include "src/components/light.h"
-#include "src/components/material.h"
-#include "src/components/texture.h"
+#include "src/common/fragment.h"
+#include "src/common/light.h"
+#include "src/common/material.h"
+#include "src/common/texture.h"
 
 namespace softrd {
 

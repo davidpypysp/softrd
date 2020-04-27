@@ -1,7 +1,7 @@
 #ifndef SOFTRD_VERTEX_SHADER_H_
 #define SOFTRD_VERTEX_SHADER_H_
 
-#include "src/components/vertex.h"
+#include "src/common/vertex.h"
 #include "src/math/matrix.h"
 #include "src/math/vector.h"
 
