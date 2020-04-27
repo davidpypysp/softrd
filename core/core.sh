@@ -2,22 +2,27 @@
 
 if [ "$(uname)" == "Darwin" ]; then
     script_path=$(dirname $(realpath "$0"))
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then 
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     script_path=$(dirname $(readlink -f "$0"))
 fi
 
-echo "script_path = " $script_path
+build_dir=build-cmake
 
 function build() {
-    if [ ! -d "$script_path/build-cmake" ]; then
-        mkdir "$script_path/build-cmake"
+    if [ ! -d "$script_path/$build_dir" ]; then
+        mkdir "$script_path/$build_dir"
     fi
 
-    cd "$script_path/build-cmake"
-    echo 'build_cmake in ' $PWD
+    cd "$script_path/$build_dir"
+    echo 'build dir: ' $PWD
 
     cmake "$script_path"
     make -j8
+}
+
+function test() {
+    cd "$script_path/$build_dir/src"
+    GTEST_COLOR=1 ctest -C Debug -V
 }
 
 function main() {
@@ -26,6 +31,9 @@ function main() {
     case $cmd in
     build)
         build $@
+        ;;
+    test)
+        test $@
         ;;
     *) ;;
     esac
