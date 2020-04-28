@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --mode production",
         "start": "webpack-dev-server --mode development",
-        "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\""
+        "electron_dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\"",
+        "dev": "./frontend.sh build; yarn electron_dev"
     },
     "keywords": [],
     "author": "",

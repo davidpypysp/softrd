@@ -1,5 +1,7 @@
 #include "src/common/texture.h"
 
+#include <glog/logging.h>
+
 namespace softrd {
 
 //  texture coordinate sample
@@ -11,11 +13,16 @@ namespace softrd {
 Texture::Texture(const char *file_name) {
   unsigned char *image =
       SOIL_load_image(file_name, &width_, &height_, 0, SOIL_LOAD_RGB);
-  std::cout << file_name << ", width = " << width_ << ", height = " << height_
-            << std::endl;
-  if (image == nullptr) return;
-  std::cout << ", width = " << width_ << ", height = " << height_ << std::endl;
+
+  if (image == nullptr) {
+    LOG(WARNING) << "Can not get image: " << file_name;
+    return;
+  }
+
+  LOG(INFO) << "Loaded image: " << file_name << ", width: " << width_
+            << ", height: " << height_;
   pixels_ = new math::vec3[width_ * height_];
+
   float k = 1.0 / 255.0;
   for (int i = 0; i < width_ * height_; i++) {
     pixels_[i].x = image[i * 3] * k;

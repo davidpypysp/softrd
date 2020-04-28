@@ -70,7 +70,8 @@
     "valarray": "cpp",
     "variant": "cpp",
     "slist": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "filesystem": "cpp"
   },
   "editor.formatOnSave": true
 }

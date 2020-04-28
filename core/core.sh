@@ -22,7 +22,7 @@ function build() {
 
 function test() {
     cd "$script_path/$build_dir/src"
-    GTEST_COLOR=1 ctest -C Debug -V
+    GLOG_logtostderr=1 GLOG_colorlogtostderr=1 GTEST_COLOR=1 ctest -C Debug -V
 }
 
 function main() {

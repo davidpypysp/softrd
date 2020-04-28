@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-softrd::vec3 ParseVec3(const Napi::Object& wrapped_vec3) {
+softrd::math::vec3 ParseVec3(const Napi::Object& wrapped_vec3) {
   float x = wrapped_vec3.Get("x").ToNumber().FloatValue();
   float y = wrapped_vec3.Get("y").ToNumber().FloatValue();
   float z = wrapped_vec3.Get("z").ToNumber().FloatValue();
-  return softrd::vec3(x, y, z);
+  return softrd::math::vec3(x, y, z);
 }
 
 Napi::FunctionReference RendererAPIAddon::constructor;
@@ -110,9 +110,9 @@ Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
 
     const std::string& id =
         wrapped_scene_object.Get("id").ToString().Utf8Value();
-    const softrd::vec3& position =
+    const softrd::math::vec3& position =
         ParseVec3(wrapped_scene_object.Get("position").ToObject());
-    const softrd::vec3& rotation =
+    const softrd::math::vec3& rotation =
         ParseVec3(wrapped_scene_object.Get("rotation").ToObject());
 
     renderer_api_->SetSceneObject(id, position, rotation);
