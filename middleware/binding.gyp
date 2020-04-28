@@ -19,7 +19,8 @@
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
         "<!(pwd)/../core/",
-        "<!(pwd)/../core/third_party/abseil-cpp"
+        "<!(pwd)/../core/third_party/abseil-cpp",
+        "<!(pwd)/../core/third_party/soil/inc"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       'link_settings': {
