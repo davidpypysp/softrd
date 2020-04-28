@@ -22,6 +22,11 @@ install soil
 sudo apt-get install libsoil-dev
 ```
 
+For building SOIL from source code, need to install GL library.
+```
+sudo apt install mesa-common-dev
+```
+
 ## Mac
 
 install SDL2

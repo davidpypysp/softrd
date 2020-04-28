@@ -20,7 +20,9 @@
         "<!@(node -p \"require('node-addon-api').include\")",
         "<!(pwd)/../core/",
         "<!(pwd)/../core/third_party/abseil-cpp",
-        "<!(pwd)/../core/third_party/soil/inc"
+        "<!(pwd)/../core/third_party/soil/inc",
+        "<!(pwd)/../core/third_party/assimp/include",
+        "<!(pwd)/../build-cmake/third_party/assimp/include",
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       'link_settings': {

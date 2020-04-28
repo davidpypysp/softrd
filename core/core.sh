@@ -6,7 +6,7 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     script_path=$(dirname $(readlink -f "$0"))
 fi
 
-build_dir=build-cmake
+build_dir=build
 
 function build() {
     if [ ! -d "$script_path/$build_dir" ]; then
@@ -16,7 +16,7 @@ function build() {
     cd "$script_path/$build_dir"
     echo 'build dir: ' $PWD
 
-    cmake "$script_path"
+    cmake "$script_path" -DBUILD_THIRD_PARTY=OFF -DBUILD_SRC=ON
     make -j8
 }
 

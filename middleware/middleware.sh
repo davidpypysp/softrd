@@ -24,7 +24,7 @@ function build() {
 }
 
 function rebuild() {
-    rm -rf "$core_path/build-cmake"
+    rm -rf "$core_path/build"
     rm -rf "$script_path/build"
     build
 }
