@@ -15,11 +15,11 @@ find_package(SoftrdCore)
 
 include_directories(${CMAKE_JS_INC})
 
-file(GLOB SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cc)
+file(GLOB SRC_CC ${CMAKE_SOURCE_DIR}/src/*.cc)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
+add_library(${PROJECT_NAME} SHARED ${SRC_CC} ${CMAKE_JS_SRC})
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
-target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} renderer_api)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} core_renderer_api)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
