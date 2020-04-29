@@ -1,3 +1,5 @@
+[submodule "core/third_party/abseil-cpp"]
+path = core/third_party/abseil-cpp
 url = https://github.com/abseil/abseil-cpp.git
 [submodule "core/third_party/soil"]
 path = core/third_party/soil
