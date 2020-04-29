@@ -15,7 +15,8 @@ function build_core() {
 function build_node() {
     echo 'build_node in ' $script_path
     cd $script_path
-    node-gyp rebuild
+    # node-gyp rebuild
+    yarn cmake
 }
 
 function build() {
