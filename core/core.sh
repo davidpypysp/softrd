@@ -16,7 +16,7 @@ function build() {
     cd "$script_path/$build_dir"
     echo 'build dir: ' $PWD
 
-    cmake "$script_path" -DBUILD_THIRD_PARTY=OFF -DBUILD_SRC=ON
+    cmake "$script_path"
     make -j8
 }
 
