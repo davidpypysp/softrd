@@ -22,15 +22,15 @@
         "<!(pwd)/../core/third_party/abseil-cpp",
         "<!(pwd)/../core/third_party/soil/inc",
         "<!(pwd)/../core/third_party/assimp/include",
-        "<!(pwd)/../build-cmake/third_party/assimp/include",
+        "<!(pwd)/../core/build/third_party/assimp/include",
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       'link_settings': {
         "libraries": [ 
-          "-L<!(pwd)/../core/build-cmake/src/interface/ -lSoftrdAPI", 
+          "-L<!(pwd)/../core/build/src/interface/ -lSoftrdAPI", 
         ],
         "ldflags": [
-          "-Wl,-rpath,<!(pwd)/../core/build-cmake/src/interface/",
+          "-Wl,-rpath,<!(pwd)/../core/build/src/interface/",
         ]
       },
     }
