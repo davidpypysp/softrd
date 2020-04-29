@@ -119,7 +119,6 @@ Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
   }
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
-  size_t length = buf.ByteLength() / sizeof(uint8_t);
   memset(array, 0, buf.ByteLength());
   renderer_api_->DrawScene(array);
 

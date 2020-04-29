@@ -23,8 +23,8 @@ struct Material {
 };
 
 struct TextureMaterial {
-  Texture *specular_texture;
   Texture *diffuse_texture;
+  Texture *specular_texture;
 
   float shininess;
 
