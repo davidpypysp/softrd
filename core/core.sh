@@ -1,10 +1,14 @@
 #!/bin/bash
-
 if [ "$(uname)" == "Darwin" ]; then
     script_path=$(dirname $(realpath "$0"))
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     script_path=$(dirname $(readlink -f "$0"))
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+    # Do something under 64 bits Windows NT platform
+    script_path=$(dirname $(readlink -f "$0"))
 fi
+
+echo "script_path: " $script_path
 
 build_dir=build
 
