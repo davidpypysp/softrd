@@ -1,6 +1,5 @@
 add_library(texture texture.cc)
-target_link_libraries(texture math soil  ${OPENGL_LIBRARY} glog::glog)
-target_link_libraries(texture "-framework Foundation")
+target_link_libraries(texture math soil_libs glog::glog)
 
 add_gtest_exe(texture_test texture_test.cc)
 target_link_libraries(texture_test texture gtest)

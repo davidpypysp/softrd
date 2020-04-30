@@ -1,7 +1,10 @@
 project (SoftrdJs)
 cmake_minimum_required (VERSION 2.6)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++17")
+if(APPLE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++17")
+endif()
+
 set(CORE_DIR ${CMAKE_SOURCE_DIR}/../core CACHE STRING "Softrd core dir path")
 
 execute_process(COMMAND node -p "require('node-addon-api').include"
@@ -20,7 +23,7 @@ file(GLOB SRC_CC ${CMAKE_SOURCE_DIR}/src/*.cc)
 
 add_library(${PROJECT_NAME} SHARED ${SRC_CC} ${CMAKE_JS_SRC})
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
-target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} core_renderer_api)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} ${CORE_API})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 

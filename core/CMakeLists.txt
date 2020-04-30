@@ -10,7 +10,6 @@ include(CTest)
 
 find_package(ThirdParty)
 
-
 add_subdirectory(src)
 
 
