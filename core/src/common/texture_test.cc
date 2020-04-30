@@ -3,15 +3,9 @@
 #include <glog/logging.h>
 #include <gtest/gtest.h>
 
-#include <experimental/filesystem>
-
 using namespace softrd;
-namespace fs = std::experimental::filesystem;
 
-TEST(CameraTest, Genral) {
-  LOG(INFO) << "Current path: " << fs::current_path();
-  Texture texture("../../../resource/container.jpg");
-}
+TEST(CameraTest, Genral) { Texture texture("../../../resource/container.jpg"); }
 
 int main(int argc, char** argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
