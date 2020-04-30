@@ -73,5 +73,9 @@
     "regex": "cpp",
     "filesystem": "cpp"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "vim.handleKeys": {
+    "<C-c>": false,
+    "<C-v>": false,
+  }
 }

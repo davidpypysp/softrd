@@ -1,6 +1,7 @@
 project (SoftrdJs)
 cmake_minimum_required (VERSION 2.6)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++17")
 set(CORE_DIR ${CMAKE_SOURCE_DIR}/../core CACHE STRING "Softrd core dir path")
 
 execute_process(COMMAND node -p "require('node-addon-api').include"

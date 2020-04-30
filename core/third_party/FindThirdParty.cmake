@@ -12,6 +12,8 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/soil)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/assimp)
 
+find_package(OpenGL)
+
 # include headers
 include_directories(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
 include_directories(${CMAKE_SOURCE_DIR}/third_party/soil/inc)
