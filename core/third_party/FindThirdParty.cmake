@@ -12,7 +12,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/soil)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/assimp)
 
-find_package(OpenGL)
+find_package(OpenGL REQUIRED)
 
 add_library(soil_libs INTERFACE)
 target_link_libraries(soil_libs INTERFACE soil ${OPENGL_LIBRARY})
