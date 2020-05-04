@@ -6,6 +6,7 @@ if(APPLE)
 endif()
 
 set(CORE_DIR ${CMAKE_SOURCE_DIR}/../core CACHE STRING "Softrd core dir path")
+message("CORE_DIR" ${CORE_DIR})
 
 execute_process(COMMAND node -p "require('node-addon-api').include"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -23,8 +24,11 @@ file(GLOB SRC_CC ${CMAKE_SOURCE_DIR}/src/*.cc)
 
 add_library(${PROJECT_NAME} SHARED ${SRC_CC} ${CMAKE_JS_SRC})
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
-target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} ${CORE_API})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
+
+target_link_libraries(${PROJECT_NAME} SoftrdAPI)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
+add_definitions(-DNAPI_VERSION=3)
 

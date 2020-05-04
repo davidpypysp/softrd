@@ -7,7 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --mode production",
         "start": "webpack-dev-server --mode development",
-        "electron_dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\"",
+        "electron_dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\"",
         "dev": "./frontend.sh build; yarn electron_dev"
     },
     "keywords": [],
@@ -49,6 +49,7 @@
         "@blueprintjs/core": "^3.23.1",
         "@types/react-redux": "^7.1.7",
         "bindings": "^1.5.0",
+        "cross-env": "^7.0.2",
         "electron-is-dev": "^1.1.0",
         "file-loader": "^5.0.2",
         "prettier": "^1.19.1",
