@@ -3,12 +3,12 @@ cmake_minimum_required (VERSION 2.6)
 project (softrd)
 
 if (MSVC)
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/my_archive)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/my_lib)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/my_runtime)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 endif (MSVC)
+
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/tmp_install)
 
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -19,3 +19,16 @@ include(CTest)
 find_package(ThirdParty)
 
 add_subdirectory(src)
+
+
+# all install process
+
+install(TARGETS SoftrdAPI
+    DESTINATION lib
+)
+
+install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/src
+    DESTINATION include
+    FILES_MATCHING PATTERN "*.h*"
+)

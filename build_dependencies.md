@@ -53,5 +53,28 @@ make
 sudo make install
 ```
 
+## Windows
+
+In windows we use PowerSheel
+
+Windows use vcpkg to build gflag dependency
+
+CMake process:
+```
+cd core
+mkdir build
+cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=C:/Users/david/working/vcpkg/scripts/buildsystems/vcpkg.cmake    
+```
+
+MSBuild process:
+```
+ # by using cmake 
+ cmake --build . --config Release -v -j8
+
+ # by using msbuild
+ & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe' softrd.sln /m /property:Configuration=Release
+```
+
 
 To run main program, need to copy core/resource/ -> cmake-build/src/
