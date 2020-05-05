@@ -8,7 +8,8 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 endif (MSVC)
 
-set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/tmp_install)
+# install for middleware by default
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/../middleware/build-core)
 
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -20,8 +21,6 @@ find_package(ThirdParty)
 
 add_subdirectory(src)
 
-
-# all install process
 
 install(TARGETS SoftrdAPI
     DESTINATION lib

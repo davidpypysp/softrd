@@ -76,5 +76,21 @@ MSBuild process:
  & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe' softrd.sln /m /property:Configuration=Release
 ```
 
+Install process:
+```
+# in build directory
+cmake --install .
+```
+
+## Middleware build process
+```
+# configure CMakeLists.txt and build code
+yarn cmake build  
+
+# install library and dependencies
+cmake --install build    
+
+```
+
 
 To run main program, need to copy core/resource/ -> cmake-build/src/
