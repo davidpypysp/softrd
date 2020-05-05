@@ -5,10 +5,13 @@
     "main": "src/electron/electron.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "rebuild_core": "yarn --cwd ../middleware rebuild_core",
+        "rebuild_middleware": "yarn --cwd ../middleware rebuild",
+        "rebuild_all": "yarn rebuild_core && yarn rebuild_middleware",
         "build": "webpack --mode production",
         "start": "webpack-dev-server --mode development",
         "electron_dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\"",
-        "dev": "./frontend.sh build; yarn electron_dev"
+        "dev": "yarn rebuild_all && yarn electron_dev"
     },
     "keywords": [],
     "author": "",
