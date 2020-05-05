@@ -1,28 +1,22 @@
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/googletest)
 
-set(BUILD_TESTING OFF)
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
+# abseil
+find_package(absl CONFIG REQUIRED)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/glog)
+# google test
+find_package(GTest CONFIG REQUIRED)
 
-# add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/gflags)
+# glog
+find_package(glog CONFIG REQUIRED)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/soil)
-
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/assimp)
-
+# soil
+find_package(SOIL CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
-
 add_library(soil_libs INTERFACE)
-target_link_libraries(soil_libs INTERFACE soil ${OPENGL_LIBRARY})
+target_link_libraries(soil_libs INTERFACE SOIL ${OPENGL_LIBRARY})
 if(APPLE)
   target_link_libraries(soil_libs INTERFACE "-framework Foundation")
 endif()
 
-# include headers
-include_directories(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/soil/inc)
-
-
-
+## assimp
+find_package(assimp CONFIG REQUIRED)

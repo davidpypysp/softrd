@@ -53,5 +53,47 @@ make
 sudo make install
 ```
 
+## Windows
+
+In windows we use PowerShell
+
+Windows vcpkg install dependencies
+```
+vcpkg --triplet x64-windows install abseil gtest glog soil assimp
+```
+
+CMake process:
+```
+cd core
+mkdir build
+cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=C:/Users/david/working/vcpkg/scripts/buildsystems/vcpkg.cmake    
+```
+
+MSBuild process:
+```
+ # by using cmake 
+ cmake --build . --config Release -v -j8
+
+ # by using msbuild
+ & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe' softrd.sln /m /property:Configuration=Release
+```
+
+Install process:
+```
+# in build directory
+cmake --install .
+```
+
+## Middleware build process
+```
+# configure CMakeLists.txt and build code
+yarn cmake build  
+
+# install library and dependencies
+cmake --install build    
+
+```
+
 
 To run main program, need to copy core/resource/ -> cmake-build/src/
