@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build_core": "cmake --build ../core/build  --config Release -v -j8 || cmake --install ../core/build",
+    "configure_core": "cmake ../core -B ../core/build -DCMAKE_TOOLCHAIN_FILE=C:/Users/david/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    "build_core": "cmake --build ../core/build  --config Release -v -j8",
+    "install_core": "cmake --install ../core/build",
+    "rebuild_core": "yarn configure_core && yarn build_core && yarn install_core",
     "cmake": "cmake-js",
+    "rebuild": "yarn cmake build && cmake --install build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

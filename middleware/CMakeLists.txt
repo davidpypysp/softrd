@@ -6,11 +6,9 @@ if(APPLE)
 endif()
 
 # install for frontend by default
-set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/../frontend/Release)
-
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/../frontend)
 
 set(CORE_DIR ${CMAKE_SOURCE_DIR}/build-core CACHE STRING "Softrd core dir path")
-message("CORE_DIR: " ${CORE_DIR})
 
 execute_process(COMMAND node -p "require('node-addon-api').include"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -19,12 +17,8 @@ execute_process(COMMAND node -p "require('node-addon-api').include"
 string(REPLACE "\n" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 string(REPLACE "\"" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CORE_DIR})
-
 include_directories(${CMAKE_JS_INC})
-
 include_directories(${CORE_DIR}/include)
-
 
 file(GLOB SRC_CC ${CMAKE_SOURCE_DIR}/src/*.cc)
 
@@ -51,9 +45,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
 add_definitions(-DNAPI_VERSION=3)
 
-install(TARGETS ${PROJECT_NAME} DESTINATION .)
-if(MSVC)
-  install(DIRECTORY  ${CMAKE_BINARY_DIR}/Release/ DESTINATION .
-    FILES_MATCHING PATTERN "*.dll"
-  )
-endif()
+
+install(DIRECTORY ${CMAKE_BINARY_DIR}/Release/ DESTINATION Release)

@@ -57,7 +57,10 @@ sudo make install
 
 In windows we use PowerShell
 
-Windows use vcpkg to build gflag dependency
+Windows vcpkg install dependencies
+```
+vcpkg --triplet x64-windows install abseil gtest glog soil assimp
+```
 
 CMake process:
 ```

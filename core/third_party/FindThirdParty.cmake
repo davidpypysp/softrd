@@ -1,42 +1,22 @@
 
- enable_testing()
- find_package(GTest CONFIG REQUIRED)
-#  target_link_libraries(main PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 
-# option(gtest_disable_pthreads ON)
-# add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/googletest)
+# abseil
+find_package(absl CONFIG REQUIRED)
 
-set(BUILD_TESTING OFF)
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
-install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/third_party/abseil-cpp/absl
-    DESTINATION include
-    FILES_MATCHING PATTERN "*.h*" PATTERN "*.inc"
-)
+# google test
+find_package(GTest CONFIG REQUIRED)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/glog)
+# glog
+find_package(glog CONFIG REQUIRED)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/soil)
-install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/third_party/soil/inc/SOIL
-    DESTINATION include
-    FILES_MATCHING PATTERN "*.h*" 
-)
-
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/assimp)
-
+# soil
+find_package(SOIL CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
-message("MY opengl is " ${OPENGL_LIBRARY})
-
 add_library(soil_libs INTERFACE)
-target_link_libraries(soil_libs INTERFACE soil ${OPENGL_LIBRARY})
+target_link_libraries(soil_libs INTERFACE SOIL ${OPENGL_LIBRARY})
 if(APPLE)
   target_link_libraries(soil_libs INTERFACE "-framework Foundation")
 endif()
 
-# include headers
-include_directories(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/soil/inc)
-
-
-
+## assimp
+find_package(assimp CONFIG REQUIRED)

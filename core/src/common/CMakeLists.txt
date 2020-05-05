@@ -5,4 +5,4 @@ add_gtest_exe(texture_test texture_test.cc)
 target_link_libraries(texture_test texture)
 
 add_library(common model.cc)
-target_link_libraries(common math texture assimp)
+target_link_libraries(common math texture assimp::assimp)
