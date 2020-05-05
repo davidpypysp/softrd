@@ -55,7 +55,7 @@ sudo make install
 
 ## Windows
 
-In windows we use PowerSheel
+In windows we use PowerShell
 
 Windows use vcpkg to build gflag dependency
 

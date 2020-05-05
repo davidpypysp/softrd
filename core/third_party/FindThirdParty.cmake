@@ -1,5 +1,10 @@
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/googletest)
+ enable_testing()
+ find_package(GTest CONFIG REQUIRED)
+#  target_link_libraries(main PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+
+# option(gtest_disable_pthreads ON)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/googletest)
 
 set(BUILD_TESTING OFF)
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/abseil-cpp)
@@ -21,6 +26,7 @@ install(
 add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/assimp)
 
 find_package(OpenGL REQUIRED)
+message("MY opengl is " ${OPENGL_LIBRARY})
 
 add_library(soil_libs INTERFACE)
 target_link_libraries(soil_libs INTERFACE soil ${OPENGL_LIBRARY})
