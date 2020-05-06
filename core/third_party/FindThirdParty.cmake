@@ -16,7 +16,7 @@ add_library(soil_libs INTERFACE)
 target_link_libraries(soil_libs INTERFACE SOIL ${OPENGL_LIBRARY})
 if(APPLE)
   target_link_libraries(soil_libs INTERFACE "-framework Foundation")
-endif()
+endif(APPLE)
 
 ## assimp
 find_package(assimp CONFIG REQUIRED)
