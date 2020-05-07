@@ -63,9 +63,13 @@ sudo make install
 
 In windows we use PowerShell
 
-Windows vcpkg install dependencies
+vcpkg install dependencies
 ```
-vcpkg --triplet x64-windows install abseil gtest glog soil assimp
+# Windows
+./vcpkg.exe --triplet x64-windows install assimp abseil gtest glog soil 
+
+# Linux
+./vcpkg install assimp abseil gtest glog soil 
 ```
 
 CMake process:
