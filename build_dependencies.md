@@ -1,5 +1,11 @@
 # Third party libraries installation
 
+vcpkg install
+```
+# in vcpkg repo path
+vcpkg install abseil gtest glog soil assimp
+```
+
 ## Linux
 
 install SDL2
