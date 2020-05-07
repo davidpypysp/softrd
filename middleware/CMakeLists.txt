@@ -30,7 +30,6 @@ find_package(SoftrdCore CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} SoftrdAPI)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
-
 add_definitions(-DNAPI_VERSION=3)
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/Release/ DESTINATION Release)
