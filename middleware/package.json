@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "configure_core": "cmake ../core -B ../core/build",
-    "build_core": "cmake --build ../core/build  --config Release -v -j8",
+    "build_core": "cmake --build ../core/build  --config Release -j8",
     "install_core": "cmake --install ../core/build",
     "rebuild_core": "yarn configure_core && yarn build_core && yarn install_core",
     "cmake": "cmake-js",
