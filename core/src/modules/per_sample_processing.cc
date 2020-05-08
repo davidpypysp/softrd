@@ -15,7 +15,7 @@ bool PerSampleProcessor::Run(const FragmentOut &in) {
   return true;
 }
 
-bool PerSampleProcessor::DepthTest(const vec3 &position) {
+bool PerSampleProcessor::DepthTest(const math::vec3 &position) {
   int index = (int)position.y * width_ + (int)position.x;
   return position.z < depth_buffer_[index];
 }

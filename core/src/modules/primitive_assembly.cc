@@ -1,7 +1,8 @@
+#include "src/modules/primitive_assembly.h"
+
 #include <array>
 
 #include "src/modules/clipping.h"
-#include "src/modules/primitive_assembly.h"
 
 namespace softrd {
 
@@ -35,7 +36,7 @@ bool PrimitiveAssembler::AssembleLine(const int e1, const int e2,
   if (Clipper::ClipLine(line) == false) return false;
 
   for (int i = 0; i < line->size; ++i) {
-    vec4 position = line->v[i].position;
+    math::vec4 position = line->v[i].position;
 
     // transform
     PerspectiveDivide(position);
@@ -72,7 +73,7 @@ bool PrimitiveAssembler::GeneratePrimitive(int elements[],
     primitive.v[i] = vertex_out_buffer_[element];
 
     if (!check_elements_[element]) {
-      vec4 position = primitive.v[i].position;
+      math::vec4 position = primitive.v[i].position;
 
       // transform
       PerspectiveDivide(position);
@@ -88,7 +89,7 @@ bool PrimitiveAssembler::GeneratePrimitive(int elements[],
   return true;
 }
 
-bool PrimitiveAssembler::PerspectiveDivide(vec4 &position) {
+bool PrimitiveAssembler::PerspectiveDivide(math::vec4 &position) {
   if (position.w == 0) return false;
   position.x /= position.w;
   position.y /= position.w;
@@ -97,8 +98,8 @@ bool PrimitiveAssembler::PerspectiveDivide(vec4 &position) {
   return true;
 }
 
-void PrimitiveAssembler::ViewportTransform(vec4 &position, const int width,
-                                           const int height) {
+void PrimitiveAssembler::ViewportTransform(math::vec4 &position,
+                                           const int width, const int height) {
   position.x = (width * 0.5) * (position.x + 1.0);
   position.y = (height * 0.5) *
                (-position.y + 1.0);  // the window space's zero is upside

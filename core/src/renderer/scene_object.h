@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "src/components/mesh.h"
+#include "src/common/mesh.h"
 #include "src/modules/fragment_shader.h"
 #include "src/modules/vertex_shader.h"
 
@@ -14,14 +14,14 @@ class SceneObject {
   void set_id(const std::string &id) { id_ = id; }
   std::string id() const { return id_; }
 
-  void set_position(const vec3 &position) { position_ = position; }
-  vec3 position() const { return position_; }
+  void set_position(const math::vec3 &position) { position_ = position; }
+  math::vec3 position() const { return position_; }
 
-  void set_rotation(const vec3 &rotation) { rotation_ = rotation; }
-  vec3 rotation() const { return rotation_; }
+  void set_rotation(const math::vec3 &rotation) { rotation_ = rotation; }
+  math::vec3 rotation() const { return rotation_; }
 
-  void set_scale(const vec3 &scale) { scale_ = scale; }
-  vec3 scale() const { return scale_; }
+  void set_scale(const math::vec3 &scale) { scale_ = scale; }
+  math::vec3 scale() const { return scale_; }
 
   void set_mesh(const std::shared_ptr<Mesh> &mesh) { mesh_ = mesh; }
   std::shared_ptr<Mesh> mesh() const { return mesh_; }
@@ -47,9 +47,9 @@ class SceneObject {
  protected:
   std::string id_;
 
-  vec3 position_;
-  vec3 rotation_;
-  vec3 scale_;
+  math::vec3 position_;
+  math::vec3 rotation_;
+  math::vec3 scale_;
 
   std::shared_ptr<Mesh> mesh_ = nullptr;
 

@@ -256,4 +256,5 @@ bazel-core
 
 # Build files
 core/build-cmake
+core/build-*
 middleware/build-*

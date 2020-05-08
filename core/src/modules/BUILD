@@ -7,7 +7,7 @@ cc_library(
     deps = [
         "//src/math:vector",
         "//src/math:matrix",
-        "//src/components:vertex",
+        "//src/common:vertex",
     ]
 )
 
@@ -16,7 +16,7 @@ cc_library(
     hdrs = ["vertex_loader.h"],
     srcs = ["vertex_loader.cc"],
     deps = [
-        "//src/components:vertex",
+        "//src/common:vertex",
     ]
 )
 
@@ -35,10 +35,10 @@ cc_library(
     hdrs = ["fragment_shader.h"],
     srcs = ["fragment_shader.cc"],
     deps = [
-        "//src/components:fragment",
-        "//src/components:texture",
-        "//src/components:light",
-        "//src/components:material",
+        "//src/common:fragment",
+        "//src/common:texture",
+        "//src/common:light",
+        "//src/common:material",
     ]
 )
 
@@ -47,7 +47,7 @@ cc_library(
     hdrs = ["clipping.h"],
     srcs = ["clipping.cc"],
     deps = [
-        "//src/components:primitive",
+        "//src/common:primitive",
         "//src/math:math_lib",
     ]
 )
@@ -57,7 +57,7 @@ cc_library(
     hdrs = ["primitive_assembly.h"],
     srcs = ["primitive_assembly.cc"],
     deps = [
-        "//src/components:primitive",
+        "//src/common:primitive",
         ":vertex_shader",
         ":clipping",
         "//src/utils:util",
@@ -71,7 +71,7 @@ cc_library(
     deps = [
         ":primitive_assembly",
         "//src/math:math_lib",
-        "//src/components:fragment",
-        "//src/components:camera",
+        "//src/common:fragment",
+        "//src/common:camera",
     ]
 )

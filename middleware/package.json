@@ -4,12 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "configure_core": "cmake ../core -B ../core/build",
+    "build_core": "cmake --build ../core/build  --config Release -j8",
+    "install_core": "cmake --install ../core/build",
+    "rebuild_core": "yarn configure_core && yarn build_core && yarn install_core",
+    "cmake": "cmake-js",
+    "rebuild": "yarn cmake build && cmake --install build",
+    "rebuild_all": "yarn rebuild_core && yarn rebuild",
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bindings": "^1.5.0",
+    "cmake-js": "^6.1.0",
     "node-addon-api": "^1.7.1"
   }
 }

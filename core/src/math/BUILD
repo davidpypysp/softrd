@@ -17,7 +17,7 @@ cc_library(
 
 cc_library(
     name = "math_lib",
-    hdrs = ["math_lib.h"],
+    hdrs = ["math_util.h"],
     deps = [
         "//src/math:matrix",
         "//src/math:plane",
