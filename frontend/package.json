@@ -4,7 +4,6 @@
     "description": "",
     "main": "src/electron/electron.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
         "rebuild_core": "yarn --cwd ../middleware rebuild_core",
         "rebuild_middleware": "yarn --cwd ../middleware rebuild",
         "rebuild_all": "yarn rebuild_core && yarn rebuild_middleware",
