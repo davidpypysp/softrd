@@ -2,12 +2,14 @@
 #define SOFTRD_MATH_MATRIX_H_
 
 #include <assert.h>
+
 #include <cstring>
 #include <iostream>
 
 #include "src/math/vector.h"
 
 namespace softrd {
+namespace math {
 
 struct mat3 {
   float value[3][3];
@@ -293,6 +295,7 @@ struct mat4 {
 
 inline mat4 operator*(const float k, const mat4 &a) { return a * k; }
 
+}  // namespace math
 }  // namespace softrd
 
 #endif  // SOFTRD_MATH_MATRIX_H_

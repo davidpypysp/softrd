@@ -1,8 +1,12 @@
-add_subdirectory(components)
+macro(add_gtest_exe exe)
+    add_executable(${exe} ${ARGV})
+    target_link_libraries(${exe} GTest::gtest)
+    add_test(NAME ${exe} COMMAND ${exe})
+endmacro()
+
+add_subdirectory(common)
 add_subdirectory(modules)
 add_subdirectory(renderer)
 add_subdirectory(interface)
-
-add_executable(test_api test_api.cc)
-target_link_libraries(test_api SoftrdAPI)
-
+add_subdirectory(math)
+add_subdirectory(scene)

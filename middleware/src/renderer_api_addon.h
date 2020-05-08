@@ -2,6 +2,7 @@
 #define SOFTRD_RENDERER_API_ADDON_H_
 
 #include <napi.h>
+
 #include "src/interface/renderer_api.h"
 
 class RendererAPIAddon : public Napi::ObjectWrap<RendererAPIAddon> {
@@ -12,14 +13,11 @@ class RendererAPIAddon : public Napi::ObjectWrap<RendererAPIAddon> {
  private:
   static Napi::FunctionReference constructor;
 
-  Napi::Value GetValue(const Napi::CallbackInfo& info);
-  Napi::Value PlusOne(const Napi::CallbackInfo& info);
-  Napi::Value Multiply(const Napi::CallbackInfo& info);
   Napi::Value ResetArrayBuffer(const Napi::CallbackInfo& info);
-  Napi::Value DrawFrame(const Napi::CallbackInfo& info);
+  Napi::Value DrawScene(const Napi::CallbackInfo& info);
+  Napi::Value DrawSceneObjects(const Napi::CallbackInfo& info);
 
-  double value_;
-  softrd::RendererAPI* renderer_api_;
+  std::unique_ptr<softrd::RendererAPI> renderer_api_ = nullptr;
 };
 
 #endif  // SOFTRD_RENDERER_API_ADDON_H_

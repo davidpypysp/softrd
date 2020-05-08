@@ -1,0 +1,12 @@
+@PACKAGE_INIT@
+
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
+
+set_and_check(VCPKG_INCLUDE "@PACKAGE_VCPKG_INCLUDE_DIR@")
+include_directories(${VCPKG_INCLUDE})
+
+find_library(SoftrdAPI SoftrdAPI HINTS ${CMAKE_CURRENT_LIST_DIR}/lib/)
+
+if(MSVC)
+   file(COPY ${CMAKE_CURRENT_LIST_DIR}/lib/SoftrdAPI.dll DESTINATION ${CMAKE_BINARY_DIR}/Release/)
+endif()

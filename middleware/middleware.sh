@@ -1,31 +1,33 @@
 #!/bin/bash
 
-script_path=$PWD
+if [ "$(uname)" == "Darwin" ]; then
+    script_path=$(dirname $(realpath "$0"))
+    core_path=$(realpath "${script_path}/../core/")
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    script_path=$(dirname $(readlink -f "$0"))
+    core_path=$(readlink -f "${script_path}/../core/")
+fi
 
 function build_core() {
-    if [ ! -d "$script_path/build-core" ]; then
-        mkdir "$script_path/build-core"
-    fi
-
-    cd "$script_path/build-core"
-    echo 'build_core in ' $PWD
-
-    cmake "$script_path/../core"
-    make -j8
-
-    cp $script_path/build-core/src/interface/libSoftrdAPI.so /usr/lib
+    ${core_path}/core.sh build
 }
 
 function build_node() {
-    echo 'build_node in ' $PWD
+    echo 'build_node in ' $script_path
     cd $script_path
-    node-gyp rebuild
+    # node-gyp rebuild
+    yarn cmake
+}
+
+function build() {
+    build_core
+    build_node
 }
 
 function rebuild() {
-    rm -rf "$script_path/build-core"
-    build_core
-    build_node
+    rm -rf "$core_path/build"
+    rm -rf "$script_path/build"
+    build
 }
 
 function main() {
@@ -37,6 +39,9 @@ function main() {
         ;;
     build_node)
         build_node $@
+        ;;
+    build)
+        build $@
         ;;
     rebuild)
         rebuild $@

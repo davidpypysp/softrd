@@ -1,2 +1,2 @@
-add_library (renderer rendering_pipeline.cc)
+add_library (renderer engine.cc scene_manager.cc rendering_pipeline.cc)
 target_link_libraries(renderer modules)

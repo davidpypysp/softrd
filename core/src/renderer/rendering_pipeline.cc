@@ -2,19 +2,61 @@
 
 namespace softrd {
 
-// Renderer initialization, include each stage's initialization
-RenderingPipeline::RenderingPipeline(const int width, const int height)
-    : width_(width),
-      height_(height),
-      screen_size_(width * height),
-      frame_buffer_(screen_size_ * 4),
-      depth_buffer_(screen_size_),
-      primitve_assembler_(width, height, vertex_out_buffer_),
-      rasterizer_(width, height, fragment_buffer_),
-      per_sample_proccessor_(width, height, depth_buffer_),
-      camera_((float)width / (float)height),
-      polygon_mode_(Rasterizer::TRIANGLE_FILL) {
-  rasterizer_.SetCamera(&camera_);
+RenderingPipeline::RenderingPipeline() {}
+
+// rendering pipeline initialization, include each stage's initialization
+void RenderingPipeline::Reset(const int width, const int height,
+                              std::shared_ptr<scene::Camera> camera) {
+  width_ = width;
+  height_ = height;
+  screen_size_ = width * height;
+
+  frame_buffer_.Resize(screen_size_ * 4);
+  depth_buffer_.Resize(screen_size_ * 4);
+
+  camera_ = camera;
+
+  primitive_assembler_ =
+      std::make_unique<PrimitiveAssembler>(width, height, vertex_out_buffer_);
+
+  rasterizer_ = std::make_unique<Rasterizer>(width, height, fragment_buffer_);
+  if (camera_) {
+    rasterizer_->SetCamera(camera_.get());
+  }
+  polygon_mode_ = Rasterizer::TRIANGLE_FILL;
+
+  per_sample_processor_ =
+      std::make_unique<PerSampleProcessor>(width, height, depth_buffer_);
+}
+
+void RenderingPipeline::DrawSceneObject(
+    const std::shared_ptr<SceneObject> &scene_object) {
+  math::mat4 model_matrix;
+  model_matrix.identify();
+
+  model_matrix.translate(scene_object->position());
+
+  // TODO: fix rotation issue
+  // model_matrix.rotateX(scene_object->rotation().x);
+  // model_matrix.rotateY(scene_object->rotation().y);
+  // model_matrix.rotateZ(scene_object->rotation().z);
+
+  model_matrix.scale(scene_object->scale());
+
+  std::shared_ptr<VertexShaderLight> vertex_shader_light =
+      std::dynamic_pointer_cast<VertexShaderLight>(
+          scene_object->vertex_shader());
+
+  if (!vertex_shader_light) {
+    return;
+  }
+
+  vertex_shader_light->set_transform(camera_->projection() * camera_->view() *
+                                     model_matrix);
+  vertex_shader_light->set_model(model_matrix);
+
+  this->DrawMesh(*(scene_object->mesh()), *vertex_shader_light,
+                 *(scene_object->fragment_shader()), Rasterizer::TRIANGLE_FILL);
 }
 
 // Draw mesh using rendering pipeline
@@ -50,24 +92,25 @@ void RenderingPipeline::Run(const DrawMode mode) {
     vertex_out_buffer_.push_back(vertex_out);
   }
 
-  primitve_assembler_.Reset();
+  primitive_assembler_->Reset();
   if (mode == DRAW_LINE) {
     for (int index = 0; index < element_buffer_.size() / 2; ++index) {
       LinePrimitive line;
       // primitive assemble stage
-      if (primitve_assembler_.AssembleLine(element_buffer_[index * 2],
-                                           element_buffer_[index * 2 + 1],
-                                           &line) == false)
+      if (primitive_assembler_->AssembleLine(element_buffer_[index * 2],
+                                             element_buffer_[index * 2 + 1],
+                                             &line) == false)
         continue;
 
       // rasterize stage
-      rasterizer_.DrawLinePrimitive(line);
+      rasterizer_->DrawLinePrimitive(line);
 
       // fragment shader stage
       FragmentOut fragment_shader_out;
       for (Fragment &fragment : fragment_buffer_) {
         fragment_shader_->Run(fragment, &fragment_shader_out);
-        if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
+
+        if (per_sample_processor_->Run(fragment_shader_out) == true) {
           // test fragment success, pass into framebuffer;
           SetPixel(fragment_shader_out.window_position.x,
                    fragment_shader_out.window_position.y,
@@ -81,17 +124,17 @@ void RenderingPipeline::Run(const DrawMode mode) {
   } else if (mode == DRAW_TRIANGLE) {
     for (int index = 0; index < element_buffer_.size() / 3; ++index) {
       std::vector<TrianglePrimitive> triangles;
-      primitve_assembler_.AssembleTriangle(
+      primitive_assembler_->AssembleTriangle(
           element_buffer_[index * 3], element_buffer_[index * 3 + 1],
           element_buffer_[index * 3 + 2], &triangles);
       for (TrianglePrimitive &triangle : triangles) {
-        rasterizer_.DrawTrianglePrimitive(triangle, polygon_mode_);
+        rasterizer_->DrawTrianglePrimitive(triangle, polygon_mode_);
 
         FragmentOut fragment_shader_out;
         for (Fragment &fragment : fragment_buffer_) {
           fragment_shader_->Run(fragment, &fragment_shader_out);
 
-          if (per_sample_proccessor_.Run(fragment_shader_out) == true) {
+          if (per_sample_processor_->Run(fragment_shader_out) == true) {
             // test fragment success, pass into framebuffer;
             SetPixelToWindow(fragment_shader_out.window_position.x,
                              fragment_shader_out.window_position.y,
@@ -124,25 +167,26 @@ void RenderingPipeline::ResetBuffer() {
 RenderingPipeline::~RenderingPipeline() {}
 
 // set pixel to the appointed color
-void RenderingPipeline::SetPixel(const int x, const int y, const vec4 &color) {
+void RenderingPipeline::SetPixel(const int x, const int y,
+                                 const math::vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
-    frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
-    frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
-    frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
+    frame_buffer_[offset] = math::Clamp(color.z * 255, 0, 255);      // b
+    frame_buffer_[offset + 1] = math::Clamp(color.y * 255, 0, 255);  // g
+    frame_buffer_[offset + 2] = math::Clamp(color.x * 255, 0, 255);  // r
+    frame_buffer_[offset + 3] = math::Clamp(color.w * 255, 0, 255);  // a
   }
 }
 
 // set pixel to window frame buffer
 void RenderingPipeline::SetPixelToWindow(const int x, const int y,
-                                         const vec4 &color) {
+                                         const math::vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
-    window_frame_buffer_[offset] = Clamp(color.z * 255, 0, 255);      // b
-    window_frame_buffer_[offset + 1] = Clamp(color.y * 255, 0, 255);  // g
-    window_frame_buffer_[offset + 2] = Clamp(color.x * 255, 0, 255);  // r
-    window_frame_buffer_[offset + 3] = Clamp(color.w * 255, 0, 255);  // a
+    window_frame_buffer_[offset] = math::Clamp(color.z * 255, 0, 255);      // b
+    window_frame_buffer_[offset + 1] = math::Clamp(color.y * 255, 0, 255);  // g
+    window_frame_buffer_[offset + 2] = math::Clamp(color.x * 255, 0, 255);  // r
+    window_frame_buffer_[offset + 3] = math::Clamp(color.w * 255, 0, 255);  // a
   }
 }
 

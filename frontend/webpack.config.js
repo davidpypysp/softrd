@@ -3,20 +3,37 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
+    entry: './src/index.tsx',
     resolve: {
         alias: {
             src: path.resolve(__dirname, "src/"),
             ui: path.resolve(__dirname, "src/ui/"),
             electron: path.resolve(__dirname, "src/electron/"),
             styles: path.resolve(__dirname, "styles/"),
-        }
+        },
+        extensions: ['.tsx', '.ts', '.js']
     },
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: ["babel-loader", "eslint-loader"]
+            },
+            {
+                test: /\.ts(x?)$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
             },
             {
                 test: /\.html$/,
@@ -31,8 +48,6 @@ module.exports = {
                 use: ["style-loader", "css-loader"]
             },
             {
-                // This is to apply the following style loaders in (reverse) order.
-                // Grommet scss files needs to be processed this way.
                 test: /\.scss$/,
                 use: [
                     {
@@ -43,6 +58,18 @@ module.exports = {
                     },
                     {
                         loader: "sass-loader"
+                    }
+                ]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/'
+                        }
                     }
                 ]
             }
@@ -58,5 +85,5 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, "src"),
         port: 9000
-    }
+    },
 };

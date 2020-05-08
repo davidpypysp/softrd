@@ -1,15 +1,17 @@
 #ifndef SOFTRD_RENDERING_PIPELINE_H_
 #define SOFTRD_RENDERING_PIPELINE_H_
 
+#include <memory>
 #include <vector>
 
-#include "src/components/camera.h"
-#include "src/components/model.h"
+#include "src/common/model.h"
 #include "src/modules/fragment_shader.h"
 #include "src/modules/per_sample_processing.h"
 #include "src/modules/rasterizer.h"
 #include "src/modules/vertex_loader.h"
 #include "src/modules/vertex_shader.h"
+#include "src/renderer/scene_object.h"
+#include "src/scene/camera.h"
 #include "src/utils/util.h"
 
 namespace softrd {
@@ -18,9 +20,11 @@ class RenderingPipeline {
  public:
   enum DrawMode { DRAW_LINE, DRAW_TRIANGLE };
 
-  Camera &camera() { return camera_; }
+  RenderingPipeline();
 
-  RenderingPipeline(const int width, const int height);
+  void Reset(const int width, const int height,
+             std::shared_ptr<scene::Camera> camera);
+  void DrawSceneObject(const std::shared_ptr<SceneObject> &scene_object);
   void DrawMesh(
       Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader,
       const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE,
@@ -33,9 +37,14 @@ class RenderingPipeline {
   void Clear();
   ~RenderingPipeline();
 
+  void set_camera(const std::shared_ptr<scene::Camera> &camera) {
+    camera_ = camera;
+  }
+  std::shared_ptr<scene::Camera> camera() const { return camera_; }
+
  private:
-  void SetPixel(const int x, const int y, const vec4 &color);
-  void SetPixelToWindow(const int x, const int y, const vec4 &color);
+  void SetPixel(const int x, const int y, const math::vec4 &color);
+  void SetPixelToWindow(const int x, const int y, const math::vec4 &color);
   void SetDepth(const int x, const int y, const float z);
   void SetFrame();
   void DrawFrame();
@@ -46,11 +55,11 @@ class RenderingPipeline {
   VertexShader *vertex_shader_;
   FragmentShader *fragment_shader_;
 
-  PrimitiveAssembler primitve_assembler_;
-  Rasterizer rasterizer_;
-  PerSampleProcessor per_sample_proccessor_;
+  std::unique_ptr<PrimitiveAssembler> primitive_assembler_;
+  std::unique_ptr<Rasterizer> rasterizer_;
+  std::unique_ptr<PerSampleProcessor> per_sample_processor_;
 
-  Camera camera_;
+  std::shared_ptr<scene::Camera> camera_ = nullptr;
 
   // all buffers
   std::vector<Vertex> vertex_buffer_;

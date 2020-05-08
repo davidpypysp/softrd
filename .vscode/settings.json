@@ -58,7 +58,24 @@
     "map": "cpp",
     "memory_resource": "cpp",
     "random": "cpp",
-    "set": "cpp"
+    "set": "cpp",
+    "bitset": "cpp",
+    "cfenv": "cpp",
+    "csignal": "cpp",
+    "forward_list": "cpp",
+    "any": "cpp",
+    "future": "cpp",
+    "scoped_allocator": "cpp",
+    "typeindex": "cpp",
+    "valarray": "cpp",
+    "variant": "cpp",
+    "slist": "cpp",
+    "regex": "cpp",
+    "filesystem": "cpp"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "vim.handleKeys": {
+    "<C-c>": false,
+    "<C-v>": false,
+  }
 }

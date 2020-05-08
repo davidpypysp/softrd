@@ -4,10 +4,13 @@
     "description": "",
     "main": "src/electron/electron.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "rebuild_core": "yarn --cwd ../middleware rebuild_core",
+        "rebuild_middleware": "yarn --cwd ../middleware rebuild",
+        "rebuild_all": "yarn rebuild_core && yarn rebuild_middleware",
         "build": "webpack --mode production",
         "start": "webpack-dev-server --mode development",
-        "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\""
+        "electron_dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\"",
+        "dev": "yarn rebuild_all && yarn electron_dev"
     },
     "keywords": [],
     "author": "",
@@ -16,6 +19,8 @@
         "@babel/core": "^7.6.0",
         "@babel/preset-env": "^7.6.0",
         "@babel/preset-react": "^7.0.0",
+        "@types/react": "^16.9.20",
+        "@types/react-dom": "^16.9.5",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
         "clean-webpack-plugin": "^3.0.0",
@@ -35,16 +40,25 @@
         "prop-types": "^15.7.2",
         "sass-loader": "^8.0.0",
         "style-loader": "^1.0.0",
+        "ts-loader": "^6.2.1",
+        "typescript": "^3.7.5",
         "wait-on": "^3.3.0",
         "webpack": "^4.39.3",
         "webpack-cli": "^3.3.8",
         "webpack-dev-server": "^3.8.0"
     },
     "dependencies": {
+        "@blueprintjs/core": "^3.23.1",
+        "@types/react-redux": "^7.1.7",
         "bindings": "^1.5.0",
+        "cross-env": "^7.0.2",
         "electron-is-dev": "^1.1.0",
+        "file-loader": "^5.0.2",
         "prettier": "^1.19.1",
-        "react": "^16.9.0",
-        "react-dom": "^16.9.0"
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0",
+        "react-redux": "^7.2.0",
+        "redux": "^4.0.5",
+        "source-map-loader": "^0.2.4"
     }
 }
