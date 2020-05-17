@@ -5,5 +5,9 @@
 int main() {
   std::cout << "test my renderer api" << std::endl;
   softrd::RendererAPI renderer_api;
-  return 0;
+
+  //   std::cout << "test texture api" << std::endl;
+  softrd::Texture texture("something.jpg");
+
+  return 1;
 }

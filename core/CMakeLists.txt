@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 3.16)
 
 project(SoftrdCore)
 
+set(CMAKE_CXX_FLAGS "--preload-file ${CMAKE_BINARY_DIR}/something.jpg")
+
 include_directories(${CMAKE_SOURCE_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR}/wasm_libs/SOIL-wasm/include)
@@ -18,6 +20,7 @@ file(GLOB SRC_CC
 
 
 add_library(SoftrdAPIStatic ${SRC_CC})
+target_link_libraries(SoftrdAPIStatic ${CMAKE_SOURCE_DIR}/wasm_libs/SOIL-wasm/libSOIL.bc)
 
 add_executable(test_renderer_api src/test_renderer_api.cc)
 target_link_libraries(test_renderer_api SoftrdAPIStatic)
