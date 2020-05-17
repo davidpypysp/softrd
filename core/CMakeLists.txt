@@ -22,27 +22,41 @@ include(CTest)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
 find_package(ThirdParty)
 
-add_subdirectory(src)
+# add_subdirectory(src)
 
-# install process
-set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/../middleware/build-core)
+# # install process
+# set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/../middleware/build-core)
 
-install(TARGETS SoftrdAPI
-    DESTINATION lib
-)
-install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/src
-    DESTINATION include
-    FILES_MATCHING PATTERN "*.h*"
-)
+# install(TARGETS SoftrdAPI
+#     DESTINATION lib
+# )
+# install(
+#     DIRECTORY ${CMAKE_SOURCE_DIR}/src
+#     DESTINATION include
+#     FILES_MATCHING PATTERN "*.h*"
+# )
 
-# generate config cmake
-include(CMakePackageConfigHelpers)
-set(VCPKG_INCLUDE_DIR ${_VCPKG_ROOT_DIR}/installed/${VCPKG_TARGET_TRIPLET}/include)
-configure_package_config_file(
-  ${CMAKE_SOURCE_DIR}/SoftrdCoreConfig.cmake.in
-  "SoftrdCoreConfig.cmake"
-  INSTALL_DESTINATION .
-  PATH_VARS VCPKG_INCLUDE_DIR 
+# # generate config cmake
+# include(CMakePackageConfigHelpers)
+# set(VCPKG_INCLUDE_DIR ${_VCPKG_ROOT_DIR}/installed/${VCPKG_TARGET_TRIPLET}/include)
+# configure_package_config_file(
+#   ${CMAKE_SOURCE_DIR}/SoftrdCoreConfig.cmake.in
+#   "SoftrdCoreConfig.cmake"
+#   INSTALL_DESTINATION .
+#   PATH_VARS VCPKG_INCLUDE_DIR 
+# )
+# install(FILES ${CMAKE_BINARY_DIR}/SoftrdCoreConfig.cmake DESTINATION . )
+
+
+
+# wasm cmake test
+
+file(GLOB SRC_CC
+    interface/renderer_api.cc
+    src/common/model.cc src/common/texture.cc
+    src/modules/*.cc
+    src/renderer/*.cc
+    src/scene/camera.cc
 )
-install(FILES ${CMAKE_BINARY_DIR}/SoftrdCoreConfig.cmake DESTINATION . )
+add_library(SoftrdAPIStatic ${SRC_CC})
+target_link_libraries(SoftrdAPIStatic ${assimp_LIBRARIES} soil_libs)
