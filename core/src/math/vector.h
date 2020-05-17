@@ -73,6 +73,7 @@ struct vec2 {
       default:
         assert("vec2 index out of range!");
     }
+    return x;
   }
 
   inline std::string ToString() {
@@ -165,6 +166,7 @@ struct vec3 {
       default:
         assert("vec3 index out of range!");
     }
+    return x;
   }
 
   inline bool operator==(const vec3 &b) const {
@@ -275,6 +277,7 @@ struct vec4 {
       default:
         assert("vec3 index out of range!");
     }
+    return x;
   }
 };
 

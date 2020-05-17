@@ -118,14 +118,14 @@ struct mat3 {
     return *this;
   }
 
-  inline float det() {
-    return value[1][1] * value[2][2] * value[3][3] +
-           value[1][2] * value[2][3] * value[3][1] +
-           value[1][3] * value[2][1] * value[3][2] -
-           value[1][3] * value[2][2] * value[3][1] -
-           value[1][1] * value[2][3] * value[3][2] -
-           value[1][2] * value[2][1] * value[3][3];
-  }
+  // inline float det() {
+  //   return value[1][1] * value[2][2] * value[3][3] +
+  //          value[1][2] * value[2][3] * value[3][1] +
+  //          value[1][3] * value[2][1] * value[3][2] -
+  //          value[1][3] * value[2][2] * value[3][1] -
+  //          value[1][1] * value[2][3] * value[3][2] -
+  //          value[1][2] * value[2][1] * value[3][3];
+  // }
 };
 
 inline mat3 operator*(const float k, const mat3 &a) { return a * k; }

@@ -19,4 +19,8 @@ file(GLOB SRC_CC
 
 add_library(SoftrdAPIStatic ${SRC_CC})
 
+add_executable(test_renderer_api src/test_renderer_api.cc)
+target_link_libraries(test_renderer_api SoftrdAPIStatic)
+
+
 # target_link_libraries(SoftrdAPIStatic ${assimp_LIBRARIES} soil_libs)
