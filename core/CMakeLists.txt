@@ -15,9 +15,9 @@ else ()
 endif (MSVC)
 
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+# set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include_directories(${CMAKE_SOURCE_DIR})
-include(CTest)
+# include(CTest)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
 find_package(ThirdParty)
@@ -52,7 +52,7 @@ find_package(ThirdParty)
 # wasm cmake test
 
 file(GLOB SRC_CC
-    interface/renderer_api.cc
+    src/interface/renderer_api.cc
     src/common/model.cc src/common/texture.cc
     src/modules/*.cc
     src/renderer/*.cc

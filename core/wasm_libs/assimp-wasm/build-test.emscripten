@@ -1,0 +1,20 @@
+#!/bin/sh
+DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+#DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "DIR= $DIR"
+if [ ! -d "$DIR/../test" ]; then
+    mkdir "$DIR/../test"
+fi
+cd $DIR
+
+# emcc -O2 -Iassimp-es/include test-assimp.cpp -o test-assimp.bc
+# emcc -O2 assimp-es/lib/libzlibstatic.a assimp-es/lib/libassimp.a test-assimp.bc -o test-assimp.js
+emcc \
+    -Lassimp-es-dyn/lib \
+    -Iassimp-es-dyn/include \
+    -lassimp test-assimp.cpp \
+    --preload-file data/ \
+    -o test-assimp.html
+
+
+
