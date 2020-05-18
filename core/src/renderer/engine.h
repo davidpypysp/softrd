@@ -11,11 +11,11 @@ class Engine {
   Engine();
   void Reset(const int width, const int height);
   void DrawSceneObjects();
-  void DrawScene(uint8_t *buffer);
+  void DrawScene();
 
   std::shared_ptr<SceneManager> scene_manager() const { return scene_manager_; }
 
- private:
+ protected:
   std::unique_ptr<RenderingPipeline> rendering_pipeline_ = nullptr;
   std::shared_ptr<SceneManager> scene_manager_ = nullptr;
 };

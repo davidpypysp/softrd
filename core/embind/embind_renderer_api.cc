@@ -3,31 +3,20 @@
 #include "src/interface/renderer_api.h"
 
 using namespace emscripten;
-uint8_t* byteBuffer = (uint8_t*)malloc(8);
-size_t bufferLength = 8;
-
-val getBytes() {
-  byteBuffer[0] = 0;
-  byteBuffer[1] = 1;
-  byteBuffer[2] = 2;
-  byteBuffer[3] = 2;
-  byteBuffer[4] = 2;
-  return val(typed_memory_view(bufferLength, byteBuffer));
-}
 
 class EmbindRendererAPI : public softrd::RendererAPI {
  public:
-  val GetBytes() { return val(typed_memory_view(bufferLength, byteBuffer)); }
+  val GetFrameBufferView() {
+    std::vector<uint8_t>* frame_buffer_ptr =
+        rendering_pipeline_->GetFrameBufferPtr();
+    auto& frame_buffer = *frame_buffer_ptr;
+    return val(typed_memory_view(frame_buffer.size(), &frame_buffer[0]));
+  }
 };
 
 EMSCRIPTEN_BINDINGS(embind_renderer_api) {
   class_<EmbindRendererAPI>("RendererAPI")
       .constructor<>()
-      .function("resetBuffer", &EmbindRendererAPI::ResetBuffer,
-                allow_raw_pointers())
-      .function("drawScene", &EmbindRendererAPI::DrawScene,
-                allow_raw_pointers())
-      .function("getBytes", &EmbindRendererAPI::GetBytes)
-      .function("setSceneObject", &EmbindRendererAPI::SetSceneObject);
-  function("getBytes", &getBytes);
+      .function("setSceneObject", &EmbindRendererAPI::SetSceneObject)
+      .function("getFrameBufferView", &EmbindRendererAPI::GetFrameBufferView);
 }

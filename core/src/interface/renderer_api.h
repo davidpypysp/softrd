@@ -4,23 +4,16 @@
 #include <vector>
 
 #include "src/renderer/engine.h"
-#include "src/renderer/rendering_pipeline.h"
 
 namespace softrd {
 
-class RendererAPI {
+class RendererAPI : public Engine {
  public:
   RendererAPI();
 
   void ResetBuffer(uint8_t *buffer, size_t size);
-  void DrawScene(uint8_t *buffer);
   void SetSceneObject(const std::string &id, const math::vec3 &position,
                       const math::vec3 &rotation);
-
-  ~RendererAPI();
-
- private:
-  std::unique_ptr<Engine> engine_ = nullptr;
 };
 
 }  // namespace softrd

@@ -8,8 +8,9 @@ Engine::Engine() {
 }
 
 void Engine::Reset(const int width, const int height) {
-  if (!scene_manager_ || !rendering_pipeline_) return;
-
+  if (!scene_manager_ || !rendering_pipeline_) {
+    return;
+  }
   rendering_pipeline_->Reset(width, height, scene_manager_->camera());
 }
 
@@ -23,10 +24,8 @@ void Engine::DrawSceneObjects() {
   }
 }
 
-void Engine::DrawScene(uint8_t* buffer) {
-  rendering_pipeline_->SetWindowFrameBuffer(buffer);
+void Engine::DrawScene() {
   rendering_pipeline_->ResetBuffer();
-
   this->DrawSceneObjects();
 }
 
