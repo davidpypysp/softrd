@@ -27,3 +27,7 @@ target_link_libraries(test_renderer_api SoftrdAPIStatic)
 
 
 # target_link_libraries(SoftrdAPIStatic ${assimp_LIBRARIES} soil_libs)
+
+## build emscripten
+
+# em++ --bind  ..\embind\embind_renderer_api.cc -I../ -I..\wasm_libs\assimp-wasm\assimp-es-dyn\include\ -I..\wasm_libs\SOIL-wasm\include\ -lSoftrdAPIStatic -L. -o embind_renderer_api.js
