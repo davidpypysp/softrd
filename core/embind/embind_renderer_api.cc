@@ -12,11 +12,14 @@ class EmbindRendererAPI : public softrd::RendererAPI {
     auto& frame_buffer = *frame_buffer_ptr;
     return val(typed_memory_view(frame_buffer.size(), &frame_buffer[0]));
   }
+
+  inline void DrawSceneObjectsBase() { this->DrawSceneObjects(); }
 };
 
 EMSCRIPTEN_BINDINGS(embind_renderer_api) {
   class_<EmbindRendererAPI>("RendererAPI")
       .constructor<>()
       .function("setSceneObject", &EmbindRendererAPI::SetSceneObject)
+      .function("drawSceneObjects", &EmbindRendererAPI::DrawSceneObjectsBase)
       .function("getFrameBufferView", &EmbindRendererAPI::GetFrameBufferView);
 }
