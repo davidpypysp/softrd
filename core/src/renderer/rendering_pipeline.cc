@@ -33,7 +33,6 @@ void RenderingPipeline::Reset(const int width, const int height,
 
 void RenderingPipeline::DrawSceneObject(
     const std::shared_ptr<SceneObject> &scene_object) {
-  std::cout << "draw object: " << scene_object->id() << std::endl;
   math::mat4 model_matrix;
   model_matrix.identify();
 
