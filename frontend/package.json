@@ -7,6 +7,7 @@
         "rebuild_core": "yarn --cwd ../middleware rebuild_core",
         "rebuild_middleware": "yarn --cwd ../middleware rebuild",
         "rebuild_all": "yarn rebuild_core && yarn rebuild_middleware",
+        "rebuild_wasm": "cd ../core/build-wasm && emcmake cmake .. && emmake make -j8 install",
         "build": "webpack --mode production",
         "start": "webpack-dev-server --mode development",
         "electron_dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\"",
