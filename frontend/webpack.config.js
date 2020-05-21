@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 module.exports = {
     entry: './src/index.tsx',
@@ -77,10 +79,17 @@ module.exports = {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: "./src/index.html",
-            filename: "./index.html"
+            template: "./src/index.ejs",
+            filename: "./index.html",
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+            {
+                from: './src/wasm',
+                to: 'wasm',
+            }]
+        })
     ],
     devServer: {
         contentBase: path.join(__dirname, "src"),
