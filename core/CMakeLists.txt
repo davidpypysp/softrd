@@ -6,8 +6,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind")
 
 include_directories(${CMAKE_SOURCE_DIR})
 
-include_directories(${CMAKE_SOURCE_DIR}/wasm_libs/SOIL-wasm/include)
-include_directories(${CMAKE_SOURCE_DIR}/wasm_libs/assimp-wasm/assimp-es-dyn/include)
+include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/soil/include)
+include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/assimp/include)
 
 
 file(GLOB SRC_CC
@@ -18,17 +18,13 @@ file(GLOB SRC_CC
     src/scene/camera.cc
 )
 
-
 add_library(SoftrdCore ${SRC_CC})
-target_link_libraries(SoftrdCore ${CMAKE_SOURCE_DIR}/wasm_libs/SOIL-wasm/libSOIL.bc)
-# set_target_properties(SoftrdCore PROPERTIES COMPILE_FLAGS
-#      "--preload-file ${CMAKE_BINARY_DIR}/something.jpg"
-# )
-
+target_link_libraries(SoftrdCore ${CMAKE_SOURCE_DIR}/third_party/wasm/soil/lib/libSOIL.bc)
 
 add_executable(softrd_api embind/embind_renderer_api.cc)
 target_link_libraries(softrd_api SoftrdCore)
-# target_compile_options(softrd_api PUBLIC "${CMAKE_CXX_FLAGS} --bind")
 
-## build emscripten
-# em++ --bind  ..\embind\embind_renderer_api.cc -I../ -I..\wasm_libs\assimp-wasm\assimp-es-dyn\include\ -I..\wasm_libs\SOIL-wasm\include\ -lSoftrdAPIStatic -L. -o embind_renderer_api.js
+install(
+    FILES ${CMAKE_BINARY_DIR}/softrd_api.js ${CMAKE_BINARY_DIR}/softrd_api.wasm 
+    DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/wasm
+)

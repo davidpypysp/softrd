@@ -33,7 +33,6 @@ class Renderer {
 
                 this.rendererWASM.drawSceneObjects();
                 this.context2D.putImageData(this.imageData, 0, 0);
-
             }
         }
     }
