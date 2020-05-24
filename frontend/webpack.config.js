@@ -27,7 +27,10 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
+                exclude: [
+                    /node_modules/,
+                    path.resolve(__dirname, "src/softrd_api.js")
+                ],
                 use: ["babel-loader", "eslint-loader"]
             },
             {
@@ -67,18 +70,6 @@ module.exports = {
                 ]
             },
             {
-                test: /\.wasm$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].[ext]',
-                            outputPath: '.'
-                        }
-                    }
-                ]
-            },
-            {
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [
                     {
@@ -100,7 +91,9 @@ module.exports = {
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [
-              { from: './src/softrd_api.wasm', to: '.' },
+              { from: path.resolve(__dirname, 'src/softrd_api.wasm'), 
+                to: path.resolve(__dirname, 'dist')
+              },
             ],
           }),
     ],

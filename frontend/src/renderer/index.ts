@@ -1,6 +1,6 @@
 import store from "src/store";
 
-import Module from "softrd/softrd_api";
+import Module from "src/softrd_api";
 // const { softrd } = window as any;
 
 class Renderer {
