@@ -25,6 +25,11 @@ add_executable(softrd_api embind/embind_renderer_api.cc)
 target_link_libraries(softrd_api SoftrdCore)
 
 install(
-    FILES ${CMAKE_BINARY_DIR}/softrd_api.js ${CMAKE_BINARY_DIR}/softrd_api.wasm 
-    DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/wasm
+    FILES ${CMAKE_SOURCE_DIR}/embind/softrd_api.js
+    DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/node_modules/softrd
 )
+
+install(
+    FILES ${CMAKE_BINARY_DIR}/softrd_api.wasm 
+    DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/
+) 

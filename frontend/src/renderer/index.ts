@@ -16,7 +16,15 @@ class Renderer {
         console.log("renderer constructor");
         Module.onRuntimeInitialized = () => {
             this.rendererWASM = Module;
-            console.log("wasm", this.rendererWASM);
+
+            this.rendererWASM = new Module.RendererAPI();
+
+            const bytes = this.rendererWASM.getFrameBufferView();
+            const bytesClamped = new Uint8ClampedArray(bytes.buffer, bytes.byteOffset, bytes.length);
+            this.imageData = new ImageData(bytesClamped, 640, 480);
+
+            this.rendererWASM.drawSceneObjects();
+            this.context2D.putImageData(this.imageData, 0, 0);
         }
     }
 

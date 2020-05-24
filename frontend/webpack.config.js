@@ -67,6 +67,18 @@ module.exports = {
                 ]
             },
             {
+                test: /\.wasm$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: '.'
+                        }
+                    }
+                ]
+            },
+            {
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [
                     {
@@ -86,6 +98,11 @@ module.exports = {
             filename: "./index.html",
         }),
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+              { from: './src/softrd_api.wasm', to: '.' },
+            ],
+          }),
     ],
     devServer: {
         contentBase: path.join(__dirname, "src"),
