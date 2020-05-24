@@ -1,5 +1,6 @@
-import store from "src/store"
+import store from "src/store";
 
+import Module from "softrd/softrd_api";
 // const { softrd } = window as any;
 
 class Renderer {
@@ -11,6 +12,14 @@ class Renderer {
     public fps: number = 0;
     public rendererWASM = null;
 
+    constructor() {
+        console.log("renderer constructor");
+        Module.onRuntimeInitialized = () => {
+            this.rendererWASM = Module;
+            console.log("wasm", this.rendererWASM);
+        }
+    }
+
     init(canvasId) {
         this.canvasElement = document.getElementById(canvasId);
         this.context2D = this.canvasElement.getContext("2d");
@@ -19,22 +28,6 @@ class Renderer {
 
         // this.softrdAddon = new softrd.RendererAPIAddon(10);
         this.lastExcutedTime = performance.now();
-
-        console.log("renderer init");
-
-        (window as any).Module = {
-            onRuntimeInitialized: () => {
-                console.log("renderer module on runtime");
-
-                this.rendererWASM = new (window as any).Module.RendererAPI();
-                const bytes = this.rendererWASM.getFrameBufferView();
-                const bytesClamped = new Uint8ClampedArray(bytes.buffer, bytes.byteOffset, bytes.length);
-                this.imageData = new ImageData(bytesClamped, 640, 480);
-
-                this.rendererWASM.drawSceneObjects();
-                this.context2D.putImageData(this.imageData, 0, 0);
-            }
-        }
     }
 
     draw() {

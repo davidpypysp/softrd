@@ -20,6 +20,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
     },
     devtool: 'inline-source-map',
+    node: {
+        fs: "empty"
+    },
     module: {
         rules: [
             {
@@ -83,13 +86,6 @@ module.exports = {
             filename: "./index.html",
         }),
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-            {
-                from: './src/wasm',
-                to: 'wasm',
-            }]
-        })
     ],
     devServer: {
         contentBase: path.join(__dirname, "src"),
