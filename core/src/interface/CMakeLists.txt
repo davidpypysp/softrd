@@ -1,2 +1,1 @@
-add_library (SoftrdAPI SHARED renderer_api.cc)
-target_link_libraries(SoftrdAPI renderer)
+target_sources(SoftrdCore PRIVATE renderer_api.cc)

@@ -71,7 +71,8 @@
     "variant": "cpp",
     "slist": "cpp",
     "regex": "cpp",
-    "filesystem": "cpp"
+    "filesystem": "cpp",
+    "bit": "cpp"
   },
   "editor.formatOnSave": true,
   "vim.handleKeys": {

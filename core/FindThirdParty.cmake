@@ -1,13 +1,13 @@
 
 
-# abseil
-find_package(absl CONFIG REQUIRED)
+# # abseil
+# find_package(absl CONFIG REQUIRED)
 
-# google test
-find_package(GTest CONFIG REQUIRED)
+# # google test
+# find_package(GTest CONFIG REQUIRED)
 
-# glog
-find_package(glog CONFIG REQUIRED)
+# # glog
+# find_package(glog CONFIG REQUIRED)
 
 # soil
 find_package(SOIL CONFIG REQUIRED)

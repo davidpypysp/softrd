@@ -1,11 +1,10 @@
 #ifndef SOFTRD_MATH_VECTOR_H_
 #define SOFTRD_MATH_VECTOR_H_
 
-#include <absl/strings/str_format.h>
-
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <string>
 
 namespace softrd {
 namespace math {
@@ -74,9 +73,12 @@ struct vec2 {
       default:
         assert("vec2 index out of range!");
     }
+    return x;
   }
 
-  inline std::string ToString() { return absl::StrFormat("(%f, %f)", x, y); }
+  inline std::string ToString() {
+    return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  }
 };
 
 inline vec2 operator*(const float a, const vec2 &b) { return b * a; }
@@ -164,6 +166,7 @@ struct vec3 {
       default:
         assert("vec3 index out of range!");
     }
+    return x;
   }
 
   inline bool operator==(const vec3 &b) const {
@@ -171,7 +174,8 @@ struct vec3 {
   }
 
   inline std::string ToString() {
-    return absl::StrFormat("(%f, %f, %f)", x, y, z);
+    return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " +
+           std::to_string(z) + ")";
   }
 };
 
@@ -256,7 +260,8 @@ struct vec4 {
   }
 
   inline std::string ToString() {
-    return absl::StrFormat("(%f, %f, %f, %f)", x, y, z, w);
+    return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " +
+           std::to_string(z) + +", " + std::to_string(w) + ")";
   }
 
   inline float &operator[](const int index) {
@@ -272,6 +277,7 @@ struct vec4 {
       default:
         assert("vec3 index out of range!");
     }
+    return x;
   }
 };
 

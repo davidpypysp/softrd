@@ -11,8 +11,10 @@ void RenderingPipeline::Reset(const int width, const int height,
   height_ = height;
   screen_size_ = width * height;
 
-  frame_buffer_.Resize(screen_size_ * 4);
   depth_buffer_.Resize(screen_size_ * 4);
+  frame_buffer_.resize(screen_size_ * 4);
+
+  ResetBuffer();
 
   camera_ = camera;
 
@@ -112,9 +114,9 @@ void RenderingPipeline::Run(const DrawMode mode) {
 
         if (per_sample_processor_->Run(fragment_shader_out) == true) {
           // test fragment success, pass into framebuffer;
-          SetPixel(fragment_shader_out.window_position.x,
-                   fragment_shader_out.window_position.y,
-                   fragment_shader_out.color);
+          SetPixelToWindow(fragment_shader_out.window_position.x,
+                           fragment_shader_out.window_position.y,
+                           fragment_shader_out.color);
           SetDepth(fragment_shader_out.window_position.x,
                    fragment_shader_out.window_position.y,
                    fragment_shader_out.window_position.z);
@@ -155,20 +157,16 @@ void RenderingPipeline::SetPolygonMode(
   polygon_mode_ = mode;
 }
 
-void RenderingPipeline::SetWindowFrameBuffer(uint8_t *buffer) {
-  this->window_frame_buffer_ = buffer;
-}
-
 void RenderingPipeline::ResetBuffer() {
-  frame_buffer_.Fill(10);
+  std::fill(frame_buffer_.begin(), frame_buffer_.end(), 10);
   depth_buffer_.Fill(1.0);
 }
 
 RenderingPipeline::~RenderingPipeline() {}
 
-// set pixel to the appointed color
-void RenderingPipeline::SetPixel(const int x, const int y,
-                                 const math::vec4 &color) {
+// set pixel to window frame buffer
+void RenderingPipeline::SetPixelToWindow(const int x, const int y,
+                                         const math::vec4 &color) {
   if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
     int offset = (y * width_ + x) * 4;
     frame_buffer_[offset] = math::Clamp(color.z * 255, 0, 255);      // b
@@ -178,21 +176,13 @@ void RenderingPipeline::SetPixel(const int x, const int y,
   }
 }
 
-// set pixel to window frame buffer
-void RenderingPipeline::SetPixelToWindow(const int x, const int y,
-                                         const math::vec4 &color) {
-  if (0 <= x && x <= width_ && 0 <= y && y <= height_) {
-    int offset = (y * width_ + x) * 4;
-    window_frame_buffer_[offset] = math::Clamp(color.z * 255, 0, 255);      // b
-    window_frame_buffer_[offset + 1] = math::Clamp(color.y * 255, 0, 255);  // g
-    window_frame_buffer_[offset + 2] = math::Clamp(color.x * 255, 0, 255);  // r
-    window_frame_buffer_[offset + 3] = math::Clamp(color.w * 255, 0, 255);  // a
-  }
-}
-
 // set depth buffer value
 void RenderingPipeline::SetDepth(const int x, const int y, const float z) {
   depth_buffer_[y * width_ + x] = z;
+}
+
+std::vector<uint8_t> *RenderingPipeline::GetFrameBufferPtr() {
+  return &frame_buffer_;
 }
 
 }  // namespace softrd

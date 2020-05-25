@@ -1,6 +1,5 @@
 
 aux_source_directory(. DIR_SRCS)
 
-add_library (modules ${DIR_SRCS})
-target_link_libraries(modules common camera)
+target_sources(SoftrdCore PRIVATE ${DIR_SRCS})
 

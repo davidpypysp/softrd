@@ -1,9 +1,32 @@
+# emscripten build
+
+```
+~/emsdk/emsdk.ps1 activate latest
+
+cd core
+mkdir build-wasm
+emcmake cmake ..
+emmake make -j
+
+em++ --bind  ..\embind\embind_renderer_api.cc -I../ -I..\wasm_libs\assimp-wasm\assimp-es-dyn\include\ -I..\wasm_libs\SOIL-wasm\include\ -lSoftrdAPIStatic -L. -o embind_renderer_api.js
+
+emrun --no_browser --port 8080 .
+
+```
+
+
+
 # Third party libraries installation
 
 vcpkg install
 ```
 # in vcpkg repo path
 vcpkg install abseil gtest glog soil assimp
+```
+
+build cmake with vcpkg
+```
+cmake -DCMAKE_TOOLCHAIN_FILE=[vcpkg root]\scripts\buildsystems\vcpkg.cmake ..
 ```
 
 ## Linux

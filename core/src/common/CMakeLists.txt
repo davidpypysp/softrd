@@ -1,8 +1,7 @@
-add_library(texture texture.cc)
-target_link_libraries(texture math soil_libs glog::glog)
+target_sources(SoftrdCore PRIVATE 
+    texture.cc 
+    model.cc
+)
 
-add_gtest_exe(texture_test texture_test.cc)
-target_link_libraries(texture_test texture)
-
-add_library(common model.cc)
-target_link_libraries(common PRIVATE math texture ${assimp_LIBRARIES})
+# add_gtest_exe(texture_test texture_test.cc)
+# target_link_libraries(texture_test texture glog::glog)

@@ -78,7 +78,7 @@ Napi::Value RendererAPIAddon::DrawScene(const Napi::CallbackInfo& info) {
   size_t length = buf.ByteLength() / sizeof(uint8_t);
   memset(array, 0, length);
 
-  renderer_api_->DrawScene(array);
+  renderer_api_->DrawScene();
   return info.Env().Undefined();
 }
 
@@ -120,7 +120,7 @@ Napi::Value RendererAPIAddon::DrawSceneObjects(const Napi::CallbackInfo& info) {
 
   uint8_t* array = reinterpret_cast<uint8_t*>(buf.Data());
   memset(array, 0, buf.ByteLength());
-  renderer_api_->DrawScene(array);
+  renderer_api_->DrawScene();
 
   return info.Env().Undefined();
 }

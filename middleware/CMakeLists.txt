@@ -27,7 +27,7 @@ target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 # import core target
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_SOURCE_DIR}/build-core)
 find_package(SoftrdCore CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${SoftrdAPI})
+target_link_libraries(${PROJECT_NAME} ${SoftrdCore})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 add_definitions(-DNAPI_VERSION=3)

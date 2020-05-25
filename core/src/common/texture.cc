@@ -1,7 +1,5 @@
 #include "src/common/texture.h"
 
-#include <glog/logging.h>
-
 namespace softrd {
 
 //  texture coordinate sample
@@ -15,12 +13,10 @@ Texture::Texture(const char *file_name) {
       SOIL_load_image(file_name, &width_, &height_, 0, SOIL_LOAD_RGB);
 
   if (image == nullptr) {
-    LOG(WARNING) << "Can not get image: " << file_name;
+    std::cout << "Can't get image: " << file_name;
     return;
   }
 
-  LOG(INFO) << "Loaded image: " << file_name << ", width: " << width_
-            << ", height: " << height_;
   pixels_ = new math::vec3[width_ * height_];
 
   float k = 1.0 / 255.0;
