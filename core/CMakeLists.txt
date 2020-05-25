@@ -21,10 +21,7 @@ add_library(SoftrdCore)
 
 add_subdirectory(src)
 
-include_directories(${CMAKE_SOURCE_DIR})
-
 if(EMSCRIPTEN) 
-    message("Emscripten build")
     include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/soil/include)
     include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/assimp/include)
 
@@ -41,8 +38,6 @@ if(EMSCRIPTEN)
         DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/
     )
 else()
-    message("Vcpkg build")
-
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
     find_package(ThirdParty)
 
@@ -63,11 +58,12 @@ else()
     # generate config cmake
     include(CMakePackageConfigHelpers)
     set(VCPKG_INCLUDE_DIR ${_VCPKG_ROOT_DIR}/installed/${VCPKG_TARGET_TRIPLET}/include)
+    
     configure_package_config_file(
-    ${CMAKE_SOURCE_DIR}/SoftrdCoreConfig.cmake.in
-    "SoftrdCoreConfig.cmake"
-    INSTALL_DESTINATION .
-    PATH_VARS VCPKG_INCLUDE_DIR 
+        ${CMAKE_SOURCE_DIR}/SoftrdCoreConfig.cmake.in
+        "SoftrdCoreConfig.cmake"
+        INSTALL_DESTINATION .
+        PATH_VARS VCPKG_INCLUDE_DIR 
     )
     install(FILES ${CMAKE_BINARY_DIR}/SoftrdCoreConfig.cmake DESTINATION . )
 endif(EMSCRIPTEN)

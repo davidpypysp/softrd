@@ -30,7 +30,6 @@ export default class SceneView extends React.Component {
     }
 
     render() {
-        console.log("scene rerender");
         return (
             <div className="scene-view" >
                 <canvas
