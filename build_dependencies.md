@@ -24,6 +24,11 @@ vcpkg install
 vcpkg install abseil gtest glog soil assimp
 ```
 
+build cmake with vcpkg
+```
+cmake -DCMAKE_TOOLCHAIN_FILE=[vcpkg root]\scripts\buildsystems\vcpkg.cmake ..
+```
+
 ## Linux
 
 install SDL2

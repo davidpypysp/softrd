@@ -10,7 +10,7 @@
     "rebuild_core": "yarn configure_core && yarn build_core && yarn install_core",
     "cmake": "cmake-js",
     "rebuild": "yarn cmake build && cmake --install build",
-    "rebuild_all": "yarn rebuild_core && yarn rebuild",
+    "rebuild_all": "yarn rebuild_core && yarn rebuild"
   },
   "author": "",
   "license": "ISC",
