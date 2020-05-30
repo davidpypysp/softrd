@@ -19,7 +19,7 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
-    devtool: 'inline-source-map',
+    devtool: 'cheap-source-map',
     node: {
         fs: "empty"
     },
@@ -91,11 +91,12 @@ module.exports = {
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [
-              { from: path.resolve(__dirname, 'src/softrd_api.wasm'), 
-                to: path.resolve(__dirname, 'dist')
-              },
+                {
+                    from: path.resolve(__dirname, 'src/softrd_api.wasm'),
+                    to: path.resolve(__dirname, 'dist')
+                },
             ],
-          }),
+        }),
     ],
     devServer: {
         contentBase: path.join(__dirname, "src"),
