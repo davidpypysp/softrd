@@ -26,7 +26,7 @@ add_subdirectory(src)
 
 if(EMSCRIPTEN) 
     find_package(ThirdPartyWASM)
-    target_link_libraries(SoftrdCore ${soil_lib})
+    target_link_libraries(SoftrdCore ${SOIL_LIB})
 
     add_executable(softrd_api embind/embind_renderer_api.cc)
     target_link_libraries(softrd_api SoftrdCore)
