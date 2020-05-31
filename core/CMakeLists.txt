@@ -14,6 +14,8 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 endif (MSVC)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/third_party)
+
 include_directories(${CMAKE_SOURCE_DIR})
 include(CTest)
 
@@ -21,11 +23,10 @@ add_library(SoftrdCore)
 
 add_subdirectory(src)
 
-if(EMSCRIPTEN) 
-    include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/soil/include)
-    include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/assimp/include)
 
-    target_link_libraries(SoftrdCore ${CMAKE_SOURCE_DIR}/third_party/wasm/soil/lib/libSOIL.bc)
+if(EMSCRIPTEN) 
+    find_package(ThirdPartyWASM)
+    target_link_libraries(SoftrdCore ${soil_lib})
 
     add_executable(softrd_api embind/embind_renderer_api.cc)
     target_link_libraries(softrd_api SoftrdCore)
@@ -38,7 +39,7 @@ if(EMSCRIPTEN)
         DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/
     )
 else()
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
+    # vcpkg build
     find_package(ThirdParty)
 
     target_link_libraries(SoftrdCore soil_libs ${assimp_LIBRARIES})
