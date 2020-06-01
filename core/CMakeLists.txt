@@ -21,11 +21,13 @@ include(CTest)
 
 add_library(SoftrdCore)
 
-add_subdirectory(src)
 
 
 if(EMSCRIPTEN) 
     find_package(ThirdPartyWASM)
+
+    add_subdirectory(src)
+
     target_link_libraries(SoftrdCore ${SOIL_LIB})
 
     add_executable(softrd_api embind/embind_renderer_api.cc)
@@ -41,6 +43,8 @@ if(EMSCRIPTEN)
 else()
     # vcpkg build
     find_package(ThirdParty)
+
+    add_subdirectory(src)
 
     target_link_libraries(SoftrdCore soil_libs ${assimp_LIBRARIES})
 

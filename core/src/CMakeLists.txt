@@ -1,8 +1,8 @@
-# macro(add_gtest_exe exe)
-#     add_executable(${exe} ${ARGV})
-#     target_link_libraries(${exe} GTest::gtest)
-#     add_test(NAME ${exe} COMMAND ${exe})
-# endmacro()
+macro(add_gtest_exe exe)
+    add_executable(${exe} ${ARGV})
+    target_link_libraries(${exe} GTest::gtest)
+    add_test(NAME ${exe} COMMAND ${exe})
+endmacro()
 
 add_subdirectory(common)
 add_subdirectory(modules)
