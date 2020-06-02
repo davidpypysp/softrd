@@ -1,7 +1,9 @@
 macro(add_gtest_exe exe)
     add_executable(${exe} ${ARGV})
     target_link_libraries(${exe} GTest::gtest)
-    add_test(NAME ${exe} COMMAND ${exe})
+    if(EMSCRIPTEN)
+        add_test(NAME ${exe} COMMAND node ${exe}.js)
+    endif()
 endmacro()
 
 add_subdirectory(common)
