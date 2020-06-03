@@ -3,5 +3,9 @@ target_sources(SoftrdCore PRIVATE
     model.cc
 )
 
-add_gtest_exe(texture_test texture_test.cc texture.cc)
-target_link_libraries(texture_test ${SOIL_LIB})
+add_gtest_exe(
+    NAME texture_test
+    SRCS texture_test.cc texture.cc
+    DEPS ${SOIL_LIB}
+)
+
