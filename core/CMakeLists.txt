@@ -28,7 +28,7 @@ if(EMSCRIPTEN)
 
     add_subdirectory(src)
 
-    target_link_libraries(SoftrdCore ${SOIL_LIB} assimp::assimp)
+    target_link_libraries(SoftrdCore soil::soil assimp::assimp)
 
     add_executable(softrd_api embind/embind_renderer_api.cc)
     target_link_libraries(softrd_api SoftrdCore)
