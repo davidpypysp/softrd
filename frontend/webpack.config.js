@@ -1,8 +1,5 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
 
 module.exports = {
     entry: './src/index.tsx',
@@ -87,16 +84,7 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/index.ejs",
             filename: "./index.html",
-        }),
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, 'src/wasm/softrd_api.wasm'),
-                    to: path.resolve(__dirname, 'dist/wasm')
-                },
-            ],
-        }),
+        })
     ],
     devServer: {
         contentBase: path.join(__dirname, "dist"),
