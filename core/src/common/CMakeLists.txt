@@ -9,3 +9,9 @@ add_gtest_exe(
     DEPS ${SOIL_LIB}
 )
 
+add_gtest_exe(
+    NAME model_test
+    SRCS model_test.cc model.cc
+    DEPS assimp::assimp
+)
+
