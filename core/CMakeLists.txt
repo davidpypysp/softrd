@@ -33,11 +33,14 @@ if(EMSCRIPTEN)
     add_executable(softrd_api embind/embind_renderer_api.cc)
     target_link_libraries(softrd_api SoftrdCore)
     set_target_properties(softrd_api PROPERTIES 
-        LINK_FLAGS "--bind"
+        LINK_FLAGS 
+            "--bind --post-js ${CMAKE_SOURCE_DIR}/embind/post_file.js"
     )
 
     install(
-        FILES ${CMAKE_BINARY_DIR}/softrd_api.wasm 
+        FILES 
+            ${CMAKE_BINARY_DIR}/softrd_api.wasm 
+            ${CMAKE_BINARY_DIR}/softrd_api.js
         DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/
     )
 else()

@@ -19,9 +19,10 @@
 // can continue to use Module afterwards as well.
 var Module = typeof Module !== 'undefined' ? Module : {};
 
+
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// {{PRE_JSES}}
+
 
 // Sometimes an existing Module object exists with properties
 // meant to overwrite the default module functionality. Here
@@ -708,6 +709,7 @@ function getValue(ptr, type, noSafe) {
 
 
 
+
 // Wasm globals
 
 var wasmMemory;
@@ -716,8 +718,8 @@ var wasmMemory;
 // In the wasm backend, we polyfill the WebAssembly object,
 // so this creates a (non-native-wasm) table for us.
 var wasmTable = new WebAssembly.Table({
-  'initial': 414,
-  'maximum': 414 + 0,
+  'initial': 8539,
+  'maximum': 8539 + 0,
   'element': 'anyfunc'
 });
 
@@ -1100,13 +1102,16 @@ function stringToAscii(str, outPtr) {
 
 var UTF16Decoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-16le') : undefined;
 
-function UTF16ToString(ptr) {
+function UTF16ToString(ptr, maxBytesToRead) {
   assert(ptr % 2 == 0, 'Pointer passed to UTF16ToString must be aligned to two bytes!');
   var endPtr = ptr;
   // TextDecoder needs to know the byte length in advance, it doesn't stop on null terminator by itself.
   // Also, use the length info to avoid running tiny strings through TextDecoder, since .subarray() allocates garbage.
   var idx = endPtr >> 1;
-  while (HEAP16[idx]) ++idx;
+  var maxIdx = idx + maxBytesToRead / 2;
+  // If maxBytesToRead is not passed explicitly, it will be undefined, and this
+  // will always evaluate to true. This saves on code size.
+  while (!(idx >= maxIdx) && HEAPU16[idx]) ++idx;
   endPtr = idx << 1;
 
   if (endPtr - ptr > 32 && UTF16Decoder) {
@@ -1117,7 +1122,7 @@ function UTF16ToString(ptr) {
     var str = '';
     while (1) {
       var codeUnit = HEAP16[(((ptr)+(i*2))>>1)];
-      if (codeUnit == 0) return str;
+      if (codeUnit == 0 || i == maxBytesToRead / 2) return str;
       ++i;
       // fromCharCode constructs a character from a UTF-16 code unit, so we can pass the UTF16 string right through.
       str += String.fromCharCode(codeUnit);
@@ -1164,14 +1169,16 @@ function lengthBytesUTF16(str) {
   return str.length*2;
 }
 
-function UTF32ToString(ptr) {
+function UTF32ToString(ptr, maxBytesToRead) {
   assert(ptr % 4 == 0, 'Pointer passed to UTF32ToString must be aligned to four bytes!');
   var i = 0;
 
   var str = '';
-  while (1) {
+  // If maxBytesToRead is not passed explicitly, it will be undefined, and this
+  // will always evaluate to true. This saves on code size.
+  while (!(i >= maxBytesToRead / 4)) {
     var utf32 = HEAP32[(((ptr)+(i*4))>>2)];
-    if (utf32 == 0) return str;
+    if (utf32 == 0) break;
     ++i;
     // Gotcha: fromCharCode constructs a character from a UTF-16 encoded code (pair), not from a Unicode code point! So encode the code point to UTF-16 for constructing.
     // See http://unicode.org/faq/utf_bom.html#utf16-3
@@ -1182,6 +1189,7 @@ function UTF32ToString(ptr) {
       str += String.fromCharCode(utf32);
     }
   }
+  return str;
 }
 
 // Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
@@ -1338,11 +1346,11 @@ function updateGlobalBufferAndViews(buf) {
 }
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 5273552,
+    STACK_BASE = 5797872,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 30672,
-    DYNAMIC_BASE = 5273552,
-    DYNAMICTOP_PTR = 30512;
+    STACK_MAX = 554992,
+    DYNAMIC_BASE = 5797872,
+    DYNAMICTOP_PTR = 554832;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1923,7 +1931,7 @@ var ASM_CONSTS = {
 
 
 
-// STATICTOP = STATIC_BASE + 29648;
+// STATICTOP = STATIC_BASE + 553968;
 /* global initializers */  __ATINIT__.push({ func: function() { ___wasm_call_ctors() } });
 
 
@@ -5876,20 +5884,13 @@ var ASM_CONSTS = {
   
               var str;
               if (stdStringIsUTF8) {
-                  //ensure null termination at one-past-end byte if not present yet
-                  var endChar = HEAPU8[value + 4 + length];
-                  var endCharSwap = 0;
-                  if (endChar != 0) {
-                      endCharSwap = endChar;
-                      HEAPU8[value + 4 + length] = 0;
-                  }
-  
                   var decodeStartPtr = value + 4;
                   // Looping here to support possible embedded '0' bytes
                   for (var i = 0; i <= length; ++i) {
                       var currentBytePtr = value + 4 + i;
-                      if (HEAPU8[currentBytePtr] == 0) {
-                          var stringSegment = UTF8ToString(decodeStartPtr);
+                      if (HEAPU8[currentBytePtr] == 0 || i == length) {
+                          var maxRead = currentBytePtr - decodeStartPtr;
+                          var stringSegment = UTF8ToString(decodeStartPtr, maxRead);
                           if (str === undefined) {
                               str = stringSegment;
                           } else {
@@ -5898,10 +5899,6 @@ var ASM_CONSTS = {
                           }
                           decodeStartPtr = currentBytePtr + 1;
                       }
-                  }
-  
-                  if (endCharSwap != 0) {
-                      HEAPU8[value + 4 + length] = endCharSwap;
                   }
               } else {
                   var a = new Array(length);
@@ -5989,20 +5986,14 @@ var ASM_CONSTS = {
               var length = HEAPU32[value >> 2];
               var HEAP = getHeap();
               var str;
-              // Ensure null termination at one-past-end byte if not present yet
-              var endChar = HEAP[(value + 4 + length * charSize) >> shift];
-              var endCharSwap = 0;
-              if (endChar != 0) {
-                  endCharSwap = endChar;
-                  HEAP[(value + 4 + length * charSize) >> shift] = 0;
-              }
   
               var decodeStartPtr = value + 4;
               // Looping here to support possible embedded '0' bytes
               for (var i = 0; i <= length; ++i) {
                   var currentBytePtr = value + 4 + i * charSize;
-                  if (HEAP[currentBytePtr >> shift] == 0) {
-                      var stringSegment = decodeString(decodeStartPtr);
+                  if (HEAP[currentBytePtr >> shift] == 0 || i == length) {
+                      var maxReadBytes = currentBytePtr - decodeStartPtr;
+                      var stringSegment = decodeString(decodeStartPtr, maxReadBytes);
                       if (str === undefined) {
                           str = stringSegment;
                       } else {
@@ -6011,10 +6002,6 @@ var ASM_CONSTS = {
                       }
                       decodeStartPtr = currentBytePtr + charSize;
                   }
-              }
-  
-              if (endCharSwap != 0) {
-                  HEAP[(value + 4 + length * charSize) >> shift] = endCharSwap;
               }
   
               _free(value);
@@ -6087,7 +6074,7 @@ var ASM_CONSTS = {
   var _abs=Math_abs;
 
   function _emscripten_get_sbrk_ptr() {
-      return 30512;
+      return 554832;
     }
 
   function _emscripten_memcpy_big(dest, src, num) {
@@ -6703,24 +6690,10 @@ var _malloc = Module["_malloc"] = function() {
 };
 
 /** @type {function(...*):?} */
-var ___errno_location = Module["___errno_location"] = function() {
-  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
-  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
-  return Module["asm"]["__errno_location"].apply(null, arguments)
-};
-
-/** @type {function(...*):?} */
 var _fflush = Module["_fflush"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
   return Module["asm"]["fflush"].apply(null, arguments)
-};
-
-/** @type {function(...*):?} */
-var _setThrew = Module["_setThrew"] = function() {
-  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
-  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
-  return Module["asm"]["setThrew"].apply(null, arguments)
 };
 
 /** @type {function(...*):?} */
@@ -6735,6 +6708,41 @@ var ___embind_register_native_and_builtin_types = Module["___embind_register_nat
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
   return Module["asm"]["__embind_register_native_and_builtin_types"].apply(null, arguments)
+};
+
+/** @type {function(...*):?} */
+var ___errno_location = Module["___errno_location"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["__errno_location"].apply(null, arguments)
+};
+
+/** @type {function(...*):?} */
+var __get_tzname = Module["__get_tzname"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["_get_tzname"].apply(null, arguments)
+};
+
+/** @type {function(...*):?} */
+var __get_daylight = Module["__get_daylight"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["_get_daylight"].apply(null, arguments)
+};
+
+/** @type {function(...*):?} */
+var __get_timezone = Module["__get_timezone"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["_get_timezone"].apply(null, arguments)
+};
+
+/** @type {function(...*):?} */
+var _setThrew = Module["_setThrew"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["setThrew"].apply(null, arguments)
 };
 
 /** @type {function(...*):?} */
@@ -6843,10 +6851,10 @@ var dynCall_viijii = Module["dynCall_viijii"] = function() {
 };
 
 /** @type {function(...*):?} */
-var dynCall_jiji = Module["dynCall_jiji"] = function() {
+var dynCall_v = Module["dynCall_v"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
-  return Module["asm"]["dynCall_jiji"].apply(null, arguments)
+  return Module["asm"]["dynCall_v"].apply(null, arguments)
 };
 
 /** @type {function(...*):?} */
@@ -6854,6 +6862,13 @@ var dynCall_iidiiii = Module["dynCall_iidiiii"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
   return Module["asm"]["dynCall_iidiiii"].apply(null, arguments)
+};
+
+/** @type {function(...*):?} */
+var dynCall_jiji = Module["dynCall_jiji"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["dynCall_jiji"].apply(null, arguments)
 };
 
 /** @type {function(...*):?} */
@@ -6917,13 +6932,6 @@ var dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
   return Module["asm"]["dynCall_iiiiiijj"].apply(null, arguments)
-};
-
-/** @type {function(...*):?} */
-var dynCall_v = Module["dynCall_v"] = function() {
-  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
-  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
-  return Module["asm"]["dynCall_v"].apply(null, arguments)
 };
 
 
@@ -7169,7 +7177,6 @@ if (!Object.getOwnPropertyDescriptor(Module, "ALLOC_NONE")) Object.definePropert
 
 var calledRun;
 
-
 /**
  * @constructor
  * @this {ExitStatus}
@@ -7298,7 +7305,8 @@ function exit(status, implicit) {
   if (noExitRuntime) {
     // if exit() was called, we may warn the user if the runtime isn't actually being shut down
     if (!implicit) {
-      err('program exited (with status: ' + status + '), but EXIT_RUNTIME is not set, so halting execution but not exiting the runtime or preventing further async execution (build with EXIT_RUNTIME=1, if you want a true shutdown)');
+      var msg = 'program exited (with status: ' + status + '), but EXIT_RUNTIME is not set, so halting execution but not exiting the runtime or preventing further async execution (build with EXIT_RUNTIME=1, if you want a true shutdown)';
+      err(msg);
     }
   } else {
 
@@ -7330,6 +7338,10 @@ run();
 
 
 // {{MODULE_ADDITIONS}}
-module.exports = Module;
 
+
+
+
+console.log("post file");
+module.exports = Module;
 
