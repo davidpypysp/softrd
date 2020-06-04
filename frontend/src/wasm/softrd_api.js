@@ -22,13 +22,9 @@ var Module = typeof Module !== 'undefined' ? Module : {};
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-const locateWASMFile = (path, scriptDirectory) => {
-  console.log("wasm path: ", scriptDirectory + '/wasm/' + path);
-  return scriptDirectory + '/wasm/' + path;
-};
-
-var Module = {
-  locateFile: locateWASMFile
+Module.locateFile = (path, scriptDirectory) => {
+  console.log("wasm path: ", scriptDirectory + 'wasm/' + path);
+  return scriptDirectory + 'wasm' + path;
 };
 
 
@@ -93,6 +89,7 @@ if (ENVIRONMENT_IS_NODE) {
   if (ENVIRONMENT_IS_WORKER) {
     scriptDirectory = require('path').dirname(scriptDirectory) + '/';
   } else {
+    console.log("__dirname:", __dirname);
     scriptDirectory = __dirname + '/';
   }
 
@@ -209,7 +206,6 @@ if (ENVIRONMENT_IS_NODE) {
       } else {
         scriptDirectory = '';
       }
-
 
       // Differentiate the Web Worker from the Node Worker case, as reading must
       // be done differently.
@@ -1798,6 +1794,8 @@ if (!isDataURI(wasmBinaryFile)) {
   wasmBinaryFile = locateFile(wasmBinaryFile);
 }
 
+console.log("wasmBinaryFile: ", wasmBinaryFile);
+
 function getBinary() {
   try {
     if (wasmBinary) {
@@ -1805,6 +1803,7 @@ function getBinary() {
     }
 
     if (readBinary) {
+      console.log("read binary", wasmBinaryFile);
       return readBinary(wasmBinaryFile);
     } else {
       throw "both async and sync fetching of the wasm failed";
@@ -1871,6 +1870,7 @@ function createWasm() {
     trueModule = null;
     // TODO: Due to Closure regression https://github.com/google/closure-compiler/issues/3193, the above line no longer optimizes out down to the following line.
     // When the regression is fixed, can restore the above USE_PTHREADS-enabled path.
+    console.log("before receiveInstance:", wasmBinaryFile);
     receiveInstance(output['instance']);
   }
 
@@ -1886,13 +1886,16 @@ function createWasm() {
 
   // Prefer streaming instantiation if available.
   function instantiateAsync() {
+    console.log("instantiateAsync")
     if (!wasmBinary &&
       typeof WebAssembly.instantiateStreaming === 'function' &&
       !isDataURI(wasmBinaryFile) &&
       // Don't use streaming for file:// delivered objects in a webview, fetch them synchronously.
       !isFileURI(wasmBinaryFile) &&
       typeof fetch === 'function') {
+      console.log("fetch");
       fetch(wasmBinaryFile, { credentials: 'same-origin' }).then(function (response) {
+        console.log("response", response);
         var result = WebAssembly.instantiateStreaming(response, info);
         return result.then(receiveInstantiatedSource, function (reason) {
           // We expect the most common failure cause to be a bad MIME type for the binary,
