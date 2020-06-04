@@ -5,8 +5,7 @@
 using namespace softrd;
 
 TEST(CameraTest, Genral) {
-    std::cout << "test model" << std::endl;
-    Model model("abc");
+    Model model("/resource/suzanne/suzanne.blend");
 }
 
 

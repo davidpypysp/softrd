@@ -14,4 +14,7 @@ add_gtest_exe(
     SRCS model_test.cc model.cc
     DEPS assimp::assimp
 )
-
+set_target_properties(model_test PROPERTIES 
+    LINK_FLAGS "--preload-file ../../../resource/suzanne"
+    SUFFIX ".html"
+)
