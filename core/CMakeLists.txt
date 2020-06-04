@@ -34,14 +34,16 @@ if(EMSCRIPTEN)
     target_link_libraries(softrd_api SoftrdCore)
     set_target_properties(softrd_api PROPERTIES 
         LINK_FLAGS 
-            "--bind --post-js ${CMAKE_SOURCE_DIR}/embind/post_file.js"
+            "--bind \
+             --pre-js ${CMAKE_SOURCE_DIR}/embind/pre_file.js \
+             --post-js ${CMAKE_SOURCE_DIR}/embind/post_file.js"
     )
 
     install(
         FILES 
             ${CMAKE_BINARY_DIR}/softrd_api.wasm 
             ${CMAKE_BINARY_DIR}/softrd_api.js
-        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/
+        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/wasm
     )
 else()
     # vcpkg build

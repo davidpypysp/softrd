@@ -29,7 +29,7 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: [
                     /node_modules/,
-                    path.resolve(__dirname, "src/softrd_api.js")
+                    path.resolve(__dirname, "src/wasm/softrd_api.js")
                 ],
                 use: ["babel-loader", "eslint-loader"]
             },
@@ -92,8 +92,8 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 {
-                    from: path.resolve(__dirname, 'src/softrd_api.wasm'),
-                    to: path.resolve(__dirname, 'dist')
+                    from: path.resolve(__dirname, 'src/wasm/softrd_api.wasm'),
+                    to: path.resolve(__dirname, 'dist/wasm')
                 },
             ],
         }),
