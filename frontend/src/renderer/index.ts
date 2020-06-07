@@ -1,5 +1,5 @@
 import store from "src/store";
-import Module from "src/wasm/softrd_api";
+import Module from "softrd/softrd_api";
 
 class Renderer {
     public canvasElement = null;

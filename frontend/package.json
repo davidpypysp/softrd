@@ -9,7 +9,7 @@
         "rebuild_all": "yarn rebuild_core && yarn rebuild_middleware",
         "rebuild_wasm": "cd ../core/build-wasm && emcmake cmake .. && emmake make -j8 install",
         "build": "webpack --mode production",
-        "start": "webpack-dev-server --mode development",
+        "start": "webpack-dev-server --mode development --env.devServer",
         "electron_dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:9000 && electron .\"",
         "dev": "yarn rebuild_all && yarn electron_dev"
     },
@@ -62,6 +62,7 @@
         "react-dom": "^16.12.0",
         "react-redux": "^7.2.0",
         "redux": "^4.0.5",
+        "softrd": "file:softrd",
         "source-map-loader": "^0.2.4"
     }
 }

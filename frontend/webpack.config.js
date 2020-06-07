@@ -77,6 +77,20 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.wasm$/,
+                type: 'javascript/auto',
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'wasm/',
+                            publicPath: 'wasm/'
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -87,7 +101,8 @@ module.exports = {
         })
     ],
     devServer: {
-        contentBase: path.join(__dirname, "dist"),
+        contentBase: false,
+        publicPath: '/',
         port: 9000
     },
 };
