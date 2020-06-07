@@ -41,12 +41,13 @@ if(EMSCRIPTEN)
 
     install(
         FILES ${CMAKE_BINARY_DIR}/softrd_api.js
-        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/wasm
+        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/softrd
+        RENAME index.js
     )
     install(
         FILES 
             ${CMAKE_BINARY_DIR}/softrd_api.wasm 
-        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/dist/wasm
+        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/softrd
     )
 else()
     # vcpkg build
