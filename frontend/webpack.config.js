@@ -1,8 +1,5 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
 
 module.exports = {
     entry: './src/index.tsx',
@@ -28,8 +25,7 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: [
-                    /node_modules/,
-                    path.resolve(__dirname, "src/softrd_api.js")
+                    /node_modules/
                 ],
                 use: ["babel-loader", "eslint-loader"]
             },
@@ -80,6 +76,20 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.wasm$/,
+                type: 'javascript/auto',
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'wasm/',
+                            publicPath: 'wasm/'
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -87,19 +97,11 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/index.ejs",
             filename: "./index.html",
-        }),
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, 'src/softrd_api.wasm'),
-                    to: path.resolve(__dirname, 'dist')
-                },
-            ],
-        }),
+        })
     ],
     devServer: {
-        contentBase: path.join(__dirname, "src"),
+        contentBase: false,
+        publicPath: '/',
         port: 9000
     },
 };

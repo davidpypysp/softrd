@@ -25,5 +25,8 @@ yarn-error.log*
 # dist
 dist/*
 
-# wasm
-src/wasm/*
+# softrd-js
+softrd-js/softrd_api/*
+
+
+

@@ -14,32 +14,41 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 endif (MSVC)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/third_party)
+
 include_directories(${CMAKE_SOURCE_DIR})
 include(CTest)
 
 add_library(SoftrdCore)
 
-add_subdirectory(src)
-
 if(EMSCRIPTEN) 
-    include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/soil/include)
-    include_directories(${CMAKE_SOURCE_DIR}/third_party/wasm/assimp/include)
+    find_package(ThirdPartyWASM)
 
-    target_link_libraries(SoftrdCore ${CMAKE_SOURCE_DIR}/third_party/wasm/soil/lib/libSOIL.bc)
+    add_subdirectory(src)
+
+    target_link_libraries(SoftrdCore soil::soil assimp::assimp)
 
     add_executable(softrd_api embind/embind_renderer_api.cc)
     target_link_libraries(softrd_api SoftrdCore)
     set_target_properties(softrd_api PROPERTIES 
-        LINK_FLAGS "--bind"
+        LINK_FLAGS 
+            "--bind \
+             --pre-js ${CMAKE_SOURCE_DIR}/embind/pre_file.js \
+             --post-js ${CMAKE_SOURCE_DIR}/embind/post_file.js"
     )
 
+    set(SOFTRD_JS_DIR ${CMAKE_SOURCE_DIR}/../frontend/softrd)
     install(
-        FILES ${CMAKE_BINARY_DIR}/softrd_api.wasm 
-        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/src/
+        FILES 
+            ${CMAKE_BINARY_DIR}/softrd_api.js
+            ${CMAKE_BINARY_DIR}/softrd_api.wasm 
+        DESTINATION ${SOFTRD_JS_DIR}
     )
 else()
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
+    # vcpkg build
     find_package(ThirdParty)
+
+    add_subdirectory(src)
 
     target_link_libraries(SoftrdCore soil_libs ${assimp_LIBRARIES})
 
