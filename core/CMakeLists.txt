@@ -21,8 +21,6 @@ include(CTest)
 
 add_library(SoftrdCore)
 
-
-
 if(EMSCRIPTEN) 
     find_package(ThirdPartyWASM)
 
@@ -39,15 +37,12 @@ if(EMSCRIPTEN)
              --post-js ${CMAKE_SOURCE_DIR}/embind/post_file.js"
     )
 
-    install(
-        FILES ${CMAKE_BINARY_DIR}/softrd_api.js
-        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/softrd
-        RENAME index.js
-    )
+    set(SOFTRD_JS_DIR ${CMAKE_SOURCE_DIR}/../frontend/softrd)
     install(
         FILES 
+            ${CMAKE_BINARY_DIR}/softrd_api.js
             ${CMAKE_BINARY_DIR}/softrd_api.wasm 
-        DESTINATION ${CMAKE_SOURCE_DIR}/../frontend/softrd
+        DESTINATION ${SOFTRD_JS_DIR}
     )
 else()
     # vcpkg build

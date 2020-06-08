@@ -25,8 +25,7 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: [
-                    /node_modules/,
-                    path.resolve(__dirname, "src/wasm/softrd_api.js")
+                    /node_modules/
                 ],
                 use: ["babel-loader", "eslint-loader"]
             },

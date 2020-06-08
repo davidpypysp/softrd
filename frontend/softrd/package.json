@@ -1,7 +1,0 @@
-{
-  "name": "softrd",
-  "version": "1.0.0",
-  "description": "softrd renderer api",
-  "main": "index.js",
-  "license": "MIT"
-}

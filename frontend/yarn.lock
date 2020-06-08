@@ -7596,8 +7596,10 @@ sockjs@0.3.20:
     uuid "^3.4.0"
     websocket-driver "0.6.5"
 
-"softrd@file:softrd":
-  version "1.0.0"
+softrd-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/softrd-js/-/softrd-js-1.0.2.tgz#64f98dd76950e34be20eb4625ac7b5b4148c5697"
+  integrity sha512-DMtJjm4lvoN2eDpNXEPO3R8zzArR5KpOLJJ5yhmMVioGvyJZ/Ep12ME5c3pJ0o02O9koU2uS47gI52hVw+QHEw==
 
 source-list-map@^2.0.0:
   version "2.0.1"

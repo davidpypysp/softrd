@@ -25,3 +25,8 @@ yarn-error.log*
 # dist
 dist/*
 
+# softrd-js
+softrd-js/softrd_api/*
+
+
+
