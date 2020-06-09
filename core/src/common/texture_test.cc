@@ -4,7 +4,9 @@
 
 using namespace softrd;
 
-TEST(TextureTest, Genral) { Texture texture("../../../resource/container.jpg"); }
+TEST(TextureTest, Genral) {
+  Texture texture("../../../resource/container.jpg");
+}
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);

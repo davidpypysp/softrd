@@ -1,5 +1,18 @@
 # emscripten build
 
+linux
+```
+source ~/emsdk/emsdk_env.sh
+
+cd core
+mkdir build-wasm
+emcmake cmake ..
+emmake make -j
+emmake make install
+```
+
+windows
+
 ```
 ~/emsdk/emsdk.ps1 activate latest
 

@@ -78,5 +78,6 @@
   "vim.handleKeys": {
     "<C-c>": false,
     "<C-v>": false,
-  }
+  },
+  "clang-format.executable": "core/.clang-format"
 }

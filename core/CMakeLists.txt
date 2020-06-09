@@ -28,16 +28,17 @@ if(EMSCRIPTEN)
 
     target_link_libraries(SoftrdCore soil::soil assimp::assimp)
 
-    add_executable(softrd_api embind/embind_renderer_api.cc)
+    set(PORT_EMSC_DIR ${CMAKE_SOURCE_DIR}/port/emscripten)
+    add_executable(softrd_api ${PORT_EMSC_DIR}/embind_renderer_api.cc)
     target_link_libraries(softrd_api SoftrdCore)
     set_target_properties(softrd_api PROPERTIES 
         LINK_FLAGS 
             "--bind \
-             --pre-js ${CMAKE_SOURCE_DIR}/embind/pre_file.js \
-             --post-js ${CMAKE_SOURCE_DIR}/embind/post_file.js"
+             --pre-js ${PORT_EMSC_DIR}/pre_file.js \
+             --post-js ${PORT_EMSC_DIR}/post_file.js"
     )
 
-    set(SOFTRD_JS_DIR ${CMAKE_SOURCE_DIR}/../frontend/softrd)
+    set(SOFTRD_JS_DIR ${CMAKE_SOURCE_DIR}/../frontend/softrd-js/softrd_api)
     install(
         FILES 
             ${CMAKE_BINARY_DIR}/softrd_api.js
