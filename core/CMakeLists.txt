@@ -39,11 +39,18 @@ if(EMSCRIPTEN)
     )
 
     set(SOFTRD_JS_DIR ${CMAKE_SOURCE_DIR}/../frontend/softrd-js/softrd_api)
+    set(SOFTRD_JS_NODE_MODULES_DIR ${CMAKE_SOURCE_DIR}/../frontend/node_modules/softrd-js/softrd_api)
     install(
         FILES 
             ${CMAKE_BINARY_DIR}/softrd_api.js
             ${CMAKE_BINARY_DIR}/softrd_api.wasm 
         DESTINATION ${SOFTRD_JS_DIR}
+    )
+    install(
+        FILES 
+            ${CMAKE_BINARY_DIR}/softrd_api.js
+            ${CMAKE_BINARY_DIR}/softrd_api.wasm 
+        DESTINATION ${SOFTRD_JS_NODE_MODULES_DIR}
     )
 else()
     # vcpkg build
