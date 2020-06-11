@@ -1,7 +1,7 @@
 # build docker image
 ```
 cd docker/
-sudo docker build -t davidpy1992/softrd-ubuntu .
+sudo docker build -t davidpy1992/softrd-dev .
 ```
 
 # emscripten build
