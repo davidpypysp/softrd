@@ -1,4 +1,12 @@
 language: c++
 services:
     - docker
-script: true
+
+
+
+before_install:
+    - docker run -it -v $(pwd):/softrd davidpy1992/softrd-dev bash
+
+install:
+    - cd core
+    - mkdir build-wasm
