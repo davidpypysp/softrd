@@ -5,8 +5,7 @@ services:
 
 
 before_install:
-    - docker run -it -v $(pwd):/softrd davidpy1992/softrd-dev bash
+    - docker pull davidpy1992/softrd-dev
 
-install:
-    - cd core
-    - mkdir build-wasm
+script:
+    - docker run davidpy1992/softrd-dev /bin/sh -c "cd /softrd; mkdir build-wasm"
