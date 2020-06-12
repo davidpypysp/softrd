@@ -8,7 +8,7 @@ before_install:
     - docker pull davidpy1992/softrd-dev
 
 script:
-    - docker run davidpy1992/softrd-dev /bin/bash
+    - docker run -it -v $(pwd):/softrd davidpy1992/softrd-dev /bin/bash
     - cd /softrd
     - mkdir build-wasm
     - pwd
