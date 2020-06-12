@@ -1,15 +1,18 @@
-language: c++
+language: cpp
 services:
     - docker
 
 
 
 before_install:
-    - docker run -v $(pwd):/softrd davidpy1992/softrd-dev /bin/bash
-    - docker ps -a
+    - docker run --name softrd-dev -v $(pwd):/softrd davidpy1992/softrd-dev -d /bin/bash
+    - docker ps
 
 before_script:
 
 script:
-    - docker exec davidpy1992/softrd-dev pwd
-    - docker exec davidpy1992/softrd-dev "mkdir /softrd/core/build-wasm && cd /softrd/core/build-wasm && emcmake cmake ..
+    - docker exec softrd-dev bash -c "\ 
+        mkdir /softrd/core/build-wasm && \
+        cd /softrd/core/build-wasm && \
+        emcmake cmake ..
+        "
