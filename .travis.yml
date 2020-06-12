@@ -5,7 +5,7 @@ services:
 
 
 before_install:
-    - docker run --name softrd-dev -v $(pwd):/softrd davidpy1992/softrd-dev -d /bin/bash
+    - docker run --name softrd-dev -d -it -v $(pwd):/softrd davidpy1992/softrd-dev bash
     - docker ps
 
 before_script:
