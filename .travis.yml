@@ -8,4 +8,8 @@ before_install:
     - docker pull davidpy1992/softrd-dev
 
 script:
-    - docker run davidpy1992/softrd-dev /bin/sh -c "cd /softrd; mkdir build-wasm"
+    - docker run davidpy1992/softrd-dev /bin/bash
+    - cd /softrd
+    - mkdir build-wasm
+    - pwd
+    - emcmake cmake ..
