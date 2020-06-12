@@ -2,8 +2,6 @@ language: cpp
 services:
     - docker
 
-
-
 before_install:
     - docker run --name softrd-dev -d -it -v $(pwd):/softrd davidpy1992/softrd-dev bash
     - docker ps
@@ -11,4 +9,7 @@ before_install:
 before_script:
 
 script:
-    - docker exec softrd-dev bash -c "mkdir /softrd/core/build-wasm && cd /softrd/core/build-wasm && emcmake cmake .. && emmake make -j && make install"
+    - docker exec softrd-dev bash -c "mkdir /softrd/core/build-wasm && \ 
+        cd /softrd/core/build-wasm && \
+        emcmake cmake .. && \
+        emmake make -j && make install"
