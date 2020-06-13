@@ -13,11 +13,13 @@ jobs:
                 cd /softrd/core/build-wasm && 
                 emcmake cmake .. && 
                 emmake make -j && 
-                make install
+                make install"
       - stage: frontend 
         script: 
             - docker exec softrd-dev bash -c "
                 cd /softrd/frontend &&
                 yarn install
-                yarn build
-            "
+                yarn build"
+stages:
+    - core
+    - frontend
