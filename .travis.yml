@@ -20,4 +20,4 @@ script:
         emmake make -j && 
         make install &&
         cd /softrd/frontend &&
-        yarn build
+        yarn build"
