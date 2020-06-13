@@ -1,13 +1,23 @@
-language: cpp
 services:
     - docker
-
-before_install:
-    - docker run --name softrd-dev -d -it -v $(pwd):/softrd davidpy1992/softrd-dev bash
-    - docker ps
-
-script:
-    - docker exec softrd-dev bash -c "mkdir /softrd/core/build-wasm && 
-        cd /softrd/core/build-wasm && 
-        emcmake cmake .. && 
-        emmake make -j && make install"
+jobs:
+    include:
+      - stage: core
+        name: "Build core"
+        before_install:
+            - docker run --name softrd-dev -d -it -v $(pwd):/softrd davidpy1992/softrd-dev bash
+            - docker ps
+        script:
+            - docker exec softrd-dev bash -c "
+                mkdir /softrd/core/build-wasm && 
+                cd /softrd/core/build-wasm && 
+                emcmake cmake .. && 
+                emmake make -j && 
+                make install
+      - stage: frontend 
+        script: 
+            - docker exec softrd-dev bash -c "
+                cd /softrd/frontend &&
+                yarn install
+                yarn build
+            "
