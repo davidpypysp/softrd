@@ -13,11 +13,12 @@ install:
         yarn install"
 
 script:
-    - docker exec softrd-dev 
+    - docker exec softrd-dev bash -c "
+        source /emsdk/emsdk_env.sh &&
         mkdir /softrd/core/build-wasm && 
         cd /softrd/core/build-wasm && 
         emcmake cmake .. && 
         emmake make -j && 
         make install &&
         cd /softrd/frontend &&
-        yarn build
+        yarn build"
