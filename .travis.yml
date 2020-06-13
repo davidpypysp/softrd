@@ -14,6 +14,7 @@ install:
 
 script:
     - docker exec softrd-dev bash -c "
+        source /emsdk/emsdk_env.sh &&
         mkdir /softrd/core/build-wasm && 
         cd /softrd/core/build-wasm && 
         emcmake cmake .. && 
