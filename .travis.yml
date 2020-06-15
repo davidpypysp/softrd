@@ -25,6 +25,7 @@ jobs:
                 yarn build"
 
       - stage: deploy_dist_image
+        if: branch = developing
         install:
             - pwd
             - docker build -t davidpy1992/softrd-dist -f docker/softrd-dist.dockerfile .
@@ -33,5 +34,4 @@ jobs:
 
 stages:
     - build_all
-    # - name: deploy_dist_image
-    #     if: branch = developing
+    - deploy_dist_image
