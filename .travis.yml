@@ -33,5 +33,5 @@ jobs:
 
 stages:
     - build_all
-    - name: deploy_dist_image
-        if: branch = developing
+    # - name: deploy_dist_image
+    #     if: branch = developing
