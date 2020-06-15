@@ -1,0 +1,13 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "davidpy1992/softrd-dist",
+        "Update": "true"
+    },
+    "Ports": [
+        {
+            "ContainerPort": 9000,
+            "HostPort": 8000
+        }
+    ]
+}

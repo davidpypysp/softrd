@@ -1,7 +1,12 @@
 # build docker image
 ```
-cd docker/
-sudo docker build -t davidpy1992/softrd-dev .
+# In repo root dir
+
+# build dev image
+docker build -t davidpy1992/softrd-dev -f docker/softrd-dev.dockerfile .
+
+# build dist image
+docker build -t davidpy1992/softrd-dist -f docker/softrd-dist.dockerfile .
 ```
 
 # emscripten build
