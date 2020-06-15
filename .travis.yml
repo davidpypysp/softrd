@@ -3,7 +3,6 @@ services:
 
 language: cpp
 
-
 jobs:
     include:
       - stage: build_all
@@ -24,14 +23,5 @@ jobs:
                 cd /softrd/frontend &&
                 yarn build"
 
-      - stage: deploy_dist_image
-        if: branch = developing
-        install:
-            - pwd
-            - docker build -t davidpy1992/softrd-dist -f docker/softrd-dist.dockerfile .
-        script: docker push davidpy1992/softrd-dist
-
-
 stages:
     - build_all
-    - deploy_dist_image
