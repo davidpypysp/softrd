@@ -3,22 +3,35 @@ services:
 
 language: cpp
 
-before_install:
-    - docker run --name softrd-dev -d -it --rm -v $(pwd):/softrd davidpy1992/softrd-dev bash
+
+jobs:
+    include:
+      - stage: build_all
+        before_install:
+            - docker run --name softrd-dev -d -it --rm -v $(pwd):/softrd davidpy1992/softrd-dev bash
+        install:
+            - docker exec softrd-dev bash -c "
+                cd /softrd/frontend &&
+                yarn install"
+        script:
+            - docker exec softrd-dev bash -c "
+                source /emsdk/emsdk_env.sh &&
+                mkdir /softrd/core/build-wasm && 
+                cd /softrd/core/build-wasm && 
+                emcmake cmake .. && 
+                emmake make -j && 
+                make install &&
+                cd /softrd/frontend &&
+                yarn build"
+
+      - stage: deploy_dist_image
+        install:
+            - pwd
+            - docker build -t davidpy1992/softrd-dist -f docker/softrd-dist.dockerfile .
+        script: docker push davidpy1992/softrd-dist
 
 
-install:
-    - docker exec softrd-dev bash -c "
-        cd /softrd/frontend &&
-        yarn install"
-
-script:
-    - docker exec softrd-dev bash -c "
-        source /emsdk/emsdk_env.sh &&
-        mkdir /softrd/core/build-wasm && 
-        cd /softrd/core/build-wasm && 
-        emcmake cmake .. && 
-        emmake make -j && 
-        make install &&
-        cd /softrd/frontend &&
-        yarn build"
+stages:
+    - build_all
+    - name: deploy_dist_image
+        if: branch = developing
