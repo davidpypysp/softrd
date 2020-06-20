@@ -79,5 +79,9 @@
     "<C-c>": false,
     "<C-v>": false,
   },
-  "clang-format.executable": "core/.clang-format"
+  "clang-format.executable": "core/.clang-format",
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ]
 }
