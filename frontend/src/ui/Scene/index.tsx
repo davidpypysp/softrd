@@ -2,9 +2,7 @@ import React from "react";
 import RENDERER from "src/renderer";
 
 class FPSText extends React.Component<{}, { fps: string }> {
-    state = {
-        fps: ""
-    };
+    state = { fps: "" };
 
     componentDidMount() {
         setInterval(() => {
@@ -19,7 +17,6 @@ class FPSText extends React.Component<{}, { fps: string }> {
 
 export default class SceneView extends React.Component {
     public canvasId: string = "scene-canvas";
-
     componentDidMount() {
         RENDERER.init(this.canvasId);
     }

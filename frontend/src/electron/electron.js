@@ -3,7 +3,7 @@ const { app, BrowserWindow } = electron;
 
 const path = require("path");
 const isDev = require("electron-is-dev");
-const os = require('os');
+const os = require("os");
 
 let mainWindow = null;
 
@@ -18,8 +18,8 @@ function createWindow() {
 
     mainWindow.loadURL(
         isDev
-            ? "http://localhost:9000" : `file://${path.join(__dirname,
-                "../../dist/index.html")}`
+            ? "http://localhost:9000"
+            : `file://${path.join(__dirname, "../../dist/index.html")}`
     );
 
     if (isDev) {

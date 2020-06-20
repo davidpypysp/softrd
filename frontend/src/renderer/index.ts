@@ -12,7 +12,6 @@ class Renderer {
     constructor() {
         Module.onRuntimeInitialized = () => {
             this.rendererWASM = Module;
-
             this.rendererWASM = new Module.RendererAPI();
 
             const bytes = this.rendererWASM.getFrameBufferView();

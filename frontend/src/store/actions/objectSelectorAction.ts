@@ -1,4 +1,4 @@
-export const selectObject = (id) => ({
-    type: 'SELECT_OBJECT',
+export const selectObject = id => ({
+    type: "SELECT_OBJECT",
     id
 });

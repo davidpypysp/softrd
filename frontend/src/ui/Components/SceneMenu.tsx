@@ -1,13 +1,13 @@
 import React from "react";
 
 import { Tree, Classes, ITreeNode } from "@blueprintjs/core";
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps } from "react-redux";
 import { selectObject } from "src/store/actions/objectSelectorAction";
 import { ObjectListState } from "src/store/reducers/objectListReducer";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const { objectList } = state;
-    return { objectList }
+    return { objectList };
 };
 const mapDispatchToProps = dispatch => ({
     selectObject: id => dispatch(selectObject(id))
@@ -19,7 +19,7 @@ type SceneMenuProps = ConnectedProps<typeof connector>;
 class SceneMenu extends React.Component<SceneMenuProps, {}> {
     private analysisNodes = (nodes: ObjectListState) => {
         const treeNodes = [];
-        for (let node of Object.values(nodes)) {
+        for (const node of Object.values(nodes)) {
             const tempNode: any = node;
             const treeNode: { [key: string]: any } = {
                 label: node.name,
@@ -37,18 +37,23 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
             treeNodes.push(treeNode);
         }
         return treeNodes;
-    }
+    };
 
     public state: {
         nodes: ITreeNode[];
     } = { nodes: this.analysisNodes(this.props.objectList) };
 
-    private handleNodeClick = (nodeData: ITreeNode, _nodePath: number[], e: React.MouseEvent<HTMLElement>) => {
+    private handleNodeClick = (
+        nodeData: ITreeNode,
+        _nodePath: number[],
+        e: React.MouseEvent<HTMLElement>
+    ) => {
         const originallySelected = nodeData.isSelected;
         if (!e.shiftKey) {
             this.forEachNode(this.state.nodes, n => (n.isSelected = false));
         }
-        nodeData.isSelected = originallySelected == null ? true : !originallySelected;
+        nodeData.isSelected =
+            originallySelected === null ? true : !originallySelected;
 
         this.props.selectObject(nodeData.isSelected ? nodeData.id : null);
 
@@ -65,8 +70,11 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
         this.setState(this.state);
     };
 
-    private forEachNode(nodes: ITreeNode[], callback: (node: ITreeNode) => void) {
-        if (nodes == null) {
+    private forEachNode(
+        nodes: ITreeNode[],
+        callback: (node: ITreeNode) => void
+    ) {
+        if (nodes === null) {
             return;
         }
 

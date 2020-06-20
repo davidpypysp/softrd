@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux";
 import objectListReducer from "src/store/reducers/objectListReducer";
 import objectSelectorReducer from "src/store/reducers/objectSelectorReducer";
 
