@@ -16,12 +16,16 @@ class Renderer {
             this.rendererWASM = new Module.RendererAPI();
 
             const bytes = this.rendererWASM.getFrameBufferView();
-            const bytesClamped = new Uint8ClampedArray(bytes.buffer, bytes.byteOffset, bytes.length);
+            const bytesClamped = new Uint8ClampedArray(
+                bytes.buffer,
+                bytes.byteOffset,
+                bytes.length
+            );
             this.imageData = new ImageData(bytesClamped, 640, 480);
 
             this.rendererWASM.drawSceneObjects();
             this.context2D.putImageData(this.imageData, 0, 0);
-        }
+        };
     }
 
     init(canvasId) {
@@ -35,8 +39,12 @@ class Renderer {
     }
 
     clearImage() {
-        this.context2D.clearRect(0, 0,
-            this.canvasElement.width, this.canvasElement.height);
+        this.context2D.clearRect(
+            0,
+            0,
+            this.canvasElement.width,
+            this.canvasElement.height
+        );
     }
 
     reDraw() {
@@ -47,7 +55,7 @@ class Renderer {
         setInterval(() => {
             this.drawSceneObjects();
             const currentTime = performance.now();
-            this.fps = 1000.0 / (currentTime - this.lastExcutedTime)
+            this.fps = 1000.0 / (currentTime - this.lastExcutedTime);
             this.lastExcutedTime = currentTime;
         }, 0);
     }

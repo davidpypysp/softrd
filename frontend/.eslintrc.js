@@ -1,35 +1,33 @@
 const printWidth = 80;
 
 module.exports = {
-  env: {
-    browser: true,
-    es2020: true,
-  },
-  extends: [
-    "plugin:react/recommended",
-    // "airbnb",
-    "prettier",
-  ],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-      modules: true
+    env: {
+        browser: true,
+        es2020: true
     },
-    ecmaVersion: 11,
-    sourceType: "module",
-  },
-  plugins: ["react", "prettier", "@typescript-eslint"],
-  rules: {
-    "max-len": ["error", printWidth],
-    "max-classes-per-file": 0,
-    "react/jsx-filename-extension": 0,
-    "no-console": "off",
-    "prettier/prettier": ["error", { printWidth, tabWidth: 4 }],
-  },
+    extends: [
+        "plugin:react/recommended",
+        // "airbnb",
+        "prettier"
+    ],
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+            modules: true
+        },
+        ecmaVersion: 11,
+        sourceType: "module"
+    },
+    plugins: ["react", "prettier", "@typescript-eslint"],
+    rules: {
+        "max-len": ["error", printWidth],
+        "max-classes-per-file": 0,
+        "react/jsx-filename-extension": 0,
+        "no-console": "off",
+        "prettier/prettier": ["error", { printWidth, tabWidth: 4 }]
+    }
 };
-
-
 
 // module.exports = {
 //     parser: "babel-eslint",
