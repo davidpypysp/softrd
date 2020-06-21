@@ -1,8 +1,11 @@
 import React from "react";
 import { Card } from "@blueprintjs/core";
 import { Vec3Input } from "src/ui/Components/VectorInput";
-import { updateObjectPosition, updateObjectRotation } from "src/store/actions/objectListAction";
-import { connect, ConnectedProps } from 'react-redux'
+import {
+    updateObjectPosition,
+    updateObjectRotation
+} from "src/store/actions/objectListAction";
+import { connect, ConnectedProps } from "react-redux";
 import { Object } from "src/interfaces/object";
 import { Vec3 } from "src/interfaces/vector";
 
@@ -19,22 +22,23 @@ const RowData = (props: RowDataProps) => (
     </li>
 );
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const { objectSelector, objectList } = state;
     const object: Object = objectList[objectSelector];
     return { object };
 };
 const mapDispatchToProps = dispatch => ({
-    updateObjectPosition: (id: string, position: Vec3) => dispatch(updateObjectPosition(id, position)),
-    updateObjectRotation: (id: string, rotation: Vec3) => dispatch(updateObjectRotation(id, rotation))
+    updateObjectPosition: (id: string, position: Vec3) =>
+        dispatch(updateObjectPosition(id, position)),
+    updateObjectRotation: (id: string, rotation: Vec3) =>
+        dispatch(updateObjectRotation(id, rotation))
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-
 const ObjectBoard = (props: ConnectedProps<typeof connector>) => {
     const { object, updateObjectPosition, updateObjectRotation } = props;
-    return (
-        object ? <Card>
+    return object ? (
+        <Card>
             <ul className="bp3-list bp3-list-unstyled">
                 <RowData
                     title="Object"
@@ -45,7 +49,9 @@ const ObjectBoard = (props: ConnectedProps<typeof connector>) => {
                     component={
                         <Vec3Input
                             data={object.position}
-                            onChangeHandler={(position) => updateObjectPosition(object.id, position)}
+                            onChangeHandler={position =>
+                                updateObjectPosition(object.id, position)
+                            }
                         />
                     }
                 />
@@ -54,14 +60,15 @@ const ObjectBoard = (props: ConnectedProps<typeof connector>) => {
                     component={
                         <Vec3Input
                             data={object.rotation}
-                            onChangeHandler={(rotation) => updateObjectRotation(object.id, rotation)}
+                            onChangeHandler={rotation =>
+                                updateObjectRotation(object.id, rotation)
+                            }
                         />
                     }
                 />
             </ul>
-        </Card> : null
-    );
-}
+        </Card>
+    ) : null;
+};
 
 export default connector(ObjectBoard);
-

@@ -1,21 +1,31 @@
 module.exports = {
-    parser: "babel-eslint",
+    env: {
+        browser: true,
+        es2020: true
+    },
+    extends: [
+        "plugin:react/recommended",
+        // "airbnb",
+        "prettier"
+    ],
+    parser: "@typescript-eslint/parser",
     parserOptions: {
-        ecmaVersion: 6,
-        sourceType: "module",
         ecmaFeatures: {
             jsx: true,
             modules: true
-        }
+        },
+        ecmaVersion: 11,
+        sourceType: "module"
     },
+    plugins: ["react", "prettier", "@typescript-eslint"],
     rules: {
+        "max-classes-per-file": 0,
+        "react/jsx-filename-extension": 0,
+        "no-console": "off",
         // Require a semi colon at the end of a statement.
         semi: ["error", "always"],
-        // Maximum line length is 80.
-        "max-len": ["error", 80],
         // Always require curly brackets.
         curly: "error",
-
         // Require the use of `===` and `!==`.
         eqeqeq: "error",
         // Disallow the use of `eval()`.
@@ -26,7 +36,6 @@ module.exports = {
         yoda: "error",
         // Disallow variable declarations from shadowing variables
         // declared in the outer scope.
-        "no-shadow": "error",
         // Require initialization in variable declaration.
         "init-declarations": ["error", "always"],
         // Disallow unused variables.
@@ -56,12 +65,18 @@ module.exports = {
         // Disallow unecessary constructors.
         "no-useless-constructor": "warn",
         // Require `let` or `const` instead of `var`.
-        "no-var": "error",
+        "no-var": "warn",
         // Require `const` declaration for variables that are never
         // reassigned after declared.
         "prefer-const": "warn",
-        indent: ["warn", 4],
-        // "prettier/prettier": "error"
-    },
-    // plugins: ["prettier", "react"]
+        "max-len": ["error", 80],
+        indent: ["warn", 4, { SwitchCase: 1 }],
+        "prettier/prettier": [
+            "error",
+            {
+                printWidth: 80,
+                tabWidth: 4
+            }
+        ]
+    }
 };

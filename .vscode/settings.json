@@ -74,10 +74,17 @@
     "filesystem": "cpp",
     "bit": "cpp"
   },
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "vim.handleKeys": {
     "<C-c>": false,
     "<C-v>": false,
   },
-  "clang-format.executable": "core/.clang-format"
+  "clang-format.executable": "core/.clang-format",
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
 }

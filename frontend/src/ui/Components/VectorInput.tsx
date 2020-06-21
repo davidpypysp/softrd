@@ -2,36 +2,42 @@ import React from "react";
 import { NumericInput } from "@blueprintjs/core";
 import { Vec3 } from "src/interfaces/vector";
 
-export class Vec3Input extends React.Component<{ data: Vec3, onChangeHandler?: Function }, {}> {
+export class Vec3Input extends React.Component<
+    { data: Vec3; onChangeHandler?: Function },
+    {}
+> {
     render() {
         const { data, onChangeHandler } = this.props;
         return (
             <div className="vector3-input">
-                <NumericInput className="vector3-input-numeric"
+                <NumericInput
+                    className="vector3-input-numeric"
                     value={data.x}
-                    onValueChange={(value) => {
+                    onValueChange={value => {
                         if (!isNaN(value) && onChangeHandler) {
-                            onChangeHandler({ ...data, x: value })
+                            onChangeHandler({ ...data, x: value });
                         }
                     }}
                 />
-                <NumericInput className="vector3-input-numeric"
+                <NumericInput
+                    className="vector3-input-numeric"
                     value={data.y}
-                    onValueChange={(value) => {
+                    onValueChange={value => {
                         if (!isNaN(value) && onChangeHandler) {
-                            onChangeHandler({ ...data, y: value })
+                            onChangeHandler({ ...data, y: value });
                         }
                     }}
                 />
-                <NumericInput className="vector3-input-numeric"
+                <NumericInput
+                    className="vector3-input-numeric"
                     value={data.z}
-                    onValueChange={(value) => {
+                    onValueChange={value => {
                         if (!isNaN(value) && onChangeHandler) {
-                            onChangeHandler({ ...data, z: value })
+                            onChangeHandler({ ...data, z: value });
                         }
                     }}
                 />
             </div>
-        )
+        );
     }
 }
