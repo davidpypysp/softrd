@@ -13,7 +13,7 @@ export class Vec3Input extends React.Component<
                 <NumericInput
                     className="vector3-input-numeric"
                     value={data.x}
-                    onValueChange={value => {
+                    onValueChange={(value) => {
                         if (!isNaN(value) && onChangeHandler) {
                             onChangeHandler({ ...data, x: value });
                         }
@@ -22,7 +22,7 @@ export class Vec3Input extends React.Component<
                 <NumericInput
                     className="vector3-input-numeric"
                     value={data.y}
-                    onValueChange={value => {
+                    onValueChange={(value) => {
                         if (!isNaN(value) && onChangeHandler) {
                             onChangeHandler({ ...data, y: value });
                         }
@@ -31,7 +31,7 @@ export class Vec3Input extends React.Component<
                 <NumericInput
                     className="vector3-input-numeric"
                     value={data.z}
-                    onValueChange={value => {
+                    onValueChange={(value) => {
                         if (!isNaN(value) && onChangeHandler) {
                             onChangeHandler({ ...data, z: value });
                         }

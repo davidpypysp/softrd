@@ -22,12 +22,12 @@ const RowData = (props: RowDataProps) => (
     </li>
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     const { objectSelector, objectList } = state;
     const object: Object = objectList[objectSelector];
     return { object };
 };
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     updateObjectPosition: (id: string, position: Vec3) =>
         dispatch(updateObjectPosition(id, position)),
     updateObjectRotation: (id: string, rotation: Vec3) =>
@@ -49,7 +49,7 @@ const ObjectBoard = (props: ConnectedProps<typeof connector>) => {
                     component={
                         <Vec3Input
                             data={object.position}
-                            onChangeHandler={position =>
+                            onChangeHandler={(position) =>
                                 updateObjectPosition(object.id, position)
                             }
                         />
@@ -60,7 +60,7 @@ const ObjectBoard = (props: ConnectedProps<typeof connector>) => {
                     component={
                         <Vec3Input
                             data={object.rotation}
-                            onChangeHandler={rotation =>
+                            onChangeHandler={(rotation) =>
                                 updateObjectRotation(object.id, rotation)
                             }
                         />

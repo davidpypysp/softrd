@@ -1,0 +1,1 @@
+docker run -it  -v ${PWD}:/softrd davidpy1992/softrd-dev bash

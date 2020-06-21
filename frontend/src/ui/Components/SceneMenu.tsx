@@ -5,12 +5,12 @@ import { connect, ConnectedProps } from "react-redux";
 import { selectObject } from "src/store/actions/objectSelectorAction";
 import { ObjectListState } from "src/store/reducers/objectListReducer";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     const { objectList } = state;
     return { objectList };
 };
-const mapDispatchToProps = dispatch => ({
-    selectObject: id => dispatch(selectObject(id))
+const mapDispatchToProps = (dispatch) => ({
+    selectObject: (id) => dispatch(selectObject(id))
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -50,7 +50,7 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
     ) => {
         const originallySelected = nodeData.isSelected;
         if (!e.shiftKey) {
-            this.forEachNode(this.state.nodes, n => (n.isSelected = false));
+            this.forEachNode(this.state.nodes, (n) => (n.isSelected = false));
         }
         nodeData.isSelected =
             originallySelected === null ? true : !originallySelected;

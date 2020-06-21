@@ -7,7 +7,7 @@ import { Card, Button } from "@blueprintjs/core";
 import { Tab, Tabs } from "@blueprintjs/core";
 import SceneMenu from "src/ui/Components/SceneMenu";
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     addObject: () =>
         dispatch(
             addObject({

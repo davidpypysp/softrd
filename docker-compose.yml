@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  softrd-dev:
+    image: "davidpy1992/softrd-dev"
+    volumes:
+      - ./:/softrd
+    ports:
+      - "9000:9000"
+
+
+
