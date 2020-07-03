@@ -17,8 +17,12 @@ const useStyles = createUseStyles({
         flexDirection: "column",
         height: "100%",
         width: "100%",
-        padding: 0
-    }
+        padding: 0,
+    },
+    container: {
+        display: "flex",
+        flexGrow: 1,
+    },
 });
 
 export default function GUI(props) {
@@ -26,7 +30,7 @@ export default function GUI(props) {
     return (
         <Card className={`bp3-dark ${classes.gui}`}>
             <Header />
-            <div className="container">
+            <div className={classes.container}>
                 <LeftPanel />
                 <MainView />
                 <RightPanel />

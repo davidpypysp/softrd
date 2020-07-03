@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
     return { objectList };
 };
 const mapDispatchToProps = (dispatch) => ({
-    selectObject: (id) => dispatch(selectObject(id))
+    selectObject: (id) => dispatch(selectObject(id)),
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -24,7 +24,7 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
             const treeNode: { [key: string]: any } = {
                 label: node.name,
                 id: node.id,
-                icon: "document"
+                icon: "document",
             };
 
             // if (node.children) {

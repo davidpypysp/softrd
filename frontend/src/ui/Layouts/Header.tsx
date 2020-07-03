@@ -6,8 +6,8 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
     header: {
         height: 35,
-        padding: 5
-    }
+        padding: 5,
+    },
 });
 
 export default function Header(props) {

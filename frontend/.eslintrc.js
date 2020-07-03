@@ -1,21 +1,21 @@
 module.exports = {
     env: {
         browser: true,
-        es2020: true
+        es2020: true,
     },
     extends: [
         "plugin:react/recommended",
         // "airbnb",
-        "prettier"
+        "prettier",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
-            modules: true
+            modules: true,
         },
         ecmaVersion: 11,
-        sourceType: "module"
+        sourceType: "module",
     },
     plugins: ["react", "prettier", "@typescript-eslint"],
     rules: {
@@ -46,8 +46,8 @@ module.exports = {
             "error",
             {
                 newIsCap: true,
-                capIsNew: false
-            }
+                capIsNew: false,
+            },
         ],
         // Require parentheses when invoking a constructor with no
         // arguments.
@@ -75,8 +75,8 @@ module.exports = {
             "error",
             {
                 printWidth: 80,
-                tabWidth: 4
-            }
-        ]
-    }
+                tabWidth: 4,
+            },
+        ],
+    },
 };
