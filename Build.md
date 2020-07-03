@@ -2,6 +2,9 @@
 ```
 # In repo root dir
 
+# docker-compose start dev container
+docker-compose run softrd-dev bash
+
 # build dev image
 docker build -t davidpy1992/softrd-dev -f docker/softrd-dev.dockerfile .
 
