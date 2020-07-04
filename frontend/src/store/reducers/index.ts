@@ -4,5 +4,5 @@ import objectSelectorReducer from "src/store/reducers/objectSelectorReducer";
 
 export default combineReducers({
     objectList: objectListReducer,
-    objectSelector: objectSelectorReducer
+    objectSelector: objectSelectorReducer,
 });

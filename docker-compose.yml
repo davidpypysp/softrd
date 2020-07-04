@@ -5,7 +5,7 @@ services:
     volumes:
       - ./:/softrd
     ports:
-      - "9000:9000"
+      - "9000:8000"
 
 
 
