@@ -2,10 +2,13 @@ version: "3.3"
 services:
   softrd-dev:
     image: "davidpy1992/softrd-dev"
+    ports:
+      - target: 9000
+        published: 9000
+        protocol: tcp
     volumes:
       - ./:/softrd
-    ports:
-      - "9000:8000"
+
 
 
 
