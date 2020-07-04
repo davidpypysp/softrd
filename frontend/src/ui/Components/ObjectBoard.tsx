@@ -1,13 +1,29 @@
 import React from "react";
-import { Card } from "@blueprintjs/core";
+import { Card, Classes } from "@blueprintjs/core";
 import { Vec3Input } from "src/ui/Components/VectorInput";
 import {
     updateObjectPosition,
-    updateObjectRotation
+    updateObjectRotation,
 } from "src/store/actions/objectListAction";
 import { connect, ConnectedProps } from "react-redux";
 import { Object } from "src/interfaces/object";
 import { Vec3 } from "src/interfaces/vector";
+
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+    rowData: {
+        display: "flex",
+    },
+    rowDataTitle: {
+        minWidth: 100,
+        textAlign: "center",
+        padding: 5,
+    },
+    objectName: {
+        padding: [4, 10],
+    },
+});
 
 export interface RowDataProps {
     title: string;
@@ -15,12 +31,15 @@ export interface RowDataProps {
     data?: any;
 }
 
-const RowData = (props: RowDataProps) => (
-    <li className="row-data">
-        <span className="row-data-title">{props.title}</span>
-        {props.component}
-    </li>
-);
+const RowData = (props: RowDataProps) => {
+    const classes = useStyles();
+    return (
+        <li className={classes.rowData}>
+            <span className={classes.rowDataTitle}>{props.title}</span>
+            {props.component}
+        </li>
+    );
+};
 
 const mapStateToProps = (state) => {
     const { objectSelector, objectList } = state;
@@ -31,18 +50,21 @@ const mapDispatchToProps = (dispatch) => ({
     updateObjectPosition: (id: string, position: Vec3) =>
         dispatch(updateObjectPosition(id, position)),
     updateObjectRotation: (id: string, rotation: Vec3) =>
-        dispatch(updateObjectRotation(id, rotation))
+        dispatch(updateObjectRotation(id, rotation)),
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const ObjectBoard = (props: ConnectedProps<typeof connector>) => {
+    const classes = useStyles();
     const { object, updateObjectPosition, updateObjectRotation } = props;
     return object ? (
         <Card>
             <ul className="bp3-list bp3-list-unstyled">
                 <RowData
                     title="Object"
-                    component={<div className="object-name">{object.name}</div>}
+                    component={
+                        <div className={classes.objectName}>{object.name}</div>
+                    }
                 />
                 <RowData
                     title="Position"

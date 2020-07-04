@@ -7,6 +7,14 @@ import { Card, Button } from "@blueprintjs/core";
 import { Tab, Tabs } from "@blueprintjs/core";
 import SceneMenu from "src/ui/Components/SceneMenu";
 
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+    leftPanel: {
+        width: 400,
+    },
+});
+
 const mapDispatchToProps = (dispatch) => ({
     addObject: () =>
         dispatch(
@@ -14,9 +22,9 @@ const mapDispatchToProps = (dispatch) => ({
                 id: "test_object",
                 name: "Test Object",
                 position: { x: 0, y: 0, z: 3 },
-                rotation: { x: 1, y: 1, z: 1 }
+                rotation: { x: 1, y: 1, z: 1 },
             })
-        )
+        ),
 });
 
 const connector = connect(null, mapDispatchToProps);
@@ -83,21 +91,16 @@ class Others extends React.Component {
     }
 }
 
-export default class LeftPanel extends React.Component {
-    render() {
-        return (
-            <Card className="left-panel">
-                <Tabs
-                    id="TabsExample"
-                    animate={false}
-                    defaultSelectedTabId="scene"
-                >
-                    <Tab id="scene" title="Scene" panel={<SceneMenu />} />
-                    <Tab id="test" title="Test" panel={<ConnectTestMenu />} />
-                    <Tab id="others" title="Others" panel={<Others />} />
-                    <Tabs.Expander />
-                </Tabs>
-            </Card>
-        );
-    }
+export default function LeftPanel() {
+    const classes = useStyles();
+    return (
+        <Card className={classes.leftPanel}>
+            <Tabs id="TabsExample" animate={false} defaultSelectedTabId="scene">
+                <Tab id="scene" title="Scene" panel={<SceneMenu />} />
+                <Tab id="test" title="Test" panel={<ConnectTestMenu />} />
+                <Tab id="others" title="Others" panel={<Others />} />
+                <Tabs.Expander />
+            </Tabs>
+        </Card>
+    );
 }
