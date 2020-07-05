@@ -5,7 +5,7 @@
 
 namespace softrd {
 
-namespace scene{
+namespace scene {
 
 class BaseObject {
  public:

@@ -11,7 +11,7 @@ void Engine::Reset(const int width, const int height) {
   if (!scene_manager_ || !rendering_pipeline_) {
     return;
   }
-  rendering_pipeline_->Reset(width, height, scene_manager_->camera());
+  rendering_pipeline_->Reset(width, height, scene_manager_->default_camera());
 }
 
 void Engine::DrawSceneObjects() {
