@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-#include "src/renderer/scene_object.h"
+#include "src/scene/scene_object.h"
 #include "src/scene/camera.h"
 
 namespace softrd {

@@ -10,7 +10,7 @@
 #include "src/modules/rasterizer.h"
 #include "src/modules/vertex_loader.h"
 #include "src/modules/vertex_shader.h"
-#include "src/renderer/scene_object.h"
+#include "src/scene/scene_object.h"
 #include "src/scene/camera.h"
 #include "src/utils/util.h"
 
