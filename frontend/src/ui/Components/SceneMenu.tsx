@@ -74,10 +74,9 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
         nodes: ITreeNode[],
         callback: (node: ITreeNode) => void
     ) {
-        if (nodes === null) {
+        if (!nodes) {
             return;
         }
-
         for (const node of nodes) {
             callback(node);
             this.forEachNode(node.childNodes, callback);

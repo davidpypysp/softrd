@@ -9,7 +9,7 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
     rightPanel: {
-        width: 700,
+        minWidth: 700,
     },
 });
 
