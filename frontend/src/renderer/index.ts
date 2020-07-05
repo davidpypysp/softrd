@@ -23,8 +23,10 @@ class Renderer {
             );
             this.imageData = new ImageData(bytesClamped, 640, 480);
 
-            this.rendererWASM.drawSceneObjects();
-            this.context2D.putImageData(this.imageData, 0, 0);
+            // this.rendererWASM.drawSceneObjects();
+            // this.context2D.putImageData(this.imageData, 0, 0);
+
+            this.drawFrameLoop();
         };
     }
 
@@ -67,9 +69,10 @@ class Renderer {
     }
 
     drawSceneObjects() {
-        const state = store.getState();
-        const { buffer } = this.imageData.data;
+        // const state = store.getState();
+        // const { buffer } = this.imageData.data;
         // this.softrdAddon.drawSceneObjects(buffer, state.objectList);
+        // this.rendererWASM.drawSceneObjects();
         this.context2D.putImageData(this.imageData, 0, 0);
     }
 }

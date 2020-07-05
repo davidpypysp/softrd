@@ -10,9 +10,9 @@ const useStyles = createUseStyles({
     },
     vector3InputNumeric: {
         margin: [0, 5],
-    },
-    "vector3InputNumeric:first-child > input": {
-        width: 80,
+        "& .bp3-input-group": {
+            width: 80,
+        },
     },
 });
 

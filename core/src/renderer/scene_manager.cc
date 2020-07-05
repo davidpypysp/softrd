@@ -40,7 +40,7 @@ void SceneManager::AddExampleObjects() {
   this->AddSpotLightObject("TestSpotLight", math::vec3(4.0, 0.0, 0.0),
                            math::vec3(-1.0, 0.0, 0.0));
   this->AddSceneObject("TestCube");
-  this->AddSceneObject("TestCube2", math::vec3(3, 0, 1));
+  // this->AddSceneObject("TestCube2", math::vec3(3, 0, 1));
 }
 
 std::shared_ptr<scene::SceneObject> SceneManager::AddSceneObject(
