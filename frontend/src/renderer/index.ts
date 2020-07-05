@@ -11,6 +11,7 @@ class Renderer {
 
     constructor() {
         Module.onRuntimeInitialized = () => {
+            console.info("onRuntimeInitialized");
             this.rendererWASM = Module;
             this.rendererWASM = new Module.RendererAPI();
 
@@ -28,6 +29,7 @@ class Renderer {
     }
 
     init(canvasId) {
+        console.info("init", canvasId);
         this.canvasElement = document.getElementById(canvasId);
         this.context2D = this.canvasElement.getContext("2d");
         this.lastExcutedTime = performance.now();
