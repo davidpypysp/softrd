@@ -60,7 +60,7 @@ class Renderer {
             const currentTime = performance.now();
             this.fps = 1000.0 / (currentTime - this.lastExcutedTime);
             this.lastExcutedTime = currentTime;
-        }, 0);
+        }, 1000);
     }
 
     drawScene() {
@@ -69,7 +69,8 @@ class Renderer {
     }
 
     drawSceneObjects() {
-        // const state = store.getState();
+        const state = store.getState();
+        console.info("objectList", state.objectList);
         // const { buffer } = this.imageData.data;
         // this.softrdAddon.drawSceneObjects(buffer, state.objectList);
         // this.rendererWASM.drawSceneObjects();
