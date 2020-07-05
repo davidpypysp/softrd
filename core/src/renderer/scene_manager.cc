@@ -42,14 +42,14 @@ void SceneManager::AddExampleObjects() {
   this->AddSceneObject("TestCube");
 }
 
-std::shared_ptr<SceneObject> SceneManager::AddSceneObject(
+std::shared_ptr<scene::SceneObject> SceneManager::AddSceneObject(
     const std::string &id, const math::vec3 &position,
     const math::vec3 &rotation) {
   if (scene_objects_.find(id) != scene_objects_.end()) {
     return nullptr;
   }
 
-  auto scene_object = std::make_shared<SceneObject>();
+  auto scene_object = std::make_shared<scene::SceneObject>();
   scene_object->set_id(id);
 
   auto mesh = std::make_shared<Mesh>();
@@ -83,14 +83,14 @@ std::shared_ptr<SceneObject> SceneManager::AddSceneObject(
   return scene_object;
 }
 
-std::shared_ptr<SpotLightObject> SceneManager::AddSpotLightObject(
+std::shared_ptr<scene::SpotLightObject> SceneManager::AddSpotLightObject(
     const std::string &id, const math::vec3 &position,
     const math::vec3 &rotation) {
   if (scene_objects_.find(id) != scene_objects_.end()) {
     return nullptr;
   }
 
-  auto spot_light_object = std::make_shared<SpotLightObject>();
+  auto spot_light_object = std::make_shared<scene::SpotLightObject>();
   spot_light_object->set_id(id);
 
   auto mesh = std::make_shared<Mesh>();
@@ -118,7 +118,7 @@ std::shared_ptr<SpotLightObject> SceneManager::AddSpotLightObject(
   return spot_light_object;
 }
 
-std::shared_ptr<SceneObject> SceneManager::GetSceneObject(
+std::shared_ptr<scene::SceneObject> SceneManager::GetSceneObject(
     const std::string &id) {
   const auto &iterator = scene_objects_.find(id);
   if (iterator == scene_objects_.end()) {

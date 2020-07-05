@@ -1,15 +1,13 @@
-#ifndef SOFTRD_SCENE_OBJECT_H_
-#define SOFTRD_SCENE_OBJECT_H_
+#ifndef SOFTRD_BASE_OBJECT_H_
+#define SOFTRD_BASE_OBJECT_H_
 
-#include <memory>
-
-#include "src/common/mesh.h"
-#include "src/modules/fragment_shader.h"
-#include "src/modules/vertex_shader.h"
+#include "src/math/vector.h"
 
 namespace softrd {
 
-class SceneObject {
+namespace scene{
+
+class BaseObject {
  public:
   void set_id(const std::string &id) { id_ = id; }
   std::string id() const { return id_; }
@@ -20,55 +18,15 @@ class SceneObject {
   void set_rotation(const math::vec3 &rotation) { rotation_ = rotation; }
   math::vec3 rotation() const { return rotation_; }
 
-  void set_scale(const math::vec3 &scale) { scale_ = scale; }
-  math::vec3 scale() const { return scale_; }
-
-  void set_mesh(const std::shared_ptr<Mesh> &mesh) { mesh_ = mesh; }
-  std::shared_ptr<Mesh> mesh() const { return mesh_; }
-
-  std::shared_ptr<VertexShader> vertex_shader() const { return vertex_shader_; }
-  void set_vertex_shader(const std::shared_ptr<VertexShader> &vertex_shader) {
-    vertex_shader_ = vertex_shader;
-  }
-
-  std::shared_ptr<FragmentShader> fragment_shader() const {
-    return fragment_shader_;
-  }
-  void set_fragment_shader(
-      const std::shared_ptr<FragmentShader> &fragment_shader) {
-    fragment_shader_ = fragment_shader;
-  }
-
-  std::shared_ptr<Material> material() const { return material_; }
-  void set_material(const std::shared_ptr<Material> &material) {
-    material_ = material;
-  }
-
  protected:
   std::string id_;
 
   math::vec3 position_;
   math::vec3 rotation_;
-  math::vec3 scale_;
-
-  std::shared_ptr<Mesh> mesh_ = nullptr;
-
-  std::shared_ptr<VertexShader> vertex_shader_ = nullptr;
-  std::shared_ptr<FragmentShader> fragment_shader_ = nullptr;
-
-  std::shared_ptr<Material> material_ = nullptr;
 };
 
-class SpotLightObject : public SceneObject {
- public:
-  void set_spot_light(const std::shared_ptr<SpotLight> &spot_light) {
-    spot_light_ = spot_light;
-  }
-
- protected:
-  std::shared_ptr<SpotLight> spot_light_;
-};
+} // namespace scene
 
 }  // namespace softrd
 
-#endif  // SOFTRD_SCENE_OBJECT_H_
+#endif  // SOFTRD_BASE_OBJECT_H_

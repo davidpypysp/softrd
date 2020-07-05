@@ -32,7 +32,7 @@ void RenderingPipeline::Reset(const int width, const int height,
 }
 
 void RenderingPipeline::DrawSceneObject(
-    const std::shared_ptr<SceneObject> &scene_object) {
+    const std::shared_ptr<scene::SceneObject> &scene_object) {
   math::mat4 model_matrix;
   model_matrix.identify();
 

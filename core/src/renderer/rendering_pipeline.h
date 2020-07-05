@@ -24,7 +24,7 @@ class RenderingPipeline {
 
   void Reset(const int width, const int height,
              std::shared_ptr<scene::Camera> camera);
-  void DrawSceneObject(const std::shared_ptr<SceneObject> &scene_object);
+  void DrawSceneObject(const std::shared_ptr<scene::SceneObject> &scene_object);
   void DrawMesh(
       Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader,
       const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE,
