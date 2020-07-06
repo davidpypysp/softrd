@@ -73,7 +73,7 @@ class Renderer {
         console.info("objectList", state.objectList);
         // const { buffer } = this.imageData.data;
         // this.softrdAddon.drawSceneObjects(buffer, state.objectList);
-        // this.rendererWASM.drawSceneObjects();
+        this.rendererWASM.drawSceneFromObjectList(state.objectList);
         this.context2D.putImageData(this.imageData, 0, 0);
     }
 }

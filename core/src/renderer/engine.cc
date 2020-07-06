@@ -15,6 +15,8 @@ void Engine::Reset(const int width, const int height) {
 }
 
 void Engine::DrawSceneObjects() {
+  rendering_pipeline_->ResetBuffer();
+
   const auto& scene_objects = scene_manager_->scene_objects();
 
   for (const auto& it : scene_objects) {
