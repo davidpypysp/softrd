@@ -20,7 +20,7 @@ class EmbindRendererAPI : public softrd::RendererAPI {
   }
 
   inline void DrawSceneFromObjectList(const emscripten::val& object_list) {
-    val::global("console").call<val>("log", object_list);
+    // val::global("console").call<val>("log", object_list);
 
     val keys = val::global("Object").call<val>("keys", object_list);
     const int length = keys["length"].as<int>();

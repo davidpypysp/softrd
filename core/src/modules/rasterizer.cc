@@ -12,8 +12,10 @@ void Rasterizer::DrawLinePrimitive(const LinePrimitive &line) {
   fragment_buffer_.clear();
   InitLineInterpolation(line);
 
-  math::vec2 position1(line.v[0].position.x, line.v[0].position.y);
-  math::vec2 position2(line.v[1].position.x, line.v[1].position.y);
+  math::vec2 position1(line.vertex_out[0].position.x,
+                       line.vertex_out[0].position.y);
+  math::vec2 position2(line.vertex_out[1].position.x,
+                       line.vertex_out[1].position.y);
   DrawLine(position1, position2);
 }
 
@@ -27,9 +29,12 @@ void Rasterizer::DrawTrianglePrimitive(
   if (mode == TRIANGLE_FILL) {
     DrawTriangleScanLine(triangle);
   } else if (mode == TRIANGLE_LINE) {  // draw 3 lines
-    math::vec2 position0(triangle.v[0].position.x, triangle.v[0].position.y);
-    math::vec2 position1(triangle.v[1].position.x, triangle.v[1].position.y);
-    math::vec2 position2(triangle.v[2].position.x, triangle.v[2].position.y);
+    math::vec2 position0(triangle.vertex_out[0].position.x,
+                         triangle.vertex_out[0].position.y);
+    math::vec2 position1(triangle.vertex_out[1].position.x,
+                         triangle.vertex_out[1].position.y);
+    math::vec2 position2(triangle.vertex_out[2].position.x,
+                         triangle.vertex_out[2].position.y);
     DrawLine(position0, position1);
     DrawLine(position1, position2);
     DrawLine(position2, position0);
@@ -41,25 +46,32 @@ void Rasterizer::DrawTriangleScanLine(const TrianglePrimitive &triangle) {
   int min_index = 0, max_index = 0;
   for (int i = 1; i < 3;
        i++) {  // find the index of max-y's position and min-y's position
-    if ((triangle.v[i].position.y < triangle.v[min_index].position.y) ||
-        (triangle.v[i].position.y == triangle.v[min_index].position.y &&
-         triangle.v[i].position.x < triangle.v[min_index].position.x))
+    if ((triangle.vertex_out[i].position.y <
+         triangle.vertex_out[min_index].position.y) ||
+        (triangle.vertex_out[i].position.y ==
+             triangle.vertex_out[min_index].position.y &&
+         triangle.vertex_out[i].position.x <
+             triangle.vertex_out[min_index].position.x))
       min_index = i;
-    if (triangle.v[i].position.y > triangle.v[max_index].position.y ||
-        (triangle.v[i].position.y == triangle.v[max_index].position.y &&
-         triangle.v[i].position.x > triangle.v[max_index].position.x))
+    if (triangle.vertex_out[i].position.y >
+            triangle.vertex_out[max_index].position.y ||
+        (triangle.vertex_out[i].position.y ==
+             triangle.vertex_out[max_index].position.y &&
+         triangle.vertex_out[i].position.x >
+             triangle.vertex_out[max_index].position.x))
       max_index = i;
   }
 
-  math::vec3 bottom_position(triangle.v[min_index].position.x,
-                             triangle.v[min_index].position.y,
-                             triangle.v[min_index].position.z);
-  math::vec3 middle_position(triangle.v[3 - max_index - min_index].position.x,
-                             triangle.v[3 - max_index - min_index].position.y,
-                             triangle.v[3 - max_index - min_index].position.z);
-  math::vec3 top_position(triangle.v[max_index].position.x,
-                          triangle.v[max_index].position.y,
-                          triangle.v[max_index].position.z);
+  math::vec3 bottom_position(triangle.vertex_out[min_index].position.x,
+                             triangle.vertex_out[min_index].position.y,
+                             triangle.vertex_out[min_index].position.z);
+  math::vec3 middle_position(
+      triangle.vertex_out[3 - max_index - min_index].position.x,
+      triangle.vertex_out[3 - max_index - min_index].position.y,
+      triangle.vertex_out[3 - max_index - min_index].position.z);
+  math::vec3 top_position(triangle.vertex_out[max_index].position.x,
+                          triangle.vertex_out[max_index].position.y,
+                          triangle.vertex_out[max_index].position.z);
 
   if (bottom_position.y == top_position.y) {  // 3 positions in same line
     if (top_position.y == floorf(top_position.y))
@@ -139,8 +151,8 @@ void Rasterizer::LineGenerateFragment(const float x, const float y) {
   // interpolation process
   float k = math::LinearInterpolationCoef(positions_[0].x, positions_[1].x, x);
 
-  float z = math::LinearInterpolation(line_.v[0].position.z,
-                                      line_.v[1].position.z, k);
+  float z = math::LinearInterpolation(line_.vertex_out[0].position.z,
+                                      line_.vertex_out[1].position.z, k);
 
   Fragment fragment;
   fragment.window_position = math::vec3(x, y, z);
@@ -157,18 +169,20 @@ void Rasterizer::TriangleGenerateFragment(const float x, const float y) {
 
   Fragment fragment;
 
-  float z = TriangleInterpolation(triangle_.v[0].position.z,
-                                  triangle_.v[1].position.z,
-                                  triangle_.v[2].position.z, k);
+  float z = TriangleInterpolation(triangle_.vertex_out[0].position.z,
+                                  triangle_.vertex_out[1].position.z,
+                                  triangle_.vertex_out[2].position.z, k);
   fragment.window_position = math::vec3(x, y, z);
 
   // lighting
-  fragment.world_position = TriangleInterpolation(
-      triangle_.v[0].world_position, triangle_.v[1].world_position,
-      triangle_.v[2].world_position, k);
-  fragment.world_normal = TriangleInterpolation(triangle_.v[0].world_normal,
-                                                triangle_.v[1].world_normal,
-                                                triangle_.v[2].world_normal, k);
+  fragment.world_position =
+      TriangleInterpolation(triangle_.vertex_out[0].world_position,
+                            triangle_.vertex_out[1].world_position,
+                            triangle_.vertex_out[2].world_position, k);
+  fragment.world_normal =
+      TriangleInterpolation(triangle_.vertex_out[0].world_normal,
+                            triangle_.vertex_out[1].world_normal,
+                            triangle_.vertex_out[2].world_normal, k);
 
   // perspective texture mapping
   fragment.uv =
@@ -225,25 +239,25 @@ void Rasterizer::DrawLine(
 void Rasterizer::InitTriangleInterpolation(const TrianglePrimitive &triangle) {
   triangle_ = triangle;
   for (int i = 0; i < 3; ++i) {
-    positions_[i].x = triangle_.v[i].position.x;
-    positions_[i].y = triangle_.v[i].position.y;
+    positions_[i].x = triangle_.vertex_out[i].position.x;
+    positions_[i].y = triangle_.vertex_out[i].position.y;
 
     // for perspective texture mapping
     perspective_k_ = camera_->far() / (camera_->far() - camera_->near());
-    wrapped_uvs[i].x =
-        triangle_.v[i].uv.x * (triangle_.v[i].position.z - perspective_k_);
-    wrapped_uvs[i].y =
-        triangle_.v[i].uv.y * (triangle_.v[i].position.z - perspective_k_);
+    wrapped_uvs[i].x = triangle_.vertex_out[i].uv.x *
+                       (triangle_.vertex_out[i].position.z - perspective_k_);
+    wrapped_uvs[i].y = triangle_.vertex_out[i].uv.y *
+                       (triangle_.vertex_out[i].position.z - perspective_k_);
 
-    // wrapped_uvs[i].x = triangle_.v[i].uv.x ;
-    // wrapped_uvs[i].y = triangle_.v[i].uv.y ;
+    // wrapped_uvs[i].x = triangle_.vertex_out[i].uv.x ;
+    // wrapped_uvs[i].y = triangle_.vertex_out[i].uv.y ;
   }
 }
 
 void Rasterizer::InitLineInterpolation(const LinePrimitive &line) {
   line_ = line;
   for (int i = 0; i < 2; ++i) {
-    positions_[i].x = line_.v[i].position.x;
+    positions_[i].x = line_.vertex_out[i].position.x;
   }
 }
 
