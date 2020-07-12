@@ -25,8 +25,12 @@ bool Clipper::ClipLineNegativeW(
     }
   }
 
-  if (negative_num == 0) return true;
-  if (negative_num == 2) return false;
+  if (negative_num == 0) {
+    return true;
+  }
+  if (negative_num == 2) {
+    return false;
+  }
 
   float k = math::LinearInterpolationCoef(
       line->vertex_out[0].position.w, line->vertex_out[1].position.w, W_ZERO);

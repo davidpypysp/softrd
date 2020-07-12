@@ -12,7 +12,6 @@
 #include "src/modules/vertex_shader.h"
 #include "src/scene/camera.h"
 #include "src/scene/scene_object.h"
-#include "src/utils/util.h"
 
 namespace softrd {
 
