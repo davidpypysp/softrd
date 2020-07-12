@@ -14,6 +14,8 @@ class RendererAPI : public Engine {
   void ResetBuffer(uint8_t *buffer, size_t size);
   void SetSceneObject(const std::string &id, const math::vec3 &position,
                       const math::vec3 &rotation);
+  void MoveSceneCamera(const math::vec3 &move);
+  void RotateSceneCamera(const math::vec3 &rotation);
 };
 
 }  // namespace softrd

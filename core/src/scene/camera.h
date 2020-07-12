@@ -14,7 +14,7 @@ class Camera : public BaseObject {
   void SetViewMatrix();
   void SetProjectionMatrix();
   void Move(const math::vec3 &move);
-  void Rotate(const math::vec3 &rotate);
+  void Rotate(const math::vec3 &rotation);
   void Zoom(const float degree);
 
   math::vec3 *PositionPtr() { return &position_; }

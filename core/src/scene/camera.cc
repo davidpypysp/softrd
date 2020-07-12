@@ -29,7 +29,7 @@ void Camera::SetViewMatrix() {
 }
 
 void Camera::SetProjectionMatrix() {
-  float cot_theta = 1.0 / tan(math::Radians(fov_ * 0.5));
+  const float cot_theta = 1.0 / tan(math::Radians(fov_ * 0.5));
   projection_[0][0] = cot_theta / aspect_;
   projection_[1][1] = cot_theta;
   projection_[2][2] = (far_ + near_) / (near_ - far_);
@@ -45,10 +45,10 @@ void Camera::Move(const math::vec3 &move) {
   SetViewMatrix();
 }
 
-void Camera::Rotate(const math::vec3 &rotate) {
+void Camera::Rotate(const math::vec3 &rotation) {
   // x: pitch, y: yaw, z: roll(not use)
-  pitch_ += rotate.x;
-  yaw_ += rotate.y;
+  pitch_ += rotation.x;
+  yaw_ += rotation.y;
   if (pitch_ > 89.0) {
     pitch_ = 89.0;
   } else if (pitch_ < -89.0) {
