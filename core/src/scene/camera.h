@@ -9,7 +9,7 @@ namespace scene {
 
 class Camera : public BaseObject {
  public:
-  Camera(const float aspect);
+  Camera(const math::vec3 &position, const float aspect);
 
   void SetViewMatrix();
   void SetProjectionMatrix();
@@ -28,10 +28,12 @@ class Camera : public BaseObject {
   math::mat4 projection() const { return projection_; }
 
  private:
-  math::vec3 direction_;
+  math::vec3 direction_;  // direction towards the point camera look at
   math::vec3 up_;
   math::vec3 right_;
-  math::vec3 world_up_;
+
+  const math::vec3 world_up_ =
+      math::vec3(0.0, 1.0, 0.0);  // static world up direction
 
   float pitch_;
   float yaw_;

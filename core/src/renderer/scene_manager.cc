@@ -4,7 +4,7 @@ namespace softrd {
 
 SceneManager::SceneManager() {
   this->set_default_camera(
-      std::make_shared<scene::Camera>(float(640.0) / float(480.0)));
+      std::make_shared<scene::Camera>(math::vec3(6, 6, 9), 640.0 / 480.0));
 
   this->InitShaders();
 

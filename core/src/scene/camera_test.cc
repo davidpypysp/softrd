@@ -5,7 +5,7 @@
 using namespace softrd;
 
 TEST(CameraTest, Genral) {
-  scene::Camera camera(800.0 / 600.0);
+  scene::Camera camera(math::vec3(6.0, 6.0, 10.0), 800.0 / 600.0);
   camera.direction();
 }
 
