@@ -9,6 +9,10 @@ class Renderer {
     public fps: number = 0;
     public rendererWASM = null;
 
+    public mouseX = 0;
+    public mouseY = 0;
+    public isMouseDown = false;
+
     constructor() {
         Module.onRuntimeInitialized = () => {
             console.info("onRuntimeInitialized");
@@ -28,6 +32,10 @@ class Renderer {
 
             this.drawFrameLoop();
         };
+
+        this.mouseDownEvent = this.mouseDownEvent.bind(this);
+        this.mouseMoveEvent = this.mouseMoveEvent.bind(this);
+        this.mouseUpEvent = this.mouseUpEvent.bind(this);
     }
 
     init(canvasId) {
@@ -35,6 +43,35 @@ class Renderer {
         this.canvasElement = document.getElementById(canvasId);
         this.context2D = this.canvasElement.getContext("2d");
         this.lastExcutedTime = performance.now();
+
+        this.canvasElement.addEventListener("mousedown", this.mouseDownEvent);
+        this.canvasElement.addEventListener("mousemove", this.mouseMoveEvent);
+        this.canvasElement.addEventListener("mouseup", this.mouseUpEvent);
+    }
+
+    mouseDownEvent(e) {
+        this.mouseX = e.offsetX;
+        this.mouseY = e.offsetY;
+        this.isMouseDown = true;
+        console.info(this.mouseX, this.mouseY);
+    }
+
+    mouseMoveEvent(e) {
+        if (this.isMouseDown) {
+            const dx = (e.offsetX - this.mouseX) * 0.05;
+            const dy = (e.offsetY - this.mouseY) * 0.05;
+            console.info("move", dx, dy);
+            this.rendererWASM.moveCamera({ x: dx, y: -dy, z: 0 });
+            this.mouseX = e.offsetX;
+            this.mouseY = e.offsetY;
+        }
+    }
+
+    mouseUpEvent(e) {
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.isMouseDown = false;
+        console.info(this.mouseX, this.mouseY);
     }
 
     draw() {
