@@ -19,6 +19,13 @@ class EmbindRendererAPI : public softrd::RendererAPI {
     return val(typed_memory_view(frame_buffer.size(), &frame_buffer[0]));
   }
 
+  // object_list: {
+  //  key: {
+  //   id: string;
+  //   position: math::vec3;
+  //   rotation: math::vec3
+  //  }
+  // }
   inline void DrawSceneFromObjectList(const emscripten::val& object_list) {
     // val::global("console").call<val>("log", object_list);
 
@@ -36,6 +43,18 @@ class EmbindRendererAPI : public softrd::RendererAPI {
 
     this->DrawSceneObjects();
   }
+
+  // move_obj: math::vec3
+  inline void MoveCamera(const emscripten::val& move_obj) {
+    const auto& move = ParseVec3(move_obj);
+    this->MoveSceneCamera(move);
+  }
+
+  // rotation_obj: math::vec3
+  inline void RotateCamera(const emscripten::val& rotation_obj) {
+    const auto& rotation = ParseVec3(rotation_obj);
+    this->RotateSceneCamera(rotation);
+  }
 };
 
 EMSCRIPTEN_BINDINGS(embind_renderer_api) {
@@ -44,5 +63,7 @@ EMSCRIPTEN_BINDINGS(embind_renderer_api) {
       .function("setSceneObject", &EmbindRendererAPI::SetSceneObject)
       .function("drawSceneFromObjectList",
                 &EmbindRendererAPI::DrawSceneFromObjectList)
-      .function("getFrameBufferView", &EmbindRendererAPI::GetFrameBufferView);
+      .function("getFrameBufferView", &EmbindRendererAPI::GetFrameBufferView)
+      .function("moveCamera", &EmbindRendererAPI::MoveCamera)
+      .function("rotateCamera", &EmbindRendererAPI::RotateCamera);
 }
