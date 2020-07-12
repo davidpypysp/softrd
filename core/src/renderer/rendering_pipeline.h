@@ -10,8 +10,8 @@
 #include "src/modules/rasterizer.h"
 #include "src/modules/vertex_loader.h"
 #include "src/modules/vertex_shader.h"
-#include "src/scene/scene_object.h"
 #include "src/scene/camera.h"
+#include "src/scene/scene_object.h"
 #include "src/utils/util.h"
 
 namespace softrd {
@@ -65,7 +65,7 @@ class RenderingPipeline {
   std::vector<uint32_t> element_buffer_;
   std::vector<VertexOut> vertex_out_buffer_;
   std::vector<Fragment> fragment_buffer_;
-  util::Array<float> depth_buffer_;
+  std::vector<float> depth_buffer_;
   std::vector<uint8_t> frame_buffer_;
 
   Rasterizer::DrawTriangleMode polygon_mode_;
