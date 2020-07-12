@@ -5,6 +5,9 @@
 # docker-compose start dev container
 docker-compose run --service-ports softrd-dev bash
 
+# docker into current container
+docker exec -it {CONTAINER_ID} bash
+
 # build dev image
 docker build -t davidpy1992/softrd-dev -f docker/softrd-dev.dockerfile .
 

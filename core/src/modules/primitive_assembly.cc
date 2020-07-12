@@ -17,9 +17,9 @@ void PrimitiveAssembler::Setup(std::vector<VertexOut> &vertex_out_buffer) {
 
 void PrimitiveAssembler::Reset() {
   vertex_num_ = vertex_out_buffer_.size();
-  check_elements_.Resize(vertex_num_);
-  check_elements_.Empty();
-  window_positions_.Resize(vertex_num_);
+  checked_elements_.resize(vertex_num_);
+  std::fill(checked_elements_.begin(), checked_elements_.end(), false);
+  window_positions_.resize(vertex_num_);
 }
 
 PrimitiveAssembler::~PrimitiveAssembler() {}
@@ -72,7 +72,7 @@ bool PrimitiveAssembler::GeneratePrimitive(int elements[],
     int element = elements[i];
     primitive.vertex_out[i] = vertex_out_buffer_[element];
 
-    if (!check_elements_[element]) {
+    if (!checked_elements_[element]) {
       math::vec4 position = primitive.vertex_out[i].position;
 
       // transform
@@ -80,7 +80,7 @@ bool PrimitiveAssembler::GeneratePrimitive(int elements[],
       ViewportTransform(position, width_, height_);
 
       primitive.vertex_out[i].position = position;
-      check_elements_[element] = true;
+      checked_elements_[element] = true;
       window_positions_[element] = position;
     } else {
       primitive.vertex_out[i].position = window_positions_[element];
