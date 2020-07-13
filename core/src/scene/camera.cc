@@ -3,35 +3,22 @@
 namespace softrd {
 namespace scene {
 
-Camera::Camera(const float aspect) {
-  /*
-  position = math::vec3(0.0, 0.0, 3.0);
-  direction_ = math::vec3(0.0, 0.0, 1.0);
-  up = math::vec3(0.0, 1.0, 0.0);
-  right = math::vec3(1.0, 0.0, 0.0);
-  pitch = 0.0;
-  yaw = 90.0;
-  */
-  // TODO: init with original point of world
-  position_ = math::vec3(6.0, 6.0, 10.0);
-  direction_ = math::vec3(0.0, 0.0, 0.0);
+Camera::Camera(const math::vec3 &position, const float aspect) {
+  position_ = position;
+  direction_ = (position_ - math::vec3(0.0, 0.0, 0.0)).Normalize();
+  right_ = (world_up_ % direction_).Normalize();
+  up_ = (direction_ % right_).Normalize();
 
   pitch_ = 30.0;
   yaw_ = 60.0;
 
-  up_ = math::vec3(0.0, 1.0, 0.0);
-  right_ = math::vec3(1.0, 0.0, 0.0);
-  world_up_ = math::vec3(0.0, 1.0, 0.0);
-
   fov_ = 45.0;
   aspect_ = aspect;
-  near_ = 0.2f;
-  far_ = 500.0f;
+  near_ = 0.2;
+  far_ = 500.0;
 
   SetViewMatrix();
   SetProjectionMatrix();
-
-  Rotate(math::vec3(0, 0, 0));
 }
 
 void Camera::SetViewMatrix() {
@@ -42,7 +29,7 @@ void Camera::SetViewMatrix() {
 }
 
 void Camera::SetProjectionMatrix() {
-  float cot_theta = 1.0 / tan(math::Radians(fov_ * 0.5));
+  const float cot_theta = 1.0 / tan(math::Radians(fov_ * 0.5));
   projection_[0][0] = cot_theta / aspect_;
   projection_[1][1] = cot_theta;
   projection_[2][2] = (far_ + near_) / (near_ - far_);
@@ -58,10 +45,10 @@ void Camera::Move(const math::vec3 &move) {
   SetViewMatrix();
 }
 
-void Camera::Rotate(const math::vec3 &rotate) {
+void Camera::Rotate(const math::vec3 &rotation) {
   // x: pitch, y: yaw, z: roll(not use)
-  pitch_ += rotate.x;
-  yaw_ += rotate.y;
+  pitch_ += rotation.x;
+  yaw_ += rotation.y;
   if (pitch_ > 89.0) {
     pitch_ = 89.0;
   } else if (pitch_ < -89.0) {
@@ -74,8 +61,10 @@ void Camera::Rotate(const math::vec3 &rotate) {
   direction_.y = sin(math::Radians(pitch_));
   direction_.z = cos(math::Radians(pitch_)) * sin(math::Radians(yaw_));
   direction_.Normalize();
+
   right_ = (world_up_ % direction_).Normalize();
   up_ = (direction_ % right_).Normalize();
+
   SetViewMatrix();
 }
 

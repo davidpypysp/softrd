@@ -11,7 +11,7 @@ void RenderingPipeline::Reset(const int width, const int height,
   height_ = height;
   screen_size_ = width * height;
 
-  depth_buffer_.Resize(screen_size_ * 4);
+  depth_buffer_.resize(screen_size_ * 4);
   frame_buffer_.resize(screen_size_ * 4);
 
   ResetBuffer();
@@ -32,7 +32,7 @@ void RenderingPipeline::Reset(const int width, const int height,
 }
 
 void RenderingPipeline::DrawSceneObject(
-    const std::shared_ptr<SceneObject> &scene_object) {
+    const std::shared_ptr<scene::SceneObject> &scene_object) {
   math::mat4 model_matrix;
   model_matrix.identify();
 
@@ -159,7 +159,7 @@ void RenderingPipeline::SetPolygonMode(
 
 void RenderingPipeline::ResetBuffer() {
   std::fill(frame_buffer_.begin(), frame_buffer_.end(), 10);
-  depth_buffer_.Fill(1.0);
+  std::fill(depth_buffer_.begin(), depth_buffer_.end(), 1.0);
 }
 
 RenderingPipeline::~RenderingPipeline() {}

@@ -17,9 +17,9 @@ void PrimitiveAssembler::Setup(std::vector<VertexOut> &vertex_out_buffer) {
 
 void PrimitiveAssembler::Reset() {
   vertex_num_ = vertex_out_buffer_.size();
-  check_elements_.Resize(vertex_num_);
-  check_elements_.Empty();
-  window_positions_.Resize(vertex_num_);
+  checked_elements_.resize(vertex_num_);
+  std::fill(checked_elements_.begin(), checked_elements_.end(), false);
+  window_positions_.resize(vertex_num_);
 }
 
 PrimitiveAssembler::~PrimitiveAssembler() {}
@@ -29,20 +29,20 @@ bool PrimitiveAssembler::AssembleLine(const int e1, const int e2,
   int elements[] = {e1, e2};
 
   for (int i = 0; i < 2; ++i) {
-    line->v[i] = vertex_out_buffer_[elements[i]];
+    line->vertex_out[i] = vertex_out_buffer_[elements[i]];
   }
 
   if (Clipper::ClipLineNegativeW(line) == false) return false;
   if (Clipper::ClipLine(line) == false) return false;
 
   for (int i = 0; i < line->size; ++i) {
-    math::vec4 position = line->v[i].position;
+    math::vec4 position = line->vertex_out[i].position;
 
     // transform
     PerspectiveDivide(position);
     ViewportTransform(position, width_, height_);
 
-    line->v[i].position = position;
+    line->vertex_out[i].position = position;
   }
 
   return true;
@@ -70,20 +70,20 @@ bool PrimitiveAssembler::GeneratePrimitive(int elements[],
                                            Primitive &primitive) {
   for (int i = 0; i < primitive.size; ++i) {
     int element = elements[i];
-    primitive.v[i] = vertex_out_buffer_[element];
+    primitive.vertex_out[i] = vertex_out_buffer_[element];
 
-    if (!check_elements_[element]) {
-      math::vec4 position = primitive.v[i].position;
+    if (!checked_elements_[element]) {
+      math::vec4 position = primitive.vertex_out[i].position;
 
       // transform
       PerspectiveDivide(position);
       ViewportTransform(position, width_, height_);
 
-      primitive.v[i].position = position;
-      check_elements_[element] = true;
+      primitive.vertex_out[i].position = position;
+      checked_elements_[element] = true;
       window_positions_[element] = position;
     } else {
-      primitive.v[i].position = window_positions_[element];
+      primitive.vertex_out[i].position = window_positions_[element];
     }
   }
   return true;

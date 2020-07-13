@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-#include "src/renderer/scene_object.h"
+#include "src/scene/scene_object.h"
 #include "src/scene/camera.h"
 
 namespace softrd {
@@ -14,33 +14,33 @@ class SceneManager {
   void InitShaders();
   void AddExampleObjects();
 
-  std::shared_ptr<SceneObject> AddSceneObject(
+  std::shared_ptr<scene::SceneObject> AddSceneObject(
       const std::string &id, const math::vec3 &position = math::vec3(0, 0, 0),
       const math::vec3 &rotation = math::vec3(0, 0, 0));
-  std::shared_ptr<SpotLightObject> AddSpotLightObject(
+  std::shared_ptr<scene::SpotLightObject> AddSpotLightObject(
       const std::string &id, const math::vec3 &position = math::vec3(0, 0, 0),
       const math::vec3 &rotation = math::vec3(0, 0, 0));
-  std::shared_ptr<SceneObject> GetSceneObject(const std::string &id);
+  std::shared_ptr<scene::SceneObject> GetSceneObject(const std::string &id);
 
-  void set_camera(const std::shared_ptr<scene::Camera> &camera) {
-    camera_ = camera;
+  void set_default_camera(const std::shared_ptr<scene::Camera> &camera) {
+    default_camera_ = camera;
   }
-  std::shared_ptr<scene::Camera> camera() const { return camera_; }
+  std::shared_ptr<scene::Camera> default_camera() const { return default_camera_; }
 
-  std::unordered_map<std::string, std::shared_ptr<SceneObject>> scene_objects()
+  std::unordered_map<std::string, std::shared_ptr<scene::SceneObject>> scene_objects()
       const {
     return scene_objects_;
   }
 
  private:
-  std::unordered_map<std::string, std::shared_ptr<SceneObject>> scene_objects_;
+  std::unordered_map<std::string, std::shared_ptr<scene::SceneObject>> scene_objects_;
 
   std::unordered_map<std::string, std::shared_ptr<VertexShader>>
       vertex_shaders_;
   std::unordered_map<std::string, std::shared_ptr<FragmentShader>>
       fragment_shaders_;
 
-  std::shared_ptr<scene::Camera> camera_;
+  std::shared_ptr<scene::Camera> default_camera_;
 };
 
 }  // namespace softrd

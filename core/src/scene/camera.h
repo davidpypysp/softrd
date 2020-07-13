@@ -2,23 +2,23 @@
 #define SOFTRD_CAMERA_H_
 
 #include "src/math/math_util.h"
+#include "src/scene/base_object.h"
 
 namespace softrd {
 namespace scene {
 
-class Camera {
+class Camera : public BaseObject {
  public:
-  Camera(const float aspect);
+  Camera(const math::vec3 &position, const float aspect);
 
   void SetViewMatrix();
   void SetProjectionMatrix();
   void Move(const math::vec3 &move);
-  void Rotate(const math::vec3 &rotate);
+  void Rotate(const math::vec3 &rotation);
   void Zoom(const float degree);
 
   math::vec3 *PositionPtr() { return &position_; }
 
-  math::vec3 position() { return position_; }
   math::vec3 direction() { return direction_; }
 
   float far() const { return far_; }
@@ -28,11 +28,12 @@ class Camera {
   math::mat4 projection() const { return projection_; }
 
  private:
-  math::vec3 position_;
-  math::vec3 direction_;
+  math::vec3 direction_;  // direction towards the point camera look at
   math::vec3 up_;
   math::vec3 right_;
-  math::vec3 world_up_;
+
+  const math::vec3 world_up_ =
+      math::vec3(0.0, 1.0, 0.0);  // static world up direction
 
   float pitch_;
   float yaw_;

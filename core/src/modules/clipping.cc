@@ -19,25 +19,29 @@ bool Clipper::ClipLineNegativeW(
   int negative_num = 0;
   int index = 0;
   for (int i = 0; i < 2; i++) {
-    if (line->v[i].position.w < W_ZERO) {
+    if (line->vertex_out[i].position.w < W_ZERO) {
       index = i;
       negative_num++;
     }
   }
 
-  if (negative_num == 0) return true;
-  if (negative_num == 2) return false;
+  if (negative_num == 0) {
+    return true;
+  }
+  if (negative_num == 2) {
+    return false;
+  }
 
-  float k = math::LinearInterpolationCoef(line->v[0].position.w,
-                                          line->v[1].position.w, W_ZERO);
-  math::vec4 position =
-      LinearInterpolation(line->v[0].position, line->v[1].position, k);
-  line->v[index].position = position;
+  float k = math::LinearInterpolationCoef(
+      line->vertex_out[0].position.w, line->vertex_out[1].position.w, W_ZERO);
+  math::vec4 position = LinearInterpolation(line->vertex_out[0].position,
+                                            line->vertex_out[1].position, k);
+  line->vertex_out[index].position = position;
   return true;
 }
 
 bool Clipper::ClipLine(LinePrimitive *line) {  // Cohen - Sutherland algorithm
-  math::vec4 p[] = {line->v[0].position, line->v[1].position};
+  math::vec4 p[] = {line->vertex_out[0].position, line->vertex_out[1].position};
   int codes[] = {RegionCode(p[0]), RegionCode(p[1])};
 
   if (codes[0] == 0 && codes[1] == 0)
@@ -51,7 +55,7 @@ bool Clipper::ClipLine(LinePrimitive *line) {  // Cohen - Sutherland algorithm
       if (CalcPerspectiveLineIntersection(codes[i], p[0], p[1],
                                           &clip_position) == false)
         return false;
-      line->v[i].position = clip_position;
+      line->vertex_out[i].position = clip_position;
     }
   }
   return true;

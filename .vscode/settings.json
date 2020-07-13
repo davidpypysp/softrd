@@ -74,7 +74,6 @@
     "filesystem": "cpp",
     "bit": "cpp"
   },
-  "editor.formatOnSave": false,
   "vim.handleKeys": {
     "<C-c>": false,
     "<C-v>": false,
@@ -86,5 +85,6 @@
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": true
-  }
+  },
+  "editor.formatOnSave": true
 }

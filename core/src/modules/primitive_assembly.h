@@ -5,7 +5,6 @@
 
 #include "src/common/primitive.h"
 #include "src/modules/vertex_shader.h"
-#include "src/utils/util.h"
 
 namespace softrd {
 
@@ -36,9 +35,8 @@ class PrimitiveAssembler {
   int width_, height_;  // window space width and height
   int vertex_num_;
   std::vector<VertexOut> &vertex_out_buffer_;
-  util::Array<bool> check_elements_;
-  // math::vec4 *window_positions_;
-  util::Array<math::vec4> window_positions_;
+  std::vector<bool> checked_elements_;
+  std::vector<math::vec4> window_positions_;
 };
 
 }  // namespace softrd

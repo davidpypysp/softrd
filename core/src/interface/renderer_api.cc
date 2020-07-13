@@ -24,4 +24,12 @@ void RendererAPI::SetSceneObject(const std::string &id,
   }
 }
 
+void RendererAPI::MoveSceneCamera(const math::vec3 &move) {
+  this->scene_manager_->default_camera()->Move(move);
+}
+
+void RendererAPI::RotateSceneCamera(const math::vec3 &rotation) {
+  this->scene_manager_->default_camera()->Rotate(rotation);
+}
+
 }  // namespace softrd

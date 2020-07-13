@@ -3,23 +3,17 @@
 
 #include <memory>
 
+#include "src/scene/base_object.h"
 #include "src/common/mesh.h"
 #include "src/modules/fragment_shader.h"
 #include "src/modules/vertex_shader.h"
 
 namespace softrd {
 
-class SceneObject {
+namespace scene {
+
+class SceneObject : public BaseObject {
  public:
-  void set_id(const std::string &id) { id_ = id; }
-  std::string id() const { return id_; }
-
-  void set_position(const math::vec3 &position) { position_ = position; }
-  math::vec3 position() const { return position_; }
-
-  void set_rotation(const math::vec3 &rotation) { rotation_ = rotation; }
-  math::vec3 rotation() const { return rotation_; }
-
   void set_scale(const math::vec3 &scale) { scale_ = scale; }
   math::vec3 scale() const { return scale_; }
 
@@ -45,10 +39,6 @@ class SceneObject {
   }
 
  protected:
-  std::string id_;
-
-  math::vec3 position_;
-  math::vec3 rotation_;
   math::vec3 scale_;
 
   std::shared_ptr<Mesh> mesh_ = nullptr;
@@ -68,6 +58,8 @@ class SpotLightObject : public SceneObject {
  protected:
   std::shared_ptr<SpotLight> spot_light_;
 };
+
+} // namespace scene
 
 }  // namespace softrd
 

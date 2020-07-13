@@ -10,9 +10,8 @@
 #include "src/modules/rasterizer.h"
 #include "src/modules/vertex_loader.h"
 #include "src/modules/vertex_shader.h"
-#include "src/renderer/scene_object.h"
 #include "src/scene/camera.h"
-#include "src/utils/util.h"
+#include "src/scene/scene_object.h"
 
 namespace softrd {
 
@@ -24,7 +23,7 @@ class RenderingPipeline {
 
   void Reset(const int width, const int height,
              std::shared_ptr<scene::Camera> camera);
-  void DrawSceneObject(const std::shared_ptr<SceneObject> &scene_object);
+  void DrawSceneObject(const std::shared_ptr<scene::SceneObject> &scene_object);
   void DrawMesh(
       Mesh &mesh, VertexShader &vertex_shader, FragmentShader &fragment_shader,
       const Rasterizer::DrawTriangleMode tri_mode = Rasterizer::TRIANGLE_LINE,
@@ -65,7 +64,7 @@ class RenderingPipeline {
   std::vector<uint32_t> element_buffer_;
   std::vector<VertexOut> vertex_out_buffer_;
   std::vector<Fragment> fragment_buffer_;
-  util::Array<float> depth_buffer_;
+  std::vector<float> depth_buffer_;
   std::vector<uint8_t> frame_buffer_;
 
   Rasterizer::DrawTriangleMode polygon_mode_;

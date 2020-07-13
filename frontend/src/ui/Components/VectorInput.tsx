@@ -9,16 +9,16 @@ const useStyles = createUseStyles({
         display: "flex",
     },
     vector3InputNumeric: {
-        padding: [0, 5],
-    },
-    "vector3InputNumeric:first-child > input": {
-        width: 80,
+        margin: [0, 5],
+        "& .bp3-input-group": {
+            width: 80,
+        },
     },
 });
 
 export function Vec3Input(props: { data: Vec3; onChangeHandler?: Function }) {
     const classes = useStyles();
-    const { data, onChangeHandler } = this.props;
+    const { data, onChangeHandler } = props;
     return (
         <div className={classes.vector3Input}>
             <NumericInput

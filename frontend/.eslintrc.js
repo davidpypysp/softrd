@@ -21,7 +21,7 @@ module.exports = {
     rules: {
         "max-classes-per-file": 0,
         "react/jsx-filename-extension": 0,
-        "no-console": "off",
+        "no-console": "warn",
         // Require a semi colon at the end of a statement.
         semi: ["error", "always"],
         // Always require curly brackets.
