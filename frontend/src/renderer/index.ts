@@ -11,7 +11,8 @@ class Renderer {
 
     public mouseX = 0;
     public mouseY = 0;
-    public isMouseDown = false;
+    public isMouseLeftDown = false;
+    public isMouseRightDown = false;
 
     constructor() {
         Module.onRuntimeInitialized = () => {
@@ -48,32 +49,48 @@ class Renderer {
         this.canvasElement.addEventListener("mousemove", this.onMouseMove);
         this.canvasElement.addEventListener("mouseup", this.onMouseUp);
         this.canvasElement.addEventListener("wheel", this.onMouseWheel);
+        this.canvasElement.addEventListener(
+            "contextmenu",
+            (e) => {
+                e.preventDefault();
+            },
+            false
+        );
     }
 
     onMouseDown(e) {
+        e.preventDefault();
         this.mouseX = e.offsetX;
         this.mouseY = e.offsetY;
-        this.isMouseDown = true;
+        if (e.button === 0) {
+            this.isMouseLeftDown = true;
+        } else if (e.button === 2) {
+            this.isMouseRightDown = true;
+        }
     }
 
     onMouseMove(e) {
-        if (this.isMouseDown) {
+        if (this.isMouseLeftDown) {
             const dx = (e.offsetX - this.mouseX) * 0.05;
             const dy = (e.offsetY - this.mouseY) * 0.05;
             this.rendererWASM.moveCamera({ x: dx, y: -dy, z: 0 });
-            this.mouseX = e.offsetX;
-            this.mouseY = e.offsetY;
+        } else if (this.isMouseRightDown) {
+            const yaw = (e.offsetX - this.mouseX) * 0.05;
+            this.rendererWASM.rotateCamera({ x: 0, y: yaw, z: 0 });
         }
+        this.mouseX = e.offsetX;
+        this.mouseY = e.offsetY;
     }
 
     onMouseUp(e) {
         this.mouseX = 0;
         this.mouseY = 0;
-        this.isMouseDown = false;
+        this.isMouseLeftDown = false;
+        this.isMouseRightDown = false;
     }
 
     onMouseWheel(e) {
-        event.preventDefault();
+        e.preventDefault();
 
         const distance = e.deltaY * 0.01;
         this.rendererWASM.moveCamera({ x: 0, y: 0, z: distance });
