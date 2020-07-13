@@ -36,6 +36,7 @@ class Renderer {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
+        this.onMouseWheel = this.onMouseWheel.bind(this);
     }
 
     init(canvasId) {
@@ -46,6 +47,7 @@ class Renderer {
         this.canvasElement.addEventListener("mousedown", this.onMouseDown);
         this.canvasElement.addEventListener("mousemove", this.onMouseMove);
         this.canvasElement.addEventListener("mouseup", this.onMouseUp);
+        this.canvasElement.addEventListener("wheel", this.onMouseWheel);
     }
 
     onMouseDown(e) {
@@ -68,6 +70,13 @@ class Renderer {
         this.mouseX = 0;
         this.mouseY = 0;
         this.isMouseDown = false;
+    }
+
+    onMouseWheel(e) {
+        event.preventDefault();
+
+        const distance = e.deltaY * 0.01;
+        this.rendererWASM.moveCamera({ x: 0, y: 0, z: distance });
     }
 
     draw() {
