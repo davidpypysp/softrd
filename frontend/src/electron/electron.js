@@ -12,8 +12,8 @@ function createWindow() {
         width: 1280,
         height: 720,
         webPreferences: {
-            preload: __dirname + "/preload.js"
-        }
+            preload: __dirname + "/preload.js",
+        },
     });
 
     mainWindow.loadURL(
