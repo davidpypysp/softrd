@@ -258,3 +258,5 @@ bazel-core
 core/build-cmake
 core/build-*
 middleware/build-*
+
+*.swp
