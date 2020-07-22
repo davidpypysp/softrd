@@ -108,7 +108,7 @@ libSOIL need to build from source: https://github.com/littlstar/soil
 ```
 git clone https://github.com/childhood/libSOIL.git
 cd libSOIL-master
-make 
+make
 sudo make install
 ```
 
