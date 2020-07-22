@@ -14,5 +14,5 @@ beforeEach(() => (child = shallow(<Header />)));
 it("should render without error", () => expect(child.length).toBe(1));
 
 it("should render one Card component", () => {
-  expect(child.find(Card)).toHaveLength(1);
+    expect(child.find(Card)).toHaveLength(1);
 });
