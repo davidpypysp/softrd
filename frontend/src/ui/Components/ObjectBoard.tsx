@@ -31,7 +31,7 @@ export interface RowDataProps {
     data?: any;
 }
 
-const RowData = (props: RowDataProps) => {
+export const RowData = (props: RowDataProps) => {
     const classes = useStyles();
     return (
         <li className={classes.rowData}>

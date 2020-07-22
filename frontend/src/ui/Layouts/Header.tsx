@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@blueprintjs/core";
 
-import { createUseStyles } from "react-jss";
+import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
     header: {
