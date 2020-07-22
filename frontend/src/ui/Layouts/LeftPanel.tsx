@@ -13,6 +13,7 @@ const useStyles = createUseStyles({
         width: 400,
     },
 });
+
 class Others extends React.Component {
     render() {
         return (
