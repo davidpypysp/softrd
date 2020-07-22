@@ -6,8 +6,6 @@ module.exports = {
     resolve: {
         alias: {
             src: path.resolve(__dirname, "src/"),
-            ui: path.resolve(__dirname, "src/ui/"),
-            electron: path.resolve(__dirname, "src/electron/"),
             styles: path.resolve(__dirname, "styles/"),
         },
         extensions: [".tsx", ".ts", ".js"],

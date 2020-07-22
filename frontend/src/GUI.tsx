@@ -4,10 +4,10 @@ import "styles/main.scss";
 
 import { Card } from "@blueprintjs/core";
 
-import Header from "src/ui/Layouts/Header";
-import MainView from "src/ui/Layouts/MainView";
-import LeftPanel from "src/ui/Layouts/LeftPanel";
-import RightPanel from "src/ui/Layouts/RightPanel";
+import Header from "src/Layouts/Header";
+import MainView from "src/Layouts/MainView";
+import LeftPanel from "src/Layouts/LeftPanel";
+import RightPanel from "src/Layouts/RightPanel";
 
 import { createUseStyles } from "react-jss";
 

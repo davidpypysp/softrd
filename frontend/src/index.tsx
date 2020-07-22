@@ -1,6 +1,6 @@
 import * as ReactDOM from "react-dom";
 import * as React from "react";
-import GUI from "src/ui/GUI";
+import GUI from "src/GUI";
 import store from "src/store";
 import { Provider } from "react-redux";
 
