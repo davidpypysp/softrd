@@ -4,7 +4,7 @@ import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { Tab, Tabs } from "@blueprintjs/core";
 import RightPanel from "./RightPanel";
-import ObjectBoard from "src/Components/ObjectBoard";
+import ObjectBoard from "src/components/ObjectBoard";
 
 configure({ adapter: new Adapter() });
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Classes } from "@blueprintjs/core";
-import { Vec3Input } from "src/Components/VectorInput";
+import { Vec3Input } from "src/components/VectorInput";
 import {
     updateObjectPosition,
     updateObjectRotation,

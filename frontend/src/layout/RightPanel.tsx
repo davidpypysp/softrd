@@ -3,7 +3,7 @@ import React from "react";
 import { Card, Button } from "@blueprintjs/core";
 import { Tab, Tabs } from "@blueprintjs/core";
 
-import ObjectBoard from "src/Components/ObjectBoard";
+import ObjectBoard from "src/components/ObjectBoard";
 
 import { createUseStyles } from "react-jss";
 

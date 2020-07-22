@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from "react-redux";
 
 import { Card, Button } from "@blueprintjs/core";
 import { Tab, Tabs } from "@blueprintjs/core";
-import SceneMenu from "src/Components/SceneMenu";
-import TestMenu from "src/Components/TestMenu";
+import SceneMenu from "src/components/SceneMenu";
+import TestMenu from "src/components/TestMenu";
 
 import { createUseStyles } from "react-jss";
 
