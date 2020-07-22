@@ -14,5 +14,5 @@ beforeEach(() => (child = shallow(<RowData title="abc" />)));
 it("should render without error", () => expect(child.length).toBe(1));
 
 it("should render one li component", () => {
-  expect(child.find("li")).toHaveLength(1);
+    expect(child.find("li")).toHaveLength(1);
 });

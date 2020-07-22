@@ -74,10 +74,6 @@
     "filesystem": "cpp",
     "bit": "cpp"
   },
-  "vim.handleKeys": {
-    "<C-c>": false,
-    "<C-v>": false,
-  },
   "clang-format.executable": "core/.clang-format",
   "eslint.validate": [
     "typescript",
