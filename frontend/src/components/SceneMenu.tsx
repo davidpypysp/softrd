@@ -2,15 +2,15 @@ import React from "react";
 
 import { Tree, Classes, ITreeNode } from "@blueprintjs/core";
 import { connect, ConnectedProps } from "react-redux";
-import { selectObject } from "src/store/actions/objectSelectorAction";
-import { ObjectListState } from "src/store/reducers/objectListReducer";
+import { Dispatch, RootState } from "src/store";
+import { ObjectListState } from "src/store/objectList";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
     const { objectList } = state;
     return { objectList };
 };
-const mapDispatchToProps = (dispatch) => ({
-    selectObject: (id) => dispatch(selectObject(id)),
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    selectObject: (id: string) => dispatch.objectSelector.select(id),
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -55,7 +55,9 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
         nodeData.isSelected =
             originallySelected === null ? true : !originallySelected;
 
-        this.props.selectObject(nodeData.isSelected ? nodeData.id : null);
+        this.props.selectObject(
+            nodeData.isSelected ? String(nodeData.id) : null
+        );
 
         this.setState(this.state);
     };
