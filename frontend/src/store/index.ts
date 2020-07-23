@@ -1,13 +1,15 @@
-import { createStore } from "redux";
-import rootReducer from "src/store/reducers";
-import { init, RematchRootState, RematchDispatch } from "@rematch/core";
-import { models, RootModel } from "./models";
-import { objectSelector } from "./objectSelector";
+import { configureStore } from "@reduxjs/toolkit";
+import { objectListReducer } from "./objectList";
+import { objectSelectorReducer } from "./objectSelector";
 
-const store = init({ models });
+const store = configureStore({
+    reducer: {
+        objectList: objectListReducer,
+        objectSelector: objectSelectorReducer,
+    },
+});
 
 export default store;
 
-export type Store = typeof store;
-export type Dispatch = RematchDispatch<RootModel>;
-export type RootState = RematchRootState<RootModel>;
+export type RootState = ReturnType<typeof store.getState>;
+export type Dispatch = typeof store.dispatch;

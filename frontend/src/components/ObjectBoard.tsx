@@ -1,14 +1,14 @@
 import React from "react";
 import { Card, Classes } from "@blueprintjs/core";
 import { Vec3Input } from "src/components/VectorInput";
-import {
-    updateObjectPosition,
-    updateObjectRotation,
-} from "src/store/actions/objectListAction";
 import { connect, ConnectedProps } from "react-redux";
 import { Object } from "src/interfaces/object";
 import { Vec3 } from "src/interfaces/vector";
-
+import {
+    updateObjectPosition,
+    updateObjectRotation,
+} from "src/store/objectList";
+import { Dispatch } from "src/store";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -46,7 +46,7 @@ const mapStateToProps = (state) => {
     const object: Object = objectList[objectSelector];
     return { object };
 };
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     updateObjectPosition: (id: string, position: Vec3) =>
         dispatch(updateObjectPosition(id, position)),
     updateObjectRotation: (id: string, rotation: Vec3) =>

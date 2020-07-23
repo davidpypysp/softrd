@@ -2,15 +2,16 @@ import React from "react";
 
 import { Tree, Classes, ITreeNode } from "@blueprintjs/core";
 import { connect, ConnectedProps } from "react-redux";
-import { Dispatch, RootState } from "src/store";
+import { RootState } from "src/store";
+import { selectObject } from "src/store/objectSelector";
 import { ObjectListState } from "src/store/objectList";
 
 const mapStateToProps = (state: RootState) => {
     const { objectList } = state;
     return { objectList };
 };
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    selectObject: (id: string) => dispatch.objectSelector.select(id),
+const mapDispatchToProps = (dispatch) => ({
+    selectObject: (id: string) => dispatch(selectObject(id)),
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
