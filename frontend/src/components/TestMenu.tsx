@@ -5,14 +5,15 @@ import { Card, Button } from "@blueprintjs/core";
 import { addObject } from "src/store/objectList";
 
 const mapDispatchToProps = (dispatch) => ({
-    addObject: dispatch(
-        addObject({
-            id: "test_object",
-            name: "Test Object",
-            position: { x: 0, y: 0, z: 3 },
-            rotation: { x: 1, y: 1, z: 1 },
-        })
-    ),
+    addObject: () =>
+        dispatch(
+            addObject({
+                id: "test_object",
+                name: "Test Object",
+                position: { x: 0, y: 0, z: 3 },
+                rotation: { x: 1, y: 1, z: 1 },
+            })
+        ),
 });
 
 const connector = connect(null, mapDispatchToProps);
