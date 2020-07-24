@@ -79,7 +79,6 @@ export const objectListReducer = createReducer(initialState, (builder) =>
             state[id].position = position;
         })
         .addCase(updateObjectRotation, (state, action) => {
-            console.info("updateObjectRotation", action);
             const { id, rotation } = action.payload;
             state[id].rotation = rotation;
         })

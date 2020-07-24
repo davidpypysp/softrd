@@ -1,24 +1,12 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { Tree, Classes, ITreeNode } from "@blueprintjs/core";
-import { connect, ConnectedProps } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { selectObject } from "src/store/objectSelector";
 import { ObjectListState } from "src/store/objectList";
 
-const mapStateToProps = (state: RootState) => {
-    const { objectList } = state;
-    return { objectList };
-};
-const mapDispatchToProps = (dispatch) => ({
-    selectObject: (id: string) => dispatch(selectObject(id)),
-});
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type SceneMenuProps = ConnectedProps<typeof connector>;
-
-class SceneMenu extends React.Component<SceneMenuProps, {}> {
-    private analysisNodes = (nodes: ObjectListState) => {
+const SceneMenu = () => {
+    const analysisNodes = (nodes: ObjectListState) => {
         const treeNodes = [];
         for (const node of Object.values(nodes)) {
             const tempNode: any = node;
@@ -40,65 +28,63 @@ class SceneMenu extends React.Component<SceneMenuProps, {}> {
         return treeNodes;
     };
 
-    public state: {
-        nodes: ITreeNode[];
-    } = { nodes: this.analysisNodes(this.props.objectList) };
+    const dispatch = useDispatch();
+    const objectList = useSelector((state: RootState) => state.objectList);
+    const [nodes, setNodes] = useState(analysisNodes(objectList));
 
-    private handleNodeClick = (
+    const forEachNode = (
+        nodes: ITreeNode[],
+        callback: (node: ITreeNode) => void
+    ) => {
+        if (!nodes) {
+            return;
+        }
+        for (const node of nodes) {
+            callback(node);
+            forEachNode(node.childNodes, callback);
+        }
+    };
+
+    const handleNodeClick = (
         nodeData: ITreeNode,
         _nodePath: number[],
         e: React.MouseEvent<HTMLElement>
     ) => {
         const originallySelected = nodeData.isSelected;
         if (!e.shiftKey) {
-            this.forEachNode(this.state.nodes, (n) => (n.isSelected = false));
+            forEachNode(nodes, (n) => (n.isSelected = false));
         }
         nodeData.isSelected =
             originallySelected === null ? true : !originallySelected;
 
-        this.props.selectObject(
-            nodeData.isSelected ? String(nodeData.id) : null
+        dispatch(
+            selectObject(nodeData.isSelected ? String(nodeData.id) : null)
         );
 
-        this.setState(this.state);
+        setNodes(nodes);
     };
 
-    private handleNodeCollapse = (nodeData: ITreeNode) => {
+    const handleNodeCollapse = (nodeData: ITreeNode) => {
         nodeData.isExpanded = false;
-        this.setState(this.state);
+        setNodes(nodes);
     };
 
-    private handleNodeExpand = (nodeData: ITreeNode) => {
+    const handleNodeExpand = (nodeData: ITreeNode) => {
         nodeData.isExpanded = true;
-        this.setState(this.state);
+        setNodes(nodes);
     };
 
-    private forEachNode(
-        nodes: ITreeNode[],
-        callback: (node: ITreeNode) => void
-    ) {
-        if (!nodes) {
-            return;
-        }
-        for (const node of nodes) {
-            callback(node);
-            this.forEachNode(node.childNodes, callback);
-        }
-    }
+    return (
+        <div>
+            <Tree
+                contents={nodes}
+                onNodeClick={handleNodeClick}
+                onNodeCollapse={handleNodeCollapse}
+                onNodeExpand={handleNodeExpand}
+                className={Classes.ELEVATION_0}
+            />
+        </div>
+    );
+};
 
-    render() {
-        return (
-            <div>
-                <Tree
-                    contents={this.state.nodes}
-                    onNodeClick={this.handleNodeClick}
-                    onNodeCollapse={this.handleNodeCollapse}
-                    onNodeExpand={this.handleNodeExpand}
-                    className={Classes.ELEVATION_0}
-                />
-            </div>
-        );
-    }
-}
-
-export default connector(SceneMenu);
+export default SceneMenu;
