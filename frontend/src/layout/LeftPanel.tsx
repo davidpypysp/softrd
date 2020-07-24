@@ -14,21 +14,19 @@ const useStyles = createUseStyles({
     },
 });
 
-class Others extends React.Component {
-    render() {
-        return (
-            <div>
-                <h5>
-                    <a href="#">Card heading</a>
-                </h5>
-                <p>Card content</p>
-                <Button>Submit</Button>
-            </div>
-        );
-    }
-}
+const Others = () => {
+    return (
+        <div>
+            <h5>
+                <a href="#">Card heading</a>
+            </h5>
+            <p>Card content</p>
+            <Button>Submit</Button>
+        </div>
+    );
+};
 
-export default function LeftPanel() {
+const LeftPanel = () => {
     const classes = useStyles();
     return (
         <Card className={classes.leftPanel}>
@@ -40,4 +38,6 @@ export default function LeftPanel() {
             </Tabs>
         </Card>
     );
-}
+};
+
+export default LeftPanel;

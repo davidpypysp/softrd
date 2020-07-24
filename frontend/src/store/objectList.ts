@@ -2,7 +2,6 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 
 import { Object } from "src/interfaces/object";
 import { Vec3 } from "src/interfaces/vector";
-import produce from "immer";
 
 export interface ObjectListState {
     [id: string]: Object;
@@ -40,9 +39,7 @@ export const updateObjectValue = createAction(
     })
 );
 
-export const addObject = createAction("ADD_OBJECT", (object: Object) => ({
-    payload: object,
-}));
+export const addObject = createAction<Object>("ADD_OBJECT");
 
 export const updateObjectPosition = createAction(
     "UPDATE_OBJECT_POSITION",
