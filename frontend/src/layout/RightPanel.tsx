@@ -13,7 +13,7 @@ const useStyles = createUseStyles({
     },
 });
 
-const RightPanel = () {
+const RightPanel = () => {
     const classes = useStyles();
     return (
         <Card className={classes.rightPanel}>
@@ -27,4 +27,6 @@ const RightPanel = () {
             </Tabs>
         </Card>
     );
-}
+};
+
+export default RightPanel;
