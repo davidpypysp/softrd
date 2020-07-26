@@ -1,12 +1,15 @@
-import { createStore } from "redux";
-import rootReducer from "src/store/reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import { objectListReducer } from "./objectList";
+import { objectSelectorReducer } from "./objectSelector";
 
-const store = createStore(
-    rootReducer,
-    window &&
-        (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-        window &&
-        (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = configureStore({
+    reducer: {
+        objectList: objectListReducer,
+        objectSelector: objectSelectorReducer,
+    },
+});
 
 export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type Dispatch = typeof store.dispatch;

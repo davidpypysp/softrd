@@ -3,7 +3,7 @@ import React from "react";
 import { Card, Button } from "@blueprintjs/core";
 import { Tab, Tabs } from "@blueprintjs/core";
 
-import ObjectBoard from "src/ui/Components/ObjectBoard";
+import ObjectBoard from "src/components/ObjectBoard";
 
 import { createUseStyles } from "react-jss";
 
@@ -13,7 +13,7 @@ const useStyles = createUseStyles({
     },
 });
 
-export default function RightPanel() {
+const RightPanel = () => {
     const classes = useStyles();
     return (
         <Card className={classes.rightPanel}>
@@ -27,4 +27,6 @@ export default function RightPanel() {
             </Tabs>
         </Card>
     );
-}
+};
+
+export default RightPanel;

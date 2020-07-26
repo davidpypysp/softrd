@@ -2,6 +2,12 @@
 
 Javascript version of softrd renderer API.
 
+Upload process:
+```
+    modify package.json "version" to be higher.
+    npm publish --access public
+```
+
 Need to add this rule to webpack.config.js module.rules for loading wasm file
 ```
     {
