@@ -21,19 +21,19 @@ Now I'm still building the windows version on visual studio, extending new featu
 
 -   Single light source with object
 
-    ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/blob/developing/resource/light_test.gif)
+    ![light test](https://github.com/davidpypysp/softrd/blob/developing/resource/light_test.gif)
 
 -   Directional light
 
-    ![dir light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/dir_light_test.gif)
+    ![dir light test](https://github.com/davidpypysp/softrd/blob/developing/resource/dir_light_test.gif)
 
 -   Point light
 
-    ![point light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/point_light_test.gif)
+    ![point light test](https://github.com/davidpypysp/softrd/blob/developing/resource/point_light_test.gif)
 
 -   Spot light
 
-    ![spot light test](https://raw.githubusercontent.com/davidpypysp/softrd/master/files/spot_light_test.gif)
+    ![spot light test](https://github.com/davidpypysp/softrd/blob/developing/resource/spot_light_test.gif)
 
 ## Implementation Details
 
@@ -42,7 +42,7 @@ Now I'm still building the windows version on visual studio, extending new featu
 For this project, basically, I primarily use native C++ 11 to build the total framework of all the rendering pipeline. It could be devided into the following C++ header files which in charges of each stage of the pipeline according to the [OpenGL Rendering Pipeline](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview)
 
 <div align=center>
-<img src="https://raw.githubusercontent.com/davidpypysp/softrd/master/files/RenderingPipeline.png" title="Opengl Rendering Pipeline" width="200" height="280" />
+<img src="https://github.com/davidpypysp/softrd/blob/developing/resource/RenderingPipeline.png" title="Opengl Rendering Pipeline" width="200" height="280" />
 </div>
 
 ```
