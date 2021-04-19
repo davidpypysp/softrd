@@ -80,7 +80,6 @@ yarn electron-dev
 -   [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Rendering_Pipeline_Overview)
 -   [Learn OpenGL](https://learnopengl.com/)
 -   [http://www.songho.ca/opengl/](http://www.songho.ca/opengl/)
--   [如何开始用 C++ 写一个光栅化渲染器？](https://www.zhihu.com/question/24786878)
 
 ## Notes
 
