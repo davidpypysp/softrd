@@ -21,7 +21,7 @@ Now I'm still building the windows version on visual studio, extending new featu
 
 -   Single light source with object
 
-    ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/blob/developing/light_test.gif)
+    ![light test](https://raw.githubusercontent.com/davidpypysp/softrd/blob/developing/resource/light_test.gif)
 
 -   Directional light
 
